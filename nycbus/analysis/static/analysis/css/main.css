@@ -1,0 +1,34 @@
+/*!
+ * Main css for TransitCenter Analysis Tools
+ */
+
+body {
+  padding: 0;
+  margin: 0;
+}
+html, body, #content, #map, {
+  height: 100%;
+}
+
+
+/* full screen background image */
+#background, #background li { 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  opacity: 0.8;
+  background: url('images/background.svg');
+  background-color: transparent; 
+  background-size: cover; 
+  background-position: center bottom; 
+  background-repeat: no-repeat; 
+}
+
+#background { 
+  z-index: -1;
+  margin: 0; 
+  padding: 0; 
+}
+
