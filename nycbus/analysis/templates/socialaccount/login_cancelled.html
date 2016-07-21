@@ -1,0 +1,23 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Login Cancelled" %}{% endblock %}
+
+{% block body_block %}
+<ul id="background">
+  <li></li>
+</ul> 
+
+<!-- Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+        	<div class="jumbotron marginTop40">
+				<h3 class="text-center">{% trans "Login Cancelled" %}</h3>
+				<h4 class="text-center">{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to <a href="{{login_url}}">sign in</a>.{% endblocktrans %}</h4>			
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

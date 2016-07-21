@@ -5,21 +5,189 @@
 {% block title %}{% endblock %}
 
 {% block css_block %}
+<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/tc_analysis.css' %}">    
 {% endblock %}
 
 {% block head_js_block %}
+<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 {% endblock %}
 	
 {% block body_block %}
-<div id="content" class="fadein">
-    <h1>Hello World!</h1>
-</div>
+	{% include "analysis/navbar.html" %}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-8">
+					<div id="map"></div>
+				</div>
+				<div class="col-sm-4 paddingRight30 overflowAuto">
+					<div class='marginTop20'>
+						<h4 class="text-center">Calendar View of Q110</h4>
+						<div id="calendarChart" class="chartText"></div>
+					</div>
+					<div class='marginTop20'>
+						<h4 class="text-center">Comparison with Similar Routes</h4>
+						<div id="smChart" class="chartText"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 {% endblock %}
 
 {% block modal_block %}   
 {% endblock %}
 
 {% block js_block %}
+<script src="//d3js.org/d3.v3.min.js"></script>
+
+
+<script type="text/javascript">
+// TODO: Offload thse to initialize functions, create D3 charts based on data
+	window.onload = function() {
+		// calendar
+		var width = 400,
+		    height = 65,
+		    cellSize = 6; // cell size
+
+		var percent = d3.format(".1%"),
+		    format = d3.time.format("%Y-%m-%d");
+
+		var color = d3.scale.quantize()
+		    .domain([-.05, .05])
+		    .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
+
+		var svg = d3.select("#calendarChart").selectAll("svg")
+		    .data(d3.range(2008, 2011))
+		  .enter().append("svg")
+		    .attr("width", width)
+		    .attr("height", height)
+		    .attr("class", "RdYlGn")
+		  .append("g")
+		    .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
+
+		svg.append("text")
+		    .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
+		    .style("text-anchor", "middle")
+		    .text(function(d) { return d; });
+
+		var rect = svg.selectAll(".day")
+		    .data(function(d) { return d3.time.days(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+		  .enter().append("rect")
+		    .attr("class", "day")
+		    .attr("width", cellSize)
+		    .attr("height", cellSize)
+		    .attr("x", function(d) { return d3.time.weekOfYear(d) * cellSize; })
+		    .attr("y", function(d) { return d.getDay() * cellSize; })
+		    .datum(format);
+
+		rect.append("title")
+		    .text(function(d) { return d; });
+
+		svg.selectAll(".month")
+		    .data(function(d) { return d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+		  .enter().append("path")
+		    .attr("class", "month")
+		    .attr("d", monthPath);
+
+		d3.csv("{% static 'analysis/data/dji.csv' %}", function(error, csv) {
+		  if (error) throw error;
+
+		  var data = d3.nest()
+		    .key(function(d) { return d.Date; })
+		    .rollup(function(d) { return (d[0].Close - d[0].Open) / d[0].Open; })
+		    .map(csv);
+
+		  rect.filter(function(d) { return d in data; })
+		      .attr("class", function(d) { return "day " + color(data[d]); })
+		    .select("title")
+		      .text(function(d) { return d + ": " + percent(data[d]); });
+		});
+
+		function monthPath(t0) {
+		  var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
+		      d0 = t0.getDay(), w0 = d3.time.weekOfYear(t0),
+		      d1 = t1.getDay(), w1 = d3.time.weekOfYear(t1);
+		  return "M" + (w0 + 1) * cellSize + "," + d0 * cellSize
+		      + "H" + w0 * cellSize + "V" + 7 * cellSize
+		      + "H" + w1 * cellSize + "V" + (d1 + 1) * cellSize
+		      + "H" + (w1 + 1) * cellSize + "V" + 0
+		      + "H" + (w0 + 1) * cellSize + "Z";
+		}
+
+		// sm chart
+		var radius = 74,
+		    padding = 10;
+
+		var colorsm = d3.scale.ordinal()
+		    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+		var arc = d3.svg.arc()
+		    .outerRadius(radius)
+		    .innerRadius(radius - 30);
+
+		var pie = d3.layout.pie()
+		    .sort(null)
+		    .value(function(d) { return d.population; });
+
+		d3.csv("{% static 'analysis/data/data.csv' %}", function(error, datasm) {
+		  if (error) throw error;
+
+		  colorsm.domain(d3.keys(datasm[0]).filter(function(key) { return key !== "State"; }));
+
+		  datasm.forEach(function(d) {
+		    d.ages = colorsm.domain().map(function(name) {
+		      return {name: name, population: +d[name]};
+		    });
+		  });
+
+
+		  var svgsm = d3.select("#smChart").selectAll(".pie")
+		      .data(datasm)
+		    .enter().append("svg")
+		      .attr("class", "pie")
+		      .attr("width", radius * 2)
+		      .attr("height", radius * 2)
+		    .append("g")
+		      .attr("transform", "translate(" + radius + "," + radius + ")");
+
+		  svgsm.selectAll(".arc")
+		      .data(function(d) { return pie(d.ages); })
+		    .enter().append("path")
+		      .attr("class", "arc")
+		      .attr("d", arc)
+		      .style("fill", function(d) { return colorsm(d.data.name); });
+
+		  svgsm.append("text")
+		      .attr("dy", ".35em")
+		      .style("text-anchor", "middle")
+		      .text(function(d) { return d.State; });
+
+		  var legend = d3.select("#smChart").append("svg")
+		      .attr("class", "legend")
+		      .attr("width", radius * 2.2)
+		      .attr("height", radius * 2.2)
+		    .selectAll("g")
+		      .data(colorsm.domain().slice().reverse())
+		    .enter().append("g")
+		      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+		  legend.append("rect")
+		      .attr("width", 18)
+		      .attr("height", 18)
+		      .style("fill", colorsm);
+
+		  legend.append("text")
+		      .attr("x", 24)
+		      .attr("y", 9)
+		      .attr("dy", ".35em")
+		      .text(function(d) { return d; });
+		});
+
+
+		// carto
+	  cartodb.createVis('map', 'https://transitcenter.carto.com/u/busworks/api/v2/viz/175d9af0-4f78-11e6-ada9-0ee66e2c9693/viz.json');
+	}
+</script>
 {% endblock %}
 
 

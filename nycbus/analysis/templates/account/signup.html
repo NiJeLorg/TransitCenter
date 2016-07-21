@@ -1,0 +1,32 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %}Sign up for a TransitCenter Account. | TransitCenter{% endblock %}
+
+{% block body_block %}
+<ul id="background">
+  <li></li>
+</ul> 
+
+<!-- Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="jumbotron marginTop40">
+                <h3 class="text-center">Sign up for a TransitCenter Account.</h3>
+                <h4 class="text-center">Already have an account? <a href="{{ login_url }}">Sign in here!</a></h4>
+				<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+				  {% csrf_token %}
+				  {{ form|as_bootstrap }}
+				  {% if redirect_field_value %}
+				  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+				  {% endif %}
+				  <button class="btn btn-primary btn-block" type="submit">Sign Up!</button>
+				</form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

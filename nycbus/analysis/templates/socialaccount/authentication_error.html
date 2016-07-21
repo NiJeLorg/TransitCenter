@@ -1,0 +1,31 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% block title %}Signing in with your social account didn't work. | TransitCenter{% endblock %}
+
+{% block body_block %}
+<ul id="background">
+  <li></li>
+</ul> 
+
+<!-- Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+        	<div class="jumbotron marginTop40">
+				<h3 class="text-center">Signing in with your social account didn't work.</h3>
+				<h4 class="text-center">We're sorry, but we weren't able to sign you in with your social account. Please try <a href="{{ signup_url }}">signing up</a> for a TransitCenter Account instead. </h4>
+				<form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+				  {% csrf_token %}
+				  {{ form|as_bootstrap }}
+				  {% if redirect_field_value %}
+				  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+				  {% endif %}
+				  <button class="btn btn-primary btn-block" type="submit">Sign Up!</button>
+				</form>				
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

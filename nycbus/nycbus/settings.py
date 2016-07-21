@@ -39,14 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # TransitCenter Apps
+    'analysis',
+    # Django-allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
-    # TransitCenter Apps
-    'analysis',
+    # Django Bootstrap Forms
+    'django_forms_bootstrap',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -147,7 +150,9 @@ SITE_ID = 1
 # Allauth settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 #LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/analysis/'
 
 #media settings
 SETTINGS_DIR = os.path.dirname(__file__)
@@ -156,7 +161,7 @@ PROJECT_PATH = os.path.abspath(PROJECT_PATH)
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'analysis/media') # Absolute path to the media
 MEDIA_URL = '/media/'
 
-# Email setup
+# Simple email setup for development
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'transitcenternycbus@gmail.com'

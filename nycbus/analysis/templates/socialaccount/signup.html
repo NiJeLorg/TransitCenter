@@ -1,0 +1,32 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %}Sign up with your {{provider_name}} account. | TransitCenter{% endblock %}
+
+{% block body_block %}
+<ul id="background">
+  <li></li>
+</ul> 
+
+<!-- Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+        	<div class="jumbotron marginTop40">
+				<h3 class="text-center">Sign up with your {{provider_name}} account.</h3>
+				<h4 class="text-center">{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to TransitCenter. As a final step, please complete the following:{% endblocktrans %}</h4>
+				<form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+				  {% csrf_token %}
+				  {{ form|as_bootstrap }}
+				  {% if redirect_field_value %}
+				  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+				  {% endif %}
+				  <button class="btn btn-primary btn-block" type="submit">Sign Up!</button>
+				</form>				
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

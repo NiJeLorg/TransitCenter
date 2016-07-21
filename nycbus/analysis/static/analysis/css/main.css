@@ -2,12 +2,23 @@
  * Main css for TransitCenter Analysis Tools
  */
 
+/* top level body and content tags */
 body {
+  height: 100%;
+  padding-top: 50px;
+  margin: 0;
+}
+
+html, #content, #map {
+  height: 100%;
   padding: 0;
   margin: 0;
 }
-html, body, #content, #map, {
-  height: 100%;
+
+
+/* Bootstrap overrides */
+.navbar {
+    margin-bottom: 0;
 }
 
 
@@ -19,7 +30,7 @@ html, body, #content, #map, {
   right: 0; 
   bottom: 0; 
   opacity: 0.8;
-  background: url('images/background.svg');
+  background: url('images/line.jpg');
   background-color: transparent; 
   background-size: cover; 
   background-position: center bottom; 
@@ -31,4 +42,58 @@ html, body, #content, #map, {
   margin: 0; 
   padding: 0; 
 }
+
+/* Generic margins and padding */
+.marginTop40 {
+  margin-top: 40px;
+}
+
+.marginTop20 {
+  margin-top: 20px;
+}
+
+.paddingRight30 {
+  padding-right: 30px;
+}
+
+.overflowAuto {
+  overflow: auto;
+}
+
+.legend {
+  padding: 10px 0 0 20px;
+}
+
+.pie {
+  margin: 10px;
+}
+
+/* Custom Buttons */
+.btn {
+  position: relative;
+}
+
+.button-googleLogin:before {
+    background: url('images/sign-in-google.svg');
+    background-size: cover;
+    content: "";
+    height: 25px;
+    left: 8px;
+    position: absolute;
+    top: 4px;
+    width: 25px;
+}
+
+.button-twitterLogin:before {
+    background: url('images/sign-in-twitter.svg');
+    background-size: cover;
+    content: "";
+    height: 21px;
+    left: 8px;
+    position: absolute;
+    top: 6px;
+    width: 25px;
+}
+
+
 

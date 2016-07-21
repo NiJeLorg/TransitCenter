@@ -1,5 +1,6 @@
 Django==1.9.7
 django-allauth==0.25.2
+django-forms-bootstrap==3.0.1
 oauthlib==1.1.2
 python-openid==2.2.5
 requests==2.10.0

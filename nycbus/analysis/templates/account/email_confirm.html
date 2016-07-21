@@ -1,0 +1,37 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account %}
+
+{% block title %}Confirm your email address. | TransitCenter{% endblock %}
+
+{% block body_block %}
+<ul id="background">
+  <li></li>
+</ul> 
+
+<!-- Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+        	<div class="jumbotron marginTop40">
+				<h3 class="text-center">Confirm your email address.</h3>
+				{% if confirmation %}
+					{% user_display confirmation.email_address.user as user_display %}
+					<h4 class="text-center">{% blocktrans with confirmation.email_address.email as email %} Please click the button below to confirm and activate the TransitCenter Account for {{ email }}.{% endblocktrans %}</h4>					
+					<form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+						{% csrf_token %}
+						<button class="btn btn-primary btn-block" type="submit">{% trans 'Confirm' %}</button>
+					</form>
+				{% else %}
+					{% url 'account_email' as email_url %}
+
+					<h4 class="text-center">{% blocktrans %}This confirmation link expired or is invalid. Please click here<a href="{{ email_url }}">click here</a> to request a new email confirmation link.{% endblocktrans %}</h4>
+
+				{% endif %}
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
