@@ -47,5 +47,6 @@ Thumbs.db
 # Specific project files #
 ##########
 env/
+data/
 nycbus/nycbus/settings.py
 

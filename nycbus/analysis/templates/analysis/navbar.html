@@ -1,7 +1,7 @@
 {% load staticfiles %}
 
 <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
+  <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#tc-navbar" aria-expanded="false">
@@ -21,7 +21,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">New</a></li>
+            <li><a data-toggle="modal" data-type="New Project" href="#tcProjectModal">New</a></li>
             <li><a href="#">Open...</a></li>
             <li><a href="#">Rename...</a></li>
             <li role="separator" class="divider"></li>
@@ -32,22 +32,23 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layer <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Visualizations <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Add Layer...</a></li>
-            <li><a href="#">Remove Layer...</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Show All Layers</a></li>          
-            <li><a href="#">Hide All Layers</a></li>
+            <li><a class="visMenu" data-vis="0" href="#">On Time Bus Performance by Route</a></li>
+            <li><a class="visMenu" data-vis="1" href="#">Wait Time Probability by Route</a></li>
+            <li><a class="visMenu" data-vis="2" href="#">Service Metrics by Route</a></li>          
+            <li><a class="visMenu" data-vis="3" href="#">Service Metrics by Stop</a></li>
+            <li><a class="visMenu" data-vis="4" href="#">Excess Wait Time by Route</a></li>
+            <li><a class="visMenu" data-vis="5" href="#">Excess Wait Time by Stop</a></li>
           </ul>
         </li>
-        <li class="dropdown">
+        <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Analysis <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Analysis Tools Here...</a></li>
             <li role="separator" class="divider"></li>
           </ul>
-        </li>
+        </li> -->
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Publish <span class="caret"></span></a>
           <ul class="dropdown-menu">

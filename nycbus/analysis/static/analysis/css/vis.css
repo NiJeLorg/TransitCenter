@@ -1,0 +1,39 @@
+/*!
+ * CSS for TransitCenter Analysis Main Page and Tools
+ */
+
+/* Carto Deep Insights overrides */
+
+/* Create space for navbar */
+body {
+  height: 100%;
+  padding-top: 50px;
+  margin: 0;
+  font-family: "PT Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+
+#dashWrapper {
+  height: 100%;
+}
+
+.CDB-Dashboard-menuInner {
+	display: none;
+}
+
+.CDB-Dashboard-mapWrapper--withMenu {
+	margin-left: 0;
+}
+
+
+/* Bootstrap overrides */
+.modal-title {
+    font-size: 18px;
+}
+
+label {
+  font-weight: bold;
+}

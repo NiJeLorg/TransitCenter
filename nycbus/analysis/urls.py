@@ -5,6 +5,8 @@ from analysis import views
 
 urlpatterns = [
     url(r'^$', views.analysis_Index, name='analysis_Index'),
+    url(r'^getVisSettings/$', views.analysis_getVisSettings, name='analysis_getVisSettings'),
+    url(r'^test/$', views.analysis_Test, name='analysis_Test'),
     #url(r'^somethingHere/$', views.analysis_somethingHere, name='analysis_somethingHere'),
 
 ]
