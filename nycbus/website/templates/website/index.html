@@ -1,0 +1,295 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+
+
+{% block title %}{% endblock %}
+
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'website/css/main.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block head_js_block %}
+{% endblock %}
+	
+{% block body_block %}
+	{% include "website/navbar.html" %}
+
+  <!-- Intro Header -->
+  <header class="intro">
+      <div class="intro-body">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-8 col-md-offset-2">
+                      <h1 class="brand-heading">Fixing New York City's Buses<br /></h1>
+                      <div class="clearfix"></div>
+                      <p class="intro-text"><br />Ride along with three typical New York City
+                          <br />bus riders and see the challenges they face and
+                          <br />and the solutions that would make their rides
+                          <br />and lives better.</p>
+                      <div class="clearfix"></div>                       
+                      <a href="#pick" class="btn btn-circle page-scroll">
+                          <i class="fa fa-angle-double-down animated"></i>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </header>
+
+  <!-- Pick Section -->
+  <section id="pick" class="text-center">
+      <div class="pick-section">
+          <div class="container">
+              <div class="col-lg-8 col-lg-offset-2">
+              	<div class="jumbotron">
+              		<a id="first" class='personaClicks first page-scroll' href='#story'></a>
+              		<a id="second" class='personaClicks second page-scroll' href='#story'></a>
+              		<a id="third" class='personaClicks third page-scroll' href='#story'></a>
+              		<img class="img-responsive" src="{% static 'website/css/images/A.jpg' %}" />
+					<p>Click on a bus rider to get to know them before we take a ride.</p>
+				</div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+
+
+  <!-- Story Section -->
+  <section id="story" class="text-center">
+      <div class="pick-section">
+          <div class="container">
+              <div class="col-lg-8 col-lg-offset-2">
+              	<div class="jumbotron">
+	          		<div id="persona-carousel" class="carousel slide">
+
+					  <!-- Wrapper for slides -->
+					  <div class="carousel-inner" role="listbox">
+					    <div class="item active">
+					      <img id="persona-image1" class="img-responsive" src="{% static 'website/css/images/B_2a.jpg' %}" />
+					      <div id="persona-caption1" class="carousel-caption">
+					        A nurse waits patiently for the bus...
+					      </div>
+					    </div>
+					    <div class="item">
+					      <img id="persona-image2" class="img-responsive" src="{% static 'website/css/images/B_2b.jpg' %}" />
+					      <div id="persona-caption2" class="carousel-caption">
+					        ..to take them to the hospital.
+					      </div>
+					    </div>
+					  </div>
+
+					  <!-- Indicators -->
+					  <ol class="carousel-indicators">
+					    <li data-target="#persona-carousel" data-slide-to="0" class="active"></li>
+					    <li data-target="#persona-carousel" data-slide-to="1"></li>
+					  </ol>
+
+					  <!-- Controls -->
+					  <a class="right carousel-control" href="#persona-carousel" role="button" data-slide="next">
+					  </a>
+
+					</div>
+					<a id="keepScrolling" href="#ride" class="btn btn-primary btn-lg page-scroll hidden">Scroll down to continue the story</a> 
+				</div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Pick Section -->
+  <section id="ride" class="container ride-section text-center">
+      <div class="row">
+          <div class="col-xs-6">
+          	<a class='rideClicks leftOne' href='#' data-toggle="modal" data-target="#leftOne"></a>
+          	<a class='rideClicks leftTwo' href='#' data-toggle="modal" data-target="#leftTwo"></a>
+          	<a class='rideClicks leftThree' href='#' data-toggle="modal" data-target="#leftThree"></a>
+          	<a class='rideClicks leftFour' href='#' data-toggle="modal" data-target="#leftFour"></a>
+          	<a class='rideClicks leftFive' href='#' data-toggle="modal" data-target="#leftFive"></a>
+          	<img class="img-responsive" src="{% static 'website/css/images/long-map-background-a.png' %}" />
+          </div>
+          <div class="col-xs-6">
+          	<a class='rideClicks rightOne' href='#' data-toggle="modal" data-target="#rightOne"></a>
+          	<a class='rideClicks rightTwo' href='#' data-toggle="modal" data-target="#rightTwo"></a>
+          	<a class='rideClicks rightThree' href='#' data-toggle="modal" data-target="#rightThree"></a>
+          	<a class='rideClicks rightFour' href='#' data-toggle="modal" data-target="#rightFour"></a>
+          	<a class='rideClicks rightFive' href='#' data-toggle="modal" data-target="#rightFive"></a>
+          	<img class="img-responsive" src="{% static 'website/css/images/long-map-background-b.png' %}" />
+          </div>
+      </div>
+  </section>
+
+  <section id="resources" class="intro resources-section">
+      <div class="intro-body">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-8 col-md-offset-2">
+                      <h1 class="brand-heading">Get involved!<br /></h1>
+                      <div class="clearfix"></div>
+                      <p class="intro-text"><br />Some text, links and resources here.
+                      	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+                      </p>
+                      <div class="clearfix"></div>                       
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+      <div class="container text-center">
+      	  <p><a href="http://transitcenter.org/2016/07/20/fixing-new-yorks-buses/">Check out our Turnaround report!</a></p>
+          <p>Copyright &copy; <a href="http://transitcenter.org/">TransitCenter</a> 2016</p>
+      </div>
+  </footer>
+
+{% endblock %}
+
+{% block modal_block %}
+<div class="modal fade" id="rightOne" tabindex="-1" role="dialog" aria-labelledby="rightOne">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/C_1.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rightTwo" tabindex="-1" role="dialog" aria-labelledby="rightTwo">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/D_1.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rightThree" tabindex="-1" role="dialog" aria-labelledby="rightThree">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/E_1.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rightFour" tabindex="-1" role="dialog" aria-labelledby="rightFour">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/F_1.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rightFive" tabindex="-1" role="dialog" aria-labelledby="rightFive">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/H_1.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="leftOne" tabindex="-1" role="dialog" aria-labelledby="leftOne">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/C_2.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="leftTwo" tabindex="-1" role="dialog" aria-labelledby="leftTwo">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/D_2.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="leftThree" tabindex="-1" role="dialog" aria-labelledby="leftThree">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/E_2.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="leftFour" tabindex="-1" role="dialog" aria-labelledby="leftFour">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/F_2.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="leftFive" tabindex="-1" role="dialog" aria-labelledby="leftFive">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      	<img class="img-responsive" src="{% static 'website/css/images/H_2.jpg' %}" />
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js_block %}
+<script type="text/javascript" src="{% static 'website/js/app.js' %}"></script>
+<script type="text/javascript">
+window.onload = app.init;
+</script>
+{% endblock %}
+
+
+	
+	
+
