@@ -413,14 +413,14 @@ app.delayBar = function () {
   delayBar.append('rect')
     .attr('width', scale(400))
     .attr('height', 6)
-    .attr('x', 15)
+    .attr('x', 0)
     .attr('y', 20)
     .attr('style', 'fill: #FF4000');
 
   delayBar.append('rect')
     .attr('width', scale(200))
     .attr('height', 6)
-    .attr('x', 15)
+    .attr('x', 0)
     .attr('y', 20)
     .attr('style', 'fill: #5BCF59');
 
