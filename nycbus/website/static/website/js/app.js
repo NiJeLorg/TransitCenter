@@ -400,8 +400,8 @@ app.delayBar = function () {
       var firstPoint = scale(value) + 10;
       var secondPoint = scale(value) + 20;
       var thirdPoint = scale(value) + 15;
-      var delayAnchor = scale(300) + 15;
-      var scheduleAnchor = scale(100) + 15;
+      var delayAnchor = scale(250) + 15;
+      var scheduleAnchor = scale(50) + 15;
 
       var points =  firstPoint + ",15 " + secondPoint + ",15 " + thirdPoint + ", 25";
 
