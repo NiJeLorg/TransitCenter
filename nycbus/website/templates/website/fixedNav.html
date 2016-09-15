@@ -1,14 +1,14 @@
 {% load staticfiles %}
 
 <!-- Navigation -->
-<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-    <div class="container">
+<nav id="fixedNav" class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                 <i class="fa fa-bars"></i>
             </button>
             <a id="clickPageTop" class="navbar-brand page-scroll" href="#page-top">
-                <i class="fa fa-bus"></i> <span class="light">Turn</span>Around
+                <span id="brand_text"><h4>Turnaround<span id="" class="hidden">: Fixing New York Cities Buses</span></h4></span>
             </a>
         </div>
 
@@ -20,13 +20,13 @@
                     <a href="#page-top"></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#pick">Ride Along</a>
+                    <a class="page-scroll" href="#pick"><h3>Ride Along</h3></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#report-card">Report Card</a>
+                    <a class="page-scroll" href="#report-card"><h3>Report Card</h3></a>
                 </li>
                 <li>
-                    <a id="clickResources" class="page-scroll" href="#resources">Resources</a>
+                    <a id="clickResources" class="page-scroll" href="#resources"><h3>Resources</h3></a>
                 </li>
             </ul>
         </div>

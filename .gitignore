@@ -48,5 +48,6 @@ Thumbs.db
 ##########
 env/
 data/
+drawings/
 nycbus/nycbus/settings.py
 

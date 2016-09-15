@@ -14,34 +14,31 @@
 {% endblock %}
 	
 {% block body_block %}
-	{% include "website/navbar.html" %}
+	{% include "website/staticTopNav.html" %}
+  {% include "website/fixedNav.html" %}
 
   <!-- Intro Header -->
   <header class="intro">
       <div class="intro-body">
-          <div class="container">
+          <div class="container-fluid">
               <div class="row">
-                  <div class="col-md-8 col-md-offset-2">
-                      <h1 class="brand-heading">Fixing New York City's Buses<br /></h1>
-                      <div class="clearfix"></div>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-sm-6 margin-top-40">
-                      <h3 class="brand-heading-small">Ride Along<br /></h3>
-                      <p class="intro-text"><br />Ride along with three typical New York City bus riders and see the challenges they face and the solutions that would make their rides and lives better.</p>
-                      <div class="clearfix"></div>                       
-                      <a href="#pick" class="btn btn-circle page-scroll">
-                          <i class="fa fa-angle-double-down animated"></i>
+                  <div class="col-sm-5 margin-top-10vh margin-left-20">
+                    <div class="card">
+                      <h4>Ride Along</h4>
+                      <p>Ride along with three typical New York City bus riders and see the challenges they face and the solutions that would make their rides and lives better.</p>
+                      <a href="#pick" class="page-scroll">
+                          <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
                       </a>
+                    </div>
                   </div>
-                  <div class="col-sm-6 margin-top-40">
-                      <h3 class="brand-heading-small">Route Report Card<br /></h3>
-                      <p class="intro-text"><br />See a high level report card on any bus route across New York City. </p>
-                      <div class="clearfix"></div>                       
-                      <a href="#report-card" class="btn btn-circle page-scroll">
-                          <i class="fa fa-angle-double-down animated"></i>
+                  <div class="col-sm-4 col-sm-offset-2 margin-top-12vh">
+                    <div class="card">
+                      <h4>Route Report Card</h4>
+                      <p>See a high level report card on any bus route across New York City.</p>
+                      <a href="#report-card" class="page-scroll">
+                          <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
                       </a>
+                    </div>
                   </div>
               </div>
           </div>
@@ -49,65 +46,54 @@
   </header>
 
   <!-- Pick and Story Picture Book -->
-  <section id="pick" class="text-center" data-slug="pick">
-      <div class="picture-book">
-        <div class="picture-book-img-wrap picture-book-bg">
-          <img class="picture-book-img" src="{% static 'website/css/images/map-background.png' %}" />
+  <section id="pick" class="pick-section text-center">
+    <div class="container-fluid"> 
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+          <h1>Ride Along</h1>
+          <h4 id="personaDescriptionText"></h4>
         </div>
-        <!-- Pick Picture Book Page-->
-        <div class="picture-book-page">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-8 col-md-offset-2">
-                <div class="jumbotron">
-            		<a id="first" class='personaClicks first page-scroll' href='#story'></a>
-            		<a id="second" class='personaClicks second page-scroll' href='#story'></a>
-            		<a id="third" class='personaClicks third page-scroll' href='#story'></a>
-            		<img class="img-responsive" src="{% static 'website/css/images/A.jpg' %}" />
-    		        <p>Click on a bus rider to get to know them before we take a ride.</p>
-                </div>
-              </div>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 margin-top-5vh">
+          <img id="persona-image1" class="img-responsive" src="" />
+        </div>
+        <div class="col-sm-6 margin-top-5vh">
+          <img id="persona-image2" class="img-responsive" src="" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 margin-top-5vh">
+          <p>Scroll down to compare <span class="personaName"></span>'s bus journeys</p>
+          <a href="#ride" class="btn btn-circle page-scroll">
+              <i class="fa fa-angle-double-down animated"></i>
+          </a>
+        </div>
+      </div>
+    </div>   
+  </section>
+
+  <!-- Ride Along Section -->
+  <section id="ride" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_1_a" class="ride-img">
           </div>
         </div>
-        <!-- Story Picture Book Page -->
-        <div id="story" class="picture-book-page">
+        <div class="dot-wrapper">
+          <div id="dot_1_a" class="text-center">
+            <p class="label"><span class="personaName"></span></p><br />
+            <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="ride-content">
           <div class="container">
             <div class="row">
-              <div class="col-md-8 col-md-offset-2">
-                <div class="jumbotron">
-                  <div id="persona-carousel" class="carousel slide">
-
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                      <div class="item active">
-                        <img id="persona-image1" class="img-responsive" src="{% static 'website/css/images/B_2a.jpg' %}" />
-                        <div id="persona-caption1" class="carousel-caption">
-                          A nurse waits patiently for the bus...
-                        </div>
-                      </div>
-                      <div class="item">
-                        <img id="persona-image2" class="img-responsive" src="{% static 'website/css/images/B_2b.jpg' %}" />
-                        <div id="persona-caption2" class="carousel-caption">
-                          ..to take them to the hospital.
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                      <li data-target="#persona-carousel" data-slide-to="0" class="active"></li>
-                      <li data-target="#persona-carousel" data-slide-to="1"></li>
-                    </ol>
-
-                    <!-- Controls -->
-                    <a class="right carousel-control" href="#persona-carousel" role="button" data-slide="next">
-                    </a>
-
-                  </div>
-                  <a id="keepScrolling" href="#ride" class="btn btn-primary btn-lg page-scroll hidden">Scroll down to continue the story</a> 
-                </div>
-
+              <div class="col-sm-4 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+               <div class="card margin-top-100">
+                <img id="persona-1-a" class="img-responsive" src="{% static 'website/css/images/C_1.jpg' %}" />
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+               </div>
               </div>
             </div>
           </div>
@@ -115,194 +101,126 @@
       </div>
   </section>
 
-  <!-- Ride Along Section -->
-  <section id="ride" class="ride-section text-center" data-slug="ride">
-      <div class="picture-book">
-        <div class="picture-book-img-wrap picture-book-bg">
-          <img class="picture-book-img" src="{% static 'website/css/images/long-map-background.png' %}" />
+  <section id="ride_map_1_b" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_1_b" class="ride-img">
+          </div>
         </div>
-        <!-- Ride Picture Book Page-->
-        <div class="picture-book-page first-ride">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/C_1.jpg' %}" />
-                </div>
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-left fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-5 ">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
+        <div class="dot-wrapper">
+          <div id="dot_1_a" class="text-center">
+            <p class="label"><span class="personaName"></span></p><br />
+            <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-4 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+               <div class="card margin-top-100">
+                <img id="persona-1-b" class="img-responsive" src="{% static 'website/css/images/C_2.jpg' %}" />
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+               </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Ride Picture Book Page -->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-5 ">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-right fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/C_2.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Ride Picture Book Page-->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/D_1.jpg' %}" />
-                </div>
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-left fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-5">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Ride Picture Book Page -->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-5">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-right fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/D_2.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Ride Picture Book Page-->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/E_1.jpg' %}" />
-                </div>
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-left fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-5">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Ride Picture Book Page -->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-5">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-right fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/E_2.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Ride Picture Book Page-->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/F_1.jpg' %}" />
-                </div>
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-left fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-5">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Ride Picture Book Page -->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-5">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-right fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/F_2.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+  </section>
 
-        <!-- Ride Picture Book Page-->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/H_1.jpg' %}" />
-                </div>
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-left fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-5">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
+  <section id="ride_map_2_a" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_2_a" class="ride-img">
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-4 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+               <div class="card margin-top-100">
+                <img id="persona-2-a" class="img-responsive" src="{% static 'website/css/images/E_1.jpg' %}" />
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+               </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Ride Picture Book Page -->
-        <div class="picture-book-page">
-          <div class="full-width-card">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-5">
-                  <p class="picture-book-position-text-vertical">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>                
-                <div class="col-sm-1 arrows">
-                  <i class="fa fa-arrow-circle-right fa-4x picture-book-position-text-vertical" aria-hidden="true"></i>
-                </div>
-                <div class="col-sm-6">
-                  <img class="img-responsive" src="{% static 'website/css/images/H_2.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+  </section>
 
+  <section id="ride_map_2_b" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_2_b" class="ride-img">
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-4 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+               <div class="card margin-top-100">
+                <img id="persona-2-b" class="img-responsive" src="{% static 'website/css/images/E_2.jpg' %}" />
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="ride_map_3_a" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_3_a" class="ride-img">
+          </div>
+        </div>
+        <div class="dot-wrapper">
+          <div id="dot_3_a" class="text-center">
+            <p class="label">Unhappy <span class="personaName"></span></p><br />
+            <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-4 col-sm-offset-1 col-xs-7">
+               <div class="card margin-top-100">
+                <img id="persona-3-a" class="img-responsive" src="{% static 'website/css/images/H_1.jpg' %}" />
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="ride_map_3_b" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_3_b" class="ride-img">
+          </div>
+        </div>
+        <div class="dot-wrapper">
+          <div id="dot_3_b" class="text-center">
+            <p class="label">Happy <span class="personaName"></span></p><br />
+            <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-4 col-sm-offset-1 col-xs-7">
+               <div class="card margin-top-100">
+                <img id="persona-3-a" class="img-responsive" src="{% static 'website/css/images/H_2.jpg' %}" />
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
   </section>
 
@@ -311,14 +229,90 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-12 text-center">
-            <h1>Route B1 <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+            <h1>Report Card for 
+              <select id="selectRoute" class="selectRoute" style="width: 350px;">
+                <optgroup label="Bronx">
+                  <option value="BX1">Route BX1</option>
+                  <option value="BX2">Route BX2</option>
+                </optgroup>
+                <optgroup label="Brooklyn">
+                  <option value="B1">Route B1</option>
+                  <option value="B2">Route B2</option>
+                </optgroup>
+                <optgroup label="Manhattan">
+                  <option value="M1">Route M1</option>
+                  <option value="M2">Route M2</option>
+                </optgroup>
+                <optgroup label="Queens">
+                  <option value="Q1">Route Q1</option>
+                  <option value="Q2">Route Q2</option>
+                </optgroup>
+                <optgroup label="Staten Island">
+                  <option value="S40">Route S40</option>
+                  <option value="S42">Route S42</option>
+                </optgroup>
+              </select>
+            </h1>
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-6">
-            <div id="route-map" class="route-map"></div>
-          </div>                
-          <div class="col-sm-3">
+          <div class="col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+            <div class="report-card-card">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h1 id="reportCardRouteName">BX1</h1>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <h3>Speed</h3>
+                          <h1><span id="speedNumber" class="text-danger">4.5</span> <small>mph</small></h1>
+                        </div>
+                        <div class="col-sm-6">
+                          <div id="speed-gauge" class="speed-gauge"></div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <h3>Delay</h3>
+                          <h1>
+                            <span id="delayNumberMin" class="text-success">1</span><small>min</small>
+                            <span id="delayNumberSec" class="text-success">53</span><small>sec</small>
+                          </h1>
+                        </div>
+                        <div class="col-sm-5">
+                          <div id="delay-bar" class='delay-bar'></div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h3>Ridership</h3>
+                          <h4>
+                            <span id="ridershipNumber" class="text-success">19,435</span> <small>riders per day,</small> 
+                            <span id="ridershipRanking" class="text-success">24th highest</span> <small>in Brooklyn</small>
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div id="route-map" class="route-map"></div>
+                  </div>
+                </div>
+                <div class="row margin-top-20">
+                  <div class="col-sm-12 text-center">
+                    <a id="showShareFB" class="btn btn-facebook" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-facebook-official fa-2x"></i></a>
+                    <a id="showShareTwitter" class="btn btn-twitter" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-twitter fa-2x"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!--           <div class="col-sm-3">
             <div class="report-card-card text-center">
               <h5>Speed</h5>
               <h2><span class="text-danger">4.5</span> <small>miles per hour</small></h2>
@@ -328,7 +322,6 @@
               <h5>Ridership</h5>
               <h2><span class="text-info">19,409</span> <small>average weekday riders</small></h2>
               <p class="text-uppercase report-card-text"><span class="text-info"><strong>3.2%</strong></span> of all bus riders in <strong>Brooklyn</strong> take the B1</p>
-
             </div>
           </div>
           <div class="col-sm-3">
@@ -342,7 +335,7 @@
               <h2><span class="text-info">Some Other</span> <small>indicator here</small></h2>
               <p class="text-uppercase report-card-text"><span class="text-info"><strong>That</strong></span> tells a comparison story?</p>
 
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -353,13 +346,6 @@
           <div class="container">
               <div class="row">
                   <div class="col-md-8 col-md-offset-2">
-                      <h1 class="brand-heading">Get involved!<br /></h1>
-                      <div class="clearfix"></div>
-                      <p class="intro-text"><br />Some text, links and resources here.
-                      	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        <br /><br />
-                      </p>
-                      <div class="clearfix"></div>                       
                   </div>
               </div>
           </div>
