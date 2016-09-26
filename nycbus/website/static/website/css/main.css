@@ -350,10 +350,10 @@ a {
   background-size: cover;
   -o-background-size: cover; 
 }
-#map_1_a {
+#map_1_a,#map_1_5_a {
   background-image: url(images/map_1_a.png);
 }
-#map_1_b {
+#map_1_b,#map_1_5_b {
   background-image: url(images/map_1_b.png);
 }
 #map_2_a {
@@ -362,10 +362,10 @@ a {
 #map_2_b {
   background-image: url(images/map_2_b.png);
 }
-#map_3_a {
+#map_3_a, #map_3_5_a {
   background-image: url(images/map_3_a.png);
 }
-#map_3_b {
+#map_3_b, #map_3_5_b,  #map_4 {
   background-image: url(images/map_3_b.png);
 }
 .ride-section .card {
@@ -537,7 +537,7 @@ body {
 }
 .margin-top-12vh {
   margin-top: 10px;
-}
+} 
 .margin-top-100 {
   margin-top: 100px;
 }
@@ -546,6 +546,9 @@ body {
 }
 .margin-left-20 {
   margin-left: 0;
+}
+.margin-top-10 {
+  margin-top: 10px;
 }
 @media (min-width: 767px) {
   .margin-top-5vh {
@@ -666,4 +669,12 @@ fieldset[disabled] .btn-twitter.active {
   padding-right: 5px;
   display: inline;
   vertical-align: super;
+}
+.no-mobile {
+ display:none; 
+}
+@media (min-width: 767px) {
+  .no-mobile {
+   display:block; 
+  }
 }

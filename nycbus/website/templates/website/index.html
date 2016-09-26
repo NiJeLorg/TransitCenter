@@ -14,7 +14,7 @@
 {% endblock %}
 	
 {% block body_block %}
-	{% include "website/staticTopNav.html" %}
+  {% include "website/staticTopNav.html" %}
   {% include "website/fixedNav.html" %}
 
   <!-- Intro Header -->
@@ -55,10 +55,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-6 margin-top-5vh">
+        <div class="col-sm-5 margin-top-5vh">
           <img id="persona-image1" class="img-responsive" src="" />
         </div>
-        <div class="col-sm-6 margin-top-5vh">
+        <div class="col-sm-2 margin-top-12vh no-mobile">
+          <i class="fa fa-arrow-right fa-5x" aria-hidden="true"></i>
+        </div>       
+        <div class="col-sm-5 margin-top-5vh">
           <img id="persona-image2" class="img-responsive" src="" />
         </div>
       </div>
@@ -89,10 +92,10 @@
         <div class="ride-content">
           <div class="container">
             <div class="row">
-              <div class="col-sm-4 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
                <div class="card margin-top-100">
-                <img id="persona-1-a" class="img-responsive" src="{% static 'website/css/images/C_1.jpg' %}" />
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+                <img id="persona-1-a" class="img-responsive" src="{% static 'website/css/images/scene_LATEright.png' %}" />
+                <p class="margin-top-10"><span class="personaName"></span> has been waiting a long time for their bus. TODO: Change skin color to match subject.</p>
                </div>
               </div>
             </div>
@@ -116,10 +119,52 @@
         <div class="ride-content">
           <div class="container">
             <div class="row">
-              <div class="col-sm-4 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
                <div class="card margin-top-100">
-                <img id="persona-1-b" class="img-responsive" src="{% static 'website/css/images/C_2.jpg' %}" />
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+                <img id="persona-1-b" class="img-responsive" src="{% static 'website/css/images/scene_ONTIMEright.png' %}" />
+                <p class="margin-top-10"><span class="personaName"></span>'s bus arrives on time and with enough space for them to fit comfortably.</p>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="ride_map_1_5_a" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_1_5_a" class="ride-img">
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+               <div class="card margin-top-100">
+                <img id="persona-1-5-a" class="img-responsive" src="{% static 'website/css/images/handcountingchange2.png' %}" />
+                <p class="margin-top-10"><span class="personaName"></span>... TO DO: Include an image of people waiting in line to board the bus along with the image of counting change.</p>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="ride_map_1_5_b" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_1_5_b" class="ride-img">
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+               <div class="card margin-top-100">
+                <img id="persona-1-5-b" class="img-responsive" src="" />
+                <p class="margin-top-10"><span class="personaName"></span>... TO DO: Include an image of riders boarding at both doors of the bus using the tap and go card system. This would be in conjuction with the drawings we already have a the tap and go system.</p>
                </div>
               </div>
             </div>
@@ -137,10 +182,10 @@
         <div class="ride-content">
           <div class="container">
             <div class="row">
-              <div class="col-sm-4 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
                <div class="card margin-top-100">
-                <img id="persona-2-a" class="img-responsive" src="{% static 'website/css/images/E_1.jpg' %}" />
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+                <img id="persona-2-a" class="img-responsive" src="{% static 'website/css/images/scene_stuckintrafficop.png' %}" />
+                <p class="margin-top-10"><span class="personaName"></span>... Negative image of driver stuck in traffic. </p>
                </div>
               </div>
             </div>
@@ -158,10 +203,52 @@
         <div class="ride-content">
           <div class="container">
             <div class="row">
-              <div class="col-sm-4 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
                <div class="card margin-top-100">
-                <img id="persona-2-b" class="img-responsive" src="{% static 'website/css/images/E_2.jpg' %}" />
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+                <img id="persona-2-b" class="img-responsive" src="{% static 'website/css/images/scene_Birdseyebus.png' %}" />
+                <p class="margin-top-10"><span class="personaName"></span>... Positive image of bus in dedicated bus lane.</p>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="ride_map_3_5_a" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_3_5_a" class="ride-img">
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-5 col-sm-offset-1 col-xs-7">
+               <div class="card margin-top-100">
+                <img id="persona-3-5-a" class="img-responsive" src="{% static 'website/css/images/F_1.jpg' %}" />
+                <p class="margin-top-10"><span class="personaName"></span>... TO DO: Create final drawing showing too many stops slowing the bus down.</p>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="ride_map_3_5_b" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_3_5_b" class="ride-img">
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-5 col-sm-offset-1 col-xs-7">
+               <div class="card margin-top-100">
+                <img id="persona-3-5-b" class="img-responsive" src="{% static 'website/css/images/F_2.jpg' %}" />
+                <p class="margin-top-10"><span class="personaName"></span>... TO DO: Create drawing with fewer stops.</p>
                </div>
               </div>
             </div>
@@ -185,10 +272,10 @@
         <div class="ride-content">
           <div class="container">
             <div class="row">
-              <div class="col-sm-4 col-sm-offset-1 col-xs-7">
+              <div class="col-sm-5 col-sm-offset-1 col-xs-7">
                <div class="card margin-top-100">
-                <img id="persona-3-a" class="img-responsive" src="{% static 'website/css/images/H_1.jpg' %}" />
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+                <img id="persona-3-a" class="img-responsive" src="" />
+                <p class="margin-top-10"><span class="personaName"></span>... Negative image of circuitous bus route and sad person.</p>
                </div>
               </div>
             </div>
@@ -212,10 +299,31 @@
         <div class="ride-content">
           <div class="container">
             <div class="row">
-              <div class="col-sm-4 col-sm-offset-1 col-xs-7">
+              <div class="col-sm-5 col-sm-offset-1 col-xs-7">
                <div class="card margin-top-100">
-                <img id="persona-3-a" class="img-responsive" src="{% static 'website/css/images/H_2.jpg' %}" />
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem</p>
+                <img id="persona-3-b" class="img-responsive" src="{% static 'website/css/images/H_2.jpg' %}" />
+                <p class="margin-top-10"><span class="personaName"></span>... Positive image of straighter bus route and happy person.</p>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="ride_map_4" class="ride-section">
+      <div class="ride-translate-wrapper">
+        <div class="ride-img-wrap">
+          <div id="map_4" class="ride-img">
+          </div>
+        </div>
+        <div class="ride-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2">
+               <div class="card margin-top-100">
+                <img id="persona-4" class="img-responsive" src="" />
+                <p class="margin-top-10 text-center"><span class="personaName"></span>... Happy person reaches their goal!</p>
                </div>
               </div>
             </div>

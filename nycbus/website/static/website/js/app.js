@@ -103,20 +103,32 @@ app.createListeners = function () {
 }
 
 app.randomPersona = function () {
-  var randInt = app.getRandomInt(1,4);
+  var randInt = app.getRandomInt(1,3);
   if (randInt == 1) {
-    $('#persona-image1').attr("src","/static/website/css/images/B_1a.jpg");
-    $('#persona-image2').attr("src","/static/website/css/images/B_1b.jpg");
+    $('#persona-image1').attr("src","/static/website/css/images/scene_start_grandma.png");
+    $('#persona-image2').attr("src","/static/website/css/images/goal_grandma.png");
+    $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_grandma.png");
+    $('#persona-3-a').attr("src","/static/website/css/images/sad_grandma.png");
+    $('#persona-3-b').attr("src","/static/website/css/images/happy_grandma.png");
+    $('#persona-4').attr("src","/static/website/css/images/goal_grandma.png");
     $('#personaDescriptionText').text("Meet Sophia, a grandparent patiently waiting for the bus to take them to their grandchild's birthday party.");
     $('.personaName').text("Sophia");
   } else if (randInt == 2) {
-    $('#persona-image1').attr("src","/static/website/css/images/B_2a.jpg");
-    $('#persona-image2').attr("src","/static/website/css/images/B_2b.jpg");
+    $('#persona-image1').attr("src","/static/website/css/images/scene_start_nurse.png");
+    $('#persona-image2').attr("src","/static/website/css/images/goal_nurse.png");
+    $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_nurse.png");
+    $('#persona-3-a').attr("src","/static/website/css/images/sad_nurse.png");
+    $('#persona-3-b').attr("src","/static/website/css/images/happy_nurse.png");
+    $('#persona-4').attr("src","/static/website/css/images/goal_nurse.png");
     $('#personaDescriptionText').text("Meet Daniel, a nurse patiently waiting for the bus to take them to the hospital where they work.");
     $('.personaName').text("Daniel");
   } else {
-    $('#persona-image1').attr("src","/static/website/css/images/B_3a.jpg");
-    $('#persona-image2').attr("src","/static/website/css/images/B_3b.jpg");
+    $('#persona-image1').attr("src","/static/website/css/images/scene_start_student.png");
+    $('#persona-image2').attr("src","/static/website/css/images/goal_student.png");
+    $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_student.png");
+    $('#persona-3-a').attr("src","/static/website/css/images/sad_student.png");
+    $('#persona-3-b').attr("src","/static/website/css/images/happy_student.png");
+    $('#persona-4').attr("src","/static/website/css/images/goal_student.png");
     $('#personaDescriptionText').text("Meet Olivia, a student patiently waiting for the bus to take them to their final exams.");
     $('.personaName').text("Olivia");
   }
@@ -125,7 +137,7 @@ app.randomPersona = function () {
 app.getRandomInt = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
