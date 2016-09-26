@@ -107,6 +107,8 @@ app.randomPersona = function () {
   if (randInt == 1) {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_grandma.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_grandma.png");
+    $('#persona-1-a').attr("src","/static/website/css/images/scene_LATEright_grandma.png");    
+    $('#persona-1-5-a').attr("src","/static/website/css/images/handcountingchange_grandma.png");
     $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_grandma.png");
     $('#persona-3-a').attr("src","/static/website/css/images/sad_grandma.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_grandma.png");
@@ -116,6 +118,8 @@ app.randomPersona = function () {
   } else if (randInt == 2) {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_nurse.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_nurse.png");
+    $('#persona-1-a').attr("src","/static/website/css/images/scene_LATEright_nurse.png");    
+    $('#persona-1-5-a').attr("src","/static/website/css/images/handcountingchange_nurse.png");
     $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_nurse.png");
     $('#persona-3-a').attr("src","/static/website/css/images/sad_nurse.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_nurse.png");
@@ -125,6 +129,8 @@ app.randomPersona = function () {
   } else {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_student.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_student.png");
+    $('#persona-1-a').attr("src","/static/website/css/images/scene_LATEright_student.png");    
+    $('#persona-1-5-a').attr("src","/static/website/css/images/handcountingchange_student.png");
     $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_student.png");
     $('#persona-3-a').attr("src","/static/website/css/images/sad_student.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_student.png");
