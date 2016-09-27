@@ -5,9 +5,17 @@
 function app() {}
 
 app.init = function () {
+    // set up CARTO SQL for querying
+    app.username = 'busworks';
+    // SQL client
+    app.sqlclient = new cartodb.SQL({
+        user: app.username,
+        protocol: "https",
+        sql_api_template: "https://{user}.cartodb.com:443"
+    });
 
-    // set up select 2 menu for route reprot card
-    $("#selectRoute").select2();
+    // set up report card drop down menues
+    app.createReportCardDropdowns(routeId);
 
     // set up listeners
     app.createListeners();
@@ -19,8 +27,8 @@ app.init = function () {
     // get random persona
     app.randomPersona();
 
-    // set up report card Map
-    app.reportCardMap('BX1');
+    // set up initial report card map
+    app.reportCardMap(routeId);
 
     // set up report card speed gauge
     app.speedGaugeObject = app.speedGauge('#speed-gauge', {
@@ -32,7 +40,7 @@ app.init = function () {
       transitionMs: 2000,
     });
     app.speedGaugeObject.render();
-    // hardcode first speef object
+    // hardcode first speed object
     app.speedGaugeObject.update(4.5);
 
     // set up delay bar
@@ -72,11 +80,15 @@ app.scrollingInteractions = function () {
  
     updateTransform('ride');
     updateTransform('ride_map_1_b');
+    updateTransform('ride_map_1_5_a');
+    updateTransform('ride_map_1_5_b');    
     updateTransform('ride_map_2_a');
     updateTransform('ride_map_2_b');
+    updateTransform('ride_map_3_5_a');
+    updateTransform('ride_map_3_5_b');
     updateTransform('ride_map_3_a');
     updateTransform('ride_map_3_b');
-
+    updateTransform('ride_map_4');
 
 }
 
@@ -147,16 +159,54 @@ app.getRandomInt = function (min, max) {
 }
 
 
-app.reportCardMap = function (route_id) {
-  // set up CARTO SQL for querying
-  app.username = 'busworks';
-  // SQL client
-  app.sqlclient = new cartodb.SQL({
-      user: app.username,
-      protocol: "https",
-      sql_api_template: "https://{user}.cartodb.com:443"
-  });
+app.createReportCardDropdowns = function (route_id) {
 
+  // get data from carto to use in report card
+  app.sqlclient.execute("SELECT DISTINCT route_id FROM mta_nyct_bus_routes ORDER BY route_id")
+  .done(function(data) {
+    //console.log(data.rows);
+    // loop through response to populate dropdown
+    for (var i = 0; i < data.rows.length; i++) {
+      var option = $('<option/>').attr({ 'value': data.rows[i].route_id }).text('Route ' + data.rows[i].route_id);
+      if (data.rows[i].route_id.charAt(0) === 'B' && data.rows[i].route_id.charAt(1) === 'X' && data.rows[i].route_id.charAt(2) === 'M' ) {
+        $('#dropdownBXM').append(option);
+      } else if (data.rows[i].route_id.charAt(0) === 'B' && data.rows[i].route_id.charAt(1) === 'X') {
+        $('#dropdownBX').append(option);
+      } else if (data.rows[i].route_id.charAt(0) === 'B' && data.rows[i].route_id.charAt(1) === 'M') {
+        $('#dropdownBM').append(option);
+      } else if (data.rows[i].route_id.charAt(0) === 'B') {
+        $('#dropdownB').append(option);
+      } else if (data.rows[i].route_id.charAt(0) === 'Q' && data.rows[i].route_id.charAt(1) === 'M') {
+        $('#dropdownQM').append(option);
+      } else if (data.rows[i].route_id.charAt(0) === 'Q') {
+        $('#dropdownQ').append(option);
+      } else if (data.rows[i].route_id.charAt(0) === 'M') {
+        $('#dropdownM').append(option);
+      } else if (data.rows[i].route_id.charAt(0) === 'S') {
+        $('#dropdownS').append(option);
+      } else {
+        $('#dropdownX').append(option);
+      }
+
+    }
+
+    // when doen create select2 menu
+    app.selectRouteMenu = $("#selectRoute").select2();
+
+    // set first route 
+    console.log(route_id);
+    app.selectRouteMenu.val(route_id).trigger("change");
+    
+  })
+  .error(function(errors) {
+    // errors contains a list of errors
+    console.log("errors:" + errors);
+  })
+
+}
+
+
+app.reportCardMap = function (route_id) {
   // TODO, set up route ID to be picked from a select2 box -- route ID hardcoded for now
 
   // make a static map using CARTO Static API
@@ -172,12 +222,23 @@ app.reportCardMap = function (route_id) {
   ****/ 
   var mapconfig = {
     "layers": [
-      {
+/*      {
         "type": "mapnik",
         "options": {
           "sql": "SELECT * FROM nyc_borough_boundaries",
           "cartocss": "#layer {line-width: 1;line-color: #333;line-opacity: 0.9;polygon-fill: #f5f5f3;polygon-opacity:1;} ",
           "cartocss_version": "2.1.1"
+        }
+      },*/
+      {
+        "type": "http",
+        "options": {
+          "urlTemplate": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+          "subdomains": [
+            "a",
+            "b",
+            "c"
+          ]
         }
       },
       {

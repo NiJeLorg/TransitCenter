@@ -326,6 +326,12 @@ a {
     padding: 100px 0;
   }
 }
+.ride-section.positive {
+  background-color: #c2f9b2;
+}
+.ride-section.negative {
+  background-color: #f9d1b2;
+}
 .ride-section .ride-translate-wrapper {
   height: 100%;
   position: relative;
@@ -343,30 +349,25 @@ a {
   padding: 100px 0;
   background-repeat: no-repeat;
   background-attachment: scroll;
-  background-position: bottom center;
-  background-color: white;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover; 
 }
-#map_1_a,#map_1_5_a {
-  background-image: url(images/map_1_a.png);
+.ride-section .ride-img.negative {
+  background-image: url(images/scene_map_negative.png);
 }
-#map_1_b,#map_1_5_b {
-  background-image: url(images/map_1_b.png);
+.ride-section .ride-img.positive {
+  background-image: url(images/scene_map_positive.png);
 }
-#map_2_a {
-  background-image: url(images/map_2_a.png);
+.ride-section .ride-img.top {
+  background-position: top left;
 }
-#map_2_b {
-  background-image: url(images/map_2_b.png);
+.ride-section .ride-img.center {
+  background-position: center left;
 }
-#map_3_a, #map_3_5_a {
-  background-image: url(images/map_3_a.png);
-}
-#map_3_b, #map_3_5_b,  #map_4 {
-  background-image: url(images/map_3_b.png);
+.ride-section .ride-img.bottom {
+  background-position: bottom left;
 }
 .ride-section .card {
   width: 100%;
@@ -396,14 +397,54 @@ a {
   top: 15vh;
   right: 25%;
 }
-
+.ride-section .bus-animation-wrapper {
+  position: relative;
+}
+.ride-section .bus-animation-wrapper .bus_img_size {
+  width: 150px;
+}
+.bus_temp_postion {
+  position: absolute;
+  top: 8vh;
+  left: 20%;
+  transform: rotate(0.26turn);
+}
+.bus_temp_postion_right {
+  position: absolute;
+  top: 13vh;
+  right: 20%;
+  transform: rotate(0.14turn);
+}
+.bus_temp_postion_left_center {
+  position: absolute;
+  top: 27vh;
+  left: 33%;
+  transform: rotate(0.24turn);
+}
+.bus_temp_postion_right_bottom {
+  position: absolute;
+  top: 24vh;
+  right: 20%;
+  transform: rotate(0.38turn);
+}
+.bus_temp_postion_left_bottom {
+  position: absolute;
+  top: 50vh;
+  left: 36%;
+  transform: rotate(0.24turn);
+}
+.bus_temp_postion_left_goal {
+  position: absolute;
+  top: 82vh;
+  left: 36%;
+  transform: rotate(0.24turn);
+}
 .btn {
   text-transform: uppercase;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
-
 footer {
   padding: 50px 0;
 }

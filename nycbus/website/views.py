@@ -11,4 +11,5 @@ from website.models import *
 # TransitCenter Public Website Views 
 
 def website_Index(request):
-	return render(request, 'website/index.html', {})
+	routeId = request.GET.get("route","BX1")
+	return render(request, 'website/index.html', {'routeId':routeId})
