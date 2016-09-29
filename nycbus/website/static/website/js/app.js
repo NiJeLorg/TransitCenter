@@ -44,7 +44,10 @@ app.init = function () {
     app.speedGaugeObject.update(4.5);
 
     // set up delay bar
-    app.delayBar();
+    //app.delayBar();
+
+    // create bus bunching graphic
+    app.bunchingBuses();
 
 }
 
@@ -409,7 +412,7 @@ app.speedGauge = function (container, configuration) {
     var arcs = svg.append('g')
         .attr('class', 'arc')
         .attr('transform', centerTx);
-    
+  
     arcs.selectAll('path')
         .data(tickData)
       .enter().append('path')
@@ -520,6 +523,81 @@ app.delayBar = function () {
     .attr("dy", 40)
     .attr('style', "font-size: 14px;")
     .text('Delay');     
+}
+
+app.bunchingBuses = function () { 
+  console.log("hello");
+  app.bus1 = d3.select("#mini-buses")
+    .append("svg")
+    .attr("class", "margin-right-10")
+    .attr("width", "50px")
+    .attr("height", "auto")
+    .attr("viewBox", "0 0 729.2 244")
+    .attr("xlink:href", "http://www.w3.org/1999/xlink");
+
+  app.bus1.append("use")
+    .attr("class", "bus-noBunch" )
+    .attr("xlink:href", "#bus_icon" )
+    .attr("x", "0" )
+    .attr("y", "0" );
+
+  app.bus2 = d3.select("#mini-buses")
+    .append("svg")
+    .attr("class", "margin-right-10")
+    .attr("width", "50px")
+    .attr("height", "auto")
+    .attr("viewBox", "0 0 729.2 244")
+    .attr("xlink:href", "http://www.w3.org/1999/xlink");
+
+  app.bus2.append("use")
+    .attr("class", "bus-noBunch" )
+    .attr("xlink:href", "#bus_icon" )
+    .attr("x", "0" )
+    .attr("y", "0" );
+
+  app.bus3 = d3.select("#mini-buses")
+    .append("svg")
+    .attr("class", "margin-right-1")
+    .attr("width", "50px")
+    .attr("height", "auto")
+    .attr("viewBox", "0 0 729.2 244")
+    .attr("xlink:href", "http://www.w3.org/1999/xlink");
+
+  app.bus3.append("use")
+    .attr("class", "bus-bunched" )
+    .attr("xlink:href", "#bus_icon" )
+    .attr("x", "0" )
+    .attr("y", "0" );
+
+  app.bus4 = d3.select("#mini-buses")
+    .append("svg")
+    .attr("class", "margin-right-1")
+    .attr("width", "50px")
+    .attr("height", "auto")
+    .attr("viewBox", "0 0 729.2 244")
+    .attr("xlink:href", "http://www.w3.org/1999/xlink");
+
+  app.bus4.append("use")
+    .attr("class", "bus-bunched" )
+    .attr("xlink:href", "#bus_icon" )
+    .attr("x", "0" )
+    .attr("y", "0" );
+
+  app.bus5 = d3.select("#mini-buses")
+    .append("svg")
+    .attr("class", "margin-right-1")
+    .attr("width", "50px")
+    .attr("height", "auto")
+    .attr("viewBox", "0 0 729.2 244")
+    .attr("xlink:href", "http://www.w3.org/1999/xlink");
+
+  app.bus5.append("use")
+    .attr("class", "bus-bunched" )
+    .attr("xlink:href", "#bus_icon" )
+    .attr("x", "0" )
+    .attr("y", "0" );
+
+
 }
 
 

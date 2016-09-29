@@ -557,7 +557,7 @@ body {
   fill: steelblue;
 }
 .speed-gauge g.pointer {
-  fill: #aaa;
+  fill: #777;
   stroke: #777;
 }
 .speed-gauge g.label text {
@@ -568,6 +568,21 @@ body {
 }
 .delay-bar {
   margin-top: 50px;
+}
+#mini-buses {
+  margin-top: 50px;
+}
+use.bus-noBunch {
+  fill: #aaa;
+
+}
+
+use.bus-bunched {
+  fill: #800000;
+}
+
+.bus_icon path {
+  fill: inherit;
 }
 /* generic margins and padding */
 .margin-top-5vh {
@@ -587,6 +602,12 @@ body {
 }
 .margin-left-20 {
   margin-left: 0;
+}
+.margin-right-10 {
+  margin-right: 10px;
+}
+.margin-right-1 {
+  margin-right: 1px;
 }
 .margin-top-10 {
   margin-top: 10px;
