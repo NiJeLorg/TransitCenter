@@ -21,11 +21,13 @@ h1 {
   line-height: 62px;
 }
 h2 {
+  font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
-  font-size: 30px;  
-  line-height: 36px;  
+  font-size: 52px;  
+  line-height: 58px;  
 }
 h3 {
+  font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;    
@@ -37,11 +39,13 @@ h4 {
   line-height: 28px;      
 }
 p {
+  font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;        
+  font-size: 18px;
+  line-height: 24px;        
 }
 .label {
+  font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
@@ -534,6 +538,7 @@ body {
 .route-map {
   margin-top: 0;
   height: auto;
+  max-height: 450px;
   box-shadow: 0px 2px 4px rgba(49, 46, 42, 0.2), 0px 0px 15px rgba(119, 113, 106, 0.53);
   background-color: rgb(205,210,212);
 }
@@ -570,17 +575,21 @@ body {
   margin-top: 50px;
 }
 #mini-buses {
-  margin-top: 50px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
-use.bus-noBunch {
-  fill: #aaa;
-
+#route-map {
+  margin-top: 20px;
 }
-
-use.bus-bunched {
-  fill: #800000;
+@media (min-width: 767px) {
+  #mini-buses {
+    margin-top: 85px;
+    margin-bottom: 0px;
+  }
+  #route-map {
+    margin-top: 0px;
+  }
 }
-
 .bus_icon path {
   fill: inherit;
 }
@@ -612,6 +621,9 @@ use.bus-bunched {
 .margin-top-10 {
   margin-top: 10px;
 }
+.margin-5 {
+  margin: 5px;
+}
 @media (min-width: 767px) {
   .margin-top-5vh {
     margin-top: 5vh;
@@ -627,14 +639,9 @@ use.bus-bunched {
   }
 }
 .btn-facebook {
-  font-weight: bold;
-  color: #e8e8e8;
+  color: #fff;
   background-color: #3b5998;
   border-color: #3b5998;
-  border-radius: 2px;
-  height: 50px;
-  padding: 11px 12px 11px 13px;
-  margin-right: 10px;
 }
 .btn-facebook:hover,
 .btn-facebook:focus,
@@ -642,7 +649,7 @@ use.bus-bunched {
 .btn-facebook:active,
 .btn-facebook.active,
 .open > .dropdown-toggle.btn-facebook {
-  color: #e8e8e8;
+  color: #fff;
   background-color: #22407F;
   border-color: #22407F;
 }
@@ -673,19 +680,15 @@ fieldset[disabled] .btn-facebook.active {
   border-color: #adaeb0;
 }
 .btn-facebook .badge {
-  color: #337ab7;
+  color: #fff;
   background-color: #ffffff;
 }
 
 
 .btn-twitter {
-  font-weight: bold;
-  color: #e8e8e8;
+  color: #fff;
   background-color: #4099ff;
   border-color: #4099ff;
-  border-radius: 2px;
-  height: 50px;
-  padding: 11px 12px;
 }
 .btn-twitter:hover,
 .btn-twitter:focus,
@@ -693,7 +696,7 @@ fieldset[disabled] .btn-facebook.active {
 .btn-twitter:active,
 .btn-twitter.active,
 .open > .dropdown-toggle.btn-twitter {
-  color: #e8e8e8;
+  color: #fff;
   background-color: #2780E6;
   border-color: #2780E6;
 }
@@ -724,7 +727,7 @@ fieldset[disabled] .btn-twitter.active {
   border-color: #adaeb0;
 }
 .btn-twitter .badge {
-  color: #337ab7;
+  color: #fff;
   background-color: #ffffff;
 }
 .shareOn {

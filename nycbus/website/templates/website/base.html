@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'website/vendor/css/fonts.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'website/vendor/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'website/vendor/css/select2.css' %}">
 	{% block css_block %}
@@ -29,6 +30,25 @@
   </head>
 
   <body id="page-top" data-spy="scroll" data-target=".navbar-custom-static-top">
+
+  <!-- Facebook Async SDK -->
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1581540325487727',
+        xfbml      : true,
+        version    : 'v2.7'
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
 
 	{% block body_block %}
 	{% endblock %}
