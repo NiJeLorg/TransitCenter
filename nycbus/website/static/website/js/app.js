@@ -89,7 +89,7 @@ app.createListeners = function () {
     $(window).scroll(app.scrollingInteractions);
     $(document).ready(app.scrollingInteractions);
 
-    if (routeId) {
+    if (route != "None") {
       setTimeout(function() {
         document.getElementById('report-card').scrollIntoView();
       }, 1000);
