@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url, patterns
+from django.conf.urls import include, url
 from django.contrib import admin
 # for redirecting accounts/profile to analysis home page for the moment
 from analysis import views
