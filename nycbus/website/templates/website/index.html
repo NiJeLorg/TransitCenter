@@ -66,7 +66,22 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 margin-top-10">
+        <div class="col-sm-3 margin-top-5vh">
+          <img class="route-map" src="{% static 'website/css/images/thumb_map_positive.png' %}" />
+        </div>
+        <div class="col-sm-3 margin-top-5vh text-left">
+          <p id="personaPositiveThumbText"></p>
+        </div>
+        <div class="col-sm-3 margin-top-5vh">
+          <img class="route-map" src="{% static 'website/css/images/thumb_map_negative.png' %}" />
+        </div>
+        <div class="col-sm-3 margin-top-5vh text-left">
+          <p id="personaNegativeThumbText"></p>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-sm-12 margin-top-5vh">
           <p>Scroll down to compare <span class="personaName"></span>'s bus journeys</p>
           <a href="#ride" class="btn btn-circle page-scroll">
               <i class="fa fa-angle-double-down animated"></i>
@@ -77,63 +92,71 @@
   </section>
 
   <!-- Ride Along Section -->
-  <section id="ride" class="ride-section negative">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img negative top">
-          </div>
-        </div>
-        <div class="dot-wrapper">
-          <div id="dot_1_a" class="text-center">
-            <p class="label"><span class="personaName"></span></p><br />
-            <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
-          </div>
-        </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
-               <div class="card margin-top-100">
-                <img id="persona-1-a" class="img-responsive" src="" />
-                <p class="margin-top-10"><span class="personaName"></span> has been waiting a long time for their bus...</p>
-               </div>
-              </div>
+  <section id="ride" class="ride-section negative" data-slug="ride">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img negative top">
             </div>
           </div>
+          <div class="dot-wrapper">
+            <div class="personaDot text-center">
+              <p class="label"><span class="personaName"></span></p><br />
+              <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-1-a' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-7">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-1-a" class="img-responsive" src="" />
+                  <p id="persona-1-a-text" class="margin-top-10"></p>
+                 </div>
+                </div>
+              </div>
+            </div>
+          </div>        
         </div>
       </div>
   </section>
 
   <section id="ride_map_1_b" class="ride-section positive">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img positive top">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img positive top">
+            </div>
+          </div>
+          <div class="dot-wrapper">
+            <div class="personaDot text-center">
+              <p class="label"><span class="personaName"></span></p><br />
+              <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
+            </div>
           </div>
         </div>
-        <div class="dot-wrapper">
-          <div id="dot_1_a" class="text-center">
-            <p class="label"><span class="personaName"></span></p><br />
-            <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
-          </div>
-        </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
-               <div class="card margin-top-100">
-                <img id="persona-1-b" class="img-responsive" src="{% static 'website/css/images/scene_ONTIMEright.png' %}" />
-                <p class="margin-top-10"><span class="personaName"></span>'s bus arrives on time and with enough space for them to fit comfortably...</p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-1-b' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+            	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-7">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-1-b" class="img-responsive" src="{% static 'website/css/images/scene_ONTIMEright.png' %}" />
+                  <p id="persona-1-b-text" class="margin-top-10"></p>
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -142,24 +165,29 @@
   </section>
 
   <section id="ride_map_1_5_a" class="ride-section negative">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img negative top">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img negative top">
+            </div>
           </div>
         </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
-               <div class="card margin-top-100">
-                <img id="persona-1-5-a" class="img-responsive" src="" />
-                <p class="margin-top-10"><span class="personaName"></span>... </p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-1-5-a' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-7">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-1-5-a" class="img-responsive" src="" />
+                  <p id="persona-1-5-a-text" class="margin-top-10"></p>
+                  <img id="persona-1-5-a-2" class="img-responsive" src="" />
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -168,24 +196,29 @@
   </section>
 
   <section id="ride_map_1_5_b" class="ride-section positive">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img positive top">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img positive top">
+            </div>
           </div>
         </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
-               <div class="card margin-top-100">
-                <img id="persona-1-5-b" class="img-responsive" src="" />
-                <p class="margin-top-10"><span class="personaName"></span>... TO DO: Include an image of riders boarding at both doors of the bus using the tap and go card system. This would be in conjuction with the drawings we already have a the tap and go system.</p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-1-5-b' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-7">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-1-5-b" class="img-responsive" src="" />
+                  <p id="persona-1-5-b-text" class="margin-top-10"></p>
+                  <img id="persona-1-5-b-2" class="img-responsive" src="" />
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -194,24 +227,28 @@
   </section>
 
   <section id="ride_map_2_a" class="ride-section negative">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img negative center">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img negative top">
+            </div>
           </div>
         </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion_right">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-1 col-xs-7">
-               <div class="card margin-top-100">
-                <img id="persona-2-a" class="img-responsive" src="{% static 'website/css/images/scene_stuckintrafficop.png' %}" />
-                <p class="margin-top-10"><span class="personaName"></span>... Negative image of driver stuck in traffic. </p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-2-a' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-1">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-2-a" class="img-responsive" src="{% static 'website/css/images/scene_Birdseyebus_stuck.png' %}" />
+                  <p id="persona-2-a-text" class="margin-top-10"></p>
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -220,24 +257,28 @@
   </section>
 
   <section id="ride_map_2_b" class="ride-section positive">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img positive center">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img positive center">
+            </div>
           </div>
         </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion_left_center">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
-               <div class="card margin-top-100">
-                <img id="persona-2-b" class="img-responsive" src="{% static 'website/css/images/scene_Birdseyebus.png' %}" />
-                <p class="margin-top-10"><span class="personaName"></span>... Positive image of bus in dedicated bus lane.</p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-2-b' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-7">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-2-b" class="img-responsive" src="{% static 'website/css/images/scene_Birdseyebus.png' %}" />
+                  <p id="persona-2-b-text" class="margin-top-10"></p>
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -246,24 +287,28 @@
   </section>
 
   <section id="ride_map_3_5_a" class="ride-section negative">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img negative center">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img negative centerRight">
+            </div>
           </div>
         </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion_right">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-       <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-1 col-xs-7">
-               <div class="card margin-top-100">
-                <img id="persona-3-5-a" class="img-responsive" src="{% static 'website/css/images/F_1.jpg' %}" />
-                <p class="margin-top-10"><span class="personaName"></span>... TO DO: Create final drawing showing too many stops slowing the bus down.</p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-3-5-a' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-1">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-3-5-a" class="img-responsive" src="{% static 'website/css/images/scene_stuckintrafficop.png' %}" />
+                  <p id="persona-3-5-a-text" class="margin-top-10"></p>
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -272,24 +317,28 @@
   </section>
 
   <section id="ride_map_3_5_b" class="ride-section positive">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img positive center">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img positive center">
+            </div>
           </div>
         </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion_left_center">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
-               <div class="card margin-top-100">
-                <img id="persona-3-5-b" class="img-responsive" src="{% static 'website/css/images/F_2.jpg' %}" />
-                <p class="margin-top-10"><span class="personaName"></span>... TO DO: Create drawing with fewer stops.</p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-3-5-b' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-7">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-3-5-b" class="img-responsive" src="{% static 'website/css/images/happy_busdriver.png' %}" />
+                  <p id="persona-3-5-b-text" class="margin-top-10"></p>
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -298,30 +347,28 @@
   </section>
 
   <section id="ride_map_3_a" class="ride-section negative">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img negative bottom">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img negative bottom">
+            </div>
           </div>
         </div>
-<!--         <div class="dot-wrapper">
-          <div id="dot_3_a" class="text-center">
-            <p class="label">Unhappy <span class="personaName"></span></p><br />
-            <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
-          </div>
-        </div> -->
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion_right_bottom">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-1 col-xs-7">
-               <div class="card margin-top-100">
-                <img id="persona-3-a" class="img-responsive" src="" />
-                <p class="margin-top-10"><span class="personaName"></span>... Negative image of circuitous bus route and sad person.</p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-3-a' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-7">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-3-a" class="img-responsive" src="" />
+                  <p id="persona-3-a-text" class="margin-top-10"></p>
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -330,30 +377,28 @@
   </section>
 
   <section id="ride_map_3_b" class="ride-section positive">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img positive bottom">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img positive center">
+            </div>
           </div>
         </div>
-<!--         <div class="dot-wrapper">
-          <div id="dot_3_b" class="text-center">
-            <p class="label">Happy <span class="personaName"></span></p><br />
-            <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
-          </div>
-        </div> -->
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion_left_bottom">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
-               <div class="card margin-top-100">
-                <img id="persona-3-b" class="img-responsive" src="{% static 'website/css/images/H_2.jpg' %}" />
-                <p class="margin-top-10"><span class="personaName"></span>... Positive image of straighter bus route and happy person.</p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-3-b' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-7">
+                 <div class="card margin-top-50vh">
+                  <img id="persona-3-b" class="img-responsive" src="" />
+                  <p id="persona-3-b-text" class="margin-top-10"></p>
+                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -362,24 +407,27 @@
   </section>
 
   <section id="ride_map_4" class="ride-section positive">
-      <div class="ride-translate-wrapper">
-        <div class="ride-img-wrap">
-          <div class="ride-img positive center">
+      <div class="picture-book">
+        <div class="picture-book-img-wrap picture-book-bg">
+          <div class="ride-img-wrap">
+            <div class="picture-book-img ride-img positive center">
+            </div>
           </div>
         </div>
-        <div class="bus-animation-wrapper">
-          <div class="bus_temp_postion_left_goal">
-          	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-          </div>
-        </div>        
-        <div class="ride-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-8 col-sm-offset-2">
-               <div class="card margin-top-100">
-                <img id="persona-4" class="img-responsive" src="" />
-                <p class="margin-top-10 text-center"><span class="personaName"></span>... Happy person reaches their goal!</p>
-               </div>
+        <div class="picture-book-page">
+          <div id='bus-animation-4' class="bus-animation-wrapper">
+            <div class="bus_temp_postion">
+              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+            </div>
+          </div>        
+          <div class="ride-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                 <div class="card margin-top-40vh">
+                  <img id="persona-4" class="img-responsive" src="" />
+                 </div>
+                </div>
               </div>
             </div>
           </div>

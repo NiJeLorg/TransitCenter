@@ -21,8 +21,7 @@ app.init = function () {
     app.createListeners();
 
     // set up picture book
-    // retired
-    //app.pictureBook();
+    app.pictureBook();
 
     // get random persona
     app.randomPersona();
@@ -51,19 +50,187 @@ app.scrollingInteractions = function () {
         $(".navbar-fixed-top").removeClass("top-nav-collapse");
     }
 
-    function updateTransform (element) {
-      var offsetTop = $('#'+element).offset().top;
-      if (checkScroll(offsetTop)) {
-        var dest = getTraslateY(offsetTop);
-        $('#'+element+' .ride-translate-wrapper').css('transform', 'translateY(' + dest + 'px)');
-      } else {
-        $('#'+element+' .ride-translate-wrapper').css('transform', 'translateY(0px)');      
-      }
+    // check broser width and set tops and lefts
+    if (($('body')).width() < 767) {
+      // mobile
+      var top_2_a = '20vh';
+      var left_2_a = '40%';
+      var top_2_b = '20vh';
+      var left_2_b = '40%';
+      var top_3_5_a = '20vh';
+      var left_3_5_a = '32%';
+      var top_3_5_b = '25vh';
+      var left_3_5_b = '42%';
+      var top_3_a = '50vh';
+      var left_3_a = '45%';
+      var top_3_b = '40vh';
+      var left_3_b = '46%';
+      var top_4 = '60vh';
+      var left_4 = '46%';
+    } else if (($('body')).width() < 1200) {
+      // tablet
+      var top_2_a = '32vh';
+      var left_2_a = '60%';
+      var top_2_b = '12vh';
+      var left_2_b = '30%';
+      var top_3_5_a = '20vh';
+      var left_3_5_a = '65%';
+      var top_3_5_b = '30vh';
+      var left_3_5_b = '31%';
+      var top_3_a = '30vh';
+      var left_3_a = '31%';
+      var top_3_b = '30vh';
+      var left_3_b = '31%';
+      var top_4 = '50vh';
+      var left_4 = '32%';
+    } else {
+      var top_2_a = '42vh';
+      var left_2_a = '58%';      
+      var top_2_b = '3vh';
+      var left_2_b = '31%';
+      var top_3_5_a = '20vh';
+      var left_3_5_a = '70%';
+      var top_3_5_b = '20vh';
+      var left_3_5_b = '32%';
+      var top_3_a = '20vh';
+      var left_3_a = '32%';
+      var top_3_b = '40vh';
+      var left_3_b = '33%';
+      var top_4 = '45vh';
+      var left_4 = '33%';
     }
 
-    function getTraslateY(element) {
-      return (scrollY - element)/1.5;
+    // set up traslations for bus-animations
+    var element = 'bus-animation-1-a';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        app.dest_1_a = (scrollY - offsetTop) * 1.2;
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '3vh', 'left': '16%'});        
+
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '3vh', 'left': '16%'});      
     }
+
+    var element = 'bus-animation-1-b';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_1_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        app.dest_1_b = (scrollY - offsetTop) * 1.5;
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_b) + 'px)', 'top': '1vh', 'left': '16%'});
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '1vh', 'left': '16%'});      
+    }
+
+    var element = 'bus-animation-1-5-a';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_1_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        app.dest_1_5_a = (scrollY - offsetTop);
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_a) + 'px)', 'top': '20vh', 'left': '16%'});        
+
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
+    }
+
+    var element = 'bus-animation-1-5-b';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_1_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        app.dest_1_5_b = (scrollY - offsetTop);
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_b) + 'px)', 'top': '20vh', 'left': '16%'});        
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
+    }
+
+    var element = 'bus-animation-2-a';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_2_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        if (top_2_a == '20vh') {
+          app.dest_2_a = (scrollY - offsetTop);
+          app.dest_2_a_X = app.dest_2_a;
+        } else {
+          app.dest_2_a = (scrollY - offsetTop) * 1.2;
+          app.dest_2_a_X = app.dest_2_a/7;
+        } 
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_2_a) + 'px) translateX(' + parseInt(app.dest_2_a_X) + 'px)', 'top': top_2_a, 'left': left_2_a});        
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_2_a, 'left': left_2_a});      
+    }
+
+    var element = 'bus-animation-2-b';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_2_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        app.dest_2_b = (scrollY - offsetTop) * 1.5;
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_2_b) + 'px)', 'top': top_2_b, 'left': left_2_b});        
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_2_b, 'left': left_2_b});      
+    }
+
+    var element = 'bus-animation-3-5-a';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_3_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_3_5_a = (scrollY - offsetTop) * 1.2;
+          app.dest_3_5_a_X = app.dest_3_5_a/7;
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_a) + 'px) translateX(' + parseInt(app.dest_3_5_a_X) + 'px)', 'top': top_3_5_a, 'left': left_3_5_a});        
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_3_5_a, 'left': left_3_5_a});      
+    }
+
+    var element = 'bus-animation-3-5-b';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_3_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        app.dest_3_5_b = (scrollY - offsetTop) * 1.5;
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_b) + 'px)', 'top': top_3_5_b, 'left': left_3_5_b});        
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_5_b, 'left': left_3_5_b});      
+    }
+
+    var element = 'bus-animation-3-a';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_3_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_3_a = (scrollY - offsetTop) * 1.2;
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_a) + 'px)', 'top': top_3_a, 'left': left_3_a});        
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_a, 'left': left_3_a});      
+    }
+
+    var element = 'bus-animation-3-b';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_3_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        app.dest_3_b = (scrollY - offsetTop) * 1.5;
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_b) + 'px)', 'top': top_3_b, 'left': left_3_b});        
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_b, 'left': left_3_b});      
+    }
+
+    var element = 'bus-animation-4';
+    var offsetTop = $('#'+element).offset().top - 80;
+    if (checkScroll(offsetTop)) {
+      if (!$('#ride_map_4 .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+        app.dest_4 = (scrollY - offsetTop) * 1.9;
+      }
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_4) + 'px)', 'top': top_4, 'left': left_4});        
+    } else {
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_4, 'left': left_4});      
+    }
+
     function checkScroll(target) {
       if (scrollY >= target) {
         return true;
@@ -72,17 +239,7 @@ app.scrollingInteractions = function () {
       }
     }
  
-    updateTransform('ride');
-    updateTransform('ride_map_1_b');
-    updateTransform('ride_map_1_5_a');
-    updateTransform('ride_map_1_5_b');    
-    updateTransform('ride_map_2_a');
-    updateTransform('ride_map_2_b');
-    updateTransform('ride_map_3_5_a');
-    updateTransform('ride_map_3_5_b');
-    updateTransform('ride_map_3_a');
-    updateTransform('ride_map_3_b');
-    updateTransform('ride_map_4');
+
 }
 
 app.createListeners = function () {
@@ -119,40 +276,64 @@ app.createListeners = function () {
 }
 
 app.randomPersona = function () {
-  var randInt = app.getRandomInt(1,3);
+  //var randInt = app.getRandomInt(1,3);
+  randInt = 3;
   if (randInt == 1) {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_grandma.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_grandma.png");
-    $('#persona-1-a').attr("src","/static/website/css/images/scene_LATEright_grandma.png");    
-    $('#persona-1-5-a').attr("src","/static/website/css/images/handcountingchange_grandma.png");
-    $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_grandma.png");
+    $('#persona-1-a').attr("src","/static/website/css/images/scene_LATEright_grandma.png");
+    $('#persona-1-5-a').attr("src","/static/website/css/images/loading_bad.png");
+    $('#persona-1-5-a-2').attr("src","/static/website/css/images/handcountingchange_grandma.png");
+    $('#persona-1-5-b').attr("src","/static/website/css/images/loading_good.png");
+    $('#persona-1-5-b-2').attr("src","/static/website/css/images/contactlesscard_grandma.png");
     $('#persona-3-a').attr("src","/static/website/css/images/sad_grandma.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_grandma.png");
     $('#persona-4').attr("src","/static/website/css/images/goal_grandma.png");
     $('#personaDescriptionText').text("Meet Sophia, a grandparent patiently waiting for the bus to take them to their grandchild's birthday party.");
     $('.personaName').text("Sophia");
+    $('#personaPositiveThumbText').text("On the green maps below, follow along with Sophia as she has a smooth, reliable experiece with an updated New York City bus system.");
+    $('#personaNegativeThumbText').text("On the red maps below, follow Sophia's challenging experiece with New York City's slow and unreliable bus system.");
   } else if (randInt == 2) {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_nurse.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_nurse.png");
     $('#persona-1-a').attr("src","/static/website/css/images/scene_LATEright_nurse.png");    
-    $('#persona-1-5-a').attr("src","/static/website/css/images/handcountingchange_nurse.png");
-    $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_nurse.png");
+    $('#persona-1-5-a').attr("src","/static/website/css/images/loading_bad.png");
+    $('#persona-1-5-a-2').attr("src","/static/website/css/images/handcountingchange_nurse.png");
+    $('#persona-1-5-b').attr("src","/static/website/css/images/loading_good.png");
+    $('#persona-1-5-b-2').attr("src","/static/website/css/images/contactlesscard_nurse.png");
     $('#persona-3-a').attr("src","/static/website/css/images/sad_nurse.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_nurse.png");
     $('#persona-4').attr("src","/static/website/css/images/goal_nurse.png");
     $('#personaDescriptionText').text("Meet Daniel, a nurse patiently waiting for the bus to take them to the hospital where they work.");
     $('.personaName').text("Daniel");
+    $('#personaPositiveThumbText').text("On the green maps below, follow along with Daniel as he has a smooth, reliable experiece with an updated New York City bus system.");
+    $('#personaNegativeThumbText').text("On the red maps below, follow Daniel's challenging experiece with New York City's slow and unreliable bus system.");
   } else {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_student.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_student.png");
     $('#persona-1-a').attr("src","/static/website/css/images/scene_LATEright_student.png");    
-    $('#persona-1-5-a').attr("src","/static/website/css/images/handcountingchange_student.png");
-    $('#persona-1-5-b').attr("src","/static/website/css/images/contactlesscard_student.png");
-    $('#persona-3-a').attr("src","/static/website/css/images/sad_student.png");
+    $('#persona-1-5-a').attr("src","/static/website/css/images/loading_bad.png");
+    $('#persona-1-5-a-2').attr("src","/static/website/css/images/handcountingchange_student.png");
+    $('#persona-1-5-b').attr("src","/static/website/css/images/loading_good.png");
+    $('#persona-1-5-b-2').attr("src","/static/website/css/images/contactlesscard_student.png");
+   $('#persona-3-a').attr("src","/static/website/css/images/sad_student.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_student.png");
     $('#persona-4').attr("src","/static/website/css/images/goal_student.png");
-    $('#personaDescriptionText').text("Meet Olivia, a student patiently waiting for the bus to take them to their final exams.");
     $('.personaName').text("Olivia");
+    $('#personaDescriptionText').text("Meet Olivia, a student on her way to take her final exams. She's waiting for the bus.");
+    $('#personaPositiveThumbText').text("On the green maps below, follow along with Olivia as she has a smooth, reliable experiece with an updated New York City bus system.");
+    $('#personaNegativeThumbText').text("On the red maps below, follow Olivia's challenging experiece with New York City's slow and unreliable bus system.");
+    $('#persona-1-a-text').text("Olivia's bus is already 10 minutes late. Phew, there it is. The bus pulls up and it's pretty full. There are a bunch of other people at her stop waiting to board.");
+    $('#persona-1-b-text').text("There it is! The bus arrives on schedule, a few minutes after Olivia reached the bus stop. There are seats remaining. ");
+    $('#persona-1-5-a-text').text("The group clusters around the front door and people begin entering, dipping their MetroCards one by one. Now someone is paying in coins. Clink, clink, click, at least 20 coins! ... ");
+    $('#persona-1-5-b-text').text("The handful of people waiting a the stop with Olivia split into two groups, a few people board through the front door and a few board through the back door. This takes just seconds as everyone pays by tapping a smartcard on a reader placed near the door.");
+    $('#persona-2-a-text').text("Olivia finds a seat in the back and begins reviewing her exam notes as the bus pulls away. After a few blocks, the bus slows to a halt. Ugh, it's now stuck in traffic.");
+    $('#persona-2-b-text').text("Olivia finds a seat and begins reviewing her exam notes as the bus pulls away. The bus glides to the next stop in its very own dedicated lane.");
+    $('#persona-3-5-a-text').text("Olivia checks the time nervously and tries to focus on her notes. The bus slowly makes its way toward the subway, stopping at what feels like every other block. Then, they wind through a part of the route where the bus makes a loop around a few blocks rather than traveling straight down the main road. \"Why?!?\" Olivia wonders.");
+    $('#persona-3-5-b-text').text("The bus makes its way toward the subway, stopping at around every third block. It continues along a direct path to the subway.");
+    $('#persona-3-a-text').text("20 minutes after boarding and 30 minutes after beginning her wait at the stop, Olivia makes it to the subway. It's 7:44AM, meaning she has about 15 minutes to travel three stops and walk a block to make it to her exam on time. She crosses her fingers and enters the station. ");
+    $('#persona-3-b-text').text("15 minutes after boarding and 18 minutes after beginning her wait at the stop, Olivia makes it to the subway. It's 7:32AM, meaning she has nearly 30 minutes to travel three stops and walk a block to make it to her exam on time. She'll probably have extra time to get settled before her exams begin.");
+    
   }
 }
 
@@ -1029,8 +1210,7 @@ app.bunchingBuses = function () {
 
 
 // picture book scrolling code
-// retired
-/*app.pictureBook = function () {
+app.pictureBook = function () {
 
     var windowAspectRatio = window.innerWidth/window.innerHeight,
         isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/.test(navigator.userAgent);
@@ -1225,7 +1405,7 @@ app.bunchingBuses = function () {
     });
       
     this.scroll(); // just in case user starts in middle of the page, give it an initial scroll event
-};*/
+};
 
 app.numberWithCommas = function (x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1299,8 +1479,8 @@ app.updateShareButtons = function (route_id) {
   // set up twitter and facebook URLs
   var app_id = '1581540325487727';
   var fbdescription = "Here's the report card for the " + route_id + " bus in NYC. Check out and compare your bus here!";
-  var fblink = "http://busturnaround.nyc/?route="+route_id;
-  var fbpicture = "http://busturnaround.nyc/static/website/css/images/report_card_fb.png";
+  var fblink = "http://busfix.nyc/?route="+route_id;
+  var fbpicture = "http://busfix.nyc/static/website/css/images/report_card_fb.png";
   var fbname = "This is the report card for the "+route_id;
   var fbcaption = "TransitCenter";
   var fbUrl = 'https://www.facebook.com/dialog/feed?app_id=' + app_id + '&display=popup&description='+ encodeURIComponent(fbdescription) + '&link=' + encodeURIComponent(fblink) + '&redirect_uri=' + encodeURIComponent(fblink) + '&name=' + encodeURIComponent(fbname) + '&caption=' + encodeURIComponent(fbcaption) + '&picture=' + encodeURIComponent(fbpicture);
@@ -1309,7 +1489,7 @@ app.updateShareButtons = function (route_id) {
   $('#showShareFB').attr("onclick", fbOnclick);
 
 
-  var twitterlink = "http://busturnaround.nyc/?route="+route_id;
+  var twitterlink = "http://busfix.nyc/?route="+route_id;
   var via = 'TransitCenter';
   var twittercaption = "Here's the report card for the " + route_id + " bus in NYC. Check out and compare your bus here!";
   var twitterUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(twitterlink) + '&via='+ encodeURIComponent(via) + '&text=' + encodeURIComponent(twittercaption);

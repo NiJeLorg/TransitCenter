@@ -304,10 +304,9 @@ a {
 }
 .ride-section {
   width: 100%;
-  height: 100vh;
+  height: auto;
   padding: 0;
-  position: relative;
-  overflow: hidden;
+  margin: 50px 0;
 }
 .pick-section {
   width: 100%;
@@ -370,6 +369,9 @@ a {
 .ride-section .ride-img.center {
   background-position: center left;
 }
+.ride-section .ride-img.centerRight {
+  background-position: center right;
+}
 .ride-section .ride-img.bottom {
   background-position: bottom left;
 }
@@ -386,20 +388,10 @@ a {
 .ride-section .dot {
   color: #17BEE8;
 }
-#dot_1_a {
-  position: absolute;
-  top: 30vh;
-  left: 20%;
-}
-#dot_3_a {
+.personaDot {
   position: absolute;
   top: 25vh;
-  right: 20%;
-}
-#dot_3_b {
-  position: absolute;
-  top: 15vh;
-  right: 25%;
+  left: 15%;
 }
 .ride-section .bus-animation-wrapper {
   position: relative;
@@ -409,10 +401,8 @@ a {
 }
 .bus_temp_postion {
   position: absolute;
-  top: 8vh;
-  left: 20%;
-  transform: rotate(0.26turn);
 }
+
 .bus_temp_postion_right {
   position: absolute;
   top: 13vh;
@@ -479,12 +469,12 @@ body {
 .picture-book {
   z-index: 2;
   position: relative;
-  margin: 5em auto;
   border-top: solid 1px rgba(0, 0, 0, 0);
   border-bottom: solid 1px rgba(0, 0, 0, 0);
 }
 .picture-book-bg {
   position: absolute;
+  height: 120vh;
   top: 0;
   z-index: -1;
 }
@@ -602,9 +592,12 @@ body {
 }
 .margin-top-12vh {
   margin-top: 10px;
+}
+.margin-top-40vh {
+  margin-top: 40vh;
 } 
-.margin-top-100 {
-  margin-top: 100px;
+.margin-top-50vh {
+  margin-top: 50vh;
 }
 .margin-top-20 {
   margin-top: 20px;

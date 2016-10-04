@@ -1,0 +1,15 @@
+    @font-face{
+        font-family:"MarkWebPro-Bold W01 Regular";
+        src:url("../fonts/1466000/021bca8a-04d2-4658-9598-7f54e37255a3.eot?#iefix");
+        src:url("../fonts/1466000/021bca8a-04d2-4658-9598-7f54e37255a3.eot?#iefix") format("eot"),url("../fonts/1466000/911d53bf-61c5-453a-ba54-6c6b12e432d8.woff2") format("woff2"),url("../fonts/1466000/9069c8de-de1f-4c7e-b81f-dee8057e98f8.woff") format("woff"),url("../fonts/1466000/dafbeddd-575a-4f74-b362-b0a940ee73e4.ttf") format("truetype");
+    }
+    @font-face{
+        font-family:"MarkWebPro-Book W01 Regular";
+        src:url("../fonts/1466008/c8d2735e-31d3-4ef3-afd6-fd90b2d676b5.eot?#iefix");
+        src:url("../fonts/1466008/c8d2735e-31d3-4ef3-afd6-fd90b2d676b5.eot?#iefix") format("eot"),url("../fonts/1466008/3aa6bb54-ca02-4151-b68b-6ff14032a915.woff2") format("woff2"),url("../fonts/1466008/402ed54f-43f7-485b-a00d-f040e9f745c8.woff") format("woff"),url("../fonts/1466008/2aeaf649-60fa-4de9-a492-17700d78dfc5.ttf") format("truetype");
+    }
+    @font-face{
+        font-family:"MarkWebPro-Heavy W01 Regular";
+        src:url("../fonts/1466032/1c14a94a-75a9-48ed-ae6c-3f822076cdaf.eot?#iefix");
+        src:url("../fonts/1466032/1c14a94a-75a9-48ed-ae6c-3f822076cdaf.eot?#iefix") format("eot"),url("../fonts/1466032/16cde9a4-6a50-4dc7-802c-6a3325343fab.woff2") format("woff2"),url("../fonts/1466032/c825e1c2-ff60-4843-b360-2a84a2436e85.woff") format("woff"),url("../fonts/1466032/617f9efc-7295-4a05-85ce-41497de28777.ttf") format("truetype");
+    }
