@@ -288,20 +288,20 @@ app.randomPersona = function () {
     $('#persona-3-a').attr("src","/static/website/css/images/sad_grandma.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_grandma.png");
     $('#persona-4').attr("src","/static/website/css/images/goal_grandma.png");
-    $('#personaDescriptionText').text("Meet Sophia, a retiree taking the bus to her grandson’s surprise birthday party, in her old neighborhood.");
+    $('#personaDescriptionText').text("Meet Sophia, a retiree taking the bus to her grandson's surprise birthday party, in her old neighborhood.");
     $('.personaName').text("Sophia");
     $('#personaPositiveThumbText').text("On the green maps below, follow along with Sophia as she has a smooth, reliable experiece with an updated New York City bus system.");
     $('#personaNegativeThumbText').text("On the red maps below, follow Sophia's challenging experiece with New York City's slow and unreliable bus system.");
-    $('#persona-1-a-text').text("Sophia gets to the bus stop 10 minutes early, as she always does when she needs to be somewhere on time. But the bus doesn’t arrive until nine minutes after it’s scheduled. Sophia has been waiting for almost 20 minutes!");
+    $('#persona-1-a-text').text("Sophia gets to the bus stop 10 minutes early, as she always does when she needs to be somewhere on time. But the bus doesn't arrive until nine minutes after it's scheduled. Sophia has been waiting for almost 20 minutes!");
     $('#persona-1-b-text').text("Sophia gets to the bus stop 10 minutes early, as she always does. The bus arrives right on time.");
     $('#persona-1-5-a-text').text("More time ticks away as people pay one by one. A man keeps putting his MetroCard into the slot backwards, holding up the line until Sophia corrects him.");
-    $('#persona-1-5-b-text').text("Sophia takes her smartcard out of her purse and taps it at a reader at the front of the bus. A few people head to the back door, where there’s another smartcard reader.");
-    $('#persona-2-a-text').text("The bus is crowded. Someone gets up so Sophia can take a seat near the front of the bus, but it’s stressful to have so many people standing around her. She’s already worried about getting to the surprise party on time – and then the bus gets stuck in traffic.");
+    $('#persona-1-5-b-text').text("Sophia takes her smartcard out of her purse and taps it at a reader at the front of the bus. A few people head to the back door, where there's another smartcard reader.");
+    $('#persona-2-a-text').text("The bus is crowded. Someone gets up so Sophia can take a seat near the front of the bus, but it's stressful to have so many people standing around her. She's already worried about getting to the surprise party on time – and then the bus gets stuck in traffic.");
     $('#persona-2-b-text').text("Sophia finds an empty seat near the front of the bus and starts reviewing what to discuss with her doctor. Even though traffic is heavy today, the bus has its own dedicated lane and keeps moving.");
     $('#persona-3-5-a-text').text("The bus slowly makes its way toward her old neighborhood, stopping almost every block. Then it makes a large loop on several streets rather than going directly down the main avenue. \"Why?!?\" Sophia wonders.");
     $('#persona-3-5-b-text').text("The bus makes its way toward her old neighborhood, stopping about every third block and running directly down the main avenue. The bus is making excellent time, Sophia thinks to herself.");
-    $('#persona-3-a-text').text("Forty minutes after she began her trip, Sophia gets off the bus and hustles towards her son’s house. She has probably missed the surprise and doesn’t want to miss another moment of her grandson’s celebration.");
-    $('#persona-3-b-text').text("Twenty-five minutes after she began her trip, Sophia gets off the bus. She’s early for the surprise party, so she takes a walk past some of her favorite parts of the old neighborhood.");
+    $('#persona-3-a-text').text("Forty minutes after she began her trip, Sophia gets off the bus and hustles towards her son's house. She has probably missed the surprise and doesn't want to miss another moment of her grandson's celebration.");
+    $('#persona-3-b-text').text("Twenty-five minutes after she began her trip, Sophia gets off the bus. She'll be right on time for the surprise party and even has a few extra minutes to take a walk past some of her favorite parts of the old neighborhood.");
 
   } else if (randInt == 2) {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_nurse.png");
@@ -320,12 +320,12 @@ app.randomPersona = function () {
     $('#personaNegativeThumbText').text("On the red maps below, follow Daniel's challenging experiece with New York City's slow and unreliable bus system.");
     $('#persona-1-a-text').text("Phew, there's the bus. It's 8 minutes late, and more than a dozen people are at the stop waiting to board.");
     $('#persona-1-b-text').text("There it is! The bus arrives on schedule, a few minutes after Daniel reaches the bus stop. A handful of people are waiting at the stop, and it looks like there are enough seats on the bus for all of them.");
-    $('#persona-1-5-a-text').text("The riders waiting to board cluster around the front door and people begin entering, dipping their MetroCards one by one. One person starts paying in coins but doesn’t have enough, and has to dig in her purse to find another quarter.");
-    $('#persona-1-5-b-text').text("The people waiting at the stop split into two groups, boarding at the front and back doors. Everyone pays by tapping a smartcard on a reader placed near the door, so it takes just a few seconds.");
+    $('#persona-1-5-a-text').text("The riders waiting to board cluster around the front door and people begin entering, dipping their MetroCards one by one. One person starts paying in coins but doesn't have enough, and has to dig in her purse to find another quarter.");
+    $('#persona-1-5-b-text').text("The people waiting at the stop split into two groups, boarding at the front and back doors. Everyone pays by tapping a smartcard on a reader placed near the doors, so it takes just a few seconds for the whole group to board the bus.");
     $('#persona-2-a-text').text("Daniel finds a place to stand near the back door and checks his watch. He has twenty minutes to reach the hospital, which is about a mile and a half away. After a few blocks, the bus slows to a halt, stuck behind a line of cars and trucks.");
     $('#persona-2-b-text').text("Daniel finds a seat and begins reading the news as the bus pulls away. The bus glides to the next stop in its own dedicated lane, beating the traffic along the way.");
     $('#persona-3-5-a-text').text("Daniel checks the time nervously and thinks about the day that awaits him at work. The bus slowly makes its way toward the hospital, stopping at what feels like every other block. Then, the bus turns right and makes a large loop on several different streets, instead of traveling straight down the main road. \"Why?!?\" Daniel wonders.");
-    $('#persona-3-5-b-text').text("The bus continues along a direct path toward the hospital, stopping at around every third block. Daniel is relieved to realize that he’s on time so far.");
+    $('#persona-3-5-b-text').text("The bus continues along a direct path toward the hospital, stopping at around every third block. Daniel is relieved to realize that he's on time so far.");
     $('#persona-3-a-text').text("22 minutes after boarding and nearly an hour and a half since beginning his commute, Daniel exits the bus and walks quickly toward the hospital. He'll be late.");
     $('#persona-3-b-text').text("Fifteen minutes after boarding and about an hour and ten minutes since beginning his commute, Daniel exits the bus. He has enough time to buy an egg-and-cheese sandwich from the bakery across the street from the hospital, which feels like a small victory.");
 
@@ -346,7 +346,7 @@ app.randomPersona = function () {
     $('#personaNegativeThumbText').text("On the red maps below, follow Olivia's challenging experiece with New York City's slow and unreliable bus system.");
     $('#persona-1-a-text').text("Olivia's bus is already 10 minutes late. Phew, there it is. The bus pulls up and it's pretty full. There are a bunch of other people at her stop waiting to board.");
     $('#persona-1-b-text').text("There it is! The bus arrives on schedule, a few minutes after Olivia reached the bus stop. There are seats remaining. ");
-    $('#persona-1-5-a-text').text("The group clusters around the front door and people begin entering, dipping their MetroCards one by one. Now someone is paying in coins. Clink, clink, click, at least 20 coins! ... ");
+    $('#persona-1-5-a-text').text("The group clusters around the front door and people begin entering, dipping their MetroCards one by one. Now someone is paying in coins. Clink, clink, click, at least 20 coins!");
     $('#persona-1-5-b-text').text("The handful of people waiting a the stop with Olivia split into two groups, a few people board through the front door and a few board through the back door. This takes just seconds as everyone pays by tapping a smartcard on a reader placed near the door.");
     $('#persona-2-a-text').text("Olivia finds a seat in the back and begins reviewing her exam notes as the bus pulls away. After a few blocks, the bus slows to a halt. Ugh, it's now stuck in traffic.");
     $('#persona-2-b-text').text("Olivia finds a seat and begins reviewing her exam notes as the bus pulls away. The bus glides to the next stop in its very own dedicated lane.");
