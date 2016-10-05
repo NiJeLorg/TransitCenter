@@ -306,7 +306,7 @@ a {
   width: 100%;
   height: auto;
   padding: 0;
-  margin: 50px 0;
+  margin: 20px 0;
 }
 .pick-section {
   width: 100%;
@@ -566,16 +566,12 @@ body {
 }
 #mini-buses {
   margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 #route-map {
   margin-top: 20px;
 }
 @media (min-width: 767px) {
-  #mini-buses {
-    margin-top: 85px;
-    margin-bottom: 0px;
-  }
   #route-map {
     margin-top: 0px;
   }

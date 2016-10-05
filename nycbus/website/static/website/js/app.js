@@ -262,7 +262,7 @@ app.createListeners = function () {
 
     $('#selectRoute').change(function() {
       // update map
-      $('#reportCardRouteName').text($(this).val());
+      $('#reportCardRouteName').text($(this).val().replace('+', ' SBS'));
       app.reportCardMap($(this).val());
       // update speed number and gauge
       app.updateSpeedGuageAndText($(this).val());
@@ -276,8 +276,7 @@ app.createListeners = function () {
 }
 
 app.randomPersona = function () {
-  //var randInt = app.getRandomInt(1,3);
-  randInt = 3;
+  var randInt = app.getRandomInt(1,3);
   if (randInt == 1) {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_grandma.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_grandma.png");
@@ -289,10 +288,21 @@ app.randomPersona = function () {
     $('#persona-3-a').attr("src","/static/website/css/images/sad_grandma.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_grandma.png");
     $('#persona-4').attr("src","/static/website/css/images/goal_grandma.png");
-    $('#personaDescriptionText').text("Meet Sophia, a grandparent patiently waiting for the bus to take them to their grandchild's birthday party.");
+    $('#personaDescriptionText').text("Meet Sophia, a retiree taking the bus to her grandson’s surprise birthday party, in her old neighborhood.");
     $('.personaName').text("Sophia");
     $('#personaPositiveThumbText').text("On the green maps below, follow along with Sophia as she has a smooth, reliable experiece with an updated New York City bus system.");
     $('#personaNegativeThumbText').text("On the red maps below, follow Sophia's challenging experiece with New York City's slow and unreliable bus system.");
+    $('#persona-1-a-text').text("Sophia gets to the bus stop 10 minutes early, as she always does when she needs to be somewhere on time. But the bus doesn’t arrive until nine minutes after it’s scheduled. Sophia has been waiting for almost 20 minutes!");
+    $('#persona-1-b-text').text("Sophia gets to the bus stop 10 minutes early, as she always does. The bus arrives right on time.");
+    $('#persona-1-5-a-text').text("More time ticks away as people pay one by one. A man keeps putting his MetroCard into the slot backwards, holding up the line until Sophia corrects him.");
+    $('#persona-1-5-b-text').text("Sophia takes her smartcard out of her purse and taps it at a reader at the front of the bus. A few people head to the back door, where there’s another smartcard reader.");
+    $('#persona-2-a-text').text("The bus is crowded. Someone gets up so Sophia can take a seat near the front of the bus, but it’s stressful to have so many people standing around her. She’s already worried about getting to the surprise party on time – and then the bus gets stuck in traffic.");
+    $('#persona-2-b-text').text("Sophia finds an empty seat near the front of the bus and starts reviewing what to discuss with her doctor. Even though traffic is heavy today, the bus has its own dedicated lane and keeps moving.");
+    $('#persona-3-5-a-text').text("The bus slowly makes its way toward her old neighborhood, stopping almost every block. Then it makes a large loop on several streets rather than going directly down the main avenue. \"Why?!?\" Sophia wonders.");
+    $('#persona-3-5-b-text').text("The bus makes its way toward her old neighborhood, stopping about every third block and running directly down the main avenue. The bus is making excellent time, Sophia thinks to herself.");
+    $('#persona-3-a-text').text("Forty minutes after she began her trip, Sophia gets off the bus and hustles towards her son’s house. She has probably missed the surprise and doesn’t want to miss another moment of her grandson’s celebration.");
+    $('#persona-3-b-text').text("Twenty-five minutes after she began her trip, Sophia gets off the bus. She’s early for the surprise party, so she takes a walk past some of her favorite parts of the old neighborhood.");
+
   } else if (randInt == 2) {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_nurse.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_nurse.png");
@@ -304,10 +314,21 @@ app.randomPersona = function () {
     $('#persona-3-a').attr("src","/static/website/css/images/sad_nurse.png");
     $('#persona-3-b').attr("src","/static/website/css/images/happy_nurse.png");
     $('#persona-4').attr("src","/static/website/css/images/goal_nurse.png");
-    $('#personaDescriptionText').text("Meet Daniel, a nurse patiently waiting for the bus to take them to the hospital where they work.");
+    $('#personaDescriptionText').text("Meet Daniel, a nurse waiting to catch the bus to get to work. He got up before sunrise to begin his commute, which involves an hour-long train ride and a transfer to the bus.");
     $('.personaName').text("Daniel");
     $('#personaPositiveThumbText').text("On the green maps below, follow along with Daniel as he has a smooth, reliable experiece with an updated New York City bus system.");
     $('#personaNegativeThumbText').text("On the red maps below, follow Daniel's challenging experiece with New York City's slow and unreliable bus system.");
+    $('#persona-1-a-text').text("Phew, there's the bus. It's 8 minutes late, and more than a dozen people are at the stop waiting to board.");
+    $('#persona-1-b-text').text("There it is! The bus arrives on schedule, a few minutes after Daniel reaches the bus stop. A handful of people are waiting at the stop, and it looks like there are enough seats on the bus for all of them.");
+    $('#persona-1-5-a-text').text("The riders waiting to board cluster around the front door and people begin entering, dipping their MetroCards one by one. One person starts paying in coins but doesn’t have enough, and has to dig in her purse to find another quarter.");
+    $('#persona-1-5-b-text').text("The people waiting at the stop split into two groups, boarding at the front and back doors. Everyone pays by tapping a smartcard on a reader placed near the door, so it takes just a few seconds.");
+    $('#persona-2-a-text').text("Daniel finds a place to stand near the back door and checks his watch. He has twenty minutes to reach the hospital, which is about a mile and a half away. After a few blocks, the bus slows to a halt, stuck behind a line of cars and trucks.");
+    $('#persona-2-b-text').text("Daniel finds a seat and begins reading the news as the bus pulls away. The bus glides to the next stop in its own dedicated lane, beating the traffic along the way.");
+    $('#persona-3-5-a-text').text("Daniel checks the time nervously and thinks about the day that awaits him at work. The bus slowly makes its way toward the hospital, stopping at what feels like every other block. Then, the bus turns right and makes a large loop on several different streets, instead of traveling straight down the main road. \"Why?!?\" Daniel wonders.");
+    $('#persona-3-5-b-text').text("The bus continues along a direct path toward the hospital, stopping at around every third block. Daniel is relieved to realize that he’s on time so far.");
+    $('#persona-3-a-text').text("22 minutes after boarding and nearly an hour and a half since beginning his commute, Daniel exits the bus and walks quickly toward the hospital. He'll be late.");
+    $('#persona-3-b-text').text("Fifteen minutes after boarding and about an hour and ten minutes since beginning his commute, Daniel exits the bus. He has enough time to buy an egg-and-cheese sandwich from the bakery across the street from the hospital, which feels like a small victory.");
+
   } else {
     $('#persona-image1').attr("src","/static/website/css/images/scene_start_student.png");
     $('#persona-image2').attr("src","/static/website/css/images/goal_student.png");
@@ -370,7 +391,7 @@ app.createReportCardDropdowns = function (route_id) {
 
     // loop through response to populate dropdown
     for (var i = 0; i < routeIDs.length; i++) {
-      var option = $('<option/>').attr({ 'value': routeIDs[i] }).text(routeIDs[i]);
+      var option = $('<option/>').attr({ 'value': routeIDs[i] }).text(routeIDs[i].replace('+', ' SBS'));
       if (routeIDs[i].charAt(0) === 'B' && routeIDs[i].charAt(1) === 'X' && routeIDs[i].charAt(2) === 'M' ) {
         $('#dropdownBXM').append(option);
       } else if (routeIDs[i].charAt(0) === 'B' && routeIDs[i].charAt(1) === 'X') {
@@ -386,7 +407,12 @@ app.createReportCardDropdowns = function (route_id) {
       } else if (routeIDs[i].charAt(0) === 'M') {
         $('#dropdownM').append(option);
       } else if (routeIDs[i].charAt(0) === 'S') {
-        $('#dropdownS').append(option);
+        // skip S81, S86, S91, S92, S94, S96, S98
+        if (routeIDs[i] == 'S81' || routeIDs[i] == 'S86' ||  routeIDs[i] == 'S91' || routeIDs[i] == 'S92' || routeIDs[i] == 'S94' || routeIDs[i] == 'S96' || routeIDs[i] == 'S98') {
+          //skip
+        } else {
+          $('#dropdownS').append(option);          
+        }
       } else {
         $('#dropdownX').append(option);
       }
@@ -502,10 +528,13 @@ app.initialDataBounds = function (route_id) {
   // min
   app.sqlclient.execute("SELECT min(speed), max(speed) FROM table_5150808763")
   .done(function(data) {
-    app.minSpeed = data.rows[0].min;
-    //app.minSpeed = 0;
+    //app.minSpeed = data.rows[0].min;
+    app.minSpeed = 0;
     app.maxSpeed = data.rows[0].max;
     // set color domain for text colors
+
+    //app.speedTextColorScale.domain([0,app.maxSpeed/10,app.maxSpeed/9,app.maxSpeed/8,app.maxSpeed/7,app.maxSpeed/6,app.maxSpeed/5,app.maxSpeed/4,app.maxSpeed/3,app.maxSpeed/2,app.maxSpeed]);
+    //app.speedTextColorScale.domain([0,2,4,6,8,10,12,14,16,18]);
     app.speedTextColorScale.domain([app.minSpeed, app.maxSpeed]);
     // load speed data on the initially selected route
     loadRouteSpeed();
@@ -560,7 +589,7 @@ app.initialDataBounds = function (route_id) {
   }
 
   // select min and max numbers for ridership data
-  app.sqlclient.execute("SELECT min(prop_bunched), max(prop_bunched) FROM bunching_10_2015")
+  app.sqlclient.execute("SELECT min(prop_bunched), max(prop_bunched) FROM bunching_10_2015_05_2016")
   .done(function(data) {
     app.minPropBunched = data.rows[0].min * 100;
     app.maxPropBunched = data.rows[0].max * 100;
@@ -601,11 +630,17 @@ app.bunchMarginColorScales = function () {
 }
 
 app.updateBunching = function(route_id) {
-    app.sqlclient.execute("SELECT * FROM bunching_10_2015 WHERE route_id = '"+ route_id +"'")
+    app.sqlclient.execute("SELECT * FROM bunching_10_2015_05_2016 WHERE route_id = '"+ route_id +"'")
     .done(function(data) {
-      app.propBunched = data.rows[0].prop_bunched * 100;
-      app.updateBunchingText();
-      app.updateBunchingGraphic();
+      if (typeof data.rows[0] === 'undefined') {
+        app.propBunched = 'N/A';
+        app.updateBunchingText();
+        app.updateBunchingGraphic();        
+      } else {
+        app.propBunched = data.rows[0].prop_bunched * 100;
+        app.updateBunchingText();
+        app.updateBunchingGraphic();        
+      }
     })
     .error(function(errors) {
       // errors contains a list of errors
@@ -615,22 +650,28 @@ app.updateBunching = function(route_id) {
 }
 
 app.updateBunchingText = function () {
-  $({countNum: $('#bunchedNumber').text().replace('%','')}).animate({countNum: app.propBunched}, {
-    duration: 1000,
-    easing:'linear',
-    step: function() {
-      if (this.countNum) {
+  if (app.propBunched == 'N/A') {
+    $('#bunchedNumber').text('N/A');
+    $('#bunchedNumber').css( "color", app.bunchTextColorScale(0) );
+  } else {
+    $({countNum: $('#bunchedNumber').text().replace('%','')}).animate({countNum: app.propBunched}, {
+      duration: 1000,
+      easing:'linear',
+      step: function() {
+        if (this.countNum) {
+          $('#bunchedNumber').text(parseFloat(this.countNum).toFixed(1) + '%');
+          $('#bunchedNumber').css( "color", app.bunchTextColorScale(this.countNum) );
+        } else {
+          $('#bunchedNumber').text('0%');
+        }
+      },
+      complete: function() {
         $('#bunchedNumber').text(parseFloat(this.countNum).toFixed(1) + '%');
         $('#bunchedNumber').css( "color", app.bunchTextColorScale(this.countNum) );
-      } else {
-        $('#bunchedNumber').text('0%');
       }
-    },
-    complete: function() {
-      $('#bunchedNumber').text(parseFloat(this.countNum).toFixed(1) + '%');
-      $('#bunchedNumber').css( "color", app.bunchTextColorScale(this.countNum) );
-    }
-  });
+    });    
+  }
+
 }
 
 /* 
@@ -717,7 +758,8 @@ app.updateBunchingGraphic = function () {
   margin4 = margin4 + 'px';
   margin3 = margin3 + 'px';
   margin2 = margin2 + 'px';
-  margin1 = margin1 + 'px';
+  //margin1 = margin1 + 'px';
+  margin1 = '0px';
 
   d3.select("#svgBus5").transition().duration(1000).style("margin-left", margin5);
   d3.select("#svgBus4").transition().duration(1000).style("margin-left", margin4);
@@ -730,15 +772,25 @@ app.updateBunchingGraphic = function () {
 app.updateRidership = function(route_id) {
     app.sqlclient.execute("SELECT * FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id = '"+ route_id +"'")
     .done(function(data) {
-      app.ridership = data.rows[0].year_2015;
-      app.ridershipNote = data.rows[0].note;
-      app.ridershipGroupRank = data.rows[0].group_rank_2015;
-      app.ridershipChangeProp = data.rows[0].prop_change_2010_2015 * 100;
-      app.ridershipGroupName = data.rows[0].grouping;
-      app.ridershipNotes = data.rows[0].note;
-      app.updateRidershipText();
-      app.updateRidershipRank();
-      app.updateRidershipChange();
+      if (typeof data.rows[0] === 'undefined') {
+        app.ridership ='N/A';
+        app.ridershipGroupRank = 'N/A';
+        app.ridershipChangeProp = 'N/A';
+        app.ridershipGroupName = 'N/A';
+        app.ridershipNotes = ''
+        app.updateRidershipText();
+        app.updateRidershipRank();
+        app.updateRidershipChange();
+      } else {
+        app.ridership = data.rows[0].year_2015;
+        app.ridershipGroupRank = data.rows[0].group_rank_2015;
+        app.ridershipChangeProp = data.rows[0].prop_change_2010_2015 * 100;
+        app.ridershipGroupName = data.rows[0].grouping;
+        app.ridershipNotes = data.rows[0].note;
+        app.updateRidershipText();
+        app.updateRidershipRank();
+        app.updateRidershipChange();
+      }
     })
     .error(function(errors) {
       // errors contains a list of errors
@@ -748,58 +800,72 @@ app.updateRidership = function(route_id) {
 }
 
 app.updateRidershipText = function () {
-  $({countNum: $('#ridershipNumber').text().replace(',','')}).animate({countNum: app.ridership}, {
-    duration: 1000,
-    easing:'linear',
-    step: function() {
-      if (this.countNum) {
+  if (app.ridership == 'N/A') {
+    $('#ridershipNumber').text('N/A');
+    $('#ridershipNumber').css( "color", app.ridershipTextColorScale(0) );
+  } else {
+    $({countNum: $('#ridershipNumber').text().replace(',','')}).animate({countNum: app.ridership}, {
+      duration: 1000,
+      easing:'linear',
+      step: function() {
+        if (this.countNum) {
+          $('#ridershipNumber').text(app.numberWithCommas(parseInt(this.countNum)));
+          $('#ridershipNumber').css( "color", app.ridershipTextColorScale(this.countNum) );
+        } else {
+          $('#ridershipNumber').text('0');
+        }
+      },
+      complete: function() {
         $('#ridershipNumber').text(app.numberWithCommas(parseInt(this.countNum)));
         $('#ridershipNumber').css( "color", app.ridershipTextColorScale(this.countNum) );
-      } else {
-        $('#ridershipNumber').text('0');
       }
-    },
-    complete: function() {
-      $('#ridershipNumber').text(app.numberWithCommas(parseInt(this.countNum)));
-      $('#ridershipNumber').css( "color", app.ridershipTextColorScale(this.countNum) );
-    }
-  });
+    });
+  }
   // also update the riderhsip notes field
   $('#ridershipNotes').text(app.ridershipNotes);
 }
 
 app.updateRidershipRank = function () {
-
-  // select max ranking for the group
-  app.sqlclient.execute("SELECT max(group_rank_2015) FROM mta_nyct_bus_avg_weekday_ridership WHERE grouping = '"+ app.ridershipGroupName +"'")
-  .done(function(data) {
-    app.maxRidershipGroup = data.rows[0].max;
-    $('#ridershipMaxRank').text(parseInt(app.maxRidershipGroup));
-    // set color domain for text colors
-    app.ridershipRankingTextColorScale.domain([1, app.maxRidershipGroup]);
+  if (app.ridershipGroupRank == 'N/A') {
+    $('#ridershipMaxRank').text('N/A');
     update();
-  })
-  .error(function(errors) {
-    console.log("errors:" + errors);
-  }); 
+  } else {
+    // select max ranking for the group
+    app.sqlclient.execute("SELECT max(group_rank_2015) FROM mta_nyct_bus_avg_weekday_ridership WHERE grouping = '"+ app.ridershipGroupName +"'")
+    .done(function(data) {
+      app.maxRidershipGroup = data.rows[0].max;
+      $('#ridershipMaxRank').text(parseInt(app.maxRidershipGroup));
+      // set color domain for text colors
+      app.ridershipRankingTextColorScale.domain([1, app.maxRidershipGroup]);
+      update();
+    })
+    .error(function(errors) {
+      console.log("errors:" + errors);
+    }); 
+  }
 
   function update() {
-    $({countNum: parseInt($('#ridershipRanking').text())}).animate({countNum: app.ridershipGroupRank}, {
-      duration: 1000,
-      easing:'linear',
-      step: function() {
-        if (this.countNum) {
+    if (app.ridershipGroupRank == 'N/A') {
+      $('#ridershipRanking').text('N/A');
+      $('#ridershipRanking').css( "color", app.ridershipRankingTextColorScale(0) );
+    } else {
+      $({countNum: parseInt($('#ridershipRanking').text())}).animate({countNum: app.ridershipGroupRank}, {
+        duration: 1000,
+        easing:'linear',
+        step: function() {
+          if (this.countNum) {
+            $('#ridershipRanking').text(app.ordinal_suffix_of(parseInt(this.countNum)));
+            $('#ridershipRanking').css( "color", app.ridershipRankingTextColorScale(this.countNum) );
+          } else {
+            $('#ridershipRanking').text('1');
+          }
+        },
+        complete: function() {
           $('#ridershipRanking').text(app.ordinal_suffix_of(parseInt(this.countNum)));
           $('#ridershipRanking').css( "color", app.ridershipRankingTextColorScale(this.countNum) );
-        } else {
-          $('#ridershipRanking').text('1');
         }
-      },
-      complete: function() {
-        $('#ridershipRanking').text(app.ordinal_suffix_of(parseInt(this.countNum)));
-        $('#ridershipRanking').css( "color", app.ridershipRankingTextColorScale(this.countNum) );
-      }
-    });   
+      }); 
+    }  
   }
 
   // update the group name
@@ -809,32 +875,37 @@ app.updateRidershipRank = function () {
 
 app.updateRidershipChange = function () {
   // instead of using the app.ridershipChangeTextColorScale, just show green if growth in ridership and red if loss in ridership
-  $({countNum: parseFloat($('#ridershipChange').text())}).animate({countNum: app.ridershipChangeProp}, {
-    duration: 1000,
-    easing:'linear',
-    step: function() {
-      if (this.countNum) {
+  if (app.ridershipChangeProp == 'N/A') {
+    $('#ridershipChange').text('N/A');
+    $('#ridershipChange').css( "color", '#3c763d' );
+  } else {
+    $({countNum: parseFloat($('#ridershipChange').text())}).animate({countNum: app.ridershipChangeProp}, {
+      duration: 1000,
+      easing:'linear',
+      step: function() {
+        if (this.countNum) {
+          if (this.countNum >= 0) {
+            $('#ridershipChange').text(parseFloat(this.countNum).toFixed(1) + '% increase');
+            $('#ridershipChange').css( "color", '#3c763d' );
+          } else {
+            $('#ridershipChange').text(Math.abs(parseFloat(this.countNum)).toFixed(1) + '% decrease');
+            $('#ridershipChange').css( "color", '#a94442' );          
+          }
+        } else {
+          $('#ridershipChange').text('0% increase');
+        }
+      },
+      complete: function() {
         if (this.countNum >= 0) {
           $('#ridershipChange').text(parseFloat(this.countNum).toFixed(1) + '% increase');
           $('#ridershipChange').css( "color", '#3c763d' );
         } else {
-          $('#ridershipChange').text(Math.abs(parseFloat(this.countNum)).toFixed(1) + '% decrease');
+          $('#ridershipChange').text(Math.abs(parseFloat(this.countNum)).toFixed(1) + '% decrease');          
           $('#ridershipChange').css( "color", '#a94442' );          
         }
-      } else {
-        $('#ridershipChange').text('0% increase');
       }
-    },
-    complete: function() {
-      if (this.countNum >= 0) {
-        $('#ridershipChange').text(parseFloat(this.countNum).toFixed(1) + '% increase');
-        $('#ridershipChange').css( "color", '#3c763d' );
-      } else {
-        $('#ridershipChange').text(Math.abs(parseFloat(this.countNum)).toFixed(1) + '% decrease');          
-        $('#ridershipChange').css( "color", '#a94442' );          
-      }
-    }
-  });
+    });
+  }
 }
 
 app.initializeSpeedGauge = function() {
@@ -844,8 +915,8 @@ app.initializeSpeedGauge = function() {
     clipWidth: 200,
     clipHeight: 120,
     ringWidth: 60,
-    minValue: Math.floor(app.minSpeed),
-    maxValue: Math.ceil(app.maxSpeed),
+    minValue: 0,
+    maxValue: 16,
     transitionMs: 2000,
     majorTicks: 500,
     pointerHeadLengthPercent: 0.85,
@@ -860,12 +931,18 @@ app.initializeSpeedGauge = function() {
 app.updateSpeedGuageAndText = function(route_id) {
   app.sqlclient.execute("SELECT speed FROM table_5150808763 WHERE route_id = '"+ route_id +"'")
   .done(function(data) {
-    app.routeSpeed = data.rows[0].speed.toFixed(1);
-    // update speed number and gauge
-    app.updateSpeedText(app.routeSpeed);
-    if (typeof app.speedGaugeObject !== 'undefined') {
-      app.speedGaugeObject.update(app.routeSpeed);
-    }   
+    if (typeof data.rows[0] === 'undefined') {
+      app.updateSpeedText('N/A');
+      app.speedGaugeObject.update(0);
+    } else {
+      app.routeSpeed = data.rows[0].speed.toFixed(1);
+      // update speed number and gauge
+      app.updateSpeedText(app.routeSpeed);
+      if (typeof app.speedGaugeObject !== 'undefined') {
+        app.speedGaugeObject.update(app.routeSpeed);
+      }       
+    }
+  
   })
   .error(function(errors) {
     // errors contains a list of errors
@@ -874,22 +951,28 @@ app.updateSpeedGuageAndText = function(route_id) {
 }
 
 app.updateSpeedText = function (newSpeed) {
-  $({countNum: $('#speedNumber').text()}).animate({countNum: newSpeed}, {
-    duration: 1000,
-    easing:'linear',
-    step: function() {
-      if (this.countNum) {
+  if (newSpeed == 'N/A') {
+    $('#speedNumber').text(newSpeed);
+    $('#speedNumber').css( "color", app.speedTextColorScale(0) );
+  } else {
+    $({countNum: $('#speedNumber').text()}).animate({countNum: newSpeed}, {
+      duration: 1000,
+      easing:'linear',
+      step: function() {
+        if (this.countNum) {
+          $('#speedNumber').text(parseFloat(this.countNum).toFixed(1));
+          $('#speedNumber').css( "color", app.speedTextColorScale(this.countNum) );
+        } else {
+          $('#speedNumber').text('0');
+        }
+      },
+      complete: function() {
         $('#speedNumber').text(parseFloat(this.countNum).toFixed(1));
         $('#speedNumber').css( "color", app.speedTextColorScale(this.countNum) );
-      } else {
-        $('#speedNumber').text('0');
       }
-    },
-    complete: function() {
-      $('#speedNumber').text(parseFloat(this.countNum).toFixed(1));
-      $('#speedNumber').css( "color", app.speedTextColorScale(this.countNum) );
-    }
-  });
+    });    
+  }
+
 }
 
 app.speedGauge = function (container, configuration) {
@@ -1024,23 +1107,25 @@ app.speedGauge = function (container, configuration) {
     
     var avgSpeed = config.maxValue/2;
     //var labels = [['6%','Slowest'],['27%', 'Median Bus'],['49%', 'Fastest']];
-    var labels = [['9.5%','Slowest Bus'],['45.5%', 'Fastest Bus']];
+    //var labels = [['9.5%','Slowest Bus'],['45.5%', 'Fastest Bus']];
+    ticks = [1, 3, 5, 7, 9, 11, 13, 15]
     var lg = svg.append('g')
         .attr('class', 'label')
         .attr('transform', centerTx);
     lg.selectAll('text')
-        .data(labels)
+        .data(ticks)
       .enter().append('text')
-/*        .attr('transform', function(d) {
-          console.log(d[0]);
-          var ratio = scale(d[0]);
+        .attr('transform', function(d) {
+          //console.log(d[0]);
+          var ratio = scale(d);
           var newAngle = config.minAngle + (ratio * range);
           return 'rotate(' +newAngle +') translate(0,' +(config.labelInset - r) +')';
-        })*/
-        .append("textPath")
+        })
+        .text(config.labelFormat);
+/*        .append("textPath")
         .attr('startOffset', function(d) { return d[0] })
         .attr("xlink:href", "#curve")
-        .text(function(d) { return d[1] });
+        .text(function(d) { return d[1] });*/
 
 
     var lineData = [ [config.pointerWidth / 2, 0], 
@@ -1428,50 +1513,50 @@ app.ordinal_suffix_of = function (i) {
 
 
 // color ranges for text. Set domains based on data above
-app.speedTextColorScale = d3.scale.linear()
-  .range(['#a94442','#3c763d']);
+app.speedTextColorScale = d3.scale.quantize()
+  .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
 
-app.ridershipTextColorScale = d3.scale.linear()
-  .range(['#a94442','#3c763d']);
+app.ridershipTextColorScale = d3.scale.quantize()
+  .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
 
-app.ridershipRankingTextColorScale = d3.scale.linear()
-  .range(['#3c763d','#a94442']);
+app.ridershipRankingTextColorScale = d3.scale.quantize()
+  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.ridershipChangeTextColorScale = d3.scale.linear()
-  .range(['#a94442','#3c763d']);
+app.ridershipChangeTextColorScale = d3.scale.quantize()
+  .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
 
-app.bunchTextColorScale = d3.scale.linear()
-  .range(['#3c763d','#a94442']);
+app.bunchTextColorScale = d3.scale.quantize()
+  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus1ColorScale = d3.scale.linear()
-  .range(['#3c763d','#a94442']);
+app.bus1ColorScale = d3.scale.quantize()
+  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus2ColorScale = d3.scale.linear()
-  .range(['#3c763d','#a94442']);
+app.bus2ColorScale = d3.scale.quantize()
+  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus3ColorScale = d3.scale.linear()
-  .range(['#3c763d','#a94442']);
+app.bus3ColorScale = d3.scale.quantize()
+  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus4ColorScale = d3.scale.linear()
-  .range(['#3c763d','#a94442']);
+app.bus4ColorScale = d3.scale.quantize()
+  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus5ColorScale = d3.scale.linear()
-  .range(['#3c763d','#a94442']);
+app.bus5ColorScale = d3.scale.quantize()
+  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
 app.bus1MarginScale = d3.scale.linear()
-  .range([20, 2]);
+  .range([30, 2]);
 
 app.bus2MarginScale = d3.scale.linear()
-  .range([20, 2]);
+  .range([30, 2]);
 
 app.bus3MarginScale = d3.scale.linear()
-  .range([20, 2]);
+  .range([30, 2]);
 
 app.bus4MarginScale = d3.scale.linear()
-  .range([20, 2]);
+  .range([30, 2]);
 
 app.bus5MarginScale = d3.scale.linear()
-  .range([20, 2]);
+  .range([30, 2]);
 
 
 // share buttons
@@ -1479,8 +1564,8 @@ app.updateShareButtons = function (route_id) {
   // set up twitter and facebook URLs
   var app_id = '1581540325487727';
   var fbdescription = "Here's the report card for the " + route_id + " bus in NYC. Check out and compare your bus here!";
-  var fblink = "http://busfix.nyc/?route="+route_id;
-  var fbpicture = "http://busfix.nyc/static/website/css/images/report_card_fb.png";
+  var fblink = "http://busturnaround.nyc/?route="+route_id;
+  var fbpicture = "http://busturnaround.nyc/static/website/css/images/report_card_fb.png";
   var fbname = "This is the report card for the "+route_id;
   var fbcaption = "TransitCenter";
   var fbUrl = 'https://www.facebook.com/dialog/feed?app_id=' + app_id + '&display=popup&description='+ encodeURIComponent(fbdescription) + '&link=' + encodeURIComponent(fblink) + '&redirect_uri=' + encodeURIComponent(fblink) + '&name=' + encodeURIComponent(fbname) + '&caption=' + encodeURIComponent(fbcaption) + '&picture=' + encodeURIComponent(fbpicture);
@@ -1489,7 +1574,7 @@ app.updateShareButtons = function (route_id) {
   $('#showShareFB').attr("onclick", fbOnclick);
 
 
-  var twitterlink = "http://busfix.nyc/?route="+route_id;
+  var twitterlink = "http://busturnaround.nyc/?route="+route_id;
   var via = 'TransitCenter';
   var twittercaption = "Here's the report card for the " + route_id + " bus in NYC. Check out and compare your bus here!";
   var twitterUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(twitterlink) + '&via='+ encodeURIComponent(via) + '&text=' + encodeURIComponent(twittercaption);
