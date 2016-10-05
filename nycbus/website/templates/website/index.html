@@ -510,10 +510,15 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h3>Ridership</h3>
-                          <h4>
-                            <span id="ridershipNumber" class="text-success">0</span> <small>riders per day, ranking </small> 
-                            <span id="ridershipRanking" class="text-success">1</span><small> out of</small> <span id="ridershipMaxRank"></span> <small><span id="ridershipGroup"></span> routes. This represents a </small><span id="ridershipChange" class="text-success">0% increase</span> <small>since 2010.</small>
-                          </h4>
+                          <div id="ridershipData">
+                            <h4>
+                              <span id="ridershipNumber" class="text-success">0</span> <small>riders per day, ranking </small> 
+                              <span id="ridershipRanking" class="text-success">1</span><small> out of</small> <span id="ridershipMaxRank"></span> <small><span id="ridershipGroup"></span> routes. This represents a </small><span id="ridershipChange" class="text-success">0% increase</span> <small>since 2010.</small>
+                            </h4>
+                          </div>
+                          <div id="noRidershipData" class="hidden">
+                            <h4>Unfortunately, there are no ridership data for this route.</h4>
+                          </div>
                           <h5><span id="ridershipNotes"></span></h5>
                         </div>
                       </div>
@@ -531,7 +536,7 @@
                   </div>
                   <div class="row">
                     <div class="col-sm-12 text-right">
-                      <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodolgy</a></span>
+                      <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
                     </div>
                   </div>
                 </div>
@@ -543,21 +548,64 @@
   </section>
 
   <section id="resources" class="intro resources-section">
-      <div class="intro-body">
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-8 col-md-offset-2">
+      <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+              <h1 class="white-heading margin-left-12">Resources</h1>
+            </div>
+            <div class="col-sm-12">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="card margin-top-20">
+                      <h4>Get Involved!</h4>
+                      <p>Tell Riders Alliance about your "<a href='http://ridersny.org/buswoes'>Woes on the Bus</a>"</p>
+                      <p>Read our report, "<a href='http://transitcenter.org/programs/nyc/turnaround/'>Turnaround: Fixing New York City's Buses</a>"</p>
+                      <p>Watch Streetfilms' "<a href='http://transitcenter.org/programs/nyc/turnaround/'>NYC Buses: Time for a Turnaround</a>"</p>
+                    </div>
+                    <div class="card margin-top-20">
+                      <h4>Mission</h4>
+                      <p>The Bus Turnaround Coalition is a group of diverse New Yorkers determined to turn around the poor service that plagues the city's bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
+                    </div>
                   </div>
+                  <div class="col-sm-8">
+                    <div class="card margin-top-20">
+                      <h4>Acknowledgements</h4>
+                      <p>The Bus Turnaround Coalition is indebted to Nathan Johnson, whose knowledge of the MTA's Bus Time data is likely unparalleled outside the walls of the MTA itself. Nathan volunteered countless hours of his own personal time going back to August 2014 in order to better understand the need for improved bus service in New York City. Without his extraordinary patience and technical expertise the data analysis upon which this campaign is built would not have been possible. Neil Freeman and Kuan Butts have also made valuable contributions to further this analysis and make it accessible to the public. </p>
+                      <p>Nathan's talents may never have been applied to these data without a call to action from City Councilman Ben Kallos, a true champion of bus riders in New York's Fifth District and beyond, and who continues to support this campaign. We also owe thanks to BetaNYC, who created the space for Councilman Kallos to pitch Nathan and others on the idea of using Bus Time data to measure bus performance, and continues to create opportunities for civic technologists to improve the lives of New Yorkers in many other ways. </p>
+                      <p>This website is built by the extremely capable hands of JD Godchaux and Lela Prashad of <a href="http://nijel.org/">NiJeL</a>, in partnership with and using technology from <a href="http://carto.com/">CARTO</a>, and with design support from <a href="http://www.objectivesubject.com/">Objective Subject</a> and illustrations by Max Halton. The website's concept and content was developed by the Bus Turnaround Coalition, including Zak Accuardi, Tabitha Decker, Chris Pangilinan, Steven Higashide, Jon Orcutt, and Al Beatty; Nick Sifuentes, John Raskin, and Stephanie Veras of Riders Alliance; Veronica Vanterpool and Vincent Pellecchia of Tri-State Transportation Campaign; and Gene Russianoff and Jaqi Cohen of New York Public Interest Research Group's Straphangers Campaign. </p>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
           </div>
       </div>
   </section>
 
   <!-- Footer -->
   <footer>
-      <div class="container text-center">
-      	  <p><a href="http://transitcenter.org/2016/07/20/fixing-new-yorks-buses/">Check out our Turnaround report!</a></p>
-          <p>Copyright &copy; <a href="http://transitcenter.org/">TransitCenter</a> 2016</p>
+      <div class="container-fluid text-center">
+        <div class="row">
+          <div class="col-sm-3 margin-top-20">
+            <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
+          </div>
+          <div class="col-sm-3 margin-top-20">
+            <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
+          </div>
+          <div class="col-sm-3 margin-top-20">
+            <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
+          </div>
+          <div class="col-sm-3 margin-top-20">
+            <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 margin-top-20">
+            <p class="white-heading">Copyright &copy; <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}</p>
+          </div>
+        </div>
+
       </div>
   </footer>
 

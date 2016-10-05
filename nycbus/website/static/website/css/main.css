@@ -209,7 +209,7 @@ a {
   display: table-cell;
   vertical-align: middle;
 }
-.intro .intro-body .card {
+.card {
   width: 100%;
   height: auto;
   padding: 20px;
@@ -300,7 +300,7 @@ a {
   }
 }
 .resources-section {
-  padding-top: 100px;
+  padding: 50px 0;  
 }
 .ride-section {
   width: 100%;
@@ -320,7 +320,7 @@ a {
 }
 @media (min-width: 767px) {
   .resources-section {
-    padding-top: 250px;
+    padding: 70px 0;
   }
   .pick-section {
     padding: 100px 0;
@@ -440,7 +440,8 @@ a {
   transition: all 0.3s ease-in-out;
 }
 footer {
-  padding: 50px 0;
+  padding: 30px 0;
+  background-color: #555;
 }
 footer p {
   margin: 0;
@@ -579,6 +580,10 @@ body {
 .bus_icon path {
   fill: inherit;
 }
+.white-heading{
+  color: #fff;
+}
+
 /* generic margins and padding */
 .margin-top-5vh {
   margin-top: 10px;
@@ -600,6 +605,12 @@ body {
 }
 .margin-left-20 {
   margin-left: 0;
+}
+.margin-left-12 {
+  margin-left: 0;
+}
+.margin-right-12 {
+  margin-right: 0;
 }
 .margin-right-10 {
   margin-right: 10px;
@@ -625,6 +636,12 @@ body {
   }
   .margin-left-20 {
     margin-left: 20px;
+  }
+  .margin-left-12 {
+    margin-left: 12px;
+  }
+  .margin-right-12 {
+    margin-right: 12px;
   }
 }
 .btn-facebook {

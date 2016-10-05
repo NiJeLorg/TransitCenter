@@ -263,6 +263,9 @@ app.createListeners = function () {
     $('#selectRoute').change(function() {
       // update map
       $('#reportCardRouteName').text($(this).val().replace('+', ' SBS'));
+      if ($(this).val() == 'M60' || $(this).val() == 'M86') {
+        $('#reportCardRouteName').text($(this).val() + ' SBS');
+      }
       app.reportCardMap($(this).val());
       // update speed number and gauge
       app.updateSpeedGuageAndText($(this).val());
@@ -290,14 +293,14 @@ app.randomPersona = function () {
     $('#persona-4').attr("src","/static/website/css/images/goal_grandma.png");
     $('#personaDescriptionText').text("Meet Sophia, a retiree taking the bus to her grandson's surprise birthday party, in her old neighborhood.");
     $('.personaName').text("Sophia");
-    $('#personaPositiveThumbText').text("On the green maps below, follow along with Sophia as she has a smooth, reliable experiece with an updated New York City bus system.");
-    $('#personaNegativeThumbText').text("On the red maps below, follow Sophia's challenging experiece with New York City's slow and unreliable bus system.");
+    $('#personaPositiveThumbText').text("On the green maps below, follow along with Sophia as she has a smooth, reliable experience with an updated New York City bus system.");
+    $('#personaNegativeThumbText').text("On the red maps below, follow Sophia's challenging experience with New York City's slow and unreliable bus system.");
     $('#persona-1-a-text').text("Sophia gets to the bus stop 10 minutes early, as she always does when she needs to be somewhere on time. But the bus doesn't arrive until nine minutes after it's scheduled. Sophia has been waiting for almost 20 minutes!");
     $('#persona-1-b-text').text("Sophia gets to the bus stop 10 minutes early, as she always does. The bus arrives right on time.");
     $('#persona-1-5-a-text').text("More time ticks away as people pay one by one. A man keeps putting his MetroCard into the slot backwards, holding up the line until Sophia corrects him.");
     $('#persona-1-5-b-text').text("Sophia takes her smartcard out of her purse and taps it at a reader at the front of the bus. A few people head to the back door, where there's another smartcard reader.");
     $('#persona-2-a-text').text("The bus is crowded. Someone gets up so Sophia can take a seat near the front of the bus, but it's stressful to have so many people standing around her. She's already worried about getting to the surprise party on time – and then the bus gets stuck in traffic.");
-    $('#persona-2-b-text').text("Sophia finds an empty seat near the front of the bus and starts reviewing what to discuss with her doctor. Even though traffic is heavy today, the bus has its own dedicated lane and keeps moving.");
+    $('#persona-2-b-text').text("Sophia finds an empty seat near the front of the bus and starts thinking about all of the family members who will be at the party. Even though traffic is heavy today, the bus has its own dedicated lane and keeps moving.");
     $('#persona-3-5-a-text').text("The bus slowly makes its way toward her old neighborhood, stopping almost every block. Then it makes a large loop on several streets rather than going directly down the main avenue. \"Why?!?\" Sophia wonders.");
     $('#persona-3-5-b-text').text("The bus makes its way toward her old neighborhood, stopping about every third block and running directly down the main avenue. The bus is making excellent time, Sophia thinks to herself.");
     $('#persona-3-a-text').text("Forty minutes after she began her trip, Sophia gets off the bus and hustles towards her son's house. She has probably missed the surprise and doesn't want to miss another moment of her grandson's celebration.");
@@ -316,8 +319,8 @@ app.randomPersona = function () {
     $('#persona-4').attr("src","/static/website/css/images/goal_nurse.png");
     $('#personaDescriptionText').text("Meet Daniel, a nurse waiting to catch the bus to get to work. He got up before sunrise to begin his commute, which involves an hour-long train ride and a transfer to the bus.");
     $('.personaName').text("Daniel");
-    $('#personaPositiveThumbText').text("On the green maps below, follow along with Daniel as he has a smooth, reliable experiece with an updated New York City bus system.");
-    $('#personaNegativeThumbText').text("On the red maps below, follow Daniel's challenging experiece with New York City's slow and unreliable bus system.");
+    $('#personaPositiveThumbText').text("On the green maps below, follow along with Daniel as he has a smooth, reliable experience with an updated New York City bus system.");
+    $('#personaNegativeThumbText').text("On the red maps below, follow Daniel's challenging experience with New York City's slow and unreliable bus system.");
     $('#persona-1-a-text').text("Phew, there's the bus. It's 8 minutes late, and more than a dozen people are at the stop waiting to board.");
     $('#persona-1-b-text').text("There it is! The bus arrives on schedule, a few minutes after Daniel reaches the bus stop. A handful of people are waiting at the stop, and it looks like there are enough seats on the bus for all of them.");
     $('#persona-1-5-a-text').text("The riders waiting to board cluster around the front door and people begin entering, dipping their MetroCards one by one. One person starts paying in coins but doesn't have enough, and has to dig in her purse to find another quarter.");
@@ -342,12 +345,12 @@ app.randomPersona = function () {
     $('#persona-4').attr("src","/static/website/css/images/goal_student.png");
     $('.personaName').text("Olivia");
     $('#personaDescriptionText').text("Meet Olivia, a student on her way to take her final exams. She's waiting for the bus.");
-    $('#personaPositiveThumbText').text("On the green maps below, follow along with Olivia as she has a smooth, reliable experiece with an updated New York City bus system.");
-    $('#personaNegativeThumbText').text("On the red maps below, follow Olivia's challenging experiece with New York City's slow and unreliable bus system.");
+    $('#personaPositiveThumbText').text("On the green maps below, follow along with Olivia as she has a smooth, reliable experience with an updated New York City bus system.");
+    $('#personaNegativeThumbText').text("On the red maps below, follow Olivia's challenging experience with New York City's slow and unreliable bus system.");
     $('#persona-1-a-text').text("Olivia's bus is already 10 minutes late. Phew, there it is. The bus pulls up and it's pretty full. There are a bunch of other people at her stop waiting to board.");
     $('#persona-1-b-text').text("There it is! The bus arrives on schedule, a few minutes after Olivia reached the bus stop. There are seats remaining. ");
     $('#persona-1-5-a-text').text("The group clusters around the front door and people begin entering, dipping their MetroCards one by one. Now someone is paying in coins. Clink, clink, click, at least 20 coins!");
-    $('#persona-1-5-b-text').text("The handful of people waiting a the stop with Olivia split into two groups, a few people board through the front door and a few board through the back door. This takes just seconds as everyone pays by tapping a smartcard on a reader placed near the door.");
+    $('#persona-1-5-b-text').text("The handful of people waiting at the stop with Olivia split into two groups, a few people board through the front door and a few board through the back door. This takes just seconds as everyone pays by tapping a smartcard on a reader placed near the door.");
     $('#persona-2-a-text').text("Olivia finds a seat in the back and begins reviewing her exam notes as the bus pulls away. After a few blocks, the bus slows to a halt. Ugh, it's now stuck in traffic.");
     $('#persona-2-b-text').text("Olivia finds a seat and begins reviewing her exam notes as the bus pulls away. The bus glides to the next stop in its very own dedicated lane.");
     $('#persona-3-5-a-text').text("Olivia checks the time nervously and tries to focus on her notes. The bus slowly makes its way toward the subway, stopping at what feels like every other block. Then, they wind through a part of the route where the bus makes a loop around a few blocks rather than traveling straight down the main road. \"Why?!?\" Olivia wonders.");
@@ -392,6 +395,10 @@ app.createReportCardDropdowns = function (route_id) {
     // loop through response to populate dropdown
     for (var i = 0; i < routeIDs.length; i++) {
       var option = $('<option/>').attr({ 'value': routeIDs[i] }).text(routeIDs[i].replace('+', ' SBS'));
+      // ensure M60 and M86 are tagged as SBS
+      if (routeIDs[i] == 'M60' || routeIDs[i] == 'M86') {
+        option = $('<option/>').attr({ 'value': routeIDs[i] }).text(routeIDs[i] + ' SBS');
+      }
       if (routeIDs[i].charAt(0) === 'B' && routeIDs[i].charAt(1) === 'X' && routeIDs[i].charAt(2) === 'M' ) {
         $('#dropdownBXM').append(option);
       } else if (routeIDs[i].charAt(0) === 'B' && routeIDs[i].charAt(1) === 'X') {
@@ -615,11 +622,20 @@ app.bunchMarginColorScales = function () {
   app.fourthFifth = app.minPropBunched + (app.oneFifthPropBunched * 4);
   app.fifthFifth = app.minPropBunched + (app.oneFifthPropBunched * 5);
 
+/* Changing to one color scale for all buses
   app.bus5ColorScale.domain([app.minPropBunched, app.firstFifth]);
   app.bus4ColorScale.domain([app.firstFifth, app.secondFifth]);
   app.bus3ColorScale.domain([app.secondFifth, app.thirdFifth]);
   app.bus2ColorScale.domain([app.thirdFifth, app.fourthFifth]);
   app.bus1ColorScale.domain([app.fourthFifth, app.fifthFifth]);
+*/
+
+  app.bus5ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
+  app.bus4ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
+  app.bus3ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
+  app.bus2ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
+  app.bus1ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
+
 
   app.bus5MarginScale.domain([app.minPropBunched, app.firstFifth]);
   app.bus4MarginScale.domain([app.firstFifth, app.secondFifth]);
@@ -687,61 +703,61 @@ app.updateBunchingGraphic = function () {
     var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.propBunched);
 
-    var color4 = app.bus4ColorScale(app.firstFifth);
+    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.firstFifth);
-    var color3 = app.bus3ColorScale(app.secondFifth);
+    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.secondFifth);
-    var color2 = app.bus2ColorScale(app.thirdFifth);
+    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.thirdFifth);
-    var color1 = app.bus1ColorScale(app.fourthFifth);
+    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.fourthFifth);
   } else if (app.propBunched <= app.secondFifth) {
-    var color5 = app.bus5ColorScale(app.firstFifth);
+    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.firstFifth);
 
     var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.propBunched);
 
-    var color3 = app.bus3ColorScale(app.secondFifth);
+    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.secondFifth);
-    var color2 = app.bus2ColorScale(app.thirdFifth);
+    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.thirdFifth);
-    var color1 = app.bus1ColorScale(app.fourthFifth);
+    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.fourthFifth);
   } else if (app.propBunched <= app.thirdFifth) {
-    var color5 = app.bus5ColorScale(app.firstFifth);
+    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.firstFifth);
-    var color4 = app.bus4ColorScale(app.secondFifth);
+    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.secondFifth);
 
     var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.propBunched);
 
-    var color2 = app.bus2ColorScale(app.thirdFifth);
+    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.thirdFifth);
-    var color1 = app.bus1ColorScale(app.fourthFifth);
+    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.fourthFifth);
   } else if (app.propBunched <= app.fourthFifth) {
-    var color5 = app.bus5ColorScale(app.firstFifth);
+    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.firstFifth);
-    var color4 = app.bus4ColorScale(app.secondFifth);
+    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.secondFifth);
-    var color3 = app.bus3ColorScale(app.thirdFifth);
+    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.thirdFifth);
 
     var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.propBunched);
 
-    var color1 = app.bus1ColorScale(app.fourthFifth);
+    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.fourthFifth);
   } else {
-    var color5 = app.bus5ColorScale(app.firstFifth);
+    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.firstFifth);
-    var color4 = app.bus4ColorScale(app.secondFifth);
+    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.secondFifth);
-    var color3 = app.bus3ColorScale(app.thirdFifth);
+    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.thirdFifth);
-    var color2 = app.bus2ColorScale(app.fourthFifth);
+    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.fourthFifth);
 
     var color1 = app.bus1ColorScale(app.propBunched);
@@ -801,9 +817,14 @@ app.updateRidership = function(route_id) {
 
 app.updateRidershipText = function () {
   if (app.ridership == 'N/A') {
+    // no riderhip data
+    $('#ridershipData').addClass('hidden');
+    $('#noRidershipData').removeClass('hidden');
     $('#ridershipNumber').text('N/A');
     $('#ridershipNumber').css( "color", app.ridershipTextColorScale(0) );
   } else {
+    $('#ridershipData').removeClass('hidden');
+    $('#noRidershipData').addClass('hidden');
     $({countNum: $('#ridershipNumber').text().replace(',','')}).animate({countNum: app.ridership}, {
       duration: 1000,
       easing:'linear',
