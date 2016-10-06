@@ -591,7 +591,14 @@ body {
 .white-heading{
   color: #fff;
 }
-
+.selectRoute {
+  font-size: 24px;
+}
+@media (min-width: 767px) {
+  .selectRoute {
+    font-size: inherit;
+  }
+}
 /* generic margins and padding */
 .margin-top-5vh {
   margin-top: 10px;

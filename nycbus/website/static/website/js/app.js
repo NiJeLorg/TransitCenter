@@ -433,17 +433,23 @@ app.createReportCardDropdowns = function (route_id) {
 
     }
 
-    // when doen create select2 menu
-    app.selectRouteMenu = $("#selectRoute").select2();
+    // when done create select2 menu
+    // if mobile, skip setting up select 2
+    if (($('body')).width() < 767) {
+      $("#selectRoute").val(route_id);
+    } else {
+      app.selectRouteMenu = $("#selectRoute").select2();
 
-    app.selectRouteMenu.on("select2:open", function (e) { 
-      // add type bx placeholder text
-      $(".select2-search__field").attr("placeholder", "Start typing a bus route here to search.");
-    });
+      app.selectRouteMenu.on("select2:open", function (e) { 
+        // add type bx placeholder text
+        $(".select2-search__field").attr("placeholder", "Start typing a bus route here to search.");
+      });
 
+      // set first route 
+      app.selectRouteMenu.val(route_id).trigger("change");
+      
+    }
 
-    // set first route 
-    app.selectRouteMenu.val(route_id).trigger("change");
     
   })
   .error(function(errors) {
