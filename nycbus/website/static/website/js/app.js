@@ -69,9 +69,6 @@ app.scrollingInteractions = function () {
       var left_3_b = '46%';
       var top_4 = '60vh';
       var left_4 = '46%';
-      // for now hide 
-      // for now hide mini buses
-      $('.bus-animation-wrapper').addClass('hidden');
     } else if (($('body')).width() < 1200) {
       // tablet
       var top_2_a = '32vh';
@@ -106,143 +103,151 @@ app.scrollingInteractions = function () {
     }
 
     // set up traslations for bus-animations
-    var element = 'bus-animation-1-a';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_a = (scrollY - offsetTop) * 1.2;
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '3vh', 'left': '16%'});        
-
+    // but not for mobile!
+    if (($('body')).width() < 767) { 
+      // for now hide mini buses
+      $('.bus-animation-wrapper').addClass('hidden');
     } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '3vh', 'left': '16%'});      
-    }
+      var element = 'bus-animation-1-a';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_1_a = (scrollY - offsetTop) * 1.2;
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '3vh', 'left': '16%'});        
 
-    var element = 'bus-animation-1-b';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_1_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_b = (scrollY - offsetTop) * 1.5;
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_b) + 'px)', 'top': '1vh', 'left': '16%'});
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '1vh', 'left': '16%'});      
-    }
-
-    var element = 'bus-animation-1-5-a';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_1_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_5_a = (scrollY - offsetTop);
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_a) + 'px)', 'top': '20vh', 'left': '16%'});        
-
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
-    }
-
-    var element = 'bus-animation-1-5-b';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_1_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_5_b = (scrollY - offsetTop);
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_b) + 'px)', 'top': '20vh', 'left': '16%'});        
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
-    }
-
-    var element = 'bus-animation-2-a';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_2_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        if (top_2_a == '20vh') {
-          app.dest_2_a = (scrollY - offsetTop);
-          app.dest_2_a_X = app.dest_2_a;
-        } else {
-          app.dest_2_a = (scrollY - offsetTop) * 1.2;
-          app.dest_2_a_X = app.dest_2_a/7;
-        } 
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_2_a) + 'px) translateX(' + parseInt(app.dest_2_a_X) + 'px)', 'top': top_2_a, 'left': left_2_a});        
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_2_a, 'left': left_2_a});      
-    }
-
-    var element = 'bus-animation-2-b';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_2_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_2_b = (scrollY - offsetTop) * 1.5;
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_2_b) + 'px)', 'top': top_2_b, 'left': left_2_b});        
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_2_b, 'left': left_2_b});      
-    }
-
-    var element = 'bus-animation-3-5-a';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_3_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-          app.dest_3_5_a = (scrollY - offsetTop) * 1.2;
-          app.dest_3_5_a_X = app.dest_3_5_a/7;
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_a) + 'px) translateX(' + parseInt(app.dest_3_5_a_X) + 'px)', 'top': top_3_5_a, 'left': left_3_5_a});        
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_3_5_a, 'left': left_3_5_a});      
-    }
-
-    var element = 'bus-animation-3-5-b';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_3_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_3_5_b = (scrollY - offsetTop) * 1.5;
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_b) + 'px)', 'top': top_3_5_b, 'left': left_3_5_b});        
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_5_b, 'left': left_3_5_b});      
-    }
-
-    var element = 'bus-animation-3-a';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_3_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-          app.dest_3_a = (scrollY - offsetTop) * 1.2;
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_a) + 'px)', 'top': top_3_a, 'left': left_3_a});        
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_a, 'left': left_3_a});      
-    }
-
-    var element = 'bus-animation-3-b';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_3_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_3_b = (scrollY - offsetTop) * 1.5;
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_b) + 'px)', 'top': top_3_b, 'left': left_3_b});        
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_b, 'left': left_3_b});      
-    }
-
-    var element = 'bus-animation-4';
-    var offsetTop = $('#'+element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-      if (!$('#ride_map_4 .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_4 = (scrollY - offsetTop) * 1.9;
-      }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_4) + 'px)', 'top': top_4, 'left': left_4});        
-    } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_4, 'left': left_4});      
-    }
-
-    function checkScroll(target) {
-      if (scrollY >= target) {
-        return true;
       } else {
-        return false;
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '3vh', 'left': '16%'});      
       }
+
+      var element = 'bus-animation-1-b';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_1_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_1_b = (scrollY - offsetTop) * 1.5;
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_b) + 'px)', 'top': '1vh', 'left': '16%'});
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '1vh', 'left': '16%'});      
+      }
+
+      var element = 'bus-animation-1-5-a';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_1_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_1_5_a = (scrollY - offsetTop);
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_a) + 'px)', 'top': '20vh', 'left': '16%'});        
+
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
+      }
+
+      var element = 'bus-animation-1-5-b';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_1_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_1_5_b = (scrollY - offsetTop);
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_b) + 'px)', 'top': '20vh', 'left': '16%'});        
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
+      }
+
+      var element = 'bus-animation-2-a';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_2_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          if (top_2_a == '20vh') {
+            app.dest_2_a = (scrollY - offsetTop);
+            app.dest_2_a_X = app.dest_2_a;
+          } else {
+            app.dest_2_a = (scrollY - offsetTop) * 1.2;
+            app.dest_2_a_X = app.dest_2_a/7;
+          } 
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_2_a) + 'px) translateX(' + parseInt(app.dest_2_a_X) + 'px)', 'top': top_2_a, 'left': left_2_a});        
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_2_a, 'left': left_2_a});      
+      }
+
+      var element = 'bus-animation-2-b';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_2_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_2_b = (scrollY - offsetTop) * 1.5;
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_2_b) + 'px)', 'top': top_2_b, 'left': left_2_b});        
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_2_b, 'left': left_2_b});      
+      }
+
+      var element = 'bus-animation-3-5-a';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_3_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+            app.dest_3_5_a = (scrollY - offsetTop) * 1.2;
+            app.dest_3_5_a_X = app.dest_3_5_a/7;
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_a) + 'px) translateX(' + parseInt(app.dest_3_5_a_X) + 'px)', 'top': top_3_5_a, 'left': left_3_5_a});        
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_3_5_a, 'left': left_3_5_a});      
+      }
+
+      var element = 'bus-animation-3-5-b';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_3_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_3_5_b = (scrollY - offsetTop) * 1.5;
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_b) + 'px)', 'top': top_3_5_b, 'left': left_3_5_b});        
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_5_b, 'left': left_3_5_b});      
+      }
+
+      var element = 'bus-animation-3-a';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_3_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+            app.dest_3_a = (scrollY - offsetTop) * 1.2;
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_a) + 'px)', 'top': top_3_a, 'left': left_3_a});        
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_a, 'left': left_3_a});      
+      }
+
+      var element = 'bus-animation-3-b';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_3_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_3_b = (scrollY - offsetTop) * 1.5;
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_b) + 'px)', 'top': top_3_b, 'left': left_3_b});        
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_b, 'left': left_3_b});      
+      }
+
+      var element = 'bus-animation-4';
+      var offsetTop = $('#'+element).offset().top - 80;
+      if (checkScroll(offsetTop)) {
+        if (!$('#ride_map_4 .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+          app.dest_4 = (scrollY - offsetTop) * 1.9;
+        }
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_4) + 'px)', 'top': top_4, 'left': left_4});        
+      } else {
+        $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_4, 'left': left_4});      
+      }
+
+      function checkScroll(target) {
+        if (scrollY >= target) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
     }
+
  
 
 }
