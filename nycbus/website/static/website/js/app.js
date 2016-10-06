@@ -14,17 +14,17 @@ app.init = function () {
         sql_api_template: "https://{user}.cartodb.com:443"
     });
 
-    // set up report card drop down menues
-    app.createReportCardDropdowns(routeId);
+    // set up picture book
+    app.pictureBook();
 
     // set up listeners
     app.createListeners();
 
-    // set up picture book
-    app.pictureBook();
-
     // get random persona
     app.randomPersona();
+
+    // set up report card drop down menues
+    app.createReportCardDropdowns(routeId);
 
     // set up initial report card map
     app.reportCardMap(routeId);
@@ -397,7 +397,7 @@ app.createReportCardDropdowns = function (route_id) {
       var option = $('<option/>').attr({ 'value': routeIDs[i] }).text(routeIDs[i].replace('+', ' SBS'));
       // ensure M60 and M86 are tagged as SBS
       if (routeIDs[i] == 'M60' || routeIDs[i] == 'M86') {
-        option = $('<option/>').attr({ 'value': routeIDs[i] }).text(routeIDs[i] + ' SBS');
+        option = $('<option/>').attr({ 'value': routeIDs[i] + '+' }).text(routeIDs[i] + ' SBS');
       }
       if (routeIDs[i].charAt(0) === 'B' && routeIDs[i].charAt(1) === 'X' && routeIDs[i].charAt(2) === 'M' ) {
         $('#dropdownBXM').append(option);

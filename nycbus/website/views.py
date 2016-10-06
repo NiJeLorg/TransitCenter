@@ -10,7 +10,6 @@ from website.models import *
 
 # TransitCenter Public Website Views 
 
-@login_required
 def website_Index(request):
 	route = request.GET.get("route","None")
 	if route == "None":
