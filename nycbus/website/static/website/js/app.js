@@ -15,7 +15,9 @@ app.init = function () {
     });
 
     // set up picture book
-    app.pictureBook();
+    if (($('body')).width() >= 767) {
+      app.pictureBook();
+    }
 
     // set up listeners
     app.createListeners();
@@ -67,6 +69,9 @@ app.scrollingInteractions = function () {
       var left_3_b = '46%';
       var top_4 = '60vh';
       var left_4 = '46%';
+      // for now hide 
+      // for now hide mini buses
+      $('.bus-animation-wrapper').addClass('hidden');
     } else if (($('body')).width() < 1200) {
       // tablet
       var top_2_a = '32vh';
@@ -243,7 +248,9 @@ app.scrollingInteractions = function () {
 }
 
 app.createListeners = function () {
-    $(window).scroll(app.scrollingInteractions);
+    if (($('body')).width() >= 767) {
+      $(window).scroll(app.scrollingInteractions);
+    }
     $(document).ready(app.scrollingInteractions);
 
     if (route != "None") {

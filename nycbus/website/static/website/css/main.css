@@ -304,7 +304,7 @@ a {
 }
 .ride-section {
   width: 100%;
-  height: auto;
+  height: 140vh;
   padding: 0;
   margin: 20px 0;
 }
@@ -321,6 +321,9 @@ a {
 @media (min-width: 767px) {
   .resources-section {
     padding: 70px 0;
+  }
+  .ride-section {
+    height: auto;
   }
   .pick-section {
     padding: 100px 0;
@@ -475,9 +478,14 @@ body {
 }
 .picture-book-bg {
   position: absolute;
-  height: 120vh;
+  height: 140vh;
   top: 0;
   z-index: -1;
+}
+@media (min-width: 767px) {
+  .picture-book-bg {
+    height: 120vh;
+  }  
 }
 .picture-book-bg-fixed {
   position: fixed;
@@ -598,7 +606,7 @@ body {
   margin-top: 40vh;
 } 
 .margin-top-50vh {
-  margin-top: 50vh;
+  margin-top: 5vh;
 }
 .margin-top-20 {
   margin-top: 20px;
@@ -633,6 +641,9 @@ body {
   }
   .margin-top-12vh {
     margin-top: 12vh;
+  }
+  .margin-top-50vh {
+    margin-top: 50vh;
   }
   .margin-left-20 {
     margin-left: 20px;
