@@ -259,13 +259,16 @@ app.createListeners = function () {
       }, 1000);
     } 
 
-    $('a.page-scroll').bind('click', function(event) {
-        event.preventDefault();
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: $($anchor.attr('href')).offset().top
-        }, 2000, 'easeInOutQuint');
-    });
+
+    if (($('body')).width() >= 767) {
+      $('a.page-scroll').bind('click', function(event) {
+          event.preventDefault();
+          var $anchor = $(this);
+          $('html, body').stop().animate({
+              scrollTop: $($anchor.attr('href')).offset().top
+          }, 2000, 'easeInOutQuint');
+      });
+    }
 
     $('#selectRoute').change(function() {
       // update map
@@ -447,7 +450,7 @@ app.createReportCardDropdowns = function (route_id) {
 
       // set first route 
       app.selectRouteMenu.val(route_id).trigger("change");
-      
+
     }
 
     
