@@ -245,9 +245,9 @@ app.scrollingInteractions = function () {
 
 app.createListeners = function () {
     // for chrome mobile
-    document.addEventListener('touchmove',function(e){ 
+/*    document.addEventListener('touchmove',function(e){ 
       e.preventDefault();
-    },true);
+    },true);*/
     
     if (($('body')).width() < 767) {
       // for now hide mini buses
