@@ -244,12 +244,12 @@ app.scrollingInteractions = function () {
 }
 
 app.createListeners = function () {
-    if (($('body')).width() >= 767) {
-      $(window).scroll(app.scrollingInteractions);
-      $(document).ready(app.scrollingInteractions);
-    } else {
+    if (($('body')).width() < 767) {
       // for now hide mini buses
       $('.bus-animation-wrapper').addClass('hidden');
+    } else {
+      $(window).scroll(app.scrollingInteractions);
+      $(document).ready(app.scrollingInteractions);
     }
 
     if (route != "None") {
