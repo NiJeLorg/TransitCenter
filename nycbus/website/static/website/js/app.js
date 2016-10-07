@@ -244,6 +244,11 @@ app.scrollingInteractions = function () {
 }
 
 app.createListeners = function () {
+    // for chrome mobile
+    document.addEventListener('touchmove',function(e){ 
+      e.preventDefault();
+    },true);
+    
     if (($('body')).width() < 767) {
       // for now hide mini buses
       $('.bus-animation-wrapper').addClass('hidden');
