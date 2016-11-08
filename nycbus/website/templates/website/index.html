@@ -22,16 +22,7 @@
       <div class="intro-body">
           <div class="container-fluid">
               <div class="row">
-                  <div class="col-sm-5 margin-top-10vh margin-left-20">
-                    <div class="card">
-                      <h4>Ride Along</h4>
-                      <p>Ride along with three typical New York City bus riders and see the challenges they face and the solutions that would make their rides and lives better.</p>
-                      <a href="#pick" class="page-scroll">
-                          <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="col-sm-4 col-sm-offset-2 margin-top-12vh">
+                  <div class="col-sm-5 margin-top-12vh margin-left-20">
                     <div class="card">
                       <h4>Route Report Card</h4>
                       <p>See a high level report card on any bus route across New York City.</p>
@@ -40,10 +31,121 @@
                       </a>
                     </div>
                   </div>
+                  <div class="col-sm-4 col-sm-offset-2 margin-top-10vh">
+                    <div class="card">
+                      <h4>Ride Along</h4>
+                      <p>Ride along with three typical New York City bus riders and see the challenges they face and the solutions that would make their rides and lives better.</p>
+                      <a href="#pick" class="page-scroll">
+                          <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
+                      </a>
+                    </div>
+                  </div>
               </div>
           </div>
       </div>
   </header>
+
+  <!-- Report Card Section -->
+  <section id="report-card" class="report-card-section">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+
+            <h1>Report Card for 
+              <select id="selectRoute" class="selectRoute" style="width: 300px;">
+                <optgroup id="dropdownBX" label="Bronx">
+                </optgroup>
+                <optgroup id="dropdownB" label="Brooklyn">
+                </optgroup>
+                <optgroup id="dropdownM" label="Manhattan">
+                </optgroup>
+                <optgroup id="dropdownQ" label="Queens">
+                </optgroup>
+                <optgroup id="dropdownS" label="Staten Island">
+                </optgroup>
+                <!-- <optgroup id="dropdownBXM" label="Bronx-Manhattan">
+                </optgroup>
+                <optgroup id="dropdownBM" label="Brooklyn-Manhattan">
+                </optgroup>
+                <optgroup id="dropdownQM" label="Queens-Manhattan">
+                </optgroup>
+                <optgroup id="dropdownX" label="Express">
+                </optgroup> -->
+              </select>
+            </h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <div class="report-card-card">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h1 id="reportCardRouteName">BX1</h1>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <h3>Speed</h3>
+                          <h2><span id="speedNumber" class="text-success">0</span> <small>mph</small></h2>
+                        </div>
+                        <div class="col-sm-6">
+                          <div id="speed-gauge" class="speed-gauge"></div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h3>Bus Bunching</h3>
+                          <h2>
+                            <span id="bunchedNumber" class="text-success">0%</span> <small>bunched</small>
+                          </h2>
+                        </div>
+                        <div class="col-sm-12">
+                          <div id="mini-buses"></div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h3>Ridership</h3>
+                          <div id="ridershipData">
+                            <h4>
+                              <span id="ridershipNumber" class="text-success">0</span> <small>riders per day, ranking </small> 
+                              <span id="ridershipRanking" class="text-success">1</span><small> out of</small> <span id="ridershipMaxRank"></span> <small><span id="ridershipGroup"></span> routes. This represents a </small><span id="ridershipChange" class="text-success">0% increase</span> <small>since 2010.</small>
+                            </h4>
+                          </div>
+                          <div id="noRidershipData" class="hidden">
+                            <h4>Unfortunately, there are no ridership data for this route.</h4>
+                          </div>
+                          <h5><span id="ridershipNotes"></span></h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div id="route-map"></div>
+                  </div>
+                </div>
+                <div class="row margin-top-20">
+                  <div class="col-sm-12 text-center">
+                    <a id="showShareFB" class="btn btn-facebook margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-facebook-official fa-2x"></i></a>
+                    <a id="showShareTwitter" class="btn btn-twitter margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-twitter fa-2x"></i></a>
+                    <a class="btn btn-primary margin-5" href="http://salsa.ridersny.org/p/salsa/web/common/public/signup?signup_page_KEY=10579" role="button" ><span class="shareOn">Take Action! </span><i class="fa fa-bullhorn fa-2x"></i></a>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 text-right">
+                      <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
 
   <!-- Pick and Story Picture Book -->
   <section id="pick" class="pick-section text-center">
@@ -445,108 +547,7 @@
       </div>
   </section>
 
-  <!-- Report Card Section -->
-  <section id="report-card" class="report-card-section">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-12 text-center">
-
-            <h1>Report Card for 
-              <select id="selectRoute" class="selectRoute" style="width: 300px;">
-                <optgroup id="dropdownBX" label="Bronx">
-                </optgroup>
-                <optgroup id="dropdownB" label="Brooklyn">
-                </optgroup>
-                <optgroup id="dropdownM" label="Manhattan">
-                </optgroup>
-                <optgroup id="dropdownQ" label="Queens">
-                </optgroup>
-                <optgroup id="dropdownS" label="Staten Island">
-                </optgroup>
-                <!-- <optgroup id="dropdownBXM" label="Bronx-Manhattan">
-                </optgroup>
-                <optgroup id="dropdownBM" label="Brooklyn-Manhattan">
-                </optgroup>
-                <optgroup id="dropdownQM" label="Queens-Manhattan">
-                </optgroup>
-                <optgroup id="dropdownX" label="Express">
-                </optgroup> -->
-              </select>
-            </h1>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-10 col-sm-offset-1">
-            <div class="report-card-card">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-sm-8">
-                    <div class="container-fluid">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h1 id="reportCardRouteName">BX1</h1>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <h3>Speed</h3>
-                          <h2><span id="speedNumber" class="text-success">0</span> <small>mph</small></h2>
-                        </div>
-                        <div class="col-sm-6">
-                          <div id="speed-gauge" class="speed-gauge"></div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h3>Bus Bunching</h3>
-                          <h2>
-                            <span id="bunchedNumber" class="text-success">0%</span> <small>bunched</small>
-                          </h2>
-                        </div>
-                        <div class="col-sm-12">
-                          <div id="mini-buses"></div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h3>Ridership</h3>
-                          <div id="ridershipData">
-                            <h4>
-                              <span id="ridershipNumber" class="text-success">0</span> <small>riders per day, ranking </small> 
-                              <span id="ridershipRanking" class="text-success">1</span><small> out of</small> <span id="ridershipMaxRank"></span> <small><span id="ridershipGroup"></span> routes. This represents a </small><span id="ridershipChange" class="text-success">0% increase</span> <small>since 2010.</small>
-                            </h4>
-                          </div>
-                          <div id="noRidershipData" class="hidden">
-                            <h4>Unfortunately, there are no ridership data for this route.</h4>
-                          </div>
-                          <h5><span id="ridershipNotes"></span></h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div id="route-map"></div>
-                  </div>
-                </div>
-                <div class="row margin-top-20">
-                  <div class="col-sm-12 text-center">
-                    <a id="showShareFB" class="btn btn-facebook margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-facebook-official fa-2x"></i></a>
-                    <a id="showShareTwitter" class="btn btn-twitter margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-twitter fa-2x"></i></a>
-                    <a class="btn btn-primary margin-5" href="http://salsa.ridersny.org/p/salsa/web/common/public/signup?signup_page_KEY=10556" role="button" ><span class="shareOn">Take Action! </span><i class="fa fa-bullhorn fa-2x"></i></a>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-12 text-right">
-                      <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
+  <!-- Resources Card Section -->
   <section id="resources" class="intro resources-section">
       <div class="container-fluid">
           <div class="row">
@@ -651,8 +652,3 @@ var route = '{{ route }}';
 window.onload = app.init;
 </script>
 {% endblock %}
-
-
-	
-	
-
