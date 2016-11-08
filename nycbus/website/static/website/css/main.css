@@ -213,8 +213,8 @@ a {
   width: 100%;
   height: auto;
   padding: 20px;
-  box-shadow: 0px 2px 4px rgba(49, 46, 42, 0.2), 0px 0px 15px rgba(119, 113, 106, 0.53);
-  background-color: rgba(255, 255, 255, 0.9);
+  border: solid 1px #ddd;
+  background-color: #fff;
 }
 @media (min-width: 768px) {
   .intro {
@@ -382,7 +382,7 @@ a {
   width: 100%;
   height: auto;
   padding: 20px;
-  box-shadow: 0px 2px 4px rgba(49, 46, 42, 0.2), 0px 0px 15px rgba(119, 113, 106, 0.53);
+  border: solid 1px #ddd;
   background-color: #fff;
 }
 .ride-section .dot-wrapper {
@@ -529,8 +529,8 @@ body {
 .full-width-card {
   width: 100%;
   padding: 20px;
-  box-shadow: 0px 2px 4px rgba(49, 46, 42, 0.2), 0px 0px 15px rgba(119, 113, 106, 0.53);
-  background-color: rgba(255, 255, 255, 0.9);
+  border: solid 1px #ddd;
+  background-color: #fff;
 }
 
 /* Report Card */
@@ -538,7 +538,7 @@ body {
   margin-top: 0;
   height: auto;
   max-height: 450px;
-  box-shadow: 0px 2px 4px rgba(49, 46, 42, 0.2), 0px 0px 15px rgba(119, 113, 106, 0.53);
+  border: solid 1px #ddd;
   background-color: rgb(205,210,212);
 }
 .report-card-card {
@@ -548,8 +548,8 @@ body {
   margin-top: 20px;
   padding: 20px;
   margin-bottom: 0px;
-  box-shadow: 0px 2px 4px rgba(49, 46, 42, 0.2), 0px 0px 15px rgba(119, 113, 106, 0.53);
-  background-color: rgba(255, 255, 255, 0.9);
+  border: solid 1px #ddd;
+  background-color: #fff;
 }
 .report-card-text {
   font-size: 18px;
