@@ -1,132 +1,147 @@
-{% extends 'website/base.html' %}
-{% load staticfiles %}
-
-
-{% block title %}| District Level Analysis{% endblock %}
-
-{% block css_block %}
+{% extends 'website/base.html' %} {% load staticfiles %} {% block title %}| District Level Analysis{% endblock %} {% block css_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-{% endblock %}
-
-{% block head_js_block %}
-{% endblock %}
-	
-{% block body_block %}
-  <!-- Static Top Navigation -->
-  <nav class="navbar navbar-custom-static-top" role="navigation">
-      <div class="container-fluid">
-          <div class="navbar-header">
-              <a class="navbar-brand page-scroll" href="#page-top">
-                  <h1>Turnaround</h1>
-              </a>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="navbar-right">
-              <ul class="nav navbar-nav">
-                  <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                  <li class="hidden">
-                      <a href="#page-top"></a>
-                  </li>
-  <!--                 <li>
+<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" /> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
+<!-- Static Top Navigation -->
+<nav class="navbar navbar-custom-static-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand page-scroll" href="#page-top">
+                <h1>Turnaround</h1>
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <!--                 <li>
                       <a class="page-scroll" href="#report-card"><h3>Report Card</h3></a>
                   </li>
-   -->            </ul>
-          </div>
-          <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container -->
-  </nav>
-
-
-  <!-- Intro Header -->
-  <header class="intro">
-      <div class="intro-body">
-          <div class="container-fluid">
-              <div class="row">
-                  <div class="col-sm-6">
-                    <div class="card">
-                      <h2>Report Card for</h2>
-                    </div>
-                    <div class="card margin-top-20">
-                      <h4>Ways to Address These Problems Now</h4>
-                      <ul>
-                        <li>Speed up buses with the new fare payment system</li>
-                        <li>Implement transit signal priority systemwide</li>
-                        <li>Add more bus lanes on local routes</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="card">
-                      <h4>The NYC Bus Turnaround Campaign</h4>
-                      <p>The Bus Turnaround Coalition is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
-                    </div>
-                    <div class="card margin-top-20">
-                      <p>Map here</p>
-                    </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </header>
-
-
-  <!-- Footer -->
-  <footer>
-      <div class="container-fluid text-center">
-        <div class="row">
-          <div class="col-sm-3 margin-top-20">
-            <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
-          </div>
-          <div class="col-sm-3 margin-top-20">
-            <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
-          </div>
-          <div class="col-sm-3 margin-top-20">
-            <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
-          </div>
-          <div class="col-sm-3 margin-top-20">
-            <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
-          </div>
+   -->
+            </ul>
         </div>
-        <div class="row">
-          <div class="col-sm-12 margin-top-20">
-            <p class="white-heading">Copyright &copy; <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}</p>
-          </div>
-        </div>
-
-      </div>
-  </footer>
-
-{% endblock %}
-
-{% block modal_block %}
-<div class="modal fade" id="methods" tabindex="-1" role="dialog" aria-labelledby="methodsTitle">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle-o fa-2x" aria-hidden="true"></i></span></button>
-        <h4 class="modal-title" id="methodsTitle">Methodology</h4>
-      </div>
-      <div class="modal-body">
-        <p>Bunching data are calculated as an average of performance during weekdays between the hours of 10am-4pm, for the months of October 2015 and May 2016. These two months are selected because they contain minimal holidays, mild weather (minimizing service disruptions), and fall during the school year. Speed data are calculated for October 2015 only.</p>
-
-        <p><em>Bunching</em> is defined as the percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus. So if Bus #2 is scheduled to arrive eight minutes after Bus #1, but instead Bus #2 arrives less than two minutes after Bus #1, then Bus #2 is considered "bunched". Bus arrival and departure times are estimated using an algorithm developed by Nathan Johnson and applied to the MTA's Bus Time data. More information about Bus Time data is <a href="http://bustime.mta.info/wiki/Developers/OneBusAwayRESTfulAPI">available here</a>. </p>
-
-        <p><em>Speed</em> is calculated using the same Bus Time data in conjunction with route length information gathered from the MTA's publicly provided GTFS schedules. As presented here at the route level, the travel time from start to finish is simply divided by the route's length to calculate average speed. More details available in the <a href="http://busdataapi1.cloudapp.net/about">performance API documentation</a>. </p>
-
-        <p><em>Ridership</em> data are for the average weekday in 2015, as <a href="http://web.mta.info/nyct/facts/ridership/">reported by MTA New York City Transit here</a>. </p>
-
-        <p>More information, including access to arrival data via an API developed by Nathan Johnson and Kuan Butts, <a href="http://bus-data-nyc.github.io/">is available here</a>. </p>
-      </div>
+        <!-- /.navbar-collapse -->
     </div>
-  </div>
+    <!-- /.container -->
+</nav>
+<!-- Intro Header -->
+<header class="intro">
+    <div class="intro-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <h1>Report Card for State Assembly District 35</h1>
+                        <div class="people">
+                            <h3>People</h3>
+                            <h2>148,721 <small>bus commuters</small></h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <h2>23 <small>bus routes</small></h2>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <h2>28% <small>in poverty</small></h2>
+                            </div>
+                        </div>
+                        <div class="bus-routes-graphs">
+                            <h3>Bus Routes</h3>
+                            <div class="bus-routes-bars">
+                                <div class="bus-routes-bars-green row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <h4>Highest Ridership</h4>
+                                        <!-- <svg id="ridership"></svg> -->
+                                        <div id="ridership">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <h4>Fastest Growing</h4>
+                                        <div id="fastestGrowing">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bus-routes-bars-red row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <h4>Most Bunching</h4>
+                                        <div id="mostBunching"></div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <h4>Slowest</h4>
+                                        <div id="slowest">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card margin-top-20">
+                        <h4>Ways to Address These Problems Now</h4>
+                        <ul>
+                            <li>Speed up buses with the new fare payment system</li>
+                            <li>Implement transit signal priority systemwide</li>
+                            <li>Add more bus lanes on local routes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <h4>The NYC Bus Turnaround Campaign</h4>
+                        <p>The Bus Turnaround Coalition is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
+                    </div>
+                    <div class="card margin-top-20">
+                        <p>Map here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Footer -->
+<footer>
+    <div class="container-fluid text-center">
+        <div class="row">
+            <div class="col-sm-3 margin-top-20">
+                <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
+            </div>
+            <div class="col-sm-3 margin-top-20">
+                <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
+            </div>
+            <div class="col-sm-3 margin-top-20">
+                <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
+            </div>
+            <div class="col-sm-3 margin-top-20">
+                <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 margin-top-20">
+                <p class="white-heading">Copyright &copy; <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}</p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %} {% block modal_block %}
+<div class="modal fade" id="methods" tabindex="-1" role="dialog" aria-labelledby="methodsTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle-o fa-2x" aria-hidden="true"></i></span></button>
+                <h4 class="modal-title" id="methodsTitle">Methodology</h4>
+            </div>
+            <div class="modal-body">
+                <p>Bunching data are calculated as an average of performance during weekdays between the hours of 10am-4pm, for the months of October 2015 and May 2016. These two months are selected because they contain minimal holidays, mild weather (minimizing service disruptions), and fall during the school year. Speed data are calculated for October 2015 only.</p>
+                <p><em>Bunching</em> is defined as the percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus. So if Bus #2 is scheduled to arrive eight minutes after Bus #1, but instead Bus #2 arrives less than two minutes after Bus #1, then Bus #2 is considered "bunched". Bus arrival and departure times are estimated using an algorithm developed by Nathan Johnson and applied to the MTA's Bus Time data. More information about Bus Time data is <a href="http://bustime.mta.info/wiki/Developers/OneBusAwayRESTfulAPI">available here</a>. </p>
+                <p><em>Speed</em> is calculated using the same Bus Time data in conjunction with route length information gathered from the MTA's publicly provided GTFS schedules. As presented here at the route level, the travel time from start to finish is simply divided by the route's length to calculate average speed. More details available in the <a href="http://busdataapi1.cloudapp.net/about">performance API documentation</a>. </p>
+                <p><em>Ridership</em> data are for the average weekday in 2015, as <a href="http://web.mta.info/nyct/facts/ridership/">reported by MTA New York City Transit here</a>. </p>
+                <p>More information, including access to arrival data via an API developed by Nathan Johnson and Kuan Butts, <a href="http://bus-data-nyc.github.io/">is available here</a>. </p>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}
-
-{% block js_block %}
+{% endblock %} {% block js_block %}
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/district_app.js' %}"></script>
 <script type="text/javascript">
@@ -134,8 +149,3 @@ var district = '{{ district }}';
 window.onload = app.init;
 </script>
 {% endblock %}
-
-
-	
-	
-
