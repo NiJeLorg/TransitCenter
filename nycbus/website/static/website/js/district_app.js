@@ -4,6 +4,8 @@
 
 function app() {}
 
+var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+
 app.init = function() {
     // set up CARTO SQL for querying
     app.username = 'busworks';
@@ -17,17 +19,16 @@ app.init = function() {
     // set up listeners
     app.createListeners();
 
-    app.createRidership();
+    app.createBarChart('#ridership', app.greenColorScale, data);
+    app.createBarChart('#fastestGrowing', app.greenColorScale, data);
+    app.createBarChart('#mostBunching', app.mostBunchingColorScale, data);
+    app.createBarChart('#slowest', app.slowestColorScale, data);
 
     // set up report card drop down menu
     //app.createReportCardDropdowns(______);
+};
 
-
-}
-
-app.createRidership = function() {
-
-    var data = [{ label:'B1', value: 12897 }, { label:'B2', value: 11897 }, { label:'B3', value: 01897 }];
+app.createBarChart = function(divId, barChartColorScale, data) {
     var arr = [];
     for (var i = 0; i < data.length; i++) {
         for (var key in data[i]) {
@@ -37,19 +38,23 @@ app.createRidership = function() {
         }
     }
 
-    console.log(arr);
+
+    // D3 color scales
+    app.greenColorScale.domain([0, d3.max(arr)]);
+    app.mostBunchingColorScale.domain([0, d3.max(arr)]);
+    app.slowestColorScale.domain([0, d3.max(arr)]);
 
 
-    var width = $('.bus-routes-bars-green .col-md-6').width(),
+
+    var width = $('.bus-routes-bars .col-md-6').width(),
         barHeight = 25,
-        barWidth = width * (2 / 3);
+        barWidth = width * (3 / 4);
 
-    console.log(data);
     var x = d3.scale.linear()
         .domain([0, d3.max(arr)])
         .range([0, barWidth]);
 
-    var chart = d3.select("#ridership")
+    var chart = d3.select(divId)
         .append('svg')
         .attr("width", width)
         .attr("height", barHeight * data.length);
@@ -58,33 +63,44 @@ app.createRidership = function() {
         .data(data)
         .enter().append("g")
         .attr("transform", function(d, i) {
-            return "translate(0," + i * barHeight + ")"; });
+            return "translate(0," + i * barHeight + ")";
+        });
 
     bar.append("rect")
-        .attr('class', 'green-bar')
+        .attr('fill', function(d) {
+            return barChartColorScale(d.value);
+        })
         .attr("width", function(d, i) {
-            console.log(d.label, "green bar object");
             return x(d.value) - 3;
-          })
+        })
         .attr("height", barHeight - 5);
 
     bar.append("text")
         .attr("class", "inside-bar-text")
         .attr("x", function(d) {
-            return x(d.value) - 3; })
+            return x(d.value) - 10;
+        })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
-            return d.value; });
+            if (divId === '#fastestGrowing' || divId === '#mostBunching') {
+                return d.value + ' %';
+            } else if (divId === '#slowest') {
+                return d.value + ' mph';
+            }
+            return app.numberWithCommas(d.value);
+        });
     bar.append("text")
         .attr("class", "outside-bar-text")
         .attr("x", function(d) {
-            return x(d.value) + 3; })
-        .attr("y", (barHeight-5) / 2)
+            return x(d.value) + 3;
+        })
+        .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
-            return d.label; });
-}
+            return d.label;
+        });
+};
 
 
 app.createListeners = function() {
@@ -195,11 +211,6 @@ app.createReportCardDropdowns = function(route_id) {
 
 
 
-
-
-
-
-
 /**** Utility functions ****/
 app.numberWithCommas = function(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -219,6 +230,16 @@ app.ordinal_suffix_of = function(i) {
     }
     return i + "th";
 }
+
+// D3 color scales
+app.greenColorScale = d3.scale.linear()
+    .range(['#31fd5f', '#1b7640']);
+
+app.mostBunchingColorScale = d3.scale.linear()
+    .range(['#ff4442', '#b43d3e']);
+
+app.slowestColorScale = d3.scale.linear()
+    .range(['#b43d3e', '#ff4442']);
 
 
 
