@@ -17,41 +17,41 @@ h6 {
 
 h1 {
   font-weight: 700;
-  font-size: 62px;  
+  font-size: 62px;
   line-height: 62px;
 }
 h2 {
   font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
-  font-size: 52px;  
-  line-height: 58px;  
+  font-size: 52px;
+  line-height: 58px;
 }
 h3 {
   font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 20px;
-  line-height: 28px;    
+  line-height: 28px;
   text-transform: uppercase;
 }
 h4 {
   font-weight: 700;
   font-size: 24px;
-  line-height: 28px;      
+  line-height: 28px;
 }
 p {
   font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
   font-weight: 400;
   font-size: 18px;
-  line-height: 24px;        
+  line-height: 24px;
 }
 .label {
   font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
-  letter-spacing: 1px; 
-  text-transform: uppercase; 
-  color: #333;      
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #333;
 }
 a {
    -webkit-transition: all 0.2s ease-in-out;
@@ -67,6 +67,17 @@ a {
   left: 0;
   right: 0;
 }
+
+.green-bar {
+  fill: green;
+}
+
+.inside-bar-text {
+  fill: white;
+  text-anchor: end;
+}
+
+
 @media (min-width: 850px) {
   .navbar-custom-static-top {
     display: block;
@@ -221,12 +232,12 @@ a {
     height: 100%;
   }
   .intro .intro-body .brand-heading {
-    font-size: 70px; 
+    font-size: 70px;
   }
   .intro .intro-body .brand-heading-small {
     font-size: 50px;
     display:inline;
-    background: rgb(150, 150, 150); 
+    background: rgb(150, 150, 150);
     background: rgba(150, 150, 150, .9);
   }
   .intro .intro-body .intro-text {
@@ -299,7 +310,7 @@ a {
   }
 }
 .resources-section {
-  padding: 50px 0;  
+  padding: 50px 0;
 }
 .ride-section {
   width: 100%;
@@ -315,7 +326,7 @@ a {
 }
 .report-card-section {
   width: 100%;
-  padding: 50px 0;  
+  padding: 50px 0;
 }
 @media (min-width: 767px) {
   .resources-section {
@@ -357,7 +368,7 @@ a {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
-  -o-background-size: cover; 
+  -o-background-size: cover;
 }
 .ride-section .ride-img.negative {
   background-image: url(images/scene_map_negative.png);
@@ -484,7 +495,7 @@ body {
 @media (min-width: 767px) {
   .picture-book-bg {
     height: 120vh;
-  }  
+  }
 }
 .picture-book-bg-fixed {
   position: fixed;
@@ -610,7 +621,7 @@ body {
 }
 .margin-top-40vh {
   margin-top: 40vh;
-} 
+}
 .margin-top-50vh {
   margin-top: 5vh;
 }
@@ -759,10 +770,10 @@ fieldset[disabled] .btn-twitter.active {
   vertical-align: super;
 }
 .no-mobile {
- display:none; 
+ display:none;
 }
 @media (min-width: 767px) {
   .no-mobile {
-   display:block; 
+   display:block;
   }
 }
