@@ -25,7 +25,8 @@ app.init = function() {
     app.createBarChart('#slowest', app.slowestColorScale, data);
 
     // set up report card drop down menu
-    //app.createReportCardDropdowns(______);
+    var district = "State Assembly District 32";
+   	app.createStateSenateOptions(district);
 };
 
 app.createBarChart = function(divId, barChartColorScale, data) {
@@ -122,91 +123,66 @@ app.createListeners = function() {
 }
 
 
+app.createStateSenateOptions = function(district) {
 
-// TO DO: Update this function to call state assembly and state senate districts
-app.createReportCardDropdowns = function(route_id) {
-
-    // get data from carto to use in report card
-    app.sqlclient.execute("SELECT DISTINCT route_id FROM mta_nyct_bus_routes ORDER BY route_id")
+    // first pull state assembly districts and append
+    app.sqlclient.execute("SELECT stsendist FROM nyc_state_senate_districts ORDER BY stsendist")
         .done(function(data) {
-            // extract results to an array for sorting
-            routeIDs = [];
-            for (var i = data.rows.length - 1; i >= 0; i--) {
-                routeIDs.push(data.rows[i].route_id);
-            }
-            routeIDs.sort(naturalCompare);
-
-            function naturalCompare(a, b) {
-                var ax = [],
-                    bx = [];
-                a.replace(/(\d+)|(\D+)/g, function(_, $1, $2) { ax.push([$1 || Infinity, $2 || ""]) });
-                b.replace(/(\d+)|(\D+)/g, function(_, $1, $2) { bx.push([$1 || Infinity, $2 || ""]) });
-                while (ax.length && bx.length) {
-                    var an = ax.shift();
-                    var bn = bx.shift();
-                    var nn = (an[0] - bn[0]) || an[1].localeCompare(bn[1]);
-                    if (nn) return nn;
-                }
-                return ax.length - bx.length;
-            }
 
             // loop through response to populate dropdown
-            for (var i = 0; i < routeIDs.length; i++) {
-                var option = $('<option/>').attr({ 'value': routeIDs[i] }).text(routeIDs[i].replace('+', ' SBS'));
-                // ensure M60 and M86 are tagged as SBS
-                if (routeIDs[i] == 'M60' || routeIDs[i] == 'M86') {
-                    option = $('<option/>').attr({ 'value': routeIDs[i] + '+' }).text(routeIDs[i] + ' SBS');
-                }
-                if (routeIDs[i].charAt(0) === 'B' && routeIDs[i].charAt(1) === 'X' && routeIDs[i].charAt(2) === 'M') {
-                    $('#dropdownBXM').append(option);
-                } else if (routeIDs[i].charAt(0) === 'B' && routeIDs[i].charAt(1) === 'X') {
-                    $('#dropdownBX').append(option);
-                } else if (routeIDs[i].charAt(0) === 'B' && routeIDs[i].charAt(1) === 'M') {
-                    $('#dropdownBM').append(option);
-                } else if (routeIDs[i].charAt(0) === 'B') {
-                    $('#dropdownB').append(option);
-                } else if (routeIDs[i].charAt(0) === 'Q' && routeIDs[i].charAt(1) === 'M') {
-                    $('#dropdownQM').append(option);
-                } else if (routeIDs[i].charAt(0) === 'Q') {
-                    $('#dropdownQ').append(option);
-                } else if (routeIDs[i].charAt(0) === 'M') {
-                    $('#dropdownM').append(option);
-                } else if (routeIDs[i].charAt(0) === 'S') {
-                    // skip S81, S86, S91, S92, S94, S96, S98
-                    if (routeIDs[i] == 'S81' || routeIDs[i] == 'S86' || routeIDs[i] == 'S91' || routeIDs[i] == 'S92' || routeIDs[i] == 'S94' || routeIDs[i] == 'S96' || routeIDs[i] == 'S98') {
-                        //skip
-                    } else {
-                        $('#dropdownS').append(option);
-                    }
-                } else {
-                    $('#dropdownX').append(option);
-                }
-
+            for (var i = 0; i < data.rows.length; i++) {
+                var option = $('<option/>').attr({ 'value': 'State Senate District ' + data.rows[i].stsendist }).text('State Senate District ' + data.rows[i].stsendist);
+                $('#dropdownStateSenate').append(option);
             }
 
-            // when done create select2 menu
-            // if mobile, skip setting up select 2
-            if (($('body')).width() < 767) {
-                $("#selectDistrict").val(route_id);
-            } else {
-                app.selectDistrictMenu = $("#selectDistrict").select2();
-
-                app.selectDistrictMenu.on("select2:open", function(e) {
-                    // add type bx placeholder text
-                    $(".select2-search__field").attr("placeholder", "Start typing a bus route here to search.");
-                });
-
-                // set first route
-                app.selectDistrictMenu.val(route_id).trigger("change");
-
-            }
-
+        	// now populate state assembly district options
+        	app.createStateAssemblyOptions(district);
 
         })
         .error(function(errors) {
             // errors contains a list of errors
             console.log("errors:" + errors);
+        });
+}
+
+app.createStateAssemblyOptions = function(district) {
+
+    // first pull state assembly districts and append
+    app.sqlclient.execute("SELECT assem_dist FROM nyc_state_assembly_districts ORDER BY assem_dist")
+        .done(function(data) {
+
+            // loop through response to populate dropdown
+            for (var i = 0; i < data.rows.length; i++) {
+                var option = $('<option/>').attr({ 'value': 'State Assembly District ' + data.rows[i].assem_dist }).text('State Assembly District ' + data.rows[i].assem_dist);
+                $('#dropdownStateAssembly').append(option);
+            }
+
+            // now inititize the select 2 menu
+            app.initSelect2Menu(district);
+
         })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        });
+}
+
+app.initSelect2Menu = function(district) {
+	// when done create select2 menu
+	// if mobile, skip setting up select 2
+	if (($('body')).width() < 767) {
+	    $("#selectDistrict").val();
+	} else {
+	    app.selectDistrictMenu = $("#selectDistrict").select2();
+
+	    app.selectDistrictMenu.on("select2:open", function(e) {
+	        // add type bx placeholder text
+	        $(".select2-search__field").attr("placeholder", "Start typing a district here to search.");
+	    });
+
+	    app.selectDistrictMenu.val(district).trigger("change");
+
+	}
 }
 
 
