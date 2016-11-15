@@ -605,11 +605,11 @@ body {
 .white-heading{
   color: #fff;
 }
-.selectRoute {
+.selectDistrict {
   font-size: 24px;
 }
 @media (min-width: 767px) {
-  .selectRoute {
+  .selectDistrict {
     font-size: inherit;
   }
 }
