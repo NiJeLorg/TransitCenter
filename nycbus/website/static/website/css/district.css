@@ -72,6 +72,10 @@ a {
   fill: green;
 }
 
+.red-bar {
+  fill: red;
+}
+
 .inside-bar-text {
   fill: white;
   text-anchor: end;
@@ -672,6 +676,12 @@ body {
     margin-right: 12px;
   }
 }
+
+
+
+
+
+
 .btn-facebook {
   color: #fff;
   background-color: #3b5998;
