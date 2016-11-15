@@ -111,6 +111,14 @@ footer .logos-holder {
     text-align: center;
 }
 
+.inside-bar-text {
+  fill: white;
+  text-anchor: end;
+}
+
+li {
+  font-size: 1.6em;
+}
 
 /* MAIN STYLES */
 

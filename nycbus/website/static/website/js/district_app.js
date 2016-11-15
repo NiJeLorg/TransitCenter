@@ -340,7 +340,7 @@ app.createBarChart = function(divId, barChartColorScale, data) {
     bar.append("text")
         .attr("class", "inside-bar-text")
         .attr("x", function(d) {
-            return x(d.value) - 80;
+            return x(d.value) - 10;
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
