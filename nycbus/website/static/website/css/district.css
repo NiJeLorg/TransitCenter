@@ -1,0 +1,153 @@
+/* OVERIDE BOOTSTRAP STYLES */
+
+.row {
+    margin: 0;
+}
+
+.col-md-6 {
+    padding: 0;
+}
+
+.col-md-5 {
+    padding: 0;
+}
+
+.col-md-offset-1 {
+    margin-left: 4%;
+}
+
+
+/* OVERIDE BOOTSTRAP STYLES */
+
+
+/* UTILITY CLASS // TYPOGRAPHY STYLES // */
+
+* {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.main-heading {
+    font-size: 4.5em;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.main-heading-card {
+    font-size: 3.5em;
+}
+
+.sub-heading-card {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+}
+
+
+/* UTILITY CLASS // TYPOGRAPHY STYLES // */
+
+
+/* UTILITY CLASS // REUSABLE STYLES // */
+
+.bottom-buffer {
+    margin-bottom: 3%;
+}
+
+.card {
+    background: #fff;
+    border: solid 1px #DDDDDD;
+    padding: 2% 3%;
+}
+
+
+/* UTILITY CLASS // REUSABLE STYLES // */
+
+
+/* MAIN STYLES */
+
+main {
+    background-image: url(images/cover_background_small.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    padding: 1.5% 2%;
+}
+
+main header h2 {
+    color: #fff;
+    margin-bottom: 2%;
+}
+
+.report-card h2 {
+    line-height: 95%;
+}
+
+.ways-to-address h4 {
+    font-size: 1.6em;
+}
+
+.turnaround-campaign h4 {
+    font-size: 1.6em;
+}
+
+.turnaround-campaign p {
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
+}
+
+footer {
+    background: #555555;
+}
+
+footer .logos-holder {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 3%;
+}
+
+.logos-holder .logo {
+    margin-right: 3%;
+}
+
+.copyright {
+    text-align: center;
+}
+
+.inside-bar-text {
+  fill: white;
+  text-anchor: end;
+}
+
+li {
+  font-size: 1.6em;
+}
+
+/* MAIN STYLES */
+
+
+/* MEDIA QUERIES */
+
+@media (max-width: 768px) {
+    .col-md-offset-1 {
+        margin-left: 0;
+    }
+    .ways-to-address {
+        margin-bottom: 3%;
+    }
+    .logos-holder .logo {
+        margin-bottom: 10%;
+    }
+}
+
+@media (max-width: 425px) {
+    .main-heading {
+        font-size: 3.5em;
+    }
+    .main-heading-card {
+        font-size: 2.5em;
+    }
+    .sub-heading-card {
+        font-size: 1em;
+    }
+}
+
+
+/* MEDIA QUERIES */

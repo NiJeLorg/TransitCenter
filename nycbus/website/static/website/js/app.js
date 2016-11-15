@@ -1604,7 +1604,7 @@ app.bus5MarginScale = d3.scale.linear()
 app.updateShareButtons = function (route_id) {
   // set up twitter and facebook URLs
   var app_id = '1581540325487727';
-  var fbdescription = "Here's the report card for the " + route_id + " bus in NYC. Check out and compare your bus here!";
+  var fbdescription = "Here's the report card for the " + route_id + " bus in NYC. Check out and compare your bus here! #busturnaround";
   var fblink = "http://busturnaround.nyc/?route="+route_id;
   var fbpicture = "http://busturnaround.nyc/static/website/css/images/report_card_fb.png";
   var fbname = "This is the report card for the "+route_id;
@@ -1617,7 +1617,7 @@ app.updateShareButtons = function (route_id) {
 
   var twitterlink = "http://busturnaround.nyc/?route="+route_id;
   var via = 'TransitCenter';
-  var twittercaption = "Here's the report card for the " + route_id + " bus in NYC. Check out and compare your bus here!";
+  var twittercaption = "Here's the report card for the " + route_id + " bus in NYC. Check out your bus here! #busturnaround";
   var twitterUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(twitterlink) + '&via='+ encodeURIComponent(via) + '&text=' + encodeURIComponent(twittercaption);
   var twitterOnclick = 'window.open("' + twitterUrl + '","twitter-share-dialog","width=626,height=436");return false;';
   //$('#showShareTwitter').attr("href", twitterUrl);
