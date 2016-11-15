@@ -79,7 +79,7 @@ app.createBarChart = function(divId, barChartColorScale, data) {
     bar.append("text")
         .attr("class", "inside-bar-text")
         .attr("x", function(d) {
-            return x(d.value) - 10;
+            return x(d.value) - 80;
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -120,7 +120,7 @@ app.createListeners = function() {
     $('#selectDistrict').change(function() {
         // add functions to call with update
     });
-}
+};
 
 
 app.createStateSenateOptions = function(district) {
@@ -143,7 +143,7 @@ app.createStateSenateOptions = function(district) {
             // errors contains a list of errors
             console.log("errors:" + errors);
         });
-}
+};
 
 app.createStateAssemblyOptions = function(district) {
 
@@ -165,7 +165,7 @@ app.createStateAssemblyOptions = function(district) {
             // errors contains a list of errors
             console.log("errors:" + errors);
         });
-}
+};
 
 app.initSelect2Menu = function(district) {
 	// when done create select2 menu
@@ -183,14 +183,14 @@ app.initSelect2Menu = function(district) {
 	    app.selectDistrictMenu.val(district).trigger("change");
 
 	}
-}
+};
 
 
 
 /**** Utility functions ****/
 app.numberWithCommas = function(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+};
 
 app.ordinal_suffix_of = function(i) {
     var j = i % 10,

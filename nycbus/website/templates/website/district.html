@@ -2,23 +2,19 @@
 <link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" /> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
-<!-- Static Top Navigation -->
-<nav class="navbar navbar-custom-static-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand page-scroll" href="#page-top">
-                <h1>Turnaround</h1>
-            </a>
+<main>
+    <header class="row">
+        <div class="header-title col-md-6">
+            <h2 class="main-heading">Turnaround</h2>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="navbar-right">
-            <ul class="nav navbar-nav">
-                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
-                <li>
-                    <h2>
+        <div class="header-dropdown-select col-md-6">
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <h2>
                         <select id="selectDistrict" class="selectDistrict">
                             <optgroup id="dropdownStateSenate" label="State Senate Districts">
                             </optgroup>
@@ -26,107 +22,96 @@
                             </optgroup>
                         </select>
                     </h2>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-<!-- Intro Header -->
-<header class="intro">
-    <div class="intro-body">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <div class="card">
-                        <h1>Report Card for State Assembly District 35</h1>
-                        <div class="people">
-                            <h3>People</h3>
-                            <h2>148,721 <small>bus commuters</small></h2>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <h2>23 <small>bus routes</small></h2>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <h2>28% <small>in poverty</small></h2>
-                            </div>
-                        </div>
-                        <div class="bus-routes-graphs">
-                            <h3>Bus Routes</h3>
-                            <div class="bus-routes-bars">
-                                <div class="bus-routes-bars row">
-                                    <div class="col-md-6 col-sm-12">
-                                        <h4>Highest Ridership</h4>
-                                        <!-- <svg id="ridership"></svg> -->
-                                        <div id="ridership">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                        <h4>Fastest Growing</h4>
-                                        <div id="fastestGrowing">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="bus-routes-bars row">
-                                    <div class="col-md-6 col-sm-12">
-                                        <h4>Most Bunching</h4>
-                                        <div id="mostBunching"></div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                        <h4>Slowest</h4>
-                                        <div id="slowest">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    </header>
+    <div class="row">
+        <div class="bus-routes-holder col-md-6">
+            <div class="report-card card bottom-buffer">
+                <h2 class="main-heading margin-bottom">Report Card for State Assembly District 35</h2>
+                <div class="people">
+                    <h3 class="text-uppercase sub-heading-card">People</h3>
+                    <h2 class="main-heading-card">148,721 <small>bus commuters</small></h2>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <h2 class="main-heading-card">23 <small>bus routes</small></h2>
                     </div>
-                    <div class="card margin-top-20">
-                        <h4>Ways to Address These Problems Now</h4>
-                        <ul>
-                            <li>Speed up buses with the new fare payment system</li>
-                            <li>Implement transit signal priority systemwide</li>
-                            <li>Add more bus lanes on local routes</li>
-                        </ul>
+                    <div class="col-sm-12 col-md-6">
+                        <h2 class="main-heading-card">28% <small>in poverty</small></h2>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="card">
-                        <h4>The NYC Bus Turnaround Campaign</h4>
-                        <p>The Bus Turnaround Coalition is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
-                    </div>
-                    <div class="card margin-top-20">
-                        <p>Map here</p>
+                <div class="bus-routes-graphs">
+                    <h3 class="text-uppercase sub-heading-card">Bus Routes</h3>
+                    <div class="bus-routes-bars">
+                        <div class="bus-routes-bars row">
+                            <div class="col-md-6 col-sm-12">
+                                <h4><strong>Highest Ridership</strong></h4>
+                                <div id="ridership">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <h4>Fastest Growing</h4>
+                                <div id="fastestGrowing">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bus-routes-bars row">
+                            <div class="col-md-6 col-sm-12">
+                                <h4>Most Bunching</h4>
+                                <div id="mostBunching"></div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <h4>Slowest</h4>
+                                <div id="slowest">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="ways-to-address card">
+                <h4>Ways to Address These Problems Now</h4>
+                <ul>
+                    <li>Speed up buses with the new fare payment system</li>
+                    <li>Implement transit signal priority systemwide</li>
+                    <li>Add more bus lanes on local routes</li>
+                </ul>
+            </div>
+        </div>
+        <div class="bus-map-holder col-md-5 col-md-offset-1">
+            <div class="turnaround-campaign card bottom-buffer">
+                <h4>The NYC Bus Turnaround Campaign</h4>
+                <p>The Bus Turnaround Coalition is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
+            </div>
+            <div class="card">
+                <p>Map here</p>
+            </div>
         </div>
     </div>
-</header>
-<!-- Footer -->
+    </div>
+</main>
 <footer>
-    <div class="container-fluid text-center">
-        <div class="row">
-            <div class="col-sm-3 margin-top-20">
-                <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
-            </div>
-            <div class="col-sm-3 margin-top-20">
-                <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
-            </div>
-            <div class="col-sm-3 margin-top-20">
-                <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
-            </div>
-            <div class="col-sm-3 margin-top-20">
-                <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
-            </div>
+    <div class="logos-holder">
+        <div class="logo">
+            <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
         </div>
-        <div class="row">
-            <div class="col-sm-12 margin-top-20">
-                <p class="white-heading">Copyright &copy; <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}</p>
-            </div>
+        <div class="logo">
+            <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
         </div>
+        <div class="logo">
+            <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
+        </div>
+        <div class="logo">
+            <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>Copyright &copy;
+            <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}
+        </p>
     </div>
 </footer>
 {% endblock %} {% block modal_block %}
