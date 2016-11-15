@@ -4,8 +4,6 @@
 
 function app() {}
 
-var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-
 app.init = function() {
     // set up CARTO SQL for querying
     app.username = 'busworks';
@@ -342,7 +340,7 @@ app.createBarChart = function(divId, barChartColorScale, data) {
     bar.append("text")
         .attr("class", "inside-bar-text")
         .attr("x", function(d) {
-            return x(d.value) - 10;
+            return x(d.value) - 80;
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -369,14 +367,10 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 
 
 
-
-
-
-
 /**** Utility functions ****/
 app.numberWithCommas = function(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+};
 
 app.ordinal_suffix_of = function(i) {
     var j = i % 10,
