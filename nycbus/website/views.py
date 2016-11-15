@@ -20,5 +20,5 @@ def website_index(request):
 
 
 def district_analysis(request):
-	district = request.GET.get("district","1")
+	district = request.GET.get("district","State Senate District 10")
 	return render(request, 'website/district.html', {'district':district,})
