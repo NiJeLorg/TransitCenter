@@ -68,6 +68,7 @@ main {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: scroll;
+    background-position-y: 90%;
     padding: 1.5% 2%;
 }
 
@@ -118,7 +119,7 @@ footer .logos-holder {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 3%;
+    padding: 2%;
 }
 
 .logos-holder .logo {
@@ -127,6 +128,7 @@ footer .logos-holder {
 
 .copyright {
     text-align: center;
+    padding: 1% 0;
 }
 
 .inside-bar-text {
@@ -182,6 +184,11 @@ li {
     }
     .sub-heading-card {
         font-size: 1em;
+    }
+    #selectDistrict {
+        width: 94%;
+        margin-left: 3%;
+        color: #333333;
     }
 }
 
