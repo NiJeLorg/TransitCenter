@@ -12,8 +12,8 @@
     padding: 0;
 }
 
-.col-md-offset-1 {
-    margin-left: 4%;
+.navbar-right {
+    margin-right: 0;
 }
 
 
@@ -73,7 +73,25 @@ main {
 
 main header h2 {
     color: #fff;
-    margin-bottom: 2%;
+    margin: 0;
+}
+
+.header-dropdown-select {
+    bottom: -25px;
+}
+
+.main-component {
+    display: flex;
+    margin-top: 3%;
+}
+
+.bus-routes-holder {
+    width: 48%;
+}
+
+.bus-map-holder {
+    margin-left: 4%;
+    width: 48%;
 }
 
 .report-card h2 {
@@ -112,13 +130,14 @@ footer .logos-holder {
 }
 
 .inside-bar-text {
-  fill: white;
-  text-anchor: end;
+    fill: white;
+    text-anchor: end;
 }
 
 li {
-  font-size: 1.6em;
+    font-size: 1.6em;
 }
+
 
 /* MAIN STYLES */
 
@@ -134,6 +153,23 @@ li {
     }
     .logos-holder .logo {
         margin-bottom: 10%;
+    }
+    .main-component {
+        display: block;
+        margin-top: 10%;
+    }
+    .bus-routes-holder {
+        width: 100%;
+    }
+    .bus-map-holder {
+        margin-left: 0;
+        width: 100%;
+    }
+    .navbar-right {
+        float: none !important;
+    }
+    .header-title h2 {
+        margin-bottom: 3%;
     }
 }
 
