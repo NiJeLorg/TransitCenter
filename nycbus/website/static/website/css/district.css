@@ -153,6 +153,11 @@ footer .logos-holder {
 	height: 88.3vh;
 }
 
+div.cartodb-tooltip-content p {
+	font-size: 20px !important;
+	font-weight: bold !important;
+}
+
 
 /* MAIN STYLES */
 

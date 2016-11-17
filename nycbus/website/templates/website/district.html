@@ -92,13 +92,15 @@
                 </ul>
             </div>
             <div class="card">
+                {% verbatim %}
                 <script type="tooltip/html" id="tooltip_template">
                     <div class="cartodb-tooltip-content-wrapper">
                         <div class="cartodb-tooltip-content">
-                            <p>Route: {{ route_id }}</p>
+                            <p>{{ route_id }}</p>
                         </div>
                     </div>
                 </script>
+                {% endverbatim %}
                 <div id='district-map' class='district-map'></div>
             </div>
         </div>
