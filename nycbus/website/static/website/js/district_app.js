@@ -20,9 +20,6 @@ app.init = function() {
     // set up report card drop down menu
    	app.createStateSenateOptions();
 
-   	// set up SQL queries to select the routes based on district
-   	app.selectRoutes(district);
-
 };
 
 // sets up listeners
@@ -40,8 +37,10 @@ app.createListeners = function() {
 
     // listen for on change to update visualizations
     $('#selectDistrict').change(function() {
-      // update route selection and data
-      app.selectRoutes($(this).val());
+        // update route selection and data
+        app.selectRoutes($(this).val());
+        // create url parameters 
+        window.history.pushState( {} , '', '?district=' + $(this).val() );
     });
 }
 
@@ -135,37 +134,53 @@ app.selectRoutes = function(district) {
     app.updateBarCharts(routesWithinSQL);
 
     // update data vis text
-    app.updateTextDataVis(district, routesWithinSQL);
+    app.updateTextDataVis(district, routesWithinSQL, districtGeomSQL);
+
+
+    var districtMapSQL = 'SELECT * FROM '+ districtTable +' AS district WHERE '+ districtFieldName +' = ' + districtNumber;
+
+    var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN ('+ routesWithinSQL +')';
+
+    // update the map
+    app.reportCardMap(districtMapSQL, routesMapSQL);
 
 }
 
 // pull data and update text based on selected district
-app.updateTextDataVis = function(district, routesWithinSQL) {
+app.updateTextDataVis = function(district, routesWithinSQL, districtGeomSQL) {
 	// set district name
 	$('#districtName').text(district);  
 
-	// // calculate bus commuters based on average weekday riderhip by route
-	// var commuterQuery = 'SELECT year_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND year_2015 IS NOT NULL';
+	// calculate bus commuters based on census block group data
+	var commuterQuery = 'SELECT sum(acs.hd01_vd11) FROM acs_14_5yr_b08301 AS acs WHERE ST_Intersects( acs.the_geom , ('+ districtGeomSQL +') )';
 
- //    app.sqlclient.execute(commuterQuery)
- //        .done(function(data) {
- //        	// sum up the average weekday ridership
- //        	var sum;
- //        	for (var i = 0; i < data.rows.length; i++) {
- //        		
- //        	}
- //        })
- //        .error(function(errors) {
- //            // errors contains a list of errors
- //            console.log("errors:" + errors);
- //        });	
+    app.sqlclient.execute(commuterQuery)
+        .done(function(data) {
+            $({countNum: $('#busCommuters').text().replace(',','')}).animate({countNum: data.rows[0].sum}, {
+              duration: 1000,
+              easing:'linear',
+              step: function() {
+                if (this.countNum) {
+                  $('#busCommuters').text(app.numberWithCommas(parseInt(this.countNum)));
+                } else {
+                  $('#busCommuters').text('0');
+                }
+              },
+              complete: function() {
+               $('#busCommuters').text(app.numberWithCommas(parseInt(this.countNum)));
+              }
+            }); 
+        })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        });	
 
 
  	// calculate number of bus routes that fall within this district
     app.sqlclient.execute(routesWithinSQL)
         .done(function(data) {
         	// pull total_rows from response
-        	console.log(data.total_rows);
 		    $({countNum: $('#busRoutes').text()}).animate({countNum: data.total_rows}, {
 		      duration: 1000,
 		      easing:'linear',
@@ -187,6 +202,33 @@ app.updateTextDataVis = function(district, routesWithinSQL) {
             console.log("errors:" + errors);
         });	
 
+
+    // calculate poverty level based on census block group data
+    var poveryQuery = 'SELECT sum(acs.hd01_vd01) as total, sum(acs.hd01_vd02) as poor FROM acs_14_5yr_b17021 AS acs WHERE ST_Intersects( acs.the_geom , ('+ districtGeomSQL +') )';
+    var pctPoor;
+    app.sqlclient.execute(poveryQuery)
+        .done(function(data) {
+            pctPoor = parseInt(((data.rows[0].poor / data.rows[0].total) * 100).toFixed())
+
+            $({countNum: $('#percentPoverty').text()}).animate({countNum: pctPoor}, {
+              duration: 1000,
+              easing:'linear',
+              step: function() {
+                if (this.countNum) {
+                  $('#percentPoverty').text(parseInt(this.countNum));
+                } else {
+                  $('#percentPoverty').text('0');
+                }
+              },
+              complete: function() {
+               $('#percentPoverty').text(parseInt(this.countNum));
+              }
+            }); 
+        })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        }); 
 
 }
 
@@ -219,7 +261,6 @@ app.updateBarCharts = function(routesWithinSQL) {
 
     app.sqlclient.execute(fastestGrowingQuery)
         .done(function(data) {
-        	console.log(data);
         	// create data object and pass to bar chart for the form
         	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
         	var fastestGrowingArray = [];
@@ -242,7 +283,6 @@ app.updateBarCharts = function(routesWithinSQL) {
 
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
-        	console.log(data);
         	// create data object and pass to bar chart for the form
         	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
         	var mostBunchingArray = [];
@@ -266,7 +306,6 @@ app.updateBarCharts = function(routesWithinSQL) {
 
     app.sqlclient.execute(slowestQuery)
         .done(function(data) {
-        	console.log(data);
         	// create data object and pass to bar chart for the form
         	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
         	var slowestArray = [];
@@ -366,6 +405,68 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 
 
 
+app.reportCardMap = function (districtMapSQL, routesMapSQL) {
+
+    if (app.map.hasLayer(app.districtLayer)) {
+        console.log('hello');
+        app.map.removeLayer(app.districtLayer);
+        //app.districtLayer.clear();
+    }
+    if (app.map.hasLayer(app.busRouteLayer)) {
+        app.map.removeLayer(app.busRouteLayer);
+        //app.busRouteLayer.clear();
+    }
+
+  cartodb.createLayer(app.map, {
+    user_name: app.username,
+    type: 'cartodb',
+    sublayers: [{
+      sql: routesMapSQL,
+      cartocss: '#layer {line-width: 2;line-color: ramp([route_id], colorbrewer(Paired), category(10));line-opacity: 1;}',
+      interactivity: 'cartodb_id, route_id',
+    }]
+  })
+  .addTo(app.map)
+  .done(function(layer) {
+      app.busRouteLayer = layer;
+      var sublayer = layer.getSubLayer(0);
+      sublayer.setInteractivity('cartodb_id, route_id');
+      // tooltip definition for createLayer()
+      var testTooltip = layer.leafletMap.viz.addOverlay({
+        type: 'tooltip',
+        layer: sublayer,
+        template: $('#tooltip_template').html(), 
+        width: 100,
+        position: 'top|right',
+        fields: [{ route_id: 'route_id' }]
+      });
+      console.log(testTooltip);
+      $('#district-map').append(testTooltip.render().el);
+
+  });
+
+
+  cartodb.createLayer(app.map, {
+    user_name: app.username,
+    type: 'cartodb',
+    sublayers: [{
+      sql: districtMapSQL,
+      cartocss: '#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}',
+    }]
+  })
+  .addTo(app.map)
+  .done(function(layer) {
+    app.districtLayer = layer;
+    app.sqlclient.getBounds(districtMapSQL).done(function(bounds) {
+      app.map.fitBounds(bounds);
+    });
+
+  });
+
+
+}
+
+
 
 /**** Utility functions ****/
 app.numberWithCommas = function(x) {
@@ -396,6 +497,15 @@ app.mostBunchingColorScale = d3.scale.linear()
 
 app.slowestColorScale = d3.scale.linear()
     .range(['#b43d3e', '#ff4442']);
+
+
+// map set up
+app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{ attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });  
+
+app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10 });  
+
+app.map.addLayer(app.tiles);
+
 
 
 
