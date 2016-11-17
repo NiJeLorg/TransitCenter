@@ -20,6 +20,15 @@
 /* OVERIDE BOOTSTRAP STYLES */
 
 
+/* OVERIDE SELECT2 STYLES */
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #aaa;
+}
+
+/* OVERIDE SELECT2 STYLES */
+
+
 /* UTILITY CLASS // TYPOGRAPHY STYLES // */
 
 * {
@@ -136,8 +145,12 @@ footer .logos-holder {
     text-anchor: end;
 }
 
-li {
+.card-li {
     font-size: 1.6em;
+}
+
+.district-map {
+	height: 88.3vh;
 }
 
 
@@ -145,6 +158,12 @@ li {
 
 
 /* MEDIA QUERIES */
+
+@media (max-width: 1024px) {
+    .district-map {
+		height: 97.3vh;
+	}
+}
 
 @media (max-width: 768px) {
     .col-md-offset-1 {
@@ -173,6 +192,15 @@ li {
     .header-title h2 {
         margin-bottom: 3%;
     }
+    #selectDistrict {
+        /*width: 94%;*/
+        /*margin-left: 3%;*/
+        font-size: 0.65em;
+        color: #333333;
+    }
+    .district-map {
+		height: 65vh;
+	}
 }
 
 @media (max-width: 425px) {
@@ -185,11 +213,9 @@ li {
     .sub-heading-card {
         font-size: 1em;
     }
-    #selectDistrict {
-        width: 94%;
-        margin-left: 3%;
-        color: #333333;
-    }
+    .district-map {
+		height: 65vh;
+	}
 }
 
 
