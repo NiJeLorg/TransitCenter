@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 # import all analysis models and forms
 from website.models import *
 
-# TransitCenter Public Website Views 
 
+# TransitCenter Public Website Views 
 def website_index(request):
 	route = request.GET.get("route","None")
 	if route == "None":
