@@ -432,16 +432,16 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
       var sublayer = layer.getSubLayer(0);
       sublayer.setInteractivity('cartodb_id, route_id');
       // tooltip definition for createLayer()
-      var testTooltip = layer.leafletMap.viz.addOverlay({
+      var tooltip = layer.leafletMap.viz.addOverlay({
         type: 'tooltip',
         layer: sublayer,
         template: $('#tooltip_template').html(), 
-        width: 100,
+        width: 120,
         position: 'top|right',
         fields: [{ route_id: 'route_id' }]
       });
-      console.log(testTooltip);
-      $('#district-map').append(testTooltip.render().el);
+      console.log(tooltip);
+      $('#district-map').append(tooltip.render().el);
 
   });
 
