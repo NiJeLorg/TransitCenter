@@ -128,7 +128,7 @@ app.selectRoutes = function(district) {
     var districtGeomSQL = 'SELECT district.the_geom FROM '+ districtTable +' AS district WHERE '+ districtFieldName +' = ' + districtNumber;	
 
 	// now select the distinct routes that intersect that geometry
-    var routesWithinSQL = 'SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE ST_Intersects( mta.the_geom , ('+ districtGeomSQL +') )';
+    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND ST_Intersects( mta.the_geom , ("+ districtGeomSQL +") )";
 
     // pass routesWithinSQL to bar chart update function
     app.updateBarCharts(routesWithinSQL);
@@ -142,7 +142,11 @@ app.selectRoutes = function(district) {
     var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN ('+ routesWithinSQL +')';
 
     // update the map
-    app.reportCardMap(districtMapSQL, routesMapSQL);
+    // interactive
+    //app.reportCardMap(districtMapSQL, routesMapSQL);
+
+    //static
+    app.reportCardMapStatic(districtMapSQL, routesMapSQL);
 
 }
 
@@ -404,7 +408,7 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 };
 
 
-
+// interactive map
 app.reportCardMap = function (districtMapSQL, routesMapSQL) {
 
     if (app.map.hasLayer(app.districtLayer)) {
@@ -463,6 +467,74 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
 
   });
 
+}
+
+
+// static map
+app.reportCardMapStatic = function (districtMapSQL, routesMapSQL) {
+  // make a static map using CARTO Static API
+  // first get bounds for the map
+  app.bounds = [];
+  app.sqlclient.getBounds(districtMapSQL)
+    .done(function(bounds) {
+      app.bounds = bounds;
+    });
+
+  /**** If we want to try adding labels to text layers use somethign like the following cartocss
+  * text-name:[boro_name];text-face-name:'DejaVu Sans Book';text-size:50;text-fill: #6F808D;text-halo-radius: 1;text-halo-fill: rgba(255, 255, 255, 0.75);text-transform:uppercase;
+  ****/ 
+  var mapconfig = {
+    "layers": [
+
+      {
+        "type": "http",
+        "options": {
+          "urlTemplate": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+          "subdomains": [
+            "a",
+            "b",
+            "c"
+          ]
+        }
+      },
+      {
+        "type": "mapnik",
+        "options": {
+          "sql": districtMapSQL,
+          "cartocss": "#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}",
+          "cartocss_version": "2.1.1"
+        }
+      },
+      {
+        "type": "mapnik",
+        "options": {
+          "sql": routesMapSQL,
+          "cartocss": '#layer {::shape {line-width: 2;line-color: ramp([route_id], ("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928","#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695","#CF1C90","#f97b72","#A5AA99"), category(23)); line-opacity: 1;} ::label {text-name:[route_id]; text-face-name:"DejaVu Sans Book"; text-size:14; text-fill: #6F808D; text-halo-radius: 1; text-halo-fill: rgba(255, 255, 255, 0.75); text-transform:uppercase; text-placement: line; text-dy: 12; text-avoid-edges: true; text-min-distance: 100;} }',
+          "cartocss_version": "2.1.1"
+        }
+      },
+    ]
+  }
+
+  var mapWidth = parseInt($('.district-map').width());
+  var mapHeight = parseInt($('.district-map').height());
+
+  $.ajax({
+    crossOrigin: true,
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    url: 'https://'+app.username+'.carto.com/api/v1/map',
+    data: JSON.stringify(mapconfig),
+    success: function(data) {
+      // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
+      // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
+      var url = 'https://'+app.username+'.carto.com/api/v1/map/static/bbox/'+data.layergroupid+'/'+app.bounds[1][1]+','+app.bounds[1][0]+','+app.bounds[0][1]+','+app.bounds[0][0]+'/'+mapWidth+'/'+mapHeight+'.png';
+      // get map image
+      $('#district-map').html('<img class="img-responsive" src="'+url+'" />');
+    }
+
+  });
 
 }
 
@@ -500,11 +572,11 @@ app.slowestColorScale = d3.scale.linear()
 
 
 // map set up
-app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{ attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });  
+/*app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{ attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });  
 
 app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10 });  
 
-app.map.addLayer(app.tiles);
+app.map.addLayer(app.tiles);*/
 
 
 
