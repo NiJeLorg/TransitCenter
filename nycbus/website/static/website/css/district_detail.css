@@ -1,0 +1,227 @@
+/* OVERIDE BOOTSTRAP STYLES */
+
+.row {
+    margin: 0;
+}
+
+.col-md-6 {
+    padding: 0;
+}
+
+.col-md-5 {
+    padding: 0;
+}
+
+.navbar-right {
+    margin-right: 0;
+}
+
+
+/* OVERIDE BOOTSTRAP STYLES */
+
+
+/* OVERIDE SELECT2 STYLES */
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #aaa;
+}
+
+/* OVERIDE SELECT2 STYLES */
+
+
+/* UTILITY CLASS // TYPOGRAPHY STYLES // */
+
+* {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.main-heading {
+    font-size: 4.5em;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.main-heading-card {
+    font-size: 3.5em;
+}
+
+.sub-heading-card {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+}
+
+
+/* UTILITY CLASS // TYPOGRAPHY STYLES // */
+
+
+/* UTILITY CLASS // REUSABLE STYLES // */
+
+.bottom-buffer {
+    margin-bottom: 3%;
+}
+
+.card {
+    background: #fff;
+    border: solid 1px #DDDDDD;
+    padding: 2% 3%;
+}
+
+
+/* UTILITY CLASS // REUSABLE STYLES // */
+
+
+/* MAIN STYLES */
+
+main {
+    background-image: url(images/cover_background_small.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    background-position-y: 90%;
+    padding: 1.5% 2%;
+}
+
+main header h2 {
+    color: #fff;
+    margin: 0;
+}
+
+.header-dropdown-select {
+    bottom: -25px;
+}
+
+.main-component {
+    display: flex;
+    margin-top: 3%;
+}
+
+.bus-routes-holder {
+    width: 48%;
+}
+
+.bus-map-holder {
+    margin-left: 4%;
+    width: 48%;
+}
+
+.report-card h2 {
+    line-height: 95%;
+}
+
+.ways-to-address h4 {
+    font-size: 1.6em;
+}
+
+.turnaround-campaign h4 {
+    font-size: 1.6em;
+}
+
+.turnaround-campaign p {
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
+}
+
+footer {
+    background: #555555;
+}
+
+footer .logos-holder {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2%;
+}
+
+.logos-holder .logo {
+    margin-right: 3%;
+}
+
+.copyright {
+    text-align: center;
+    padding: 1% 0;
+}
+
+.inside-bar-text {
+    fill: white;
+    text-anchor: end;
+}
+
+.card-li {
+    font-size: 1.6em;
+}
+
+.district-map {
+	height: 88.3vh;
+}
+
+div.cartodb-tooltip-content p {
+	font-size: 20px !important;
+	font-weight: bold !important;
+}
+
+
+/* MAIN STYLES */
+
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1024px) {
+    .district-map {
+		height: 97.3vh;
+	}
+}
+
+@media (max-width: 768px) {
+    .col-md-offset-1 {
+        margin-left: 0;
+    }
+    .ways-to-address {
+        margin-bottom: 3%;
+    }
+    .logos-holder .logo {
+        margin-bottom: 10%;
+    }
+    .main-component {
+        display: block;
+        margin-top: 10%;
+    }
+    .bus-routes-holder {
+        width: 100%;
+    }
+    .bus-map-holder {
+        margin-left: 0;
+        width: 100%;
+    }
+    .navbar-right {
+        float: none !important;
+    }
+    .header-title h2 {
+        margin-bottom: 3%;
+    }
+    #selectDistrict {
+        /*width: 94%;*/
+        /*margin-left: 3%;*/
+        font-size: 0.65em;
+        color: #333333;
+    }
+    .district-map {
+		height: 65vh;
+	}
+}
+
+@media (max-width: 425px) {
+    .main-heading {
+        font-size: 3.5em;
+    }
+    .main-heading-card {
+        font-size: 2.5em;
+    }
+    .sub-heading-card {
+        font-size: 1em;
+    }
+    .district-map {
+		height: 65vh;
+	}
+}
+
+
+/* MEDIA QUERIES */

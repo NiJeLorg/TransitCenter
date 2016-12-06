@@ -1,5 +1,5 @@
 {% extends 'website/base.html' %} {% load staticfiles %} {% block title %}| District Level Analysis{% endblock %} {% block css_block %}
-<link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'website/css/district_detail.css' %}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" /> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
 <main>
@@ -148,7 +148,7 @@
 </div>
 {% endblock %} {% block js_block %}
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-<script type="text/javascript" src="{% static 'website/js/district_app.js' %}"></script>
+<script type="text/javascript" src="{% static 'website/js/district_detail_app.js' %}"></script>
 <script type="text/javascript">
 var district = '{{ district }}';
 window.onload = app.init;
