@@ -45,20 +45,64 @@ main .choose-district {
 
 main .metric-component {
     padding: 0 30px;
+    margin-bottom: 50px;
+    font-family: 'HelveticaNeue', sans-serif;
 }
 
 .metric-component h3 {
     font-size: 42px;
     margin: 0;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
-.metric-component .table-chart-holder {
-    width: 100%;
-}
+.metric-component .table-chart-holder {}
 
 .table-chart-holder .col-md-6 {
-    height: 400px;
+    width: 48%;
+    height: 515px;
+    border: solid 1px #979797;
+    margin-bottom: 50px;
+    padding: 20px;
+}
+
+.table-chart-holder .table-data {
+    margin-right: 2%;
+}
+
+.table-data table {
+    width: 100%;
+    border: 1px solid #979797;
+}
+
+table th {
+    text-align: center;
+    border-right: 1px solid #979797;
+    font-weight: bold;
+    padding: 14px 0;
+    color: #333333;
+    font-size: 20px;
+}
+
+table tr:nth-child(odd) {
+    background-color: #D8D8D8;
+}
+
+table tr:nth-child(1) {
+    background: #fff;
+}
+
+table td {
+    text-align: center;
+    font-size: 18px;
+    padding: 16px 0;
+    border-top: 1px solid #979797;
+    border-right: 1px solid #979797;
+}
+
+.table-data .note-text {
+    margin-top: 5px;
+    font-size: 18px;
 }
 
 footer {
