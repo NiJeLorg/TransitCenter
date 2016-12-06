@@ -119,3 +119,9 @@ footer p {
     margin: 0;
     font-size: 24px;
 }
+
+@media (max-width: 768px) {
+    .table-chart-holder .col-md-6 {
+        width: 100%;
+    }
+}
