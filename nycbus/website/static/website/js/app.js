@@ -1380,6 +1380,7 @@ app.pictureBook = function () {
         node: d,
         slug: d.getAttribute("data-slug"),
         bgNode: d.querySelector(".picture-book-bg"),
+        navNode: d.querySelector(".raiseZIndex"),
         pages: [].map.call(d.querySelectorAll(".picture-book-page"), function(page) { return {node: page}; })
       };
     });
@@ -1398,15 +1399,17 @@ app.pictureBook = function () {
 
         // Background fixing
         // Top
-        console.log(topDistance, "Top");
-        console.log(bottomDistance, "Bottom");
         if (topDistance <= 0 && bottomDistance <= 0) {
           book.bgNode.classList.remove("picture-book-bg-fixed");
           book.bgNode.classList.remove("picture-book-bg-bottom");
+          book.navNode.classList.remove("raiseZIndex-bg-fixed");
+          book.navNode.classList.remove("raiseZIndex-bg-bottom");
         // Bottom
         } else if (bottomDistance > 0) {
           book.bgNode.classList.remove("picture-book-bg-fixed");
           book.bgNode.classList.add("picture-book-bg-bottom");
+          book.navNode.classList.remove("raiseZIndex-bg-fixed");
+          book.navNode.classList.add("raiseZIndex-bg-bottom");
         // Fixed
         } else {
           that.activeBook = book;
@@ -1414,6 +1417,9 @@ app.pictureBook = function () {
           isFixed = true;
           book.bgNode.classList.add("picture-book-bg-fixed");
           book.bgNode.classList.remove("picture-book-bg-bottom");
+          book.navNode.classList.add("raiseZIndex-bg-fixed");
+          book.navNode.classList.remove("raiseZIndex-bg-bottom");
+
 
           // Pages
           if (book.pages.length) {
