@@ -45,65 +45,68 @@ app.init = function () {
 
 app.scrollingInteractions = function () {
     // get height of intro block
-    var introHeight = $(".intro").height();
+    var introHeight = $(".intro").height() - 1;
     if ($("#fixedNav").offset().top >= introHeight) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
     } else {
         $(".navbar-fixed-top").removeClass("top-nav-collapse");
     }
 
+    // variable set up
+    var top_2_a, left_2_a, top_2_b, left_2_b, top_3_5_a, left_3_5_a, top_3_5_b, left_3_5_b, top_3_a, left_3_a, top_3_b, left_3_b, top_4, left_4, element, offsetTop;
+
     // check broser width and set tops and lefts
     if (($('body')).width() < 767) {
       // mobile
-      var top_2_a = '20vh';
-      var left_2_a = '40%';
-      var top_2_b = '20vh';
-      var left_2_b = '40%';
-      var top_3_5_a = '20vh';
-      var left_3_5_a = '32%';
-      var top_3_5_b = '25vh';
-      var left_3_5_b = '42%';
-      var top_3_a = '50vh';
-      var left_3_a = '45%';
-      var top_3_b = '40vh';
-      var left_3_b = '46%';
-      var top_4 = '60vh';
-      var left_4 = '46%';
+      top_2_a = '20vh';
+      left_2_a = '40%';
+      top_2_b = '20vh';
+      left_2_b = '40%';
+      top_3_5_a = '20vh';
+      left_3_5_a = '32%';
+      top_3_5_b = '25vh';
+      left_3_5_b = '42%';
+      top_3_a = '50vh';
+      left_3_a = '45%';
+      top_3_b = '40vh';
+      left_3_b = '46%';
+      top_4 = '60vh';
+      left_4 = '46%';
     } else if (($('body')).width() < 1200) {
       // tablet
-      var top_2_a = '32vh';
-      var left_2_a = '60%';
-      var top_2_b = '12vh';
-      var left_2_b = '30%';
-      var top_3_5_a = '20vh';
-      var left_3_5_a = '65%';
-      var top_3_5_b = '30vh';
-      var left_3_5_b = '31%';
-      var top_3_a = '30vh';
-      var left_3_a = '31%';
-      var top_3_b = '30vh';
-      var left_3_b = '31%';
-      var top_4 = '50vh';
-      var left_4 = '32%';
+      top_2_a = '32vh';
+      left_2_a = '60%';
+      top_2_b = '12vh';
+      left_2_b = '30%';
+      top_3_5_a = '20vh';
+      left_3_5_a = '65%';
+      top_3_5_b = '30vh';
+      left_3_5_b = '31%';
+      top_3_a = '30vh';
+      left_3_a = '31%';
+      top_3_b = '30vh';
+      left_3_b = '31%';
+      top_4 = '50vh';
+      left_4 = '32%';
     } else {
-      var top_2_a = '42vh';
-      var left_2_a = '58%';      
-      var top_2_b = '3vh';
-      var left_2_b = '31%';
-      var top_3_5_a = '20vh';
-      var left_3_5_a = '70%';
-      var top_3_5_b = '20vh';
-      var left_3_5_b = '32%';
-      var top_3_a = '20vh';
-      var left_3_a = '32%';
-      var top_3_b = '40vh';
-      var left_3_b = '33%';
-      var top_4 = '45vh';
-      var left_4 = '33%';
+      top_2_a = '42vh';
+      left_2_a = '58%';      
+      top_2_b = '3vh';
+      left_2_b = '31%';
+      top_3_5_a = '20vh';
+      left_3_5_a = '70%';
+      top_3_5_b = '20vh';
+      left_3_5_b = '32%';
+      top_3_a = '20vh';
+      left_3_a = '32%';
+      top_3_b = '40vh';
+      left_3_b = '33%';
+      top_4 = '45vh';
+      left_4 = '33%';
     }
 
-    var element = 'bus-animation-1-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-1-a';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         app.dest_1_a = (scrollY - offsetTop) * 1.2;
@@ -114,8 +117,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '3vh', 'left': '16%'});      
     }
 
-    var element = 'bus-animation-1-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-1-b';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         app.dest_1_b = (scrollY - offsetTop) * 1.5;
@@ -125,8 +128,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '1vh', 'left': '16%'});      
     }
 
-    var element = 'bus-animation-1-5-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-1-5-a';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         app.dest_1_5_a = (scrollY - offsetTop);
@@ -137,8 +140,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
     }
 
-    var element = 'bus-animation-1-5-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-1-5-b';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         app.dest_1_5_b = (scrollY - offsetTop);
@@ -148,8 +151,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
     }
 
-    var element = 'bus-animation-2-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-2-a';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_2_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         if (top_2_a == '20vh') {
@@ -165,8 +168,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_2_a, 'left': left_2_a});      
     }
 
-    var element = 'bus-animation-2-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-2-b';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_2_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         app.dest_2_b = (scrollY - offsetTop) * 1.5;
@@ -176,8 +179,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_2_b, 'left': left_2_b});      
     }
 
-    var element = 'bus-animation-3-5-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-3-5-a';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
           app.dest_3_5_a = (scrollY - offsetTop) * 1.2;
@@ -188,8 +191,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_3_5_a, 'left': left_3_5_a});      
     }
 
-    var element = 'bus-animation-3-5-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-3-5-b';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         app.dest_3_5_b = (scrollY - offsetTop) * 1.5;
@@ -199,8 +202,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_5_b, 'left': left_3_5_b});      
     }
 
-    var element = 'bus-animation-3-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-3-a';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
           app.dest_3_a = (scrollY - offsetTop) * 1.2;
@@ -210,8 +213,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_a, 'left': left_3_a});      
     }
 
-    var element = 'bus-animation-3-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-3-b';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         app.dest_3_b = (scrollY - offsetTop) * 1.5;
@@ -221,8 +224,8 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_b, 'left': left_3_b});      
     }
 
-    var element = 'bus-animation-4';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-4';
+    offsetTop = $('#'+element).offset().top - 175;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_4 .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         app.dest_4 = (scrollY - offsetTop) * 1.9;
@@ -268,8 +271,13 @@ app.createListeners = function () {
       $('a.page-scroll').bind('click', function(event) {
           event.preventDefault();
           var $anchor = $(this);
+          // if $anchor.attr('href') is #ride, then offset top to show title below the navbar (79px tall)
+          var offset = 0;
+          if ($anchor.attr('href') == '#ride') {
+            offset = 84;
+          }
           $('html, body').stop().animate({
-              scrollTop: $($anchor.attr('href')).offset().top
+              scrollTop: $($anchor.attr('href')).offset().top - offset
           }, 2000, 'easeInOutQuint');
       });
     }
@@ -1385,11 +1393,13 @@ app.pictureBook = function () {
       this.scan(); 
       this.books.forEach(function(book, bi) {
 
-        var topDistance    = cachedScrollY - scrollYAtScan - book.rect.top,
+        var topDistance    = cachedScrollY - scrollYAtScan - book.rect.top + 94,
             bottomDistance = cachedScrollY - scrollYAtScan - book.rect.bottom + book.bgRect.height;
 
         // Background fixing
         // Top
+        console.log(topDistance, "Top");
+        console.log(bottomDistance, "Bottom");
         if (topDistance <= 0 && bottomDistance <= 0) {
           book.bgNode.classList.remove("picture-book-bg-fixed");
           book.bgNode.classList.remove("picture-book-bg-bottom");
