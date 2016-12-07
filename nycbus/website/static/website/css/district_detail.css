@@ -1,3 +1,12 @@
+.col-md-6 {
+    padding: 0;
+}
+
+.row {
+    margin: 0;
+    margin-bottom: 20px;
+}
+
 main header {
     height: 80px;
     background: #15B6E5;
@@ -44,30 +53,55 @@ main .choose-district {
 }
 
 main .metric-component {
-    padding: 0 30px;
-    margin-bottom: 50px;
     font-family: 'HelveticaNeue', sans-serif;
 }
 
 .metric-component h3 {
-    font-size: 42px;
+    font-size: 52px;
     margin: 0;
     margin-bottom: 20px;
     font-weight: bold;
 }
 
-.metric-component .table-chart-holder {}
-
-.table-chart-holder .col-md-6 {
-    width: 48%;
+.metric-component .chart-component {
     height: 515px;
-    border: solid 1px #979797;
-    margin-bottom: 50px;
-    padding: 20px;
+    border: 1px solid #979797;
+}
+
+.metric-component .metric-text {
+    margin: 0;
+    font-size: 18px;
+    font-family: 'HelveticaNeue', sans-serif;
+}
+
+main .data {
+    padding: 0 30px;
+    margin-bottom: 90px;
+}
+
+.data .col-md-6 {
+    width: 46%;
+}
+
+.data .push-right {
+    margin-right: 4%;
+}
+
+.data .table-chart-holder {
+    margin-top: 40px;
+    font-family: 'HelveticaNeue', sans-serif;
+}
+
+.table-chart-holder h3 {
+    font-family: 'HelveticaNeue', sans-serif;
+    font-size: 52px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .table-chart-holder .table-data {
-    margin-right: 2%;
+    padding: 20px;
+    border: 1px solid #979797;
 }
 
 .table-data table {
