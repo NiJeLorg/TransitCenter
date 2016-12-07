@@ -235,6 +235,40 @@ a {
     line-height: 1.19;
   }
 }
+#mission {
+  position: relative;
+  width: auto;
+  margin: 10px 15px;
+}
+#mission .card {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  border: solid 1px #003244;
+  background-color: #005777;
+  color: #fff; 
+}
+#mission .card h4, p {
+  display: inline;
+}
+@media (min-width: 768px) {
+  #mission {
+    width: auto;
+    margin: 0 35px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
+@media (min-width: 1000px) {
+  #mission {
+    width: 60%;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+  }
+}
 .btn-circle {
   width: 70px;
   height: 70px;
@@ -353,7 +387,7 @@ a {
 .raiseZIndex-bg-bottom {
   position: absolute;
   top: auto;
-  bottom: 101vh;
+  bottom: calc(101vh + 200px);
   width: 100%;
 }
 .ride-section .section-heading {
@@ -376,7 +410,7 @@ a {
 }
 @media (min-width: 767px) {
   .ride-section .ride-img-wrap {
-      height: calc(100% - 94px);
+      height: calc(100% + 94px);
   }
 }
 .ride-section .ride-img {
@@ -425,8 +459,8 @@ a {
 }
 .personaDot {
   position: absolute;
-  top: 25vh;
-  left: 15%;
+  top: 41vh;
+  left: 12%;
 }
 .ride-section .bus-animation-wrapper {
   position: relative;
@@ -523,7 +557,7 @@ body {
 }
 .picture-book-bg-bottom {
   position: absolute;
-  bottom: -94px;
+  bottom: calc(200px - 94px);
   top: auto;
 }
 .picture-book-img-wrap {

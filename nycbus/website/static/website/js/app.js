@@ -76,13 +76,13 @@ app.scrollingInteractions = function () {
       // tablet
       top_2_a = '32vh';
       left_2_a = '60%';
-      top_2_b = '12vh';
+      top_2_b = '20vh';
       left_2_b = '30%';
       top_3_5_a = '20vh';
       left_3_5_a = '65%';
       top_3_5_b = '30vh';
       left_3_5_b = '31%';
-      top_3_a = '30vh';
+      top_3_a = '40vh';
       left_3_a = '31%';
       top_3_b = '30vh';
       left_3_b = '31%';
@@ -97,7 +97,7 @@ app.scrollingInteractions = function () {
       left_3_5_a = '70%';
       top_3_5_b = '20vh';
       left_3_5_b = '32%';
-      top_3_a = '20vh';
+      top_3_a = '25vh';
       left_3_a = '32%';
       top_3_b = '40vh';
       left_3_b = '33%';
@@ -106,22 +106,22 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-1-a';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_a = (scrollY - offsetTop) * 1.2;
+        app.dest_1_a = ((scrollY + 152) - offsetTop) * 1.2;
       }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '3vh', 'left': '16%'});        
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '0', 'left': '16%'});        
 
     } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '3vh', 'left': '16%'});      
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '0', 'left': '16%'});      
     }
 
     element = 'bus-animation-1-b';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_b = (scrollY - offsetTop) * 1.5;
+        app.dest_1_b = ((scrollY + 152) - offsetTop) * 1.5;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_b) + 'px)', 'top': '1vh', 'left': '16%'});
     } else {
@@ -129,10 +129,10 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-1-5-a';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_5_a = (scrollY - offsetTop);
+        app.dest_1_5_a = ((scrollY + 152) - offsetTop);
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_a) + 'px)', 'top': '20vh', 'left': '16%'});        
 
@@ -141,10 +141,10 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-1-5-b';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_5_b = (scrollY - offsetTop);
+        app.dest_1_5_b = ((scrollY + 152) - offsetTop);
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_b) + 'px)', 'top': '20vh', 'left': '16%'});        
     } else {
@@ -152,14 +152,14 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-2-a';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_2_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         if (top_2_a == '20vh') {
-          app.dest_2_a = (scrollY - offsetTop);
+          app.dest_2_a = ((scrollY + 152) - offsetTop);
           app.dest_2_a_X = app.dest_2_a;
         } else {
-          app.dest_2_a = (scrollY - offsetTop) * 1.2;
+          app.dest_2_a = ((scrollY + 152) - offsetTop) * 1.2;
           app.dest_2_a_X = app.dest_2_a/7;
         } 
       }
@@ -169,10 +169,10 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-2-b';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_2_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_2_b = (scrollY - offsetTop) * 1.5;
+        app.dest_2_b = ((scrollY + 152) - offsetTop) * 1.5;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_2_b) + 'px)', 'top': top_2_b, 'left': left_2_b});        
     } else {
@@ -180,10 +180,10 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-3-5-a';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-          app.dest_3_5_a = (scrollY - offsetTop) * 1.2;
+          app.dest_3_5_a = ((scrollY + 152) - offsetTop) * 1.2;
           app.dest_3_5_a_X = app.dest_3_5_a/7;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_a) + 'px) translateX(' + parseInt(app.dest_3_5_a_X) + 'px)', 'top': top_3_5_a, 'left': left_3_5_a});        
@@ -192,10 +192,10 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-3-5-b';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_3_5_b = (scrollY - offsetTop) * 1.5;
+        app.dest_3_5_b = ((scrollY + 152) - offsetTop) * 1.5;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_b) + 'px)', 'top': top_3_5_b, 'left': left_3_5_b});        
     } else {
@@ -203,10 +203,10 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-3-a';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-          app.dest_3_a = (scrollY - offsetTop) * 1.2;
+          app.dest_3_a = ((scrollY + 152) - offsetTop) * 1.2;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_a) + 'px)', 'top': top_3_a, 'left': left_3_a});        
     } else {
@@ -214,10 +214,10 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-3-b';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_3_b = (scrollY - offsetTop) * 1.5;
+        app.dest_3_b = ((scrollY + 152) - offsetTop) * 1.5;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_b) + 'px)', 'top': top_3_b, 'left': left_3_b});        
     } else {
@@ -225,10 +225,10 @@ app.scrollingInteractions = function () {
     }
 
     element = 'bus-animation-4';
-    offsetTop = $('#'+element).offset().top - 175;
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_4 .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_4 = (scrollY - offsetTop) * 1.9;
+        app.dest_4 = ((scrollY + 152) - offsetTop) * 1.9;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_4) + 'px)', 'top': top_4, 'left': left_4});        
     } else {
@@ -236,7 +236,7 @@ app.scrollingInteractions = function () {
     }
 
     function checkScroll(target) {
-      if (scrollY >= target) {
+      if ((scrollY + 152) >= target) {
         return true;
       } else {
         return false;
@@ -1393,9 +1393,10 @@ app.pictureBook = function () {
       var anyActiveBook = false;
       this.scan(); 
       this.books.forEach(function(book, bi) {
+      	console.log(book);
 
         var topDistance    = cachedScrollY - scrollYAtScan - book.rect.top + 94,
-            bottomDistance = cachedScrollY - scrollYAtScan - book.rect.bottom + book.bgRect.height;
+            bottomDistance = cachedScrollY - scrollYAtScan - book.rect.bottom + (book.bgRect.height + 200);
 
         // Background fixing
         // Top
