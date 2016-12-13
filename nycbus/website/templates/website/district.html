@@ -4,10 +4,10 @@
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" /> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
 <main>
     <header class="row">
-        <div class="header-title col-md-6">
+        <div class="header-title col-md-5">
             <h2 class="main-heading">Turnaround</h2>
         </div>
-        <div class="header-dropdown-select col-md-6">
+        <div class="header-dropdown-select col-md-7">
             <div class="navbar-right">
                 <ul class="nav navbar-nav">
                     <li class="hidden">
@@ -16,10 +16,10 @@
                     <li>
 	                    <h2 class="text-center">
 	                        <select id="selectDistrict" class="selectDistrict">
-	                        	<option value="State Senate District">State Senate District</option>
-	                        	<option value="State Assembly District">State Assembly District</option>
-	                        	<option value="City Council District">City Council District</option>
-	                        	<option value="Community Board District">Community Board District</option>
+	                        	<option value="senate">State Senate District</option>
+	                        	<option value="assembly">State Assembly District</option>
+	                        	<option value="council">City Council District</option>
+	                        	<option value="board">Community Board District</option>
 	                        </select>
 	                        <select id="number" class="selectDistrict">
 	                        </select>
@@ -51,6 +51,8 @@
                             <div class="col-md-6 col-sm-12">
                                 <h4 data-toggle="tooltip" data-placement="top" title="Top 3 highest ridership routes in this district.">Highest Ridership</h4>
                                 <div id="ridership">
+                                </div>
+                                <div id="ridershipNotes" class="ridershipNotes">
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
@@ -92,7 +94,7 @@
                     <li class="card-li">Add more bus lanes on local routes</li>
                 </ul>
             </div>
-            <div class="card">
+            <div class="district-map-holder card">
                 {% verbatim %}
                 <script type="tooltip/html" id="tooltip_template">
                     <div class="cartodb-tooltip-content-wrapper">
@@ -103,6 +105,7 @@
                 </script>
                 {% endverbatim %}
                 <div id='district-map' class='district-map'></div>
+                <div id='district-map-static' class='district-map-static'></div>
             </div>
         </div>
     </div>
