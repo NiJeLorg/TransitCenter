@@ -135,9 +135,15 @@ main header h2 {
     font-size: 1.6em;
 }
 
+.ridershipNotes p {
+    margin: 0;
+    font-size: 12px;
+}
+
 .turnaround-campaign p {
     font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
 }
+
 
 footer {
     background: #555555;
@@ -168,9 +174,18 @@ footer .logos-holder {
     font-size: 1.6em;
 }
 
-.district-map {
+.district-map, .district-map-static {
 	height: 88.3vh;
 }
+
+.district-map {
+    display: block;
+}
+
+.district-map-static {
+    display: none;
+}
+
 
 div.cartodb-tooltip-content p {
 	font-size: 20px !important;
@@ -184,7 +199,7 @@ div.cartodb-tooltip-content p {
 /* MEDIA QUERIES */
 
 @media (max-width: 1024px) {
-    .district-map {
+    .district-map, .district-map-static {
 		height: 97.3vh;
 	}
 }
@@ -217,12 +232,10 @@ div.cartodb-tooltip-content p {
         margin-bottom: 3%;
     }
     .selectDistrict {
-        /*width: 94%;*/
-        /*margin-left: 3%;*/
         font-size: 0.65em;
         color: #333333;
     }
-    .district-map {
+    .district-map, .district-map-static {
 		height: 65vh;
 	}
 }
@@ -237,10 +250,70 @@ div.cartodb-tooltip-content p {
     .sub-heading-card {
         font-size: 1em;
     }
-    .district-map {
-		height: 65vh;
-	}
 }
 
-
 /* MEDIA QUERIES */
+
+/* PRINT MEDIA QUERY */
+@media print {
+    body {
+        color: #000;
+        background: #fff;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    @page {
+        margin: 2cm;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    header, footer, .methodsLink, .district-map {
+        display: none;
+    }
+
+    .district-map-static {
+        display: block;
+        border: 1px solid #aaa;
+    }
+
+    .district-map-holder {
+        height: 50vh;
+    }
+
+    .bus-routes-bars .col-md-6, .bus-routes-bars .col-sm-12 {
+        width: 48%;
+        margin-right: 2%;
+    }
+
+    .col-sm-12.col-md-7 {
+        width: 58.33333333%;
+    }
+
+    .col-sm-12.col-md-5 {
+        width: 41.66666667%;
+    }
+
+    .main-component {
+        display: block;
+        margin-top: 1%;
+    }
+
+    .main-heading {
+        font-size: 3.5em;
+    }
+
+    .bus-routes-holder {
+        width: 100%;
+    }
+
+    .bus-map-holder {
+        margin-left: 0;
+        width: 100%;
+    } 
+
+}

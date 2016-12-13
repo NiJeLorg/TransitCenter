@@ -1155,8 +1155,6 @@ app.speedGauge = function (container, configuration) {
         .attr('fill', 'none');
     
     var avgSpeed = config.maxValue/2;
-    //var labels = [['6%','Slowest'],['27%', 'Median Bus'],['49%', 'Fastest']];
-    //var labels = [['9.5%','Slowest Bus'],['45.5%', 'Fastest Bus']];
     ticks = [1, 3, 5, 7, 9, 11, 13, 15]
     var lg = svg.append('g')
         .attr('class', 'label')
@@ -1165,17 +1163,12 @@ app.speedGauge = function (container, configuration) {
         .data(ticks)
       .enter().append('text')
         .attr('transform', function(d) {
-          //console.log(d[0]);
           var ratio = scale(d);
           var newAngle = config.minAngle + (ratio * range);
           return 'rotate(' +newAngle +') translate(0,' +(config.labelInset - r) +')';
         })
         .text(config.labelFormat);
-/*        .append("textPath")
-        .attr('startOffset', function(d) { return d[0] })
-        .attr("xlink:href", "#curve")
-        .text(function(d) { return d[1] });*/
-
+        
 
     var lineData = [ [config.pointerWidth / 2, 0], 
             [0, -pointerHeadLength],
@@ -1393,7 +1386,6 @@ app.pictureBook = function () {
       var anyActiveBook = false;
       this.scan(); 
       this.books.forEach(function(book, bi) {
-      	console.log(book);
 
         var topDistance    = cachedScrollY - scrollYAtScan - book.rect.top + 94,
             bottomDistance = cachedScrollY - scrollYAtScan - book.rect.bottom + (book.bgRect.height + 200);
