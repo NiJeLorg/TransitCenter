@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^$', views.website_index, name='website_index'),
     url(r'^district/$', views.district_analysis, name='district_analysis'),
     url(r'^district-pdf/$', PDFView.as_view(template_name='website/district.html'), name='my-pdf'),
+    url(r'^district/detail/$', views.district_detail_analysis, name='district_detail_analysis'),
 
 ]
 

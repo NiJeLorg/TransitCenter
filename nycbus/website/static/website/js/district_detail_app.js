@@ -18,89 +18,47 @@ app.init = function() {
     app.createListeners();
 
     // set up report card drop down menu
-   	app.setUpDDMenus();
-
-    // enable bootstrap tooltips
-    $('[data-toggle="tooltip"]').tooltip();
+   	app.createStateSenateOptions();
 
 };
 
 // sets up listeners
 app.createListeners = function() {
 
-    // listen for on change to update dropdown menu
-    $('#selectDistrict').change(function() {
-        // update route selection and data
-        app.updateNumberDropdown($(this).val());
-    });
+    if (($('body')).width() >= 767) {
+        $('a.page-scroll').bind('click', function(event) {
+            event.preventDefault();
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $($anchor.attr('href')).offset().top
+            }, 2000, 'easeInOutQuint');
+        });
+    }
 
     // listen for on change to update visualizations
-    $('#number').change(function() {
-        // add loading modal
-        $("body").addClass("loading");
+    $('#selectDistrict').change(function() {
         // update route selection and data
-        app.selectRoutes();
+        app.selectRoutes($(this).val());
         // create url parameters 
-        window.history.pushState( {} , '', '?district=' + $('#selectDistrict').val() + ' ' + $('#number').val() );
+        window.history.pushState( {} , '', '?district=' + $(this).val() );
     });
-}
-
-// sets up DD menus
-app.setUpDDMenus = function() {
-    // split up the value so that the text part selects the name in the dropdown, and populate the other part with district numbers 
-    var values = district.split(' ');
-    var districtName = values[0] + ' ' + values[1] + ' ' + values[2];
-    var districtNumber = values[3];
-    app.initSelect2MenuDistrictName(districtName);
-}
-
-app.updateNumberDropdown = function(districtName) {
-    console.log('running?');
-    // clear numbers and destroy select2 box if neccesary
-    if ($("#number").hasClass("select2-hidden-accessible")) {
-        $("#number").select2("destroy");
-    }
-
-    $("#number").html('');
-
-    // select district table and field names
-    if (districtName.search('Senate') != -1) {
-        // State Sentate
-        app.districtTable = 'nyc_state_senate_districts';
-        app.districtFieldName = 'stsendist';
-    } else if (districtName.search('Assembly') != -1) {
-        // State Assembly
-        app.districtTable = 'nyc_state_assembly_districts';
-        app.districtFieldName = 'assem_dist';
-    } else if (districtName.search('City') != -1) {
-        // City Council
-        app.districtTable = 'nyc_city_council_districts';
-        app.districtFieldName = 'coun_dist';
-    } else {
-         // Community Board
-        app.districtTable = 'nyc_community_districts';
-        app.districtFieldName = 'boro_cd';
-    }
-    // update number dropdown menu
-    app.createNumberOptions();
-
 }
 
 /**** Create select2 drop down menu ****/
-app.createNumberOptions = function() {
+app.createStateSenateOptions = function() {
 
     // first pull state assembly districts and append
-    var sql = "SELECT "+ app.districtFieldName +" FROM "+ app.districtTable +" ORDER BY "+ app.districtFieldName;
-    app.sqlclient.execute(sql)
+    app.sqlclient.execute("SELECT stsendist FROM nyc_state_senate_districts ORDER BY stsendist")
         .done(function(data) {
 
             // loop through response to populate dropdown
             for (var i = 0; i < data.rows.length; i++) {
-                var option = $('<option/>').attr({ 'value': data.rows[i][app.districtFieldName] }).text(data.rows[i][app.districtFieldName]);
-                $('#number').append(option);
+                var option = $('<option/>').attr({ 'value': 'State Senate District ' + data.rows[i].stsendist }).text('State Senate District ' + data.rows[i].stsendist);
+                $('#dropdownStateSenate').append(option);
             }
 
-            app.initSelect2MenuDistrictNumber();
+        	// now populate state assembly district options
+        	app.createStateAssemblyOptions();
 
         })
         .error(function(errors) {
@@ -109,40 +67,65 @@ app.createNumberOptions = function() {
         });
 }
 
+app.createStateAssemblyOptions = function() {
 
-app.initSelect2MenuDistrictName = function(districtName) {
+    // first pull state assembly districts and append
+    app.sqlclient.execute("SELECT assem_dist FROM nyc_state_assembly_districts ORDER BY assem_dist")
+        .done(function(data) {
+
+            // loop through response to populate dropdown
+            for (var i = 0; i < data.rows.length; i++) {
+                var option = $('<option/>').attr({ 'value': 'State Assembly District ' + data.rows[i].assem_dist }).text('State Assembly District ' + data.rows[i].assem_dist);
+                $('#dropdownStateAssembly').append(option);
+            }
+
+            // now inititize the select 2 menu
+            app.initSelect2Menu();
+
+        })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        });
+}
+
+app.initSelect2Menu = function() {
 	// when done create select2 menu
 	// if mobile, skip setting up select 2
 	if (($('body')).width() < 767) {
-	    $("#selectDistrict").val(districtName);
-        app.updateNumberDropdown(districtName);
+	    $("#selectDistrict").val(district);
 	} else {
 	    app.selectDistrictMenu = $("#selectDistrict").select2();
-	    app.selectDistrictMenu.val(districtName).trigger("change");
-	}
-}
 
-app.initSelect2MenuDistrictNumber = function() {
-    // when done create select2 menu
-    // if mobile, skip setting up select 2
-    var initialValue = $("#number").val();
-    if (($('body')).width() < 767) {
-        $("#number").val(initialValue);
-        app.selectRoutes();
-    } else {
-        app.selectDistrictNumberMenu = $("#number").select2();
-        app.selectDistrictNumberMenu.val(initialValue).trigger("change");
-    }
+	    app.selectDistrictMenu.on("select2:open", function(e) {
+	        // add type bx placeholder text
+	        $(".select2-search__field").attr("placeholder", "Start typing a district here to search.");
+	    });
+
+	    app.selectDistrictMenu.val(district).trigger("change");
+
+	}
 }
 /********/
 
 // SQL set up to select routes from selected district
-app.selectRoutes = function() {
+app.selectRoutes = function(district) {
+	// check to see if state senate or state assembly district was chosen
+	var districtTable;
+	var districtFieldName;
+	if (district.search('Senate') != -1) {
+		districtTable = 'nyc_state_senate_districts';
+		districtFieldName = 'stsendist';
+	} else {
+		districtTable = 'nyc_state_assembly_districts';
+		districtFieldName = 'assem_dist';
+	}
+
 	// get district number with regex
-	var districtNumber = $("#number").val();
+	var districtNumber = district.replace( /^\D+/g, '');
 
 	// set up query to pull geometry for district
-    var districtGeomSQL = 'SELECT district.the_geom FROM '+ app.districtTable +' AS district WHERE '+ app.districtFieldName +' = ' + districtNumber;	
+    var districtGeomSQL = 'SELECT district.the_geom FROM '+ districtTable +' AS district WHERE '+ districtFieldName +' = ' + districtNumber;	
 
 	// now select the distinct routes that intersect that geometry
     var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND ST_Intersects( mta.the_geom , ("+ districtGeomSQL +") )";
@@ -151,10 +134,10 @@ app.selectRoutes = function() {
     app.updateBarCharts(routesWithinSQL);
 
     // update data vis text
-    app.updateTextDataVis(routesWithinSQL, districtGeomSQL);
+    app.updateTextDataVis(district, routesWithinSQL, districtGeomSQL);
 
 
-    var districtMapSQL = 'SELECT * FROM '+ app.districtTable +' AS district WHERE '+ app.districtFieldName +' = ' + districtNumber;
+    var districtMapSQL = 'SELECT * FROM '+ districtTable +' AS district WHERE '+ districtFieldName +' = ' + districtNumber;
 
     var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN ('+ routesWithinSQL +')';
 
@@ -168,19 +151,15 @@ app.selectRoutes = function() {
 }
 
 // pull data and update text based on selected district
-app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
+app.updateTextDataVis = function(district, routesWithinSQL, districtGeomSQL) {
 	// set district name
-
-	$('#districtName').text($('#selectDistrict').val() + ' ' + $('#number').val());  
+	$('#districtName').text(district);  
 
 	// calculate bus commuters based on census block group data
 	var commuterQuery = 'SELECT sum(acs.hd01_vd11) FROM acs_14_5yr_b08301 AS acs WHERE ST_Intersects( acs.the_geom , ('+ districtGeomSQL +') )';
 
-    app.activeAjaxConnections++;
     app.sqlclient.execute(commuterQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-
             $({countNum: $('#busCommuters').text().replace(',','')}).animate({countNum: data.rows[0].sum}, {
               duration: 1000,
               easing:'linear',
@@ -193,9 +172,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
               },
               complete: function() {
                $('#busCommuters').text(app.numberWithCommas(parseInt(this.countNum)));
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
               }
             }); 
         })
@@ -206,11 +182,8 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 
 
  	// calculate number of bus routes that fall within this district
-    app.activeAjaxConnections++;
     app.sqlclient.execute(routesWithinSQL)
         .done(function(data) {
-            app.activeAjaxConnections--;
-
         	// pull total_rows from response
 		    $({countNum: $('#busRoutes').text()}).animate({countNum: data.total_rows}, {
 		      duration: 1000,
@@ -224,9 +197,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 		      },
 		      complete: function() {
 		       $('#busRoutes').text(parseInt(this.countNum));
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
 		      }
 		    });       	
 
@@ -240,10 +210,8 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     // calculate poverty level based on census block group data
     var poveryQuery = 'SELECT sum(acs.hd01_vd01) as total, sum(acs.hd01_vd02) as poor FROM acs_14_5yr_b17021 AS acs WHERE ST_Intersects( acs.the_geom , ('+ districtGeomSQL +') )';
     var pctPoor;
-    app.activeAjaxConnections++;
     app.sqlclient.execute(poveryQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
             pctPoor = parseInt(((data.rows[0].poor / data.rows[0].total) * 100).toFixed())
 
             $({countNum: $('#percentPoverty').text()}).animate({countNum: pctPoor}, {
@@ -258,9 +226,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
               },
               complete: function() {
                $('#percentPoverty').text(parseInt(this.countNum));
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
               }
             }); 
         })
@@ -277,14 +242,8 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three routes in ridership
 	var ridershipQuery = 'SELECT route_id, year_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
 
-    app.activeAjaxConnections++;
     app.sqlclient.execute(ridershipQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
         	// create data object and pass to bar chart for the form
         	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
         	var ridershipArray = [];
@@ -304,15 +263,8 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three routes by fastest growing
 	var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
 
-
-    app.activeAjaxConnections++;
     app.sqlclient.execute(fastestGrowingQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
         	// create data object and pass to bar chart for the form
         	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
         	var fastestGrowingArray = [];
@@ -333,14 +285,8 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three routes by most bunching
 	var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN ('+ routesWithinSQL +') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
 
-    app.activeAjaxConnections++;
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
         	// create data object and pass to bar chart for the form
         	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
         	var mostBunchingArray = [];
@@ -362,14 +308,8 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three slowest routes
 	var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN ('+ routesWithinSQL +') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
 
-    app.activeAjaxConnections++;
     app.sqlclient.execute(slowestQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
         	// create data object and pass to bar chart for the form
         	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
         	var slowestArray = [];
@@ -403,10 +343,13 @@ app.createBarChart = function(divId, barChartColorScale, data) {
         }
     }
 
+
     // D3 color scales
     app.greenColorScale.domain([0, d3.max(arr)]);
     app.mostBunchingColorScale.domain([0, d3.max(arr)]);
     app.slowestColorScale.domain([0, d3.max(arr)]);
+
+
 
     var width = $('.bus-routes-bars .col-md-6').width(),
         barHeight = 25,
@@ -414,7 +357,7 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 
     var x = d3.scale.linear()
         .domain([0, d3.max(arr)])
-        .range([barWidth/4, barWidth]);
+        .range([0, barWidth]);
 
     var chart = d3.select(divId)
         .append('svg')
@@ -469,6 +412,7 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 app.reportCardMap = function (districtMapSQL, routesMapSQL) {
 
     if (app.map.hasLayer(app.districtLayer)) {
+        console.log('hello');
         app.map.removeLayer(app.districtLayer);
         //app.districtLayer.clear();
     }
@@ -477,24 +421,18 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
         //app.busRouteLayer.clear();
     }
 
-  app.activeAjaxConnections++;
   cartodb.createLayer(app.map, {
     user_name: app.username,
     type: 'cartodb',
     sublayers: [{
       sql: routesMapSQL,
       // cartocss: '#layer {line-width: 1;line-color: ramp([route_id], ("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928","#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695","#CF1C90","#f97b72","#A5AA99"), category(23)); line-opacity: ;}',
-      cartocss: '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
+      cartocss: '#layer {line-width: 1;line-color: #a6cee3; line-opacity: 0.75;}',
       interactivity: 'cartodb_id, route_id',
     }]
   })
   .addTo(app.map)
   .done(function(layer) {
-      app.activeAjaxConnections--;
-      if (app.activeAjaxConnections == 0) {
-        $("body").removeClass("loading");
-      }
-
       app.busRouteLayer = layer;
       var sublayer = layer.getSubLayer(0);
       sublayer.setInteractivity('cartodb_id, route_id');
@@ -507,11 +445,12 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
         position: 'top|right',
         fields: [{ route_id: 'route_id' }]
       });
+      console.log(tooltip);
       $('#district-map').append(tooltip.render().el);
 
   });
 
-  app.activeAjaxConnections++;
+
   cartodb.createLayer(app.map, {
     user_name: app.username,
     type: 'cartodb',
@@ -522,14 +461,9 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
   })
   .addTo(app.map)
   .done(function(layer) {
-    app.activeAjaxConnections--;
-
     app.districtLayer = layer;
     app.sqlclient.getBounds(routesMapSQL).done(function(bounds) {
-        app.map.fitBounds(bounds);
-        if (app.activeAjaxConnections == 0) {
-          $("body").removeClass("loading");
-        }
+      app.map.fitBounds(bounds);
     });
 
   });
@@ -545,7 +479,6 @@ app.reportCardMapStatic = function (districtMapSQL, routesMapSQL) {
   app.sqlclient.getBounds(routesMapSQL)
     .done(function(bounds) {
       app.bounds = bounds;
-      createStaticMap();
     });
 
   /**** If we want to try adding labels to text layers use somethign like the following cartocss
@@ -587,32 +520,22 @@ app.reportCardMapStatic = function (districtMapSQL, routesMapSQL) {
   var mapWidth = parseInt($('.district-map').width());
   var mapHeight = parseInt($('.district-map').height());
 
-  var createStaticMap = function () {
+  $.ajax({
+    crossOrigin: true,
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    url: 'https://'+app.username+'.carto.com/api/v1/map',
+    data: JSON.stringify(mapconfig),
+    success: function(data) {
+      // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
+      // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
+      var url = 'https://'+app.username+'.carto.com/api/v1/map/static/bbox/'+data.layergroupid+'/'+app.bounds[1][1]+','+app.bounds[1][0]+','+app.bounds[0][1]+','+app.bounds[0][0]+'/'+mapWidth+'/'+mapHeight+'.png';
+      // get map image
+      $('#district-map').html('<img class="img-responsive" src="'+url+'" />');
+    }
 
-      app.activeAjaxConnections++;
-      $.ajax({
-        crossOrigin: true,
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        url: 'https://'+app.username+'.carto.com/api/v1/map',
-        data: JSON.stringify(mapconfig),
-        success: function(data) {
-          app.activeAjaxConnections--;
-          if (app.activeAjaxConnections == 0) {
-            $("body").removeClass("loading");
-          }
-
-          // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
-          // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
-          var url = 'https://'+app.username+'.carto.com/api/v1/map/static/bbox/'+data.layergroupid+'/'+app.bounds[1][1]+','+app.bounds[1][0]+','+app.bounds[0][1]+','+app.bounds[0][0]+'/'+mapWidth+'/'+mapHeight+'.png';
-          // get map image
-          $('#district-map').html('<img class="img-responsive" src="'+url+'" />');
-        }
-
-      });
-
-  }
+  });
 
 }
 
@@ -656,8 +579,6 @@ app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -
 
 app.map.addLayer(app.tiles);
 
-// calculating if all ajax connections are complete
-app.activeAjaxConnections = 0;
 
 
 
