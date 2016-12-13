@@ -14,11 +14,16 @@ app.init = function() {
         sql_api_template: "https://{user}.cartodb.com:443"
     });
 
+    // pull district number out of global district variable -- use this number on initial page load
+    app.districtNumber = district.replace( /^\D+/g, '');
+    app.districtName = district.replace(/\d+/g, '');
+    app.firstRun = true;
+
     // set up listeners
     app.createListeners();
 
     // set up report card drop down menu
-   	app.setUpDDMenus();
+   	app.initSelect2MenuDistrictName();
 
     // enable bootstrap tooltips
     $('[data-toggle="tooltip"]').tooltip();
@@ -30,56 +35,51 @@ app.createListeners = function() {
 
     // listen for on change to update dropdown menu
     $('#selectDistrict').change(function() {
+        app.districtName = $(this).val();
         // update route selection and data
-        app.updateNumberDropdown($(this).val());
+        app.updateNumberDropdown();
     });
 
     // listen for on change to update visualizations
     $('#number').change(function() {
+        app.districtNumber = $(this).val();
         // add loading modal
         $("body").addClass("loading");
         // update route selection and data
         app.selectRoutes();
         // create url parameters 
-        window.history.pushState( {} , '', '?district=' + $('#selectDistrict').val() + ' ' + $('#number').val() );
+        window.history.pushState( {} , '', '?district=' + $('#selectDistrict').val() + $('#number').val() );
     });
 }
 
-// sets up DD menus
-app.setUpDDMenus = function() {
-    // split up the value so that the text part selects the name in the dropdown, and populate the other part with district numbers 
-    var values = district.split(' ');
-    var districtName = values[0] + ' ' + values[1] + ' ' + values[2];
-    var districtNumber = values[3];
-    app.initSelect2MenuDistrictName(districtName);
-}
-
-app.updateNumberDropdown = function(districtName) {
-    console.log('running?');
+app.updateNumberDropdown = function() {
     // clear numbers and destroy select2 box if neccesary
     if ($("#number").hasClass("select2-hidden-accessible")) {
         $("#number").select2("destroy");
     }
 
     $("#number").html('');
-
     // select district table and field names
-    if (districtName.search('Senate') != -1) {
+    if (app.districtName == 'senate') {
         // State Sentate
         app.districtTable = 'nyc_state_senate_districts';
         app.districtFieldName = 'stsendist';
-    } else if (districtName.search('Assembly') != -1) {
+        app.printDistrict = 'State Senate District';
+    } else if (app.districtName == 'assembly') {
         // State Assembly
         app.districtTable = 'nyc_state_assembly_districts';
         app.districtFieldName = 'assem_dist';
-    } else if (districtName.search('City') != -1) {
+        app.printDistrict = 'State Assembly District';
+    } else if (app.districtName == 'council') {
         // City Council
         app.districtTable = 'nyc_city_council_districts';
         app.districtFieldName = 'coun_dist';
+        app.printDistrict = 'City Council District';
     } else {
          // Community Board
         app.districtTable = 'nyc_community_districts';
         app.districtFieldName = 'boro_cd';
+        app.printDistrict = 'Community Board District';
     }
     // update number dropdown menu
     app.createNumberOptions();
@@ -110,29 +110,38 @@ app.createNumberOptions = function() {
 }
 
 
-app.initSelect2MenuDistrictName = function(districtName) {
+app.initSelect2MenuDistrictName = function() {
 	// when done create select2 menu
 	// if mobile, skip setting up select 2
 	if (($('body')).width() < 767) {
-	    $("#selectDistrict").val(districtName);
-        app.updateNumberDropdown(districtName);
+	    $("#selectDistrict").val(app.districtName);
+        app.updateNumberDropdown();
 	} else {
 	    app.selectDistrictMenu = $("#selectDistrict").select2();
-	    app.selectDistrictMenu.val(districtName).trigger("change");
+	    app.selectDistrictMenu.val(app.districtName).trigger("change");
 	}
 }
 
 app.initSelect2MenuDistrictNumber = function() {
+    // which district number should we use?
+    console.log(app.firstRun);
+    if (!app.firstRun) {
+        app.districtNumber = $("#number").val();
+    }
+    console.log(app.districtNumber);
+
     // when done create select2 menu
     // if mobile, skip setting up select 2
-    var initialValue = $("#number").val();
     if (($('body')).width() < 767) {
-        $("#number").val(initialValue);
+        $("#number").val(app.districtNumber);
         app.selectRoutes();
     } else {
         app.selectDistrictNumberMenu = $("#number").select2();
-        app.selectDistrictNumberMenu.val(initialValue).trigger("change");
+        app.selectDistrictNumberMenu.val(app.districtNumber).trigger("change");
     }
+
+    // after first run, set app.firstRun = false;
+     app.firstRun = false;
 }
 /********/
 
@@ -145,7 +154,7 @@ app.selectRoutes = function() {
     var districtGeomSQL = 'SELECT district.the_geom FROM '+ app.districtTable +' AS district WHERE '+ app.districtFieldName +' = ' + districtNumber;	
 
 	// now select the distinct routes that intersect that geometry
-    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND ST_Intersects( mta.the_geom , ("+ districtGeomSQL +") )";
+    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BX%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND ST_Intersects( mta.the_geom , ("+ districtGeomSQL +") )";
 
     // pass routesWithinSQL to bar chart update function
     app.updateBarCharts(routesWithinSQL);
@@ -163,7 +172,7 @@ app.selectRoutes = function() {
     app.reportCardMap(districtMapSQL, routesMapSQL);
 
     //static
-    //app.reportCardMapStatic(districtMapSQL, routesMapSQL);
+    app.reportCardMapStatic(districtMapSQL, routesMapSQL);
 
 }
 
@@ -171,7 +180,7 @@ app.selectRoutes = function() {
 app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 	// set district name
 
-	$('#districtName').text($('#selectDistrict').val() + ' ' + $('#number').val());  
+	$('#districtName').text(app.printDistrict + ' ' + app.districtNumber);  
 
 	// calculate bus commuters based on census block group data
 	var commuterQuery = 'SELECT sum(acs.hd01_vd11) FROM acs_14_5yr_b08301 AS acs WHERE ST_Intersects( acs.the_geom , ('+ districtGeomSQL +') )';
@@ -275,7 +284,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 app.updateBarCharts = function(routesWithinSQL) {
 
     // using the routes selected by district, build a query for top three routes in ridership
-	var ridershipQuery = 'SELECT route_id, year_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
+	var ridershipQuery = 'SELECT route_id, year_2015, note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
 
     app.activeAjaxConnections++;
     app.sqlclient.execute(ridershipQuery)
@@ -288,11 +297,22 @@ app.updateBarCharts = function(routesWithinSQL) {
         	// create data object and pass to bar chart for the form
         	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
         	var ridershipArray = [];
+            var ridershipNotesArray = [];
+            var label;
         	for (var i = 0; i < data.rows.length; i++) {
-        		ridershipArray.push({ label: data.rows[i].route_id, value: data.rows[i].year_2015 });
+                if (data.rows[i].note) {
+                    ridershipNotesArray.push(data.rows[i].note);
+                    label = data.rows[i].route_id + '*'
+                } else {
+                    label = data.rows[i].route_id;
+                }
+        		ridershipArray.push({ label: label, value: data.rows[i].year_2015 });
+                
         	}
 
     		app.createBarChart('#ridership', app.greenColorScale, ridershipArray);
+            app.createNotesForRidershipBarChart(ridershipNotesArray);
+
 
         })
         .error(function(errors) {
@@ -302,7 +322,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
 
     // using the routes selected by district, build a query for top three routes by fastest growing
-	var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
+	var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
 
 
     app.activeAjaxConnections++;
@@ -464,6 +484,14 @@ app.createBarChart = function(divId, barChartColorScale, data) {
         });
 };
 
+app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
+    // clear previous notes
+    $('#ridershipNotes').html('');
+    for (var i = ridershipNotesArray.length - 1; i >= 0; i--) {
+        $('#ridershipNotes').append( "<p><sup>*</sup>"+ ridershipNotesArray[i] +"</p>" );
+    }
+}
+
 
 // interactive map
 app.reportCardMap = function (districtMapSQL, routesMapSQL) {
@@ -549,7 +577,7 @@ app.reportCardMapStatic = function (districtMapSQL, routesMapSQL) {
     });
 
   /**** If we want to try adding labels to text layers use somethign like the following cartocss
-  * text-name:[boro_name];text-face-name:'DejaVu Sans Book';text-size:50;text-fill: #6F808D;text-halo-radius: 1;text-halo-fill: rgba(255, 255, 255, 0.75);text-transform:uppercase;
+  * "cartocss": '#layer {::shape {line-width: 1;line-color: #005777; line-opacity: 0.75;} ::label {text-name:[route_id]; text-face-name:"DejaVu Sans Book"; text-size:14; text-fill: #6F808D; text-halo-radius: 1; text-halo-fill: rgba(255, 255, 255, 0.75); text-transform:uppercase; text-placement: line; text-dy: 12; text-avoid-edges: true; text-min-distance: 100;} }',
   ****/ 
   var mapconfig = {
     "layers": [
@@ -565,19 +593,19 @@ app.reportCardMapStatic = function (districtMapSQL, routesMapSQL) {
           ]
         }
       },
-      {
+       {
         "type": "mapnik",
         "options": {
-          "sql": districtMapSQL,
-          "cartocss": "#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}",
+          "sql": routesMapSQL,
+          "cartocss": '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
           "cartocss_version": "2.1.1"
         }
       },
       {
         "type": "mapnik",
         "options": {
-          "sql": routesMapSQL,
-          "cartocss": '#layer {::shape {line-width: 2;line-color: ramp([route_id], ("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928","#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695","#CF1C90","#f97b72","#A5AA99"), category(23)); line-opacity: 1;} ::label {text-name:[route_id]; text-face-name:"DejaVu Sans Book"; text-size:14; text-fill: #6F808D; text-halo-radius: 1; text-halo-fill: rgba(255, 255, 255, 0.75); text-transform:uppercase; text-placement: line; text-dy: 12; text-avoid-edges: true; text-min-distance: 100;} }',
+          "sql": districtMapSQL,
+          "cartocss": "#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}",
           "cartocss_version": "2.1.1"
         }
       },
@@ -607,7 +635,7 @@ app.reportCardMapStatic = function (districtMapSQL, routesMapSQL) {
           // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
           var url = 'https://'+app.username+'.carto.com/api/v1/map/static/bbox/'+data.layergroupid+'/'+app.bounds[1][1]+','+app.bounds[1][0]+','+app.bounds[0][1]+','+app.bounds[0][0]+'/'+mapWidth+'/'+mapHeight+'.png';
           // get map image
-          $('#district-map').html('<img class="img-responsive" src="'+url+'" />');
+          $('#district-map-static').html('<img class="img-responsive" src="'+url+'" />');
         }
 
       });
