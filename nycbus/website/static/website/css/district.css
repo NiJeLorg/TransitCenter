@@ -4,11 +4,7 @@
     margin: 0;
 }
 
-.col-md-6 {
-    padding: 0;
-}
-
-.col-md-5 {
+.col-md-5, .col-md-6, .col-md-7 {
     padding: 0;
 }
 
@@ -71,6 +67,29 @@
 
 
 /* MAIN STYLES */
+
+body.loading {
+    overflow: hidden;   
+}
+
+body.loading .loading-modal {
+    display: block;
+}
+
+.loading-modal {
+    display:    none;
+    position:   fixed;
+    z-index:    10000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    opacity:  .7;
+    background: url('images/ripple.gif') 
+                50% 50% 
+                no-repeat;
+    background-color: #000;
+}
 
 main {
     background-image: url(images/cover_background_small.png);
@@ -197,7 +216,7 @@ div.cartodb-tooltip-content p {
     .header-title h2 {
         margin-bottom: 3%;
     }
-    #selectDistrict {
+    .selectDistrict {
         /*width: 94%;*/
         /*margin-left: 3%;*/
         font-size: 0.65em;
