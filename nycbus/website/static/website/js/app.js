@@ -284,9 +284,9 @@ app.createListeners = function () {
 
     $('#selectRoute').change(function() {
       // update map
-      $('#reportCardRouteName').text($(this).val().replace('+', ' SBS'));
+      $('.reportCardRouteName').text($(this).val().replace('+', ' SBS'));
       if ($(this).val() == 'M60' || $(this).val() == 'M86') {
-        $('#reportCardRouteName').text($(this).val() + ' SBS');
+        $('.reportCardRouteName').text($(this).val() + ' SBS');
       }
       app.reportCardMap($(this).val());
       // update speed number and gauge
