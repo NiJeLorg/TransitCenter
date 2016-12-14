@@ -68,8 +68,14 @@ main .metric-component {
 }
 
 .metric-component .chart-component {
-    // height: 515px;
+    height: 515px;
+    overflow-y: scroll;
     border: 1px solid #979797;
+}
+
+.chart-component h5 {
+    text-align: center;
+    font-size: 18px;
 }
 
 .metric-component .metric-text {
@@ -111,6 +117,11 @@ main .data {
 .table-data table {
     width: 100%;
     border: 1px solid #979797;
+}
+
+.table-data table tbody {
+    height: 348px;
+    overflow-y: scroll;
 }
 
 table th {
@@ -156,6 +167,20 @@ footer {
 footer p {
     margin: 0;
     font-size: 24px;
+}
+
+.x-axis path {
+    display: none;
+}
+
+.x-axis line {
+    shape-rendering: crispEdges;
+    stroke: #979797;
+}
+
+.x-axis .minor line {
+    stroke: blue;
+    stroke-dasharray: 5, 5;
 }
 
 @media (max-width: 1024px) {
