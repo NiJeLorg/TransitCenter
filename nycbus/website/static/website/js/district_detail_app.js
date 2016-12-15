@@ -284,7 +284,6 @@ app.createBarChart = function(divId, data) {
             }
         }
     }
-    console.log(arr, 'ARR');
     var margin = { top: 50, right: 70, bottom: 50, left: 80 };
     var width = $('.metric-component .chart-component').width() - margin.left - margin.right,
         barHeight = 25,
@@ -331,25 +330,33 @@ app.createBarChart = function(divId, data) {
         })
         .attr("height", barHeight - 5);
 
-
     bar.append("text")
-        .attr("class", "outside-bar-text")
+        .attr("class", "bus-value-text")
         .attr("x", function(d) {
-            return x(d.value) + 3;
+            return x(d.value) + 45;
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
+        .attr('text-anchor', 'start')
         .text(function(d) {
-            var value, busRoute, finalText;
             if (divId === '#bunching') {
-                value = d.value + '%';
+                return d.value + '%';
             } else if (divId === '#speed') {
-                value = d.value + ' mph';
-            } else {
-                value = app.numberWithCommas(d.value);
+                return d.value + ' mph';
             }
-            finalText = value + '  ' + d.label;
-            return finalText;
+            return app.numberWithCommas(d.value);
+        });
+
+    bar.append("text")
+        .attr("class", "bus-route-text")
+        .attr("x", function(d) {
+            return x(d.value) + 5;
+        })
+        .attr("y", (barHeight - 5) / 2)
+        .attr("dy", ".35em")
+        .attr('text-anchor', 'start')
+        .text(function(d) {
+            return d.label;
         });
     mainG.append('g')
         .attr('class', 'axis')
@@ -377,7 +384,6 @@ app.createNegativeBarChart = function(divId, data) {
             }
         }
     }
-    console.log(arr, 'NEG ARR');
     var margin = { top: 50, right: 60, bottom: 50, left: 80 };
     var width = $('.metric-component .chart-component').width() - margin.left - margin.right,
         barHeight = 25,
@@ -452,7 +458,9 @@ app.createNegativeBarChart = function(divId, data) {
         });
 
     bar.append("text")
-        .attr("class", "bus-route-text")
+        .attr("class", function(d) {
+          return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
+        })
         .attr("x", function(d) {
             return (d.value < 0 ? x(d.value) - 45 : x(d.value) + 5);
         })

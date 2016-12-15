@@ -205,6 +205,16 @@ footer p {
     fill: #a94442;
 }
 
+.bus-route-text {
+    fill: #15B6E5;
+    font-weight: bold;
+}
+
+.bus-route-text-negative {
+    font-weight: bold;
+    fill: #A94442;
+}
+
 @media (max-width: 1024px) {
     .metric-component h3 {
         font-size: 40px;
