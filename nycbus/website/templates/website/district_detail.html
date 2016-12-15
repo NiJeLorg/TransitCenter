@@ -17,11 +17,13 @@
                 <li>
                     <h2 class="text-center">
                         <select id="selectDistrict" class="selectDistrict">
-                            <optgroup id="dropdownStateSenate" label="State Senate Districts">
-                            </optgroup>
-                            <optgroup id="dropdownStateAssembly" label="State Assembly Districts">
-                            </optgroup>
-                        </select>
+                            <option value="senate">State Senate District</option>
+                            <option value="assembly">State Assembly District</option>
+                            <option value="council">City Council District</option>
+                            <option value="board">Community Board District</option>
+                          </select>
+                          <select id="number" class="selectDistrict">
+                          </select>
                     </h2>
                 </li>
             </ul>
@@ -136,6 +138,7 @@
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/district_detail_app.js' %}"></script>
 <script type="text/javascript">
+$("body").addClass("loading");
 var district = '{{ district }}';
 window.onload = app.init;
 </script>

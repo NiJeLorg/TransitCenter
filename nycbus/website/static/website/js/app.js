@@ -45,91 +45,94 @@ app.init = function () {
 
 app.scrollingInteractions = function () {
     // get height of intro block
-    var introHeight = $(".intro").height();
+    var introHeight = $(".intro").height() - 1;
     if ($("#fixedNav").offset().top >= introHeight) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
     } else {
         $(".navbar-fixed-top").removeClass("top-nav-collapse");
     }
 
+    // variable set up
+    var top_2_a, left_2_a, top_2_b, left_2_b, top_3_5_a, left_3_5_a, top_3_5_b, left_3_5_b, top_3_a, left_3_a, top_3_b, left_3_b, top_4, left_4, element, offsetTop;
+
     // check broser width and set tops and lefts
     if (($('body')).width() < 767) {
       // mobile
-      var top_2_a = '20vh';
-      var left_2_a = '40%';
-      var top_2_b = '20vh';
-      var left_2_b = '40%';
-      var top_3_5_a = '20vh';
-      var left_3_5_a = '32%';
-      var top_3_5_b = '25vh';
-      var left_3_5_b = '42%';
-      var top_3_a = '50vh';
-      var left_3_a = '45%';
-      var top_3_b = '40vh';
-      var left_3_b = '46%';
-      var top_4 = '60vh';
-      var left_4 = '46%';
+      top_2_a = '20vh';
+      left_2_a = '40%';
+      top_2_b = '20vh';
+      left_2_b = '40%';
+      top_3_5_a = '20vh';
+      left_3_5_a = '32%';
+      top_3_5_b = '25vh';
+      left_3_5_b = '42%';
+      top_3_a = '50vh';
+      left_3_a = '45%';
+      top_3_b = '40vh';
+      left_3_b = '46%';
+      top_4 = '60vh';
+      left_4 = '46%';
     } else if (($('body')).width() < 1200) {
       // tablet
-      var top_2_a = '32vh';
-      var left_2_a = '60%';
-      var top_2_b = '12vh';
-      var left_2_b = '30%';
-      var top_3_5_a = '20vh';
-      var left_3_5_a = '65%';
-      var top_3_5_b = '30vh';
-      var left_3_5_b = '31%';
-      var top_3_a = '30vh';
-      var left_3_a = '31%';
-      var top_3_b = '30vh';
-      var left_3_b = '31%';
-      var top_4 = '50vh';
-      var left_4 = '32%';
+      top_2_a = '32vh';
+      left_2_a = '60%';
+      top_2_b = '20vh';
+      left_2_b = '30%';
+      top_3_5_a = '20vh';
+      left_3_5_a = '65%';
+      top_3_5_b = '30vh';
+      left_3_5_b = '31%';
+      top_3_a = '40vh';
+      left_3_a = '31%';
+      top_3_b = '30vh';
+      left_3_b = '31%';
+      top_4 = '50vh';
+      left_4 = '32%';
     } else {
-      var top_2_a = '42vh';
-      var left_2_a = '58%';      
-      var top_2_b = '3vh';
-      var left_2_b = '31%';
-      var top_3_5_a = '20vh';
-      var left_3_5_a = '70%';
-      var top_3_5_b = '20vh';
-      var left_3_5_b = '32%';
-      var top_3_a = '20vh';
-      var left_3_a = '32%';
-      var top_3_b = '40vh';
-      var left_3_b = '33%';
-      var top_4 = '45vh';
-      var left_4 = '33%';
+      top_2_a = '42vh';
+      left_2_a = '58%';      
+      top_2_b = '3vh';
+      left_2_b = '31%';
+      top_3_5_a = '20vh';
+      left_3_5_a = '70%';
+      top_3_5_b = '20vh';
+      left_3_5_b = '32%';
+      top_3_a = '25vh';
+      left_3_a = '32%';
+      top_3_b = '40vh';
+      left_3_b = '33%';
+      top_4 = '45vh';
+      left_4 = '33%';
     }
 
-    var element = 'bus-animation-1-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-1-a';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_a = (scrollY - offsetTop) * 1.2;
+        app.dest_1_a = ((scrollY + 152) - offsetTop) * 1.2;
       }
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '3vh', 'left': '16%'});        
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '0', 'left': '16%'});        
 
     } else {
-      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '3vh', 'left': '16%'});      
+      $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '0', 'left': '16%'});      
     }
 
-    var element = 'bus-animation-1-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-1-b';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_b = (scrollY - offsetTop) * 1.5;
+        app.dest_1_b = ((scrollY + 152) - offsetTop) * 1.5;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_b) + 'px)', 'top': '1vh', 'left': '16%'});
     } else {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '1vh', 'left': '16%'});      
     }
 
-    var element = 'bus-animation-1-5-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-1-5-a';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_5_a = (scrollY - offsetTop);
+        app.dest_1_5_a = ((scrollY + 152) - offsetTop);
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_a) + 'px)', 'top': '20vh', 'left': '16%'});        
 
@@ -137,26 +140,26 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
     }
 
-    var element = 'bus-animation-1-5-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-1-5-b';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_1_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_1_5_b = (scrollY - offsetTop);
+        app.dest_1_5_b = ((scrollY + 152) - offsetTop);
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_1_5_b) + 'px)', 'top': '20vh', 'left': '16%'});        
     } else {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%'});      
     }
 
-    var element = 'bus-animation-2-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-2-a';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_2_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
         if (top_2_a == '20vh') {
-          app.dest_2_a = (scrollY - offsetTop);
+          app.dest_2_a = ((scrollY + 152) - offsetTop);
           app.dest_2_a_X = app.dest_2_a;
         } else {
-          app.dest_2_a = (scrollY - offsetTop) * 1.2;
+          app.dest_2_a = ((scrollY + 152) - offsetTop) * 1.2;
           app.dest_2_a_X = app.dest_2_a/7;
         } 
       }
@@ -165,22 +168,22 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_2_a, 'left': left_2_a});      
     }
 
-    var element = 'bus-animation-2-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-2-b';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_2_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_2_b = (scrollY - offsetTop) * 1.5;
+        app.dest_2_b = ((scrollY + 152) - offsetTop) * 1.5;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_2_b) + 'px)', 'top': top_2_b, 'left': left_2_b});        
     } else {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_2_b, 'left': left_2_b});      
     }
 
-    var element = 'bus-animation-3-5-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-3-5-a';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-          app.dest_3_5_a = (scrollY - offsetTop) * 1.2;
+          app.dest_3_5_a = ((scrollY + 152) - offsetTop) * 1.2;
           app.dest_3_5_a_X = app.dest_3_5_a/7;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_a) + 'px) translateX(' + parseInt(app.dest_3_5_a_X) + 'px)', 'top': top_3_5_a, 'left': left_3_5_a});        
@@ -188,44 +191,44 @@ app.scrollingInteractions = function () {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px) translateX(0px)', 'top': top_3_5_a, 'left': left_3_5_a});      
     }
 
-    var element = 'bus-animation-3-5-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-3-5-b';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_3_5_b = (scrollY - offsetTop) * 1.5;
+        app.dest_3_5_b = ((scrollY + 152) - offsetTop) * 1.5;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_5_b) + 'px)', 'top': top_3_5_b, 'left': left_3_5_b});        
     } else {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_5_b, 'left': left_3_5_b});      
     }
 
-    var element = 'bus-animation-3-a';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-3-a';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-          app.dest_3_a = (scrollY - offsetTop) * 1.2;
+          app.dest_3_a = ((scrollY + 152) - offsetTop) * 1.2;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_a) + 'px)', 'top': top_3_a, 'left': left_3_a});        
     } else {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_a, 'left': left_3_a});      
     }
 
-    var element = 'bus-animation-3-b';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-3-b';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_3_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_3_b = (scrollY - offsetTop) * 1.5;
+        app.dest_3_b = ((scrollY + 152) - offsetTop) * 1.5;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_3_b) + 'px)', 'top': top_3_b, 'left': left_3_b});        
     } else {
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(0px)', 'top': top_3_b, 'left': left_3_b});      
     }
 
-    var element = 'bus-animation-4';
-    var offsetTop = $('#'+element).offset().top - 80;
+    element = 'bus-animation-4';
+    offsetTop = $('#'+element).offset().top - 80;
     if (checkScroll(offsetTop)) {
       if (!$('#ride_map_4 .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-        app.dest_4 = (scrollY - offsetTop) * 1.9;
+        app.dest_4 = ((scrollY + 152) - offsetTop) * 1.9;
       }
       $('#'+element+'.bus-animation-wrapper .bus_temp_postion').css({'transform': 'translateY(' + parseInt(app.dest_4) + 'px)', 'top': top_4, 'left': left_4});        
     } else {
@@ -233,7 +236,7 @@ app.scrollingInteractions = function () {
     }
 
     function checkScroll(target) {
-      if (scrollY >= target) {
+      if ((scrollY + 152) >= target) {
         return true;
       } else {
         return false;
@@ -268,17 +271,22 @@ app.createListeners = function () {
       $('a.page-scroll').bind('click', function(event) {
           event.preventDefault();
           var $anchor = $(this);
+          // if $anchor.attr('href') is #ride, then offset top to show title below the navbar (79px tall)
+          var offset = 0;
+          if ($anchor.attr('href') == '#ride') {
+            offset = 84;
+          }
           $('html, body').stop().animate({
-              scrollTop: $($anchor.attr('href')).offset().top
+              scrollTop: $($anchor.attr('href')).offset().top - offset
           }, 2000, 'easeInOutQuint');
       });
     }
 
     $('#selectRoute').change(function() {
       // update map
-      $('#reportCardRouteName').text($(this).val().replace('+', ' SBS'));
+      $('.reportCardRouteName').text($(this).val().replace('+', ' SBS'));
       if ($(this).val() == 'M60' || $(this).val() == 'M86') {
-        $('#reportCardRouteName').text($(this).val() + ' SBS');
+        $('.reportCardRouteName').text($(this).val() + ' SBS');
       }
       app.reportCardMap($(this).val());
       // update speed number and gauge
@@ -1147,8 +1155,6 @@ app.speedGauge = function (container, configuration) {
         .attr('fill', 'none');
     
     var avgSpeed = config.maxValue/2;
-    //var labels = [['6%','Slowest'],['27%', 'Median Bus'],['49%', 'Fastest']];
-    //var labels = [['9.5%','Slowest Bus'],['45.5%', 'Fastest Bus']];
     ticks = [1, 3, 5, 7, 9, 11, 13, 15]
     var lg = svg.append('g')
         .attr('class', 'label')
@@ -1157,17 +1163,12 @@ app.speedGauge = function (container, configuration) {
         .data(ticks)
       .enter().append('text')
         .attr('transform', function(d) {
-          //console.log(d[0]);
           var ratio = scale(d);
           var newAngle = config.minAngle + (ratio * range);
           return 'rotate(' +newAngle +') translate(0,' +(config.labelInset - r) +')';
         })
         .text(config.labelFormat);
-/*        .append("textPath")
-        .attr('startOffset', function(d) { return d[0] })
-        .attr("xlink:href", "#curve")
-        .text(function(d) { return d[1] });*/
-
+        
 
     var lineData = [ [config.pointerWidth / 2, 0], 
             [0, -pointerHeadLength],
@@ -1372,6 +1373,7 @@ app.pictureBook = function () {
         node: d,
         slug: d.getAttribute("data-slug"),
         bgNode: d.querySelector(".picture-book-bg"),
+        navNode: d.querySelector(".raiseZIndex"),
         pages: [].map.call(d.querySelectorAll(".picture-book-page"), function(page) { return {node: page}; })
       };
     });
@@ -1385,18 +1387,22 @@ app.pictureBook = function () {
       this.scan(); 
       this.books.forEach(function(book, bi) {
 
-        var topDistance    = cachedScrollY - scrollYAtScan - book.rect.top,
-            bottomDistance = cachedScrollY - scrollYAtScan - book.rect.bottom + book.bgRect.height;
+        var topDistance    = cachedScrollY - scrollYAtScan - book.rect.top + 94,
+            bottomDistance = cachedScrollY - scrollYAtScan - book.rect.bottom + (book.bgRect.height + 200);
 
         // Background fixing
         // Top
         if (topDistance <= 0 && bottomDistance <= 0) {
           book.bgNode.classList.remove("picture-book-bg-fixed");
           book.bgNode.classList.remove("picture-book-bg-bottom");
+          book.navNode.classList.remove("raiseZIndex-bg-fixed");
+          book.navNode.classList.remove("raiseZIndex-bg-bottom");
         // Bottom
         } else if (bottomDistance > 0) {
           book.bgNode.classList.remove("picture-book-bg-fixed");
           book.bgNode.classList.add("picture-book-bg-bottom");
+          book.navNode.classList.remove("raiseZIndex-bg-fixed");
+          book.navNode.classList.add("raiseZIndex-bg-bottom");
         // Fixed
         } else {
           that.activeBook = book;
@@ -1404,6 +1410,9 @@ app.pictureBook = function () {
           isFixed = true;
           book.bgNode.classList.add("picture-book-bg-fixed");
           book.bgNode.classList.remove("picture-book-bg-bottom");
+          book.navNode.classList.add("raiseZIndex-bg-fixed");
+          book.navNode.classList.remove("raiseZIndex-bg-bottom");
+
 
           // Pages
           if (book.pages.length) {

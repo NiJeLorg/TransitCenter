@@ -1,3 +1,24 @@
+body.loading {
+    overflow: hidden;
+}
+
+body.loading .loading-modal {
+    display: block;
+}
+
+.loading-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: .7;
+    background: url('images/ripple.gif') 50% 50% no-repeat;
+    background-color: #000;
+}
+
 .col-md-6 {
     padding: 0;
 }
@@ -169,18 +190,19 @@ footer p {
     font-size: 24px;
 }
 
-.x-axis path {
-    display: none;
-}
-
-.x-axis line {
-    shape-rendering: crispEdges;
+.axis path,
+.axis line {
+    fill: none;
     stroke: #979797;
+    shape-rendering: crispEdges;
 }
 
-.x-axis .minor line {
-    stroke: blue;
-    stroke-dasharray: 5, 5;
+.bar--positive {
+    fill: #17bee8;
+}
+
+.bar--negative {
+    fill: #a94442;
 }
 
 @media (max-width: 1024px) {

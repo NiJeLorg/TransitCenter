@@ -14,51 +14,91 @@ app.init = function() {
         sql_api_template: "https://{user}.cartodb.com:443"
     });
 
+    // pull district number out of global district variable -- use this number on initial page load
+    app.districtNumber = district.replace(/^\D+/g, '');
+    app.districtName = district.replace(/\d+/g, '');
+    app.firstRun = true;
+
     // set up listeners
     app.createListeners();
 
     // set up report card drop down menu
-    app.createStateSenateOptions();
+    app.initSelect2MenuDistrictName();
 
 };
 
 // sets up listeners
 app.createListeners = function() {
 
-    if (($('body')).width() >= 767) {
-        $('a.page-scroll').bind('click', function(event) {
-            event.preventDefault();
-            var $anchor = $(this);
-            $('html, body').stop().animate({
-                scrollTop: $($anchor.attr('href')).offset().top
-            }, 2000, 'easeInOutQuint');
-        });
-    }
+    // listen for on change to update dropdown menu
+    $('#selectDistrict').change(function() {
+        app.districtName = $(this).val();
+        // update route selection and data
+        app.updateNumberDropdown();
+    });
 
     // listen for on change to update visualizations
-    $('#selectDistrict').change(function() {
+    $('#number').change(function() {
+        app.districtNumber = $(this).val();
+        // add loading modal
+        $("body").addClass("loading");
         // update route selection and data
-        app.selectRoutes($(this).val());
+
+        app.selectRoutes();
         // create url parameters
-        window.history.pushState({}, '', '?district=' + $(this).val());
+        window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
     });
-};
+}
+
+app.updateNumberDropdown = function() {
+    // clear numbers and destroy select2 box if neccesary
+    if ($("#number").hasClass("select2-hidden-accessible")) {
+        $("#number").select2("destroy");
+    }
+
+    $("#number").html('');
+    // select district table and field names
+    if (app.districtName == 'senate') {
+        // State Sentate
+        app.districtTable = 'nyc_state_senate_districts';
+        app.districtFieldName = 'stsendist';
+        app.printDistrict = 'State Senate District';
+    } else if (app.districtName == 'assembly') {
+        // State Assembly
+        app.districtTable = 'nyc_state_assembly_districts';
+        app.districtFieldName = 'assem_dist';
+        app.printDistrict = 'State Assembly District';
+    } else if (app.districtName == 'council') {
+        // City Council
+        app.districtTable = 'nyc_city_council_districts';
+        app.districtFieldName = 'coun_dist';
+        app.printDistrict = 'City Council District';
+    } else {
+        // Community Board
+        app.districtTable = 'nyc_community_districts';
+        app.districtFieldName = 'boro_cd';
+        app.printDistrict = 'Community Board District';
+    }
+    // update number dropdown menu
+    app.createNumberOptions();
+
+}
 
 /**** Create select2 drop down menu ****/
-app.createStateSenateOptions = function() {
+app.createNumberOptions = function() {
 
     // first pull state assembly districts and append
-    app.sqlclient.execute("SELECT stsendist FROM nyc_state_senate_districts ORDER BY stsendist")
+    var sql = "SELECT " + app.districtFieldName + " FROM " + app.districtTable + " ORDER BY " + app.districtFieldName;
+    app.sqlclient.execute(sql)
         .done(function(data) {
 
             // loop through response to populate dropdown
             for (var i = 0; i < data.rows.length; i++) {
-                var option = $('<option/>').attr({ 'value': 'State Senate District ' + data.rows[i].stsendist }).text('State Senate District ' + data.rows[i].stsendist);
-                $('#dropdownStateSenate').append(option);
+                var option = $('<option/>').attr({ 'value': data.rows[i][app.districtFieldName] }).text(data.rows[i][app.districtFieldName]);
+                $('#number').append(option);
             }
 
-            // now populate state assembly district options
-            app.createStateAssemblyOptions();
+            app.initSelect2MenuDistrictNumber();
 
         })
         .error(function(errors) {
@@ -67,68 +107,53 @@ app.createStateSenateOptions = function() {
         });
 }
 
-app.createStateAssemblyOptions = function() {
 
-    // first pull state assembly districts and append
-    app.sqlclient.execute("SELECT assem_dist FROM nyc_state_assembly_districts ORDER BY assem_dist")
-        .done(function(data) {
+app.initSelect2MenuDistrictNumber = function() {
+    // which district number should we use?
+    console.log(app.firstRun);
+    if (!app.firstRun) {
+        app.districtNumber = $("#number").val();
+    }
+    console.log(app.districtNumber);
 
-            // loop through response to populate dropdown
-            for (var i = 0; i < data.rows.length; i++) {
-                var option = $('<option/>').attr({ 'value': 'State Assembly District ' + data.rows[i].assem_dist }).text('State Assembly District ' + data.rows[i].assem_dist);
-                $('#dropdownStateAssembly').append(option);
-            }
+    // when done create select2 menu
+    // if mobile, skip setting up select 2
+    if (($('body')).width() < 767) {
+        $("#number").val(app.districtNumber);
+        app.selectRoutes();
+    } else {
+        app.selectDistrictNumberMenu = $("#number").select2();
+        app.selectDistrictNumberMenu.val(app.districtNumber).trigger("change");
+    }
 
-            // now inititize the select 2 menu
-            app.initSelect2Menu();
-
-        })
-        .error(function(errors) {
-            // errors contains a list of errors
-            console.log("errors:" + errors);
-        });
+    // after first run, set app.firstRun = false;
+    app.firstRun = false;
 }
 
-app.initSelect2Menu = function() {
+app.initSelect2MenuDistrictName = function() {
         // when done create select2 menu
         // if mobile, skip setting up select 2
         if (($('body')).width() < 767) {
-            $("#selectDistrict").val(district);
+            $("#selectDistrict").val(app.districtName);
+            app.updateNumberDropdown();
         } else {
             app.selectDistrictMenu = $("#selectDistrict").select2();
-
-            app.selectDistrictMenu.on("select2:open", function(e) {
-                // add type bx placeholder text
-                $(".select2-search__field").attr("placeholder", "Start typing a district here to search.");
-            });
-
-            app.selectDistrictMenu.val(district).trigger("change");
-
+            app.selectDistrictMenu.val(app.districtName).trigger("change");
         }
     }
     /********/
 
 // SQL set up to select routes from selected district
 app.selectRoutes = function(district) {
-    // check to see if state senate or state assembly district was chosen
-    var districtTable;
-    var districtFieldName;
-    if (district.search('Senate') != -1) {
-        districtTable = 'nyc_state_senate_districts';
-        districtFieldName = 'stsendist';
-    } else {
-        districtTable = 'nyc_state_assembly_districts';
-        districtFieldName = 'assem_dist';
-    }
 
     // get district number with regex
-    var districtNumber = district.replace(/^\D+/g, '');
+    var districtNumber = $("#number").val();
 
     // set up query to pull geometry for district
-    var districtGeomSQL = 'SELECT district.the_geom FROM ' + districtTable + ' AS district WHERE ' + districtFieldName + ' = ' + districtNumber;
+    var districtGeomSQL = 'SELECT district.the_geom FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + districtNumber;
 
     // now select the distinct routes that intersect that geometry
-    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
+    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BX%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
 
     // pass routesWithinSQL to bar chart update function
     app.updateBarCharts(routesWithinSQL);
@@ -142,8 +167,13 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three routes in ridership
     var ridershipQuery = 'SELECT route_id, year_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC';
 
+    app.activeAjaxConnections++;
     app.sqlclient.execute(ridershipQuery)
         .done(function(data) {
+            app.activeAjaxConnections--;
+            if (app.activeAjaxConnections == 0) {
+                $("body").removeClass("loading");
+            }
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var ridershipArray = [];
@@ -163,8 +193,13 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three routes by fastest growing
     var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC';
 
+    app.activeAjaxConnections++;
     app.sqlclient.execute(fastestGrowingQuery)
         .done(function(data) {
+            app.activeAjaxConnections--;
+            if (app.activeAjaxConnections == 0) {
+                $("body").removeClass("loading");
+            }
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var ridershipChange = [];
@@ -174,7 +209,7 @@ app.updateBarCharts = function(routesWithinSQL) {
                 ridershipChange.push({ label: data.rows[i].route_id, value: pct });
             }
 
-            app.createBarChart('#ridershipChange', ridershipChange);
+            app.createNegativeBarChart('#ridershipChange', ridershipChange);
 
         })
         .error(function(errors) {
@@ -185,8 +220,13 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three routes by most bunching
     var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC';
 
+    app.activeAjaxConnections++;
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
+            app.activeAjaxConnections--;
+            if (app.activeAjaxConnections == 0) {
+                $("body").removeClass("loading");
+            }
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var bunching = [];
@@ -208,8 +248,13 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three slowest routes
     var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC';
 
+    app.activeAjaxConnections++;
     app.sqlclient.execute(slowestQuery)
         .done(function(data) {
+            app.activeAjaxConnections--;
+            if (app.activeAjaxConnections == 0) {
+                $("body").removeClass("loading");
+            }
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var slowestArray = [];
@@ -239,42 +284,44 @@ app.createBarChart = function(divId, data) {
             }
         }
     }
-    var x;
-    var margin = { top: 50, right: 20, bottom: 50, left: 80 };
-    var width = $('.metric-component .chart-component').width() - margin.right - margin.left,
+    console.log(arr, 'ARR');
+    var margin = { top: 50, right: 70, bottom: 50, left: 80 };
+    var width = $('.metric-component .chart-component').width() - margin.left - margin.right,
         barHeight = 25,
         barWidth = width * (3 / 4);
     var height = (barHeight * data.length) - (margin.top - margin.bottom);
     var totalHeight = height + margin.top;
-
+    var y = d3.scale.linear()
+        .range([height, 0])
+        .domain([0, d3.max(data, function(d, i) {
+            return i * barHeight;
+        })]);
+    var x = d3.scale.linear()
+        .domain([0, d3.max(arr)])
+        .range([0, width]);
     var chart = d3.select(divId)
         .append('svg')
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
-    chart.append('g')
+    var mainG = chart.append('g')
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
-    if (divId === '#ridershipChange') {
-        x = d3.scale.linear()
-            .domain(d3.extent(data, function(d) {
-                return d.value;
-            }))
-            .range([0, width]);
-    } else {
-        x = d3.scale.linear()
-            .domain([0, d3.max(arr)])
-            .range([0, width]);
-    }
     var xAxis = d3.svg.axis()
         .scale(x)
-        .orient("bottom");
+        .innerTickSize(7)
+        .orient('bottom');
 
-    var bar = chart.selectAll("g")
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .ticks(0)
+        .orient('left');
+
+    var bar = mainG.selectAll("g")
         .data(data)
         .enter().append("g")
         .attr("transform", function(d, i) {
-            return "translate(" + margin.left + "," + i * barHeight + ")";
+            var traslateDown = (i * barHeight);
+            return "translate(0," + traslateDown + ")";
         });
 
     bar.append("rect")
@@ -284,21 +331,7 @@ app.createBarChart = function(divId, data) {
         })
         .attr("height", barHeight - 5);
 
-    bar.append("text")
-        .attr("class", "inside-bar-text")
-        .attr("x", function(d) {
-            return x(d.value) - 60;
-        })
-        .attr("y", (barHeight - 5) / 2)
-        .attr("dy", ".35em")
-        .text(function(d) {
-            if (divId === '#bunching') {
-                return d.value + '%';
-            } else if (divId === '#speed') {
-                return d.value + ' mph';
-            }
-            return app.numberWithCommas(d.value);
-        });
+
     bar.append("text")
         .attr("class", "outside-bar-text")
         .attr("x", function(d) {
@@ -307,15 +340,142 @@ app.createBarChart = function(divId, data) {
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
-            return d.label;
+            var value, busRoute, finalText;
+            if (divId === '#bunching') {
+                value = d.value + '%';
+            } else if (divId === '#speed') {
+                value = d.value + ' mph';
+            } else {
+                value = app.numberWithCommas(d.value);
+            }
+            finalText = value + '  ' + d.label;
+            return finalText;
         });
-    chart.append('g')
-        .attr('class', 'x-axis')
+    mainG.append('g')
+        .attr('class', 'axis')
         .call(xAxis)
         .attr("transform", function(d, i) {
-            return "translate(" + margin.left + "," + totalHeight + ")";
+            return "translate(0," + height + ")";
         });
+    mainG.append('g')
+        .attr('class', 'axis')
+        .call(yAxis)
+        .attr("transform", function(d, i) {
+            return "translate(0,0)";
+        });
+
 };
+
+app.createNegativeBarChart = function(divId, data) {
+    // for now, destroy previous bar charts
+    $(divId).html('');
+    var arr = [];
+    for (var i = 0; i < data.length; i++) {
+        for (var key in data[i]) {
+            if (typeof data[i][key] === 'number') {
+                arr.push(data[i][key]);
+            }
+        }
+    }
+    console.log(arr, 'NEG ARR');
+    var margin = { top: 50, right: 60, bottom: 50, left: 80 };
+    var width = $('.metric-component .chart-component').width() - margin.left - margin.right,
+        barHeight = 25,
+        barWidth = width * (3 / 4);
+    var height = (barHeight * data.length) - (margin.top - margin.bottom);
+    var totalHeight = height + margin.top;
+    var y = d3.scale.linear()
+        .range([height, 0])
+        .domain([0, d3.max(data, function(d, i) {
+            return i * barHeight;
+        })]);
+    var x = d3.scale.linear()
+        .domain(d3.extent(data, function(d) {
+            return d.value;
+        }))
+        .range([100, width - 100]);
+    var chart = d3.select(divId)
+        .append('svg')
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+    var mainG = chart.append('g')
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .innerTickSize(7)
+        .orient('bottom');
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .ticks(0)
+        .orient('left');
+
+    function type(d) {
+        d.value = +d.value;
+        return d;
+    }
+
+    var bar = mainG.selectAll("g")
+        .data(data)
+        .enter().append("g")
+        .attr("transform", function(d, i) {
+            var traslateDown = (i * barHeight);
+            return "translate(0," + traslateDown + ")";
+        });
+
+    bar.append("rect")
+        .attr("width", function(d, i) {
+            return Math.abs(x(d.value) - x(0));
+        })
+        .attr("class", function(d) {
+            return "bar bar--" + (d.value < 0 ? "negative" : "positive");
+        })
+        .attr("height", barHeight - 5)
+        .attr("x", function(d) {
+            return x(Math.min(0, d.value));
+        });
+
+
+    bar.append("text")
+        .attr("class", "bus-value-text")
+        .attr("x", function(d) {
+            return (d.value < 0 ? x(d.value) - 5 : x(d.value) + 45);
+        })
+        .attr('text-anchor', function(d) {
+            return (d.value < 0 ? 'end' : 'start');
+        })
+        .attr("y", (barHeight - 5) / 2)
+        .attr("dy", ".35em")
+        .text(function(d) {
+            return d.value + '%';
+        });
+
+    bar.append("text")
+        .attr("class", "bus-route-text")
+        .attr("x", function(d) {
+            return (d.value < 0 ? x(d.value) - 45 : x(d.value) + 5);
+        })
+        .attr('text-anchor', function(d) {
+            return (d.value < 0 ? 'end' : 'start');
+        })
+        .attr("y", (barHeight - 5) / 2)
+        .attr("dy", ".35em")
+        .text(function(d) {
+            return d.label;
+        });
+
+    mainG.append('g')
+        .attr('class', 'axis')
+        .call(xAxis)
+        .attr("transform", function(d, i) {
+            return "translate(0," + height + ")";
+        });
+    mainG.append('g')
+        .attr('class', 'axis')
+        .call(yAxis)
+        .attr("transform", "translate(" + x(0) + ",0)")
+}
 
 
 /**** Utility functions ****/
@@ -347,3 +507,6 @@ $('.table-chart-holder table tr td:nth-child(3)').each(function(i, el) {
         $(el).css('color', 'red');
     }
 })
+
+// calculating if all ajax connections are complete
+app.activeAjaxConnections = 0;

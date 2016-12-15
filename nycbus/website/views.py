@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from website.models import *
 
 
-# TransitCenter Public Website Views 
+# TransitCenter Public Website Views
 def website_index(request):
 	route = request.GET.get("route","None")
 	if route == "None":
@@ -20,9 +20,9 @@ def website_index(request):
 
 
 def district_analysis(request):
-	district = request.GET.get("district","State Senate District 10")
+	district = request.GET.get("district","senate10")
 	return render(request, 'website/district.html', {'district':district,})
 
 def district_detail_analysis(request):
-	district = request.GET.get("district","State Senate District 10")
+	district = request.GET.get("district","senate10")
 	return render(request, 'website/district_detail.html', {'district':district,})
