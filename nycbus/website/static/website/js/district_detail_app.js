@@ -153,7 +153,7 @@ app.selectRoutes = function(district) {
     var districtGeomSQL = 'SELECT district.the_geom FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + districtNumber;
 
     // now select the distinct routes that intersect that geometry
-    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BX%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
+    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
 
     // pass routesWithinSQL to bar chart update function
     app.updateBarCharts(routesWithinSQL);
