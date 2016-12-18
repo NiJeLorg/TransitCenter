@@ -192,18 +192,18 @@ a {
   background-image: url(images/cover_background_small.png);
   background-repeat: no-repeat;
   background-attachment: scroll;
-  background-position: bottom center;
+  background-position: center bottom;
   background-color: white;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
 }
-@media (min-width: 1200px) {
+/*@media (min-width: 1200px) {
   .intro {
-    background-position: 50% 75%;
+    background-position: 50% 100%;
   }
-}
+}*/
 
 .intro .intro-body {
   display: table-cell;
@@ -243,9 +243,9 @@ a {
 #mission .card {
   width: 100%;
   height: auto;
-  padding: 20px;
-  border: solid 1px #003244;
-  background-color: #005777;
+  padding: 10px 15px 15px;
+  border: solid 1px #17bee8;
+  background-color: #17bee8;
   color: #fff; 
 }
 #mission .card h4, p {
@@ -254,7 +254,7 @@ a {
 @media (min-width: 768px) {
   #mission {
     width: auto;
-    margin: 0 35px;
+    margin: 0;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -262,11 +262,8 @@ a {
 }
 @media (min-width: 1000px) {
   #mission {
-    width: 60%;
-    margin: 0;
-    position: absolute;
-    bottom: 0;
-    left: 20%;
+    width: 100%;
+
   }
 }
 .btn-circle {
