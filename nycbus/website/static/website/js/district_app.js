@@ -46,8 +46,9 @@ app.createListeners = function() {
         // add loading modal
         $("body").addClass("loading");
         // update route selection and data
+
         app.selectRoutes();
-        // create url parameters 
+        // create url parameters
         window.history.pushState( {} , '', '?district=' + $('#selectDistrict').val() + $('#number').val() );
     });
 }
@@ -151,7 +152,9 @@ app.selectRoutes = function() {
 	var districtNumber = $("#number").val();
 
 	// set up query to pull geometry for district
-    var districtGeomSQL = 'SELECT district.the_geom FROM '+ app.districtTable +' AS district WHERE '+ app.districtFieldName +' = ' + districtNumber;	
+
+    var districtGeomSQL = 'SELECT district.the_geom FROM '+ app.districtTable +' AS district WHERE '+ app.districtFieldName +' = ' + districtNumber;
+
 
 	// now select the distinct routes that intersect that geometry
     var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BX%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND ST_Intersects( mta.the_geom , ("+ districtGeomSQL +") )";
@@ -180,7 +183,8 @@ app.selectRoutes = function() {
 app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 	// set district name
 
-	$('#districtName').text(app.printDistrict + ' ' + app.districtNumber);  
+	$('#districtName').text(app.printDistrict + ' ' + app.districtNumber);
+
 
 	// calculate bus commuters based on census block group data
 	var commuterQuery = 'SELECT sum(acs.hd01_vd11) FROM acs_14_5yr_b08301 AS acs WHERE ST_Intersects( acs.the_geom , ('+ districtGeomSQL +') )';
@@ -206,12 +210,12 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     $("body").removeClass("loading");
                 }
               }
-            }); 
+            });
         })
         .error(function(errors) {
             // errors contains a list of errors
             console.log("errors:" + errors);
-        });	
+        });
 
 
  	// calculate number of bus routes that fall within this district
@@ -237,13 +241,13 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     $("body").removeClass("loading");
                 }
 		      }
-		    });       	
+		    });
 
         })
         .error(function(errors) {
             // errors contains a list of errors
             console.log("errors:" + errors);
-        });	
+        });
 
 
     // calculate poverty level based on census block group data
@@ -271,12 +275,12 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     $("body").removeClass("loading");
                 }
               }
-            }); 
+            });
         })
         .error(function(errors) {
             // errors contains a list of errors
             console.log("errors:" + errors);
-        }); 
+        });
 
 }
 
@@ -307,7 +311,7 @@ app.updateBarCharts = function(routesWithinSQL) {
                     label = data.rows[i].route_id;
                 }
         		ridershipArray.push({ label: label, value: data.rows[i].year_2015 });
-                
+
         	}
 
     		app.createBarChart('#ridership', app.greenColorScale, ridershipArray);
@@ -318,7 +322,7 @@ app.updateBarCharts = function(routesWithinSQL) {
         .error(function(errors) {
             // errors contains a list of errors
             console.log("errors:" + errors);
-        });	
+        });
 
 
     // using the routes selected by district, build a query for top three routes by fastest growing
@@ -348,7 +352,7 @@ app.updateBarCharts = function(routesWithinSQL) {
         .error(function(errors) {
             // errors contains a list of errors
             console.log("errors:" + errors);
-        });	
+        });
 
     // using the routes selected by district, build a query for top three routes by most bunching
 	var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN ('+ routesWithinSQL +') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
@@ -376,7 +380,7 @@ app.updateBarCharts = function(routesWithinSQL) {
         .error(function(errors) {
             // errors contains a list of errors
             console.log("errors:" + errors);
-        });	
+        });
 
 
     // using the routes selected by district, build a query for top three slowest routes
@@ -405,7 +409,7 @@ app.updateBarCharts = function(routesWithinSQL) {
         .error(function(errors) {
             // errors contains a list of errors
             console.log("errors:" + errors);
-        });	
+        });
 
 
 }
@@ -530,7 +534,7 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
       var tooltip = layer.leafletMap.viz.addOverlay({
         type: 'tooltip',
         layer: sublayer,
-        template: $('#tooltip_template').html(), 
+        template: $('#tooltip_template').html(),
         width: 120,
         position: 'top|right',
         fields: [{ route_id: 'route_id' }]
@@ -577,8 +581,11 @@ app.reportCardMapStatic = function (districtMapSQL, routesMapSQL) {
     });
 
   /**** If we want to try adding labels to text layers use somethign like the following cartocss
-  * "cartocss": '#layer {::shape {line-width: 1;line-color: #005777; line-opacity: 0.75;} ::label {text-name:[route_id]; text-face-name:"DejaVu Sans Book"; text-size:14; text-fill: #6F808D; text-halo-radius: 1; text-halo-fill: rgba(255, 255, 255, 0.75); text-transform:uppercase; text-placement: line; text-dy: 12; text-avoid-edges: true; text-min-distance: 100;} }',
-  ****/ 
+<<<<<<< HEAD
+  * text-name:[boro_name];text-face-name:'DejaVu Sans Book';text-size:50;text-fill: #6F808D;text-halo-radius: 1;text-halo-fill: rgba(255, 255, 255, 0.75);text-transform:uppercase;
+  ****/
+   // "cartocss": '#layer {::shape {line-width: 1;line-color: #005777; line-opacity: 0.75;} ::label {text-name:[route_id]; text-face-name:"DejaVu Sans Book"; text-size:14; text-fill: #6F808D; text-halo-radius: 1; text-halo-fill: rgba(255, 255, 255, 0.75); text-transform:uppercase; text-placement: line; text-dy: 12; text-avoid-edges: true; text-min-distance: 100;} }',
+
   var mapconfig = {
     "layers": [
 
@@ -678,9 +685,9 @@ app.slowestColorScale = d3.scale.linear()
 
 
 // map set up
-app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{ attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });  
+app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{ attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });
 
-app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10 });  
+app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10 });
 
 app.map.addLayer(app.tiles);
 

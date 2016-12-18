@@ -1,227 +1,243 @@
-/* OVERIDE BOOTSTRAP STYLES */
+body.loading {
+    overflow: hidden;
+}
 
-.row {
-    margin: 0;
+body.loading .loading-modal {
+    display: block;
+}
+
+.loading-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: .7;
+    background: url('images/ripple.gif') 50% 50% no-repeat;
+    background-color: #000;
 }
 
 .col-md-6 {
     padding: 0;
 }
 
-.col-md-5 {
-    padding: 0;
-}
-
-.navbar-right {
-    margin-right: 0;
-}
-
-
-/* OVERIDE BOOTSTRAP STYLES */
-
-
-/* OVERIDE SELECT2 STYLES */
-
-.select2-container--default .select2-selection--single {
-    border: 1px solid #aaa;
-}
-
-/* OVERIDE SELECT2 STYLES */
-
-
-/* UTILITY CLASS // TYPOGRAPHY STYLES // */
-
-* {
-    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.main-heading {
-    font-size: 4.5em;
-    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
-}
-
-.main-heading-card {
-    font-size: 3.5em;
-}
-
-.sub-heading-card {
-    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 1.5em;
-}
-
-
-/* UTILITY CLASS // TYPOGRAPHY STYLES // */
-
-
-/* UTILITY CLASS // REUSABLE STYLES // */
-
-.bottom-buffer {
-    margin-bottom: 3%;
-}
-
-.card {
-    background: #fff;
-    border: solid 1px #DDDDDD;
-    padding: 2% 3%;
-}
-
-
-/* UTILITY CLASS // REUSABLE STYLES // */
-
-
-/* MAIN STYLES */
-
-main {
-    background-image: url(images/cover_background_small.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: scroll;
-    background-position-y: 90%;
-    padding: 1.5% 2%;
-}
-
-main header h2 {
-    color: #fff;
+.row {
     margin: 0;
-}
-
-.header-dropdown-select {
-    bottom: -25px;
-}
-
-.main-component {
-    display: flex;
-    margin-top: 3%;
-}
-
-.bus-routes-holder {
-    width: 48%;
-}
-
-.bus-map-holder {
-    margin-left: 4%;
-    width: 48%;
-}
-
-.report-card h2 {
-    line-height: 95%;
-}
-
-.ways-to-address h4 {
-    font-size: 1.6em;
-}
-
-.turnaround-campaign h4 {
-    font-size: 1.6em;
-}
-
-.turnaround-campaign p {
-    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
-}
-
-footer {
-    background: #555555;
-}
-
-footer .logos-holder {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 2%;
-}
-
-.logos-holder .logo {
-    margin-right: 3%;
-}
-
-.copyright {
-    text-align: center;
-    padding: 1% 0;
+    margin-bottom: 20px;
 }
 
 .inside-bar-text {
-    fill: white;
-    text-anchor: end;
+    fill: #fff;
 }
 
-.card-li {
-    font-size: 1.6em;
+main header {
+    height: 80px;
+    background: #15B6E5;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.district-map {
-	height: 88.3vh;
+header .nyc-bus {
+    font-size: 24px;
+    margin: 0;
+    margin-left: 30px;
 }
 
-div.cartodb-tooltip-content p {
-	font-size: 20px !important;
-	font-weight: bold !important;
+header .details {
+    font-size: 20px;
+    margin: 0;
+    margin-right: 30px;
 }
 
+main .choose-district {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 33px;
+}
 
-/* MAIN STYLES */
+.choose-district p {
+    font-size: 52px;
+    margin: 0;
+    margin-right: 25px;
+}
 
+.choose-district .dropdown-select {
+    display: flex;
+    align-items: center;
+}
 
-/* MEDIA QUERIES */
+.dropdown-select h2 {
+    margin: 0;
+    font-size: 52px;
+}
+
+main .metric-component {
+    font-family: 'HelveticaNeue', sans-serif;
+}
+
+.metric-component h3 {
+    font-size: 52px;
+    margin: 0;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.metric-component .chart-component {
+    height: 515px;
+    overflow-y: scroll;
+    border: 1px solid #979797;
+}
+
+.chart-component h5 {
+    text-align: center;
+    font-size: 18px;
+}
+
+.metric-component .metric-text {
+    margin: 0;
+    font-size: 18px;
+    font-family: 'HelveticaNeue', sans-serif;
+}
+
+main .data {
+    padding: 0 30px;
+    margin-bottom: 90px;
+}
+
+.data .col-md-6 {
+    width: 46%;
+}
+
+.data .push-right {
+    margin-right: 4%;
+}
+
+.data .table-chart-holder {
+    margin-top: 40px;
+    font-family: 'HelveticaNeue', sans-serif;
+}
+
+.table-chart-holder h3 {
+    font-family: 'HelveticaNeue', sans-serif;
+    font-size: 52px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.table-chart-holder .table-data {
+    padding: 20px;
+    border: 1px solid #979797;
+}
+
+.table-data table {
+    width: 100%;
+    border: 1px solid #979797;
+}
+
+.table-data table tbody {
+    height: 348px;
+    overflow-y: scroll;
+}
+
+table th {
+    text-align: center;
+    border-right: 1px solid #979797;
+    font-weight: bold;
+    padding: 14px 0;
+    color: #333333;
+    font-size: 20px;
+}
+
+table tr:nth-child(odd) {
+    background-color: #D8D8D8;
+}
+
+table tr:nth-child(1) {
+    background: #fff;
+}
+
+table td {
+    text-align: center;
+    font-size: 18px;
+    padding: 16px 0;
+    border-top: 1px solid #979797;
+    border-right: 1px solid #979797;
+}
+
+.table-data .note-text {
+    margin-top: 5px;
+    font-size: 18px;
+}
+
+footer {
+    height: 80px;
+    background: #15B6E5;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+footer p {
+    margin: 0;
+    font-size: 24px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #979797;
+    shape-rendering: crispEdges;
+}
+
+.bar--positive {
+    fill: #17bee8;
+}
+
+.bar--negative {
+    fill: #a94442;
+}
+
+.bus-route-text {
+    fill: #15B6E5;
+    font-weight: bold;
+}
+
+.bus-route-text-negative {
+    font-weight: bold;
+    fill: #A94442;
+}
 
 @media (max-width: 1024px) {
-    .district-map {
-		height: 97.3vh;
-	}
+    .metric-component h3 {
+        font-size: 40px;
+    }
 }
 
 @media (max-width: 768px) {
-    .col-md-offset-1 {
-        margin-left: 0;
-    }
-    .ways-to-address {
-        margin-bottom: 3%;
-    }
-    .logos-holder .logo {
-        margin-bottom: 10%;
-    }
-    .main-component {
-        display: block;
-        margin-top: 10%;
-    }
-    .bus-routes-holder {
+    .table-chart-holder .col-md-6 {
         width: 100%;
     }
-    .bus-map-holder {
-        margin-left: 0;
-        width: 100%;
+    .metric-component h3 {
+        font-size: 36px;
     }
-    .navbar-right {
-        float: none !important;
+    .metric-component .metric-text {
+        font-size: 13px;
     }
-    .header-title h2 {
-        margin-bottom: 3%;
-    }
-    #selectDistrict {
-        /*width: 94%;*/
-        /*margin-left: 3%;*/
-        font-size: 0.65em;
-        color: #333333;
-    }
-    .district-map {
-		height: 65vh;
-	}
 }
 
-@media (max-width: 425px) {
-    .main-heading {
-        font-size: 3.5em;
+@media (max-width: 767px) {
+    .data .push-right {
+        margin-right: 0;
     }
-    .main-heading-card {
-        font-size: 2.5em;
+    .data .col-md-6 {
+        width: inherit;
     }
-    .sub-heading-card {
-        font-size: 1em;
-    }
-    .district-map {
-		height: 65vh;
-	}
 }
-
-
-/* MEDIA QUERIES */
