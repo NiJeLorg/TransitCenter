@@ -3,153 +3,142 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" /> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
 <main>
-    <header class="row">
-        <div class="header-title col-md-6">
-            <h2 class="main-heading">Turnaround</h2>
-        </div>
-        <div class="header-dropdown-select col-md-6">
-            <div class="navbar-right">
-                <ul class="nav navbar-nav">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <h2 class="text-center">
-                        <select id="selectDistrict" class="selectDistrict">
-                            <optgroup id="dropdownStateSenate" label="State Senate Districts">
-                            </optgroup>
-                            <optgroup id="dropdownStateAssembly" label="State Assembly Districts">
-                            </optgroup>
-                        </select>
-                    </h2>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <header>
+        <p class="nyc-bus">NYC Bus Turnaround</p>
+        <p class="details">DETAILS</p>
     </header>
-    <div class="main-component">
-        <div class="bus-routes-holder">
-            <div class="report-card card bottom-buffer">
-                <h2 class="main-heading margin-bottom">Report Card for <span id="districtName"></span></h2>
-                <div class="people row">
-                    <h2 class="main-heading-card"><span id="busCommuters">0</span> <small>bus commuters</small></h2>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-5">
-                        <h2 class="main-heading-card"><span id="busRoutes">0</span> <small>bus routes</small></h2>
-                    </div>
-                    <div class="col-sm-12 col-md-7">
-                        <h2 class="main-heading-card"><span id="percentPoverty">0</span>% <small>poverty rate</small></h2>
-                    </div>
-                </div>
-                <div class="bus-routes-graphs row">
-                    <h3 class="text-uppercase sub-heading-card">Bus Routes</h3>
-                    <div class="bus-routes-bars">
-                        <div class="bus-routes-bars row">
-                            <div class="col-md-6 col-sm-12">
-                                <h4><strong>Highest Ridership</strong></h4>
-                                <div id="ridership">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <h4>Fastest Growing Ridership</h4>
-                                <div id="fastestGrowing">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bus-routes-bars row">
-                            <div class="col-md-6 col-sm-12">
-                                <h4>Most Bunching</h4>
-                                <div id="mostBunching"></div>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <h4>Slowest</h4>
-                                <div id="slowest">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 text-right">
-                        <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
-                    </div>
-                </div>
-            </div>
-            <div class="turnaround-campaign card bottom-buffer">
-                <h4>The NYC Bus Turnaround Campaign</h4>
-                <p>The Bus Turnaround Coalition is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
-            </div>
-        </div>
-        <div class="bus-map-holder">
-            <div class="ways-to-address card bottom-buffer">
-                <h3 class="text-uppercase sub-heading-card">Ways to Address These Problems Now</h3>
-                <ul>
-                    <li class="card-li">Speed up buses with the new fare payment system</li>
-                    <li class="card-li">Implement transit signal priority systemwide</li>
-                    <li class="card-li">Add more bus lanes on local routes</li>
-                </ul>
-            </div>
-            <div class="card">
-                {% verbatim %}
-                <script type="tooltip/html" id="tooltip_template">
-                    <div class="cartodb-tooltip-content-wrapper">
-                        <div class="cartodb-tooltip-content">
-                            <p>{{ route_id }}</p>
-                        </div>
-                    </div>
-                </script>
-                {% endverbatim %}
-                <div id='district-map' class='district-map'></div>
-            </div>
+    <div class="choose-district">
+        <p>Details For</p>
+        <div class="dropdown-select">
+            <ul class="nav navbar-nav">
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li>
+                    <h2 class="text-center">
+                        <select id="selectDistrict" class="selectDistrict">
+                            <option value="senate">State Senate District</option>
+                            <option value="assembly">State Assembly District</option>
+                            <option value="council">City Council District</option>
+                            <option value="board">Community Board District</option>
+                          </select>
+                          <select id="number" class="selectDistrict">
+                          </select>
+                    </h2>
+                </li>
+            </ul>
         </div>
     </div>
+    <div class="data">
+        <div class="row">
+            <div class="metric-component col-md-6 col-sm-12 push-right">
+                <h3>Ridership</h3>
+                <div class="chart-component">
+                    <h5>Average Weekly Ridership by Route*</h5>
+                    <div id="ridership">
+                    </div>
+                </div>
+                <p class="metric-text">*Notes on ridership data. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p>
+            </div>
+            <div class="metric-component col-md-6 col-sm-12">
+                <h3>Ridership Change</h3>
+                <div class="chart-component">
+                    <h5>Change in Average Weekly Ridership (2010-2015) by Route</h5>
+                    <div id="ridershipChange">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="metric-component col-md-6 col-sm-12 push-right">
+                <h3>Bunching</h3>
+                <div class="chart-component">
+                    <h5>Percent Buses Bunched by Route*</h5>
+                    <div id="bunching">
+                    </div>
+                </div>
+                <p class="metric-text">*Notes on bunching data. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            </div>
+            <div class="metric-component col-md-6 col-sm-12">
+                <h3>Speed</h3>
+                <div class="chart-component">
+                    <h5>Average Speed by Route*</h5>
+                    <div id="speed">
+                    </div>
+                </div>
+                <p class="metric-text">*Notes on speed data. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            </div>
+        </div>
+        <div class="table-chart-holder">
+            <h3>Data Table</h3>
+            <div class="table-data">
+                <table>
+                    <thead>
+                        <tr class="table-heading">
+                            <th>ROUTE</th>
+                            <th>RIDERSHIP</th>
+                            <th>RIDERSHIP CHANGE</th>
+                            <th>BUNCHING</th>
+                            <th>SPEED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>B25</td>
+                            <td>148,324</td>
+                            <td>-19.7%</td>
+                            <td>19.7%</td>
+                            <td>4.5 mph</td>
+                        </tr>
+                        <tr>
+                            <td>B52</td>
+                            <td>139,213</td>
+                            <td>5.6%</td>
+                            <td>19.0%</td>
+                            <td>5.2 mph</td>
+                        </tr>
+                        <tr>
+                            <td>B33</td>
+                            <td>118,324</td>
+                            <td>1.6%</td>
+                            <td>18.3%</td>
+                            <td>5.3 mph</td>
+                        </tr>
+                        <tr>
+                            <td>B17</td>
+                            <td>117,213</td>
+                            <td>-11.1%</td>
+                            <td>17.8%</td>
+                            <td>5.3 mph</td>
+                        </tr>
+                        <tr>
+                            <td>B26</td>
+                            <td>109,324</td>
+                            <td>-10.7%</td>
+                            <td>16.0%</td>
+                            <td>5.6 mph</td>
+                        </tr>
+                        <tr>
+                            <td>B45</td>
+                            <td>104,213</td>
+                            <td>15.8%</td>
+                            <td>-0.6%</td>
+                            <td>5.9 mph</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </main>
 <footer>
-    <div class="logos-holder">
-        <div class="logo">
-            <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
-        </div>
-        <div class="logo">
-            <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
-        </div>
-        <div class="logo">
-            <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
-        </div>
-        <div class="logo">
-            <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
-        </div>
-    </div>
-    <div class="copyright">
-        <p>Copyright &copy;
-            <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}
-        </p>
-    </div>
+    <p>Copyright &copy; TransitCenter 2016</p>
 </footer>
-{% endblock %} {% block modal_block %}
-<div class="modal fade" id="methods" tabindex="-1" role="dialog" aria-labelledby="methodsTitle">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle-o fa-2x" aria-hidden="true"></i></span></button>
-                <h4 class="modal-title" id="methodsTitle">Methodology</h4>
-            </div>
-            <div class="modal-body">
-                <p>Bunching data are calculated as an average of performance during weekdays between the hours of 10am-4pm, for the months of October 2015 and May 2016. These two months are selected because they contain minimal holidays, mild weather (minimizing service disruptions), and fall during the school year. Speed data are calculated for October 2015 only.</p>
-                <p><em>Bunching</em> is defined as the percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus. So if Bus #2 is scheduled to arrive eight minutes after Bus #1, but instead Bus #2 arrives less than two minutes after Bus #1, then Bus #2 is considered "bunched". Bus arrival and departure times are estimated using an algorithm developed by Nathan Johnson and applied to the MTA's Bus Time data. More information about Bus Time data is <a href="http://bustime.mta.info/wiki/Developers/OneBusAwayRESTfulAPI">available here</a>. </p>
-                <p><em>Speed</em> is calculated using the same Bus Time data in conjunction with route length information gathered from the MTA's publicly provided GTFS schedules. As presented here at the route level, the travel time from start to finish is simply divided by the route's length to calculate average speed. More details available in the <a href="http://busdataapi1.cloudapp.net/about">performance API documentation</a>. </p>
-                <p><em>Ridership</em> data are for the average weekday in 2015, as <a href="http://web.mta.info/nyct/facts/ridership/">reported by MTA New York City Transit here</a>. </p>
-                <p><em>Bus commuter</em> and <em>poverty</em> data are ____. </p>
-                <p>More information, including access to arrival data via an API developed by Nathan Johnson and Kuan Butts, <a href="http://bus-data-nyc.github.io/">is available here</a>. </p>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %} {% block js_block %}
+{% endblock %} {% block modal_block %} {% endblock %} {% block js_block %}
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/district_detail_app.js' %}"></script>
 <script type="text/javascript">
+$("body").addClass("loading");
 var district = '{{ district }}';
 window.onload = app.init;
 </script>
