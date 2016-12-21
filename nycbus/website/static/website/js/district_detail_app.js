@@ -48,7 +48,7 @@ app.createListeners = function() {
         // create url parameters
         window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
     });
-}
+};
 
 app.updateNumberDropdown = function() {
     // clear numbers and destroy select2 box if neccesary
@@ -105,7 +105,7 @@ app.createNumberOptions = function() {
             // errors contains a list of errors
             console.log("errors:" + errors);
         });
-}
+};
 
 
 app.initSelect2MenuDistrictNumber = function() {
@@ -128,7 +128,7 @@ app.initSelect2MenuDistrictNumber = function() {
 
     // after first run, set app.firstRun = false;
     app.firstRun = false;
-}
+};
 
 app.initSelect2MenuDistrictName = function() {
         // when done create select2 menu
@@ -217,6 +217,7 @@ app.updateBarCharts = function(routesWithinSQL) {
         app.activeAjaxConnections++;
         app.sqlclient.execute(slowestQuery)
             .done(function(data) {
+                console.log(data, 'DATA');
                 app.activeAjaxConnections--;
                 if (app.activeAjaxConnections == 0) {
                     $("body").removeClass("loading");

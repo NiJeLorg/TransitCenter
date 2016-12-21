@@ -106,7 +106,7 @@ main .metric-component {
 }
 
 main .data {
-    padding: 0 30px;
+    padding: 0 80px;
     margin-bottom: 90px;
 }
 
@@ -121,8 +121,6 @@ main .data {
 .data .table-chart-holder {
     margin-top: 40px;
     font-family: 'HelveticaNeue', sans-serif;
-    height: 400px;
-    overflow-y: scroll;
 }
 
 .table-chart-holder h3 {
@@ -135,6 +133,8 @@ main .data {
 .table-chart-holder .table-data {
     padding: 20px;
     border: 1px solid #979797;
+    height: 400px;
+    overflow-y: scroll;
 }
 
 .table-data table {
@@ -219,8 +219,11 @@ footer p {
     fill: #A94442;
 }
 
-@media all and (max-width: 769px) {
-    body main {
-        background: red !important;
+@media screen and (max-width: 768px) {
+    .choose-district p {
+        font-size: 42px;
+    }
+    .data .col-md-6 {
+        width: 100%;
     }
 }
