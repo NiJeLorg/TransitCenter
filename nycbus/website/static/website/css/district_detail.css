@@ -89,8 +89,8 @@ main .metric-component {
 }
 
 .metric-component .chart-component {
-    height: 515px;
-    overflow-y: scroll;
+    // height: 515px;
+    // overflow-y: scroll;
     border: 1px solid #979797;
 }
 
@@ -106,7 +106,7 @@ main .metric-component {
 }
 
 main .data {
-    padding: 0 30px;
+    padding: 0 80px;
     margin-bottom: 90px;
 }
 
@@ -133,11 +133,15 @@ main .data {
 .table-chart-holder .table-data {
     padding: 20px;
     border: 1px solid #979797;
+    height: 400px;
+    overflow-y: scroll;
 }
 
 .table-data table {
     width: 100%;
     border: 1px solid #979797;
+    height: 400px;
+    overflow-y: scroll;
 }
 
 .table-data table tbody {
@@ -146,7 +150,7 @@ main .data {
 }
 
 table th {
-    text-align: center;
+    text-align: center !important;
     border-right: 1px solid #979797;
     font-weight: bold;
     padding: 14px 0;
@@ -163,7 +167,7 @@ table tr:nth-child(1) {
 }
 
 table td {
-    text-align: center;
+    text-align: center !important;
     font-size: 18px;
     padding: 16px 0;
     border-top: 1px solid #979797;
@@ -215,29 +219,11 @@ footer p {
     fill: #A94442;
 }
 
-@media (max-width: 1024px) {
-    .metric-component h3 {
-        font-size: 40px;
-    }
-}
-
-@media (max-width: 768px) {
-    .table-chart-holder .col-md-6 {
-        width: 100%;
-    }
-    .metric-component h3 {
-        font-size: 36px;
-    }
-    .metric-component .metric-text {
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 767px) {
-    .data .push-right {
-        margin-right: 0;
+@media screen and (max-width: 768px) {
+    .choose-district p {
+        font-size: 42px;
     }
     .data .col-md-6 {
-        width: inherit;
+        width: 100%;
     }
 }
