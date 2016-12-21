@@ -81,6 +81,14 @@ main .metric-component {
     font-family: 'HelveticaNeue', sans-serif;
 }
 
+.metric-component .chart-parent {
+    width: 95%;
+}
+
+.metric-component .push-right {
+    float: right;
+}
+
 .metric-component h3 {
     font-size: 52px;
     margin: 0;
@@ -89,8 +97,6 @@ main .metric-component {
 }
 
 .metric-component .chart-component {
-    // height: 515px;
-    // overflow-y: scroll;
     border: 1px solid #979797;
 }
 
@@ -108,14 +114,6 @@ main .metric-component {
 main .data {
     padding: 0 80px;
     margin-bottom: 90px;
-}
-
-.data .col-md-6 {
-    width: 46%;
-}
-
-.data .push-right {
-    margin-right: 4%;
 }
 
 .data .table-chart-holder {
@@ -222,8 +220,5 @@ footer p {
 @media screen and (max-width: 768px) {
     .choose-district p {
         font-size: 42px;
-    }
-    .data .col-md-6 {
-        width: 100%;
     }
 }
