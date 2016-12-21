@@ -41,7 +41,7 @@ app.createListeners = function() {
     $('#number').change(function() {
         app.districtNumber = $(this).val();
         // add loading modal
-        $("body").addClass("loading");
+        // $("body").addClass("loading");
         // update route selection and data
 
         app.selectRoutes();
@@ -158,119 +158,185 @@ app.selectRoutes = function(district) {
     // pass routesWithinSQL to bar chart update function
     app.updateBarCharts(routesWithinSQL);
 
-}
+};
 
+app.tableArray = [];
+
+app.createDataTable = function() {
+    var table = d3.select('.table-data').append('table');
+    $('.table-data table').attr('data-sortable', '');
+    var thead = table.append('thead');
+    var tbody = table.append('tbody');
+    var columns = ['ROUTE', 'RIDERSHIP', 'RIDERSHIP CHANGE', 'BUNCHING', 'SPEED'];
+    var column_access = ['label', 'ridership', 'ridership_change', 'bunching', 'speed'];
+    // append the header row
+    thead.append('tr')
+        .selectAll('th')
+        .data(columns).enter()
+        .append('th')
+        .text(function(column) {
+            return column;
+        });
+
+    var rows = tbody.selectAll('tr')
+        .data(app.tableArray)
+        .enter()
+        .append('tr');
+
+    var cells = rows.selectAll('td')
+        .data(function(row) {
+            return column_access.map(function(column) {
+                return { column: column, value: row[column] };
+            });
+        })
+        .enter()
+        .append('td')
+        .text(function(d) {
+            return d.value;
+        });
+    window.Sortable.init();
+
+};
 
 // pull data and creates bar charts for selected district
 app.updateBarCharts = function(routesWithinSQL) {
 
-    // using the routes selected by district, build a query for top three routes in ridership
-    var ridershipQuery = 'SELECT route_id, year_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC';
+    var slowestQueryFunction = function() {
+        // using the routes selected by district, build a query for top three slowest routes
+        var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC';
 
-    app.activeAjaxConnections++;
-    app.sqlclient.execute(ridershipQuery)
-        .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-            // create data object and pass to bar chart for the form
-            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-            var ridershipArray = [];
-            for (var i = 0; i < data.rows.length; i++) {
-                ridershipArray.push({ label: data.rows[i].route_id, value: data.rows[i].year_2015 });
-            }
+        app.activeAjaxConnections++;
+        app.sqlclient.execute(slowestQuery)
+            .done(function(data) {
+                app.activeAjaxConnections--;
+                if (app.activeAjaxConnections == 0) {
+                    $("body").removeClass("loading");
+                }
+                // create data object and pass to bar chart for the form
+                //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+                var slowestArray = [];
+                var num;
+                for (var i = 0; i < data.rows.length; i++) {
+                    num = parseFloat(data.rows[i].speed.toFixed(1));
+                    slowestArray.push({ label: data.rows[i].route_id, value: num });
+                    for (var j = 0; j < app.tableArray.length; j++) {
+                        if (app.tableArray[j].label == data.rows[i].route_id) {
+                            app.tableArray[j].speed = num;
+                        }
+                    }
+                }
 
-            app.createBarChart('#ridership', ridershipArray);
-
-        })
-        .error(function(errors) {
-            // errors contains a list of errors
-            console.log("errors:" + errors);
-        });
-
-
-    // using the routes selected by district, build a query for top three routes by fastest growing
-    var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC';
-
-    app.activeAjaxConnections++;
-    app.sqlclient.execute(fastestGrowingQuery)
-        .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-            // create data object and pass to bar chart for the form
-            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-            var ridershipChange = [];
-            var pct;
-            for (var i = 0; i < data.rows.length; i++) {
-                pct = parseFloat((data.rows[i].prop_change_2010_2015 * 100).toFixed());
-                ridershipChange.push({ label: data.rows[i].route_id, value: pct });
-            }
-
-            app.createNegativeBarChart('#ridershipChange', ridershipChange);
-
-        })
-        .error(function(errors) {
-            // errors contains a list of errors
-            console.log("errors:" + errors);
-        });
-
-    // using the routes selected by district, build a query for top three routes by most bunching
-    var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC';
-
-    app.activeAjaxConnections++;
-    app.sqlclient.execute(mostBunchingQuery)
-        .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-            // create data object and pass to bar chart for the form
-            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-            var bunching = [];
-            var pct;
-            for (var i = 0; i < data.rows.length; i++) {
-                pct = parseFloat((data.rows[i].prop_bunched * 100).toFixed(1));
-                bunching.push({ label: data.rows[i].route_id, value: pct });
-            }
-
-            app.createBarChart('#bunching', bunching);
-
-        })
-        .error(function(errors) {
-            // errors contains a list of errors
-            console.log("errors:" + errors);
-        });
+                app.createBarChart('#speed', slowestArray);
+                app.createDataTable();
+            })
+            .error(function(errors) {
+                // errors contains a list of errors
+                console.log("errors:" + errors);
+            });
+    };
 
 
-    // using the routes selected by district, build a query for top three slowest routes
-    var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC';
+    var mostBunchingQueryFunction = function() {
+        // using the routes selected by district, build a query for top three routes by most bunching
+        var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC';
 
-    app.activeAjaxConnections++;
-    app.sqlclient.execute(slowestQuery)
-        .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-            // create data object and pass to bar chart for the form
-            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-            var slowestArray = [];
-            var num;
-            for (var i = 0; i < data.rows.length; i++) {
-                num = parseFloat(data.rows[i].speed.toFixed(1));
-                slowestArray.push({ label: data.rows[i].route_id, value: num });
-            }
+        app.activeAjaxConnections++;
+        app.sqlclient.execute(mostBunchingQuery)
+            .done(function(data) {
+                app.activeAjaxConnections--;
+                if (app.activeAjaxConnections == 0) {
+                    $("body").removeClass("loading");
+                }
+                // create data object and pass to bar chart for the form
+                //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+                var bunching = [];
+                var pct;
+                for (var i = 0; i < data.rows.length; i++) {
+                    pct = parseFloat((data.rows[i].prop_bunched * 100).toFixed(1));
+                    bunching.push({ label: data.rows[i].route_id, value: pct });
+                    for (var j = 0; j < app.tableArray.length; j++) {
+                        if (app.tableArray[j].label == data.rows[i].route_id) {
+                            app.tableArray[j].bunching = pct;
+                        }
+                    }
+                }
 
-            app.createBarChart('#speed', slowestArray);
+                app.createBarChart('#bunching', bunching);
+                slowestQueryFunction();
 
-        })
-        .error(function(errors) {
-            // errors contains a list of errors
-            console.log("errors:" + errors);
-        });
+            })
+            .error(function(errors) {
+                // errors contains a list of errors
+                console.log("errors:" + errors);
+            });
+    };
+
+    var fastestGrowingQueryFunction = function() {
+        // using the routes selected by district, build a query for top three routes by fastest growing
+        var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC';
+
+        app.activeAjaxConnections++;
+        app.sqlclient.execute(fastestGrowingQuery)
+            .done(function(data) {
+                app.activeAjaxConnections--;
+                if (app.activeAjaxConnections == 0) {
+                    $("body").removeClass("loading");
+                }
+                // create data object and pass to bar chart for the form
+                //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+                var ridershipChange = [];
+                var pct;
+                for (var i = 0; i < data.rows.length; i++) {
+                    pct = parseFloat((data.rows[i].prop_change_2010_2015 * 100).toFixed());
+                    ridershipChange.push({ label: data.rows[i].route_id, value: pct });
+                    for (var j = 0; j < app.tableArray.length; j++) {
+                        if (app.tableArray[j].label == data.rows[i].route_id) {
+                            app.tableArray[j].ridership_change = pct;
+                        }
+                    }
+                }
+
+                app.createNegativeBarChart('#ridershipChange', ridershipChange);
+                mostBunchingQueryFunction();
+
+            })
+            .error(function(errors) {
+                // errors contains a list of errors
+                console.log("errors:" + errors);
+            });
+
+    };
+
+    var ridershipQueryFunction = function() {
+        // using the routes selected by district, build a query for top three routes in ridership
+
+        var ridershipQuery = 'SELECT route_id, year_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC';
+
+        app.activeAjaxConnections++;
+        app.sqlclient.execute(ridershipQuery)
+            .done(function(data) {
+                app.activeAjaxConnections--;
+                if (app.activeAjaxConnections == 0) {
+                    $("body").removeClass("loading");
+                }
+                // create data object and pass to bar chart for the form
+                //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+                var ridershipArray = [];
+                for (var i = 0; i < data.rows.length; i++) {
+                    ridershipArray.push({ label: data.rows[i].route_id, value: data.rows[i].year_2015 });
+                    app.tableArray.push({ label: data.rows[i].route_id, ridership: data.rows[i].year_2015, ridership_change: '', bunching: '', speed: '' })
+                }
+
+                app.createBarChart('#ridership', ridershipArray);
+                fastestGrowingQueryFunction();
+            })
+            .error(function(errors) {
+                // errors contains a list of errors
+                console.log("errors:" + errors);
+            });
+
+    };
+    ridershipQueryFunction();
 };
 
 app.createBarChart = function(divId, data) {
@@ -459,7 +525,7 @@ app.createNegativeBarChart = function(divId, data) {
 
     bar.append("text")
         .attr("class", function(d) {
-          return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
+            return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
         })
         .attr("x", function(d) {
             return (d.value < 0 ? x(d.value) - 45 : x(d.value) + 5);
@@ -506,7 +572,7 @@ app.ordinal_suffix_of = function(i) {
     return i + "th";
 }
 
-$('.table-chart-holder table tr td:nth-child(3)').each(function(i, el) {
+$('.table-chart-holder .table-data table tr td:nth-child(3)').each(function(i, el) {
     var textValue = $(el).text();
     textValue = parseFloat(textValue, 10)
     if (textValue > 0) {
