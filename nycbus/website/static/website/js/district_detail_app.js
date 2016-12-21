@@ -212,7 +212,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
     var slowestQueryFunction = function() {
         // using the routes selected by district, build a query for top three slowest routes
-        var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC';
+        var slowestQuery = 'SELECT route_id, speed, ranking FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC';
 
         app.activeAjaxConnections++;
         app.sqlclient.execute(slowestQuery)
@@ -228,7 +228,7 @@ app.updateBarCharts = function(routesWithinSQL) {
                 var num;
                 for (var i = 0; i < data.rows.length; i++) {
                     num = parseFloat(data.rows[i].speed.toFixed(1));
-                    slowestArray.push({ label: data.rows[i].route_id, value: num });
+                    slowestArray.push({ label: data.rows[i].route_id, value: num, ranking: data.rows[i].ranking });
                     for (var j = 0; j < app.tableArray.length; j++) {
                         if (app.tableArray[j].label == data.rows[i].route_id) {
                             app.tableArray[j].speed = num;
@@ -248,7 +248,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
     var mostBunchingQueryFunction = function() {
         // using the routes selected by district, build a query for top three routes by most bunching
-        var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC';
+        var mostBunchingQuery = 'SELECT route_id, prop_bunched, ranking FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC';
 
         app.activeAjaxConnections++;
         app.sqlclient.execute(mostBunchingQuery)
@@ -263,7 +263,7 @@ app.updateBarCharts = function(routesWithinSQL) {
                 var pct;
                 for (var i = 0; i < data.rows.length; i++) {
                     pct = parseFloat((data.rows[i].prop_bunched * 100).toFixed(1));
-                    bunching.push({ label: data.rows[i].route_id, value: pct });
+                    bunching.push({ label: data.rows[i].route_id, value: pct, ranking: data.rows[i].ranking });
                     for (var j = 0; j < app.tableArray.length; j++) {
                         if (app.tableArray[j].label == data.rows[i].route_id) {
                             app.tableArray[j].bunching = pct;
@@ -283,7 +283,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
     var fastestGrowingQueryFunction = function() {
         // using the routes selected by district, build a query for top three routes by fastest growing
-        var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC';
+        var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015, prop_change_group_rank_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC';
 
         app.activeAjaxConnections++;
         app.sqlclient.execute(fastestGrowingQuery)
@@ -298,7 +298,7 @@ app.updateBarCharts = function(routesWithinSQL) {
                 var pct;
                 for (var i = 0; i < data.rows.length; i++) {
                     pct = parseFloat((data.rows[i].prop_change_2010_2015 * 100).toFixed());
-                    ridershipChange.push({ label: data.rows[i].route_id, value: pct });
+                    ridershipChange.push({ label: data.rows[i].route_id, value: pct, ranking: data.rows[i].prop_change_group_rank_2015 });
                     for (var j = 0; j < app.tableArray.length; j++) {
                         if (app.tableArray[j].label == data.rows[i].route_id) {
                             app.tableArray[j].ridership_change = pct;
@@ -320,7 +320,7 @@ app.updateBarCharts = function(routesWithinSQL) {
     var ridershipQueryFunction = function() {
         // using the routes selected by district, build a query for top three routes in ridership
 
-        var ridershipQuery = 'SELECT route_id, year_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC';
+        var ridershipQuery = 'SELECT route_id, year_2015, group_rank_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC';
 
         app.activeAjaxConnections++;
         app.sqlclient.execute(ridershipQuery)
@@ -333,10 +333,9 @@ app.updateBarCharts = function(routesWithinSQL) {
                 //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
                 var ridershipArray = [];
                 for (var i = 0; i < data.rows.length; i++) {
-                    ridershipArray.push({ label: data.rows[i].route_id, value: data.rows[i].year_2015 });
+                    ridershipArray.push({ label: data.rows[i].route_id, value: data.rows[i].year_2015, ranking: data.rows[i].group_rank_2015 });
                     app.tableArray.push({ label: data.rows[i].route_id, ridership: data.rows[i].year_2015, ridership_change: '', bunching: '', speed: '' })
                 }
-
                 app.createBarChart('#ridership', ridershipArray);
                 fastestGrowingQueryFunction();
             })
@@ -384,6 +383,7 @@ app.createBarChart = function(divId, data) {
     var xAxis = d3.svg.axis()
         .scale(x)
         .innerTickSize(7)
+        .ticks(5)
         .orient('bottom');
 
     var yAxis = d3.svg.axis()
@@ -486,6 +486,7 @@ app.createNegativeBarChart = function(divId, data) {
     var xAxis = d3.svg.axis()
         .scale(x)
         .innerTickSize(7)
+        .ticks(5)
         .orient('bottom');
 
     var yAxis = d3.svg.axis()
