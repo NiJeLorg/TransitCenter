@@ -437,6 +437,19 @@ app.createBarChart = function(divId, data) {
         .text(function(d) {
             return d.label;
         });
+
+
+    bar.append("text")
+        .attr("class", "borough-ranking")
+        .attr("x", function(d) {
+            return -30;
+        })
+        .attr("y", (barHeight - 5) / 2)
+        .attr("dy", ".35em")
+        .text(function(d) {
+            return d.ranking;
+        });
+
     mainG.append('g')
         .attr('class', 'axis')
         .call(xAxis)
