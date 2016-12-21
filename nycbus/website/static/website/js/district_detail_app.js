@@ -192,7 +192,12 @@ app.createDataTable = function() {
         .enter()
         .append('td')
         .text(function(d) {
-            return d.value;
+            if (d.column === 'ridership_change' || d.column === 'bunching') {
+                return d.value + '%';
+            } else if (d.column === 'speed') {
+                return d.value + ' mph';
+            }
+            return app.numberWithCommas(d.value);
         });
     window.Sortable.init();
     $('.table-data table tr td:nth-child(3)').each(function(i, el) {
@@ -204,7 +209,6 @@ app.createDataTable = function() {
             $(el).css('color', 'red');
         }
     });
-
 };
 
 // pull data and creates bar charts for selected district
@@ -217,7 +221,6 @@ app.updateBarCharts = function(routesWithinSQL) {
         app.activeAjaxConnections++;
         app.sqlclient.execute(slowestQuery)
             .done(function(data) {
-                console.log(data, 'DATA');
                 app.activeAjaxConnections--;
                 if (app.activeAjaxConnections == 0) {
                     $("body").removeClass("loading");
