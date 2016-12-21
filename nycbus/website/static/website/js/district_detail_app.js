@@ -195,6 +195,15 @@ app.createDataTable = function() {
             return d.value;
         });
     window.Sortable.init();
+    $('.table-data table tr td:nth-child(3)').each(function(i, el) {
+        var textValue = $(el).text();
+        textValue = parseFloat(textValue, 10)
+        if (textValue > 0) {
+            $(el).css('color', 'green');
+        } else {
+            $(el).css('color', 'red');
+        }
+    });
 
 };
 
@@ -572,15 +581,7 @@ app.ordinal_suffix_of = function(i) {
     return i + "th";
 }
 
-$('.table-chart-holder .table-data table tr td:nth-child(3)').each(function(i, el) {
-    var textValue = $(el).text();
-    textValue = parseFloat(textValue, 10)
-    if (textValue > 0) {
-        $(el).css('color', 'green');
-    } else {
-        $(el).css('color', 'red');
-    }
-})
+
 
 // calculating if all ajax connections are complete
 app.activeAjaxConnections = 0;
