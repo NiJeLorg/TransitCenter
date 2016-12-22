@@ -81,16 +81,11 @@ main .metric-component {
     font-family: 'HelveticaNeue', sans-serif;
 }
 
-.metric-component .chart-parent {
-    width: 95%;
-}
-
 .metric-component .push-right {
     float: right;
 }
 
 .metric-component h3 {
-    font-size: 52px;
     margin: 0;
     margin-bottom: 20px;
     font-weight: bold;
@@ -217,8 +212,82 @@ footer p {
     fill: #A94442;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 320px) {
+    #selectDistrict {
+        width: 90%;
+    }
+    main .choose-district {
+        flex-direction: column;
+    }
+    main .data {
+        padding: 0 10px;
+    }
+    .choose-district p {
+        font-size: 32px;
+    }
+    .dropdown-select h2 {
+        font-size: 32px;
+    }
+    main .metric-component {
+        margin-bottom: 10%;
+    }
+    .metric-component .chart-parent {
+        width: 100%;
+    }
+    .metric-component h3 {
+        font-size: 32px;
+    }
+    .table-chart-holder h3 {
+        font-size: 32px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #selectDistrict {
+        width: 100%;
+    }
+    main .choose-district {
+        flex-direction: column;
+    }
+    main .data {
+        padding: 0 30px;
+    }
     .choose-district p {
         font-size: 42px;
+    }
+    .dropdown-select h2 {
+        font-size: 42px;
+    }
+    main .metric-component {
+        margin-bottom: 5%;
+    }
+    .metric-component .chart-parent {
+        width: 100%;
+    }
+    .metric-component h3 {
+        font-size: 42px;
+    }
+    .table-chart-holder h3 {
+        font-size: 42px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    main .choose-district {
+        flex-direction: row;
+    }
+    .choose-district p {
+        font-size: 52px;
+        margin: 0;
+        margin-right: 25px;
+    }
+    main .metric-component {
+        margin-bottom: 0;
+    }
+    .metric-component .chart-parent {
+        width: 95%;
+    }
+    .metric-component h3 {
+        font-size: 52px;
     }
 }

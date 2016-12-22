@@ -378,7 +378,7 @@ app.createBarChart = function(divId, data) {
         .range([0, width]);
     var chart = d3.select(divId)
         .append('svg')
-        .attr("width", width + margin.left + margin.right)
+        .attr("width", width  + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
     var mainG = chart.append('g')
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -405,14 +405,14 @@ app.createBarChart = function(divId, data) {
     bar.append("rect")
         .attr('fill', '#15B6E5')
         .attr("width", function(d, i) {
-            return x(d.value) - 3;
+            return x(d.value) - 30;
         })
         .attr("height", barHeight - 5);
 
     bar.append("text")
         .attr("class", "bus-value-text")
         .attr("x", function(d) {
-            return x(d.value) + 45;
+            return x(d.value) + 15;
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -433,7 +433,7 @@ app.createBarChart = function(divId, data) {
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
-        .attr('text-anchor', 'start')
+        .attr('text-anchor', 'end')
         .text(function(d) {
             return d.label;
         });
