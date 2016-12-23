@@ -368,6 +368,7 @@ app.createBarChart = function(divId, data) {
         barWidth = width * (3 / 4);
     var height = (barHeight * data.length) - (margin.top - margin.bottom);
     var totalHeight = height + margin.top;
+    var rangeWidth = width - 35;
     var y = d3.scale.linear()
         .range([height, 0])
         .domain([0, d3.max(data, function(d, i) {
@@ -375,10 +376,10 @@ app.createBarChart = function(divId, data) {
         })]);
     var x = d3.scale.linear()
         .domain([0, d3.max(arr)])
-        .range([0, width]);
+        .range([0, rangeWidth]);
     var chart = d3.select(divId)
         .append('svg')
-        .attr("width", width  + margin.left + margin.right)
+        .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
     var mainG = chart.append('g')
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -405,14 +406,14 @@ app.createBarChart = function(divId, data) {
     bar.append("rect")
         .attr('fill', '#15B6E5')
         .attr("width", function(d, i) {
-            return x(d.value) - 30;
+            return x(d.value);
         })
         .attr("height", barHeight - 5);
 
     bar.append("text")
         .attr("class", "bus-value-text")
         .attr("x", function(d) {
-            return x(d.value) + 15;
+            return x(d.value) + 45;
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -433,7 +434,7 @@ app.createBarChart = function(divId, data) {
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
-        .attr('text-anchor', 'end')
+        .attr('text-anchor', 'start')
         .text(function(d) {
             return d.label;
         });
@@ -441,9 +442,7 @@ app.createBarChart = function(divId, data) {
 
     bar.append("text")
         .attr("class", "borough-ranking")
-        .attr("x", function(d) {
-            return -30;
-        })
+        .attr("x", '-30')
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
@@ -476,7 +475,7 @@ app.createNegativeBarChart = function(divId, data) {
             }
         }
     }
-    var margin = { top: 50, right: 60, bottom: 50, left: 80 };
+    var margin = { top: 50, right: 60, bottom: 50, left: 20 };
     var width = $('.metric-component .chart-component').width() - margin.left - margin.right,
         barHeight = 25,
         barWidth = width * (3 / 4);
@@ -491,7 +490,7 @@ app.createNegativeBarChart = function(divId, data) {
         .domain(d3.extent(data, function(d) {
             return d.value;
         }))
-        .range([100, width - 100]);
+        .range([100, width - 60]);
     var chart = d3.select(divId)
         .append('svg')
         .attr("width", width + margin.left + margin.right)
