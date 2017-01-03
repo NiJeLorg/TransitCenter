@@ -411,7 +411,7 @@ app.createBarChart = function(divId, data) {
 
     bar.append("rect")
         .attr('fill', function(d) {
-            if (d.label.length > 8) {
+            if (d.label.search('Average') >= 0) {
                 return '#417505';
             } else {
                 return '#15B6E5';
@@ -442,7 +442,7 @@ app.createBarChart = function(divId, data) {
     bar.append("text")
         .attr("class", "bus-route-text")
         .attr("x", function(d) {
-            if (d.label.length > 8) {
+            if (d.label.search('Average') >= 0) {
                 return x(d.value) + 110;
             } else {
                 return x(d.value) + 5;
