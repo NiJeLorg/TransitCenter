@@ -352,6 +352,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 };
 
 app.createBarChart = function(divId, data) {
+    console.log(window.innerWidth, 'INNER WIDTH');
     // for now, destroy previous bar charts
     $(divId).html('');
     var arr = [];
@@ -369,6 +370,7 @@ app.createBarChart = function(divId, data) {
     var height = (barHeight * data.length) - (margin.top - margin.bottom);
     var totalHeight = height + margin.top;
     var rangeWidth = width - 35;
+    var mobileBreakpoint = 425;
     var y = d3.scale.linear()
         .range([height, 0])
         .domain([0, d3.max(data, function(d, i) {
@@ -386,9 +388,13 @@ app.createBarChart = function(divId, data) {
 
     var xAxis = d3.svg.axis()
         .scale(x)
-        .innerTickSize(7)
-        .ticks(5)
         .orient('bottom');
+
+    if (window.innerWidth > 425) {
+        xAxis.ticks(5);
+    } else {
+        xAxis.ticks(2);
+    }
 
     var yAxis = d3.svg.axis()
         .scale(y)
@@ -404,7 +410,13 @@ app.createBarChart = function(divId, data) {
         });
 
     bar.append("rect")
-        .attr('fill', '#15B6E5')
+        .attr('fill', function(d) {
+            if (d.label.length > 8) {
+                return '#417505';
+            } else {
+                return '#15B6E5';
+            }
+        })
         .attr("width", function(d, i) {
             return x(d.value);
         })
@@ -430,7 +442,11 @@ app.createBarChart = function(divId, data) {
     bar.append("text")
         .attr("class", "bus-route-text")
         .attr("x", function(d) {
-            return x(d.value) + 5;
+            if (d.label.length > 8) {
+                return x(d.value) + 110;
+            } else {
+                return x(d.value) + 5;
+            }
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -549,8 +565,11 @@ app.createNegativeBarChart = function(divId, data) {
             return d.value + '%';
         });
 
+
+
     bar.append("text")
         .attr("class", function(d) {
+            console.log(d, 'D');
             return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
         })
         .attr("x", function(d) {
@@ -563,6 +582,18 @@ app.createNegativeBarChart = function(divId, data) {
         .attr("dy", ".35em")
         .text(function(d) {
             return d.label;
+        });
+
+    bar.append("text")
+        .attr("class", "borough-ranking")
+        .attr("x", '-4')
+        .attr('text-anchor', function(d) {
+            return (d.ranking < 0 ? 'end' : 'start');
+        })
+        .attr("y", (barHeight - 5) / 2)
+        .attr("dy", ".35em")
+        .text(function(d) {
+            return d.ranking;
         });
 
     mainG.append('g')
