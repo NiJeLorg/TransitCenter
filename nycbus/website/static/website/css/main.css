@@ -279,7 +279,7 @@ a {
   color: #fff; */
   border: none;
 }
-#mission .card h4, p {
+#mission .card h4, #mission .card p {
   display: inline;
 }
 @media (min-width: 768px) {
@@ -648,6 +648,20 @@ body {
   font-weight: 400;
   margin: 0 0 20px;
   color: #333;
+}
+.speed-num-and-chart h2 {
+  display: inline;
+  padding-right: 20px;
+}
+.speed-gauge {
+  position: relative;
+}
+@media (min-width: 850px) {
+  .speed-gauge {
+    position: absolute;
+    bottom: 3px;
+    left: 200px;
+  }
 }
 .speed-gauge g.arc {
   fill: steelblue;
