@@ -81,16 +81,17 @@ main .metric-component {
     font-family: 'HelveticaNeue', sans-serif;
 }
 
+.metric-component .push-right {
+    float: right;
+}
+
 .metric-component h3 {
-    font-size: 52px;
     margin: 0;
     margin-bottom: 20px;
     font-weight: bold;
 }
 
 .metric-component .chart-component {
-    // height: 515px;
-    // overflow-y: scroll;
     border: 1px solid #979797;
 }
 
@@ -108,14 +109,6 @@ main .metric-component {
 main .data {
     padding: 0 80px;
     margin-bottom: 90px;
-}
-
-.data .col-md-6 {
-    width: 46%;
-}
-
-.data .push-right {
-    margin-right: 4%;
 }
 
 .data .table-chart-holder {
@@ -209,6 +202,10 @@ footer p {
     fill: #a94442;
 }
 
+.bar-average-fill {
+    fill: #417505;
+}
+
 .bus-route-text {
     fill: #15B6E5;
     font-weight: bold;
@@ -219,11 +216,87 @@ footer p {
     fill: #A94442;
 }
 
-@media screen and (max-width: 768px) {
+.bus-route-text-average {
+    fill: #417505;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 320px) {
+    #selectDistrict {
+        width: 90%;
+    }
+    main .choose-district {
+        flex-direction: column;
+    }
+    main .data {
+        padding: 0 10px;
+    }
+    .choose-district p {
+        font-size: 32px;
+    }
+    .dropdown-select h2 {
+        font-size: 32px;
+    }
+    main .metric-component {
+        margin-bottom: 10%;
+    }
+    .metric-component .chart-parent {
+        width: 100%;
+    }
+    .metric-component h3 {
+        font-size: 32px;
+    }
+    .table-chart-holder h3 {
+        font-size: 32px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #selectDistrict {
+        width: 100%;
+    }
+    main .choose-district {
+        flex-direction: column;
+    }
+    main .data {
+        padding: 0 30px;
+    }
     .choose-district p {
         font-size: 42px;
     }
-    .data .col-md-6 {
+    .dropdown-select h2 {
+        font-size: 42px;
+    }
+    main .metric-component {
+        margin-bottom: 5%;
+    }
+    .metric-component .chart-parent {
         width: 100%;
+    }
+    .metric-component h3 {
+        font-size: 42px;
+    }
+    .table-chart-holder h3 {
+        font-size: 42px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    main .choose-district {
+        flex-direction: row;
+    }
+    .choose-district p {
+        font-size: 52px;
+        margin: 0;
+        margin-right: 25px;
+    }
+    main .metric-component {
+        margin-bottom: 0;
+    }
+    .metric-component .chart-parent {
+        width: 95%;
+    }
+    .metric-component h3 {
+        font-size: 52px;
     }
 }

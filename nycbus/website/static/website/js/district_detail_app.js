@@ -192,7 +192,12 @@ app.createDataTable = function() {
         .enter()
         .append('td')
         .text(function(d) {
-            return d.value;
+            if (d.column === 'ridership_change' || d.column === 'bunching') {
+                return d.value + '%';
+            } else if (d.column === 'speed') {
+                return d.value + ' mph';
+            }
+            return app.numberWithCommas(d.value);
         });
     window.Sortable.init();
     $('.table-data table tr td:nth-child(3)').each(function(i, el) {
@@ -204,7 +209,6 @@ app.createDataTable = function() {
             $(el).css('color', 'red');
         }
     });
-
 };
 
 // pull data and creates bar charts for selected district
@@ -217,7 +221,6 @@ app.updateBarCharts = function(routesWithinSQL) {
         app.activeAjaxConnections++;
         app.sqlclient.execute(slowestQuery)
             .done(function(data) {
-                console.log(data, 'DATA');
                 app.activeAjaxConnections--;
                 if (app.activeAjaxConnections == 0) {
                     $("body").removeClass("loading");
@@ -349,6 +352,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 };
 
 app.createBarChart = function(divId, data) {
+    console.log(window.innerWidth, 'INNER WIDTH');
     // for now, destroy previous bar charts
     $(divId).html('');
     var arr = [];
@@ -365,6 +369,8 @@ app.createBarChart = function(divId, data) {
         barWidth = width * (3 / 4);
     var height = (barHeight * data.length) - (margin.top - margin.bottom);
     var totalHeight = height + margin.top;
+    var rangeWidth = width - 35;
+    var mobileBreakpoint = 425;
     var y = d3.scale.linear()
         .range([height, 0])
         .domain([0, d3.max(data, function(d, i) {
@@ -372,7 +378,7 @@ app.createBarChart = function(divId, data) {
         })]);
     var x = d3.scale.linear()
         .domain([0, d3.max(arr)])
-        .range([0, width]);
+        .range([0, rangeWidth]);
     var chart = d3.select(divId)
         .append('svg')
         .attr("width", width + margin.left + margin.right)
@@ -382,9 +388,13 @@ app.createBarChart = function(divId, data) {
 
     var xAxis = d3.svg.axis()
         .scale(x)
-        .innerTickSize(7)
-        .ticks(5)
         .orient('bottom');
+
+    if (window.innerWidth > 425) {
+        xAxis.ticks(5);
+    } else {
+        xAxis.ticks(2);
+    }
 
     var yAxis = d3.svg.axis()
         .scale(y)
@@ -400,16 +410,26 @@ app.createBarChart = function(divId, data) {
         });
 
     bar.append("rect")
-        .attr('fill', '#15B6E5')
+        .attr('fill', function(d) {
+            if (d.label.search('Average') >= 0) {
+                return '#417505';
+            } else {
+                return '#15B6E5';
+            }
+        })
         .attr("width", function(d, i) {
-            return x(d.value) - 3;
+            return x(d.value);
         })
         .attr("height", barHeight - 5);
 
     bar.append("text")
         .attr("class", "bus-value-text")
         .attr("x", function(d) {
-            return x(d.value) + 45;
+            if (d.label.search('Average') >= 0) {
+                return x(d.value) + 5;
+            } else {
+                return x(d.value) + 45;
+            }
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -424,9 +444,19 @@ app.createBarChart = function(divId, data) {
         });
 
     bar.append("text")
-        .attr("class", "bus-route-text")
+        .attr("class", function(d) {
+            if (d.label.search('Average') >= 0) {
+                return 'bus-route-text-average'
+            } else {
+                return "bus-route-text";
+            }
+        })
         .attr("x", function(d) {
-            return x(d.value) + 5;
+            if (d.label.search('Average') >= 0) {
+                return x(d.value) + 70;
+            } else {
+                return x(d.value) + 5;
+            }
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -434,6 +464,17 @@ app.createBarChart = function(divId, data) {
         .text(function(d) {
             return d.label;
         });
+
+
+    bar.append("text")
+        .attr("class", "borough-ranking")
+        .attr("x", '-30')
+        .attr("y", (barHeight - 5) / 2)
+        .attr("dy", ".35em")
+        .text(function(d) {
+            return d.ranking;
+        });
+
     mainG.append('g')
         .attr('class', 'axis')
         .call(xAxis)
@@ -460,7 +501,7 @@ app.createNegativeBarChart = function(divId, data) {
             }
         }
     }
-    var margin = { top: 50, right: 60, bottom: 50, left: 80 };
+    var margin = { top: 50, right: 60, bottom: 50, left: 20 };
     var width = $('.metric-component .chart-component').width() - margin.left - margin.right,
         barHeight = 25,
         barWidth = width * (3 / 4);
@@ -475,7 +516,7 @@ app.createNegativeBarChart = function(divId, data) {
         .domain(d3.extent(data, function(d) {
             return d.value;
         }))
-        .range([100, width - 100]);
+        .range([100, width - 60]);
     var chart = d3.select(divId)
         .append('svg')
         .attr("width", width + margin.left + margin.right)
@@ -512,7 +553,11 @@ app.createNegativeBarChart = function(divId, data) {
             return Math.abs(x(d.value) - x(0));
         })
         .attr("class", function(d) {
-            return "bar bar--" + (d.value < 0 ? "negative" : "positive");
+            if (d.label.search('Average') >= 0) {
+                return 'bar-average-fill';
+            } else {
+                return "bar bar--" + (d.value < 0 ? "negative" : "positive");
+            }
         })
         .attr("height", barHeight - 5)
         .attr("x", function(d) {
@@ -534,9 +579,15 @@ app.createNegativeBarChart = function(divId, data) {
             return d.value + '%';
         });
 
+
+
     bar.append("text")
         .attr("class", function(d) {
-            return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
+            if (d.label.search('Average') >= 0) {
+                return 'bar-average-fill';
+            } else {
+                return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
+            }
         })
         .attr("x", function(d) {
             return (d.value < 0 ? x(d.value) - 45 : x(d.value) + 5);
@@ -548,6 +599,18 @@ app.createNegativeBarChart = function(divId, data) {
         .attr("dy", ".35em")
         .text(function(d) {
             return d.label;
+        });
+
+    bar.append("text")
+        .attr("class", "borough-ranking")
+        .attr("x", '-4')
+        .attr('text-anchor', function(d) {
+            return (d.ranking < 0 ? 'end' : 'start');
+        })
+        .attr("y", (barHeight - 5) / 2)
+        .attr("dy", ".35em")
+        .text(function(d) {
+            return d.ranking;
         });
 
     mainG.append('g')

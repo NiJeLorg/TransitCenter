@@ -108,18 +108,45 @@ a {
 .navbar-custom-static-top .nav li.active a:hover {
   color: #333;
 }
+
 .navbar-custom {
   margin-bottom: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid #17BEE8;
   background-color: #17BEE8;
+  min-height: 50px;
+  -webkit-transition: min-height 0.5s ease-in-out;
+  -moz-transition: min-height 0.5s ease-in-out;
+  transition: min-height 0.5s ease-in-out;
+}
+.navbar-custom .navbar-brand .extra-text {
+  opacity: 0;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 .navbar-custom .navbar-brand {
+  width: 200px;
   color: #fff;
   padding: 5px 15px;
+  font-size: 24px;
+  line-height: 42px;
 }
 @media (min-width: 768px) {
   .navbar-custom .navbar-brand {
     padding: 15px 15px;
+    font-size: 32px;
+  }
+}
+@media (min-width: 1150px) {
+  .navbar-custom {
+    min-height: 120px;
+  }
+  .navbar-custom .navbar-brand {
+    width: 550px;
+    font-size: 44px;
+  }
+  .navbar-custom .navbar-brand .extra-text {
+    opacity: 1;
   }
 }
 .navbar-custom .navbar-brand:hover {
@@ -165,7 +192,10 @@ a {
 .navbar-custom .nav li.active a:hover {
   color: #333;
 }
-@media (min-width: 850px) {
+
+
+
+/*@media (min-width: 850px) {
   .navbar-custom {
     pointer-events: none;
     opacity: 0;
@@ -183,7 +213,7 @@ a {
     background: #17BEE8;
     border-bottom: 1px solid rgba(150, 150, 150, 0.3);
   }
-}
+}*/
 .intro {
   display: table;
   width: 100%;
@@ -244,9 +274,10 @@ a {
   width: 100%;
   height: auto;
   padding: 10px 15px 15px;
-  border: solid 1px #17bee8;
+/*  border: solid 1px #17bee8;
   background-color: #17bee8;
-  color: #fff; 
+  color: #fff; */
+  border: none;
 }
 #mission .card h4, p {
   display: inline;
