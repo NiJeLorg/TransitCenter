@@ -45,17 +45,21 @@ app.init = function () {
 
 app.scrollingInteractions = function () {
     // get height of intro block and shrink navbar
-    var introHeight = $(".intro").height() - 1;
-    if ($("#fixedNav").offset().top >= introHeight && ($('body')).width() >= 1150) {
+    var introHeight = $(".intro").height() - 60;
+    if ($("#fixedNav").offset().top >= introHeight && $('body').width() >= 1150) {
         $(".navbar-custom .navbar-brand .extra-text").css( "opacity", "0" );
         $(".navbar-custom .navbar-brand").css( "font-size", "32px" );
         $(".navbar-custom .navbar-brand").css( "width", "200px" );
         $(".navbar-custom").css( "min-height", "50px" );
-    } else {
+    } else if ($('body').width() >= 1150){
         $(".navbar-custom .navbar-brand .extra-text").css( "opacity", "1" );
         $(".navbar-custom .navbar-brand").css( "font-size", "44px" );
         $(".navbar-custom .navbar-brand").css( "width", "600px" );
         $(".navbar-custom").css( "min-height", "120px" );
+    } else {
+        $(".navbar-custom .navbar-brand .extra-text").removeAttr('style');
+        $(".navbar-custom .navbar-brand").removeAttr('style');
+        $(".navbar-custom").removeAttr('style');
     }
 
     // variable set up
