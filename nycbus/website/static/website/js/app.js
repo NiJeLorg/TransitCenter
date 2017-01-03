@@ -45,12 +45,12 @@ app.init = function () {
 
 app.scrollingInteractions = function () {
     // get height of intro block
-    var introHeight = $(".intro").height() - 1;
-    if ($("#fixedNav").offset().top >= introHeight) {
-        $(".navbar-fixed-top").addClass("top-nav-collapse");
-    } else {
-        $(".navbar-fixed-top").removeClass("top-nav-collapse");
-    }
+    // var introHeight = $(".intro").height() - 1;
+    // if ($("#fixedNav").offset().top >= introHeight) {
+    //     $(".navbar-fixed-top").addClass("top-nav-collapse");
+    // } else {
+    //     $(".navbar-fixed-top").removeClass("top-nav-collapse");
+    // }
 
     // variable set up
     var top_2_a, left_2_a, top_2_b, left_2_b, top_3_5_a, left_3_5_a, top_3_5_b, left_3_5_b, top_3_a, left_3_a, top_3_b, left_3_b, top_4, left_4, element, offsetTop;
