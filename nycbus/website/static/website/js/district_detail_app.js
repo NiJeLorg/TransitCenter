@@ -425,7 +425,11 @@ app.createBarChart = function(divId, data) {
     bar.append("text")
         .attr("class", "bus-value-text")
         .attr("x", function(d) {
-            return x(d.value) + 45;
+            if (d.label.search('Average') >= 0) {
+                return x(d.value) + 5;
+            } else {
+                return x(d.value) + 45;
+            }
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -449,7 +453,7 @@ app.createBarChart = function(divId, data) {
         })
         .attr("x", function(d) {
             if (d.label.search('Average') >= 0) {
-                return x(d.value) + 110;
+                return x(d.value) + 70;
             } else {
                 return x(d.value) + 5;
             }
@@ -584,7 +588,6 @@ app.createNegativeBarChart = function(divId, data) {
             } else {
                 return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
             }
-
         })
         .attr("x", function(d) {
             return (d.value < 0 ? x(d.value) - 45 : x(d.value) + 5);
