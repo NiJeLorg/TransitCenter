@@ -440,7 +440,13 @@ app.createBarChart = function(divId, data) {
         });
 
     bar.append("text")
-        .attr("class", "bus-route-text")
+        .attr("class", function(d) {
+            if (d.label.search('Average') >= 0) {
+                return 'bus-route-text-average'
+            } else {
+                return "bus-route-text";
+            }
+        })
         .attr("x", function(d) {
             if (d.label.search('Average') >= 0) {
                 return x(d.value) + 110;
@@ -543,7 +549,11 @@ app.createNegativeBarChart = function(divId, data) {
             return Math.abs(x(d.value) - x(0));
         })
         .attr("class", function(d) {
-            return "bar bar--" + (d.value < 0 ? "negative" : "positive");
+            if (d.label.search('Average') >= 0) {
+                return 'bar-average-fill';
+            } else {
+                return "bar bar--" + (d.value < 0 ? "negative" : "positive");
+            }
         })
         .attr("height", barHeight - 5)
         .attr("x", function(d) {
@@ -569,8 +579,12 @@ app.createNegativeBarChart = function(divId, data) {
 
     bar.append("text")
         .attr("class", function(d) {
-            console.log(d, 'D');
-            return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
+            if (d.label.search('Average') >= 0) {
+                return 'bar-average-fill';
+            } else {
+                return (d.value < 0 ? "bus-route-text-negative" : "bus-route-text");
+            }
+
         })
         .attr("x", function(d) {
             return (d.value < 0 ? x(d.value) - 45 : x(d.value) + 5);

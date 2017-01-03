@@ -202,6 +202,10 @@ footer p {
     fill: #a94442;
 }
 
+.bar-average-fill {
+    fill: #417505;
+}
+
 .bus-route-text {
     fill: #15B6E5;
     font-weight: bold;
@@ -210,6 +214,11 @@ footer p {
 .bus-route-text-negative {
     font-weight: bold;
     fill: #A94442;
+}
+
+.bus-route-text-average {
+    fill: #417505;
+    font-weight: bold;
 }
 
 @media screen and (min-width: 320px) {
