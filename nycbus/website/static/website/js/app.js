@@ -44,18 +44,24 @@ app.init = function () {
 }
 
 app.scrollingInteractions = function () {
-    // get height of intro block
-    // var introHeight = $(".intro").height() - 1;
-    // if ($("#fixedNav").offset().top >= introHeight) {
-    //     $(".navbar-fixed-top").addClass("top-nav-collapse");
-    // } else {
-    //     $(".navbar-fixed-top").removeClass("top-nav-collapse");
-    // }
+    // get height of intro block and shrink navbar
+    var introHeight = $(".intro").height() - 1;
+    if ($("#fixedNav").offset().top >= introHeight && ($('body')).width() >= 1150) {
+        $(".navbar-custom .navbar-brand .extra-text").css( "opacity", "0" );
+        $(".navbar-custom .navbar-brand").css( "font-size", "32px" );
+        $(".navbar-custom .navbar-brand").css( "width", "200px" );
+        $(".navbar-custom").css( "min-height", "50px" );
+    } else {
+        $(".navbar-custom .navbar-brand .extra-text").css( "opacity", "1" );
+        $(".navbar-custom .navbar-brand").css( "font-size", "44px" );
+        $(".navbar-custom .navbar-brand").css( "width", "600px" );
+        $(".navbar-custom").css( "min-height", "120px" );
+    }
 
     // variable set up
-    var top_2_a, left_2_a, top_2_b, left_2_b, top_3_5_a, left_3_5_a, top_3_5_b, left_3_5_b, top_3_a, left_3_a, top_3_b, left_3_b, top_4, left_4, element, offsetTop;
+    var top_2_a, left_2_a, top_2_b, left_2_b, top_3_5_a, left_3_5_a, top_3_5_b, left_3_5_b, top_3_a, left_3_a, top_3_b, left_3_b, top_4, left_4, element, offsetTop, navBarCompensation;
 
-    // check broser width and set tops and lefts
+    // check browser width and set tops and lefts
     if (($('body')).width() < 767) {
       // mobile
       top_2_a = '20vh';
@@ -104,6 +110,8 @@ app.scrollingInteractions = function () {
       top_4 = '45vh';
       left_4 = '33%';
     }
+
+
 
     element = 'bus-animation-1-a';
     offsetTop = $('#'+element).offset().top - 80;
@@ -276,6 +284,22 @@ app.createListeners = function () {
           if ($anchor.attr('href') == '#ride') {
             offset = 84;
           }
+          $('html, body').stop().animate({
+              scrollTop: $($anchor.attr('href')).offset().top - offset
+          }, 2000, 'easeInOutQuint');
+      });
+    }
+
+    if (($('body')).width() >= 1149) {
+      $('a.page-scroll').bind('click', function(event) {
+          event.preventDefault();
+          var $anchor = $(this);
+          // if $anchor.attr('href') is #ride, then offset top to show title below the navbar (120px tall)
+          var offset = 0;
+          if ($anchor.attr('href') == '#ride') {
+            offset = 125;
+          }
+          console.log(offset);
           $('html, body').stop().animate({
               scrollTop: $($anchor.attr('href')).offset().top - offset
           }, 2000, 'easeInOutQuint');
@@ -962,7 +986,7 @@ app.initializeSpeedGauge = function() {
   app.speedGaugeObject = app.speedGauge('#speed-gauge', {
     size: 200,
     clipWidth: 200,
-    clipHeight: 120,
+    clipHeight: 110,
     ringWidth: 60,
     minValue: 0,
     maxValue: 16,
