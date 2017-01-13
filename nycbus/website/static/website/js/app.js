@@ -420,7 +420,7 @@ app.getRandomInt = function (min, max) {
 app.createReportCardDropdowns = function (route_id) {
 
   // get data from carto to use in report card
-  app.sqlclient.execute("SELECT DISTINCT route_id FROM mta_nyct_bus_routes ORDER BY route_id")
+  app.sqlclient.execute("SELECT DISTINCT route_id FROM mta_nyct_bus_routes WHERE route_id <> 'Bronx Average' AND route_id <> 'Brooklyn Average' AND route_id <> 'Manhattan Average' AND route_id <> 'Queens Average' AND route_id <> 'Staten Island Average' ORDER BY route_id")
   .done(function(data) {
     // extract results to an array for sorting
     routeIDs = [];
@@ -428,6 +428,7 @@ app.createReportCardDropdowns = function (route_id) {
       routeIDs.push(data.rows[i].route_id);
     }
     routeIDs.sort(naturalCompare);
+    console.log(routeIDs);
 
     function naturalCompare(a, b) {
         var ax = [], bx = [];
