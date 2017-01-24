@@ -687,7 +687,7 @@ body {
   .speed-gauge {
     position: absolute;
     bottom: 3px;
-    left: 200px;
+    left: 220px;
   }
 }
 .speed-gauge g.arc {

@@ -157,7 +157,7 @@ app.selectRoutes = function() {
 
 
 	// now select the distinct routes that intersect that geometry
-    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND ST_Intersects( mta.the_geom , ("+ districtGeomSQL +") )";
+    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , ("+ districtGeomSQL +") )";
 
     // pass routesWithinSQL to bar chart update function
     app.updateBarCharts(routesWithinSQL);
@@ -314,7 +314,13 @@ app.updateBarCharts = function(routesWithinSQL) {
 
         	}
 
-    		app.createBarChart('#ridership', app.greenColorScale, ridershipArray);
+            // check for existance of SVG and update chart if it already esists
+            if ($('#ridership').html()) {
+                app.updateBarChart('#ridership', app.greenColorScale, ridershipArray);
+            } else {
+                app.createBarChart('#ridership', app.greenColorScale, ridershipArray);
+            }
+    		
             app.createNotesForRidershipBarChart(ridershipNotesArray);
 
 
@@ -346,7 +352,15 @@ app.updateBarCharts = function(routesWithinSQL) {
         		fastestGrowingArray.push({ label: data.rows[i].route_id, value: pct });
         	}
 
-    		app.createBarChart('#fastestGrowing', app.greenColorScale, fastestGrowingArray);
+            // check for existance of SVG and update chart if it already esists
+            if ($('#fastestGrowing').html()) {
+                app.updateBarChart('#fastestGrowing', app.greenColorScale, fastestGrowingArray);
+            } else {
+                app.createBarChart('#fastestGrowing', app.greenColorScale, fastestGrowingArray);
+            }
+    		
+
+    		
 
         })
         .error(function(errors) {
@@ -374,7 +388,14 @@ app.updateBarCharts = function(routesWithinSQL) {
         		mostBunchingArray.push({ label: data.rows[i].route_id, value: pct });
         	}
 
-    		app.createBarChart('#mostBunching', app.mostBunchingColorScale, mostBunchingArray);
+            // check for existance of SVG and update chart if it already esists
+            if ($('#mostBunching').html()) {
+                app.updateBarChart('#mostBunching', app.mostBunchingColorScale, mostBunchingArray);
+            } else {
+                app.createBarChart('#mostBunching', app.mostBunchingColorScale, mostBunchingArray);
+            }
+
+
 
         })
         .error(function(errors) {
@@ -403,7 +424,12 @@ app.updateBarCharts = function(routesWithinSQL) {
         		slowestArray.push({ label: data.rows[i].route_id, value: num });
         	}
 
-    		app.createBarChart('#slowest', app.slowestColorScale, slowestArray);
+            // check for existance of SVG and update chart if it already esists
+            if ($('#slowest').html()) {
+                app.updateBarChart('#slowest', app.slowestColorScale, slowestArray);
+            } else {
+                app.createBarChart('#slowest', app.slowestColorScale, slowestArray);
+            }
 
         })
         .error(function(errors) {
@@ -415,9 +441,20 @@ app.updateBarCharts = function(routesWithinSQL) {
 }
 
 app.createBarChart = function(divId, barChartColorScale, data) {
-	// for now, destroy previous bar chart
-	$(divId).html('');
 
+    var width = $('.bus-routes-bars .col-md-6').width(),
+        barHeight = 25;
+
+    var chart = d3.select(divId)
+        .append('svg')
+        .attr("width", width)
+        .attr("height", barHeight * data.length);
+
+    app.updateBarChart(divId, barChartColorScale, data);
+
+};
+
+app.updateBarChart = function(divId, barChartColorScale, data) {
     var arr = [];
     for (var i = 0; i < data.length; i++) {
         for (var key in data[i]) {
@@ -436,36 +473,79 @@ app.createBarChart = function(divId, barChartColorScale, data) {
         barHeight = 25,
         barWidth = width * (3 / 4);
 
-    var x = d3.scale.linear()
+    var x = d3.scaleLinear()
         .domain([0, d3.max(arr)])
         .range([barWidth/4, barWidth]);
 
     var chart = d3.select(divId)
-        .append('svg')
+        .select('svg')
         .attr("width", width)
         .attr("height", barHeight * data.length);
 
-    var bar = chart.selectAll("g")
-        .data(data)
-        .enter().append("g")
+    // update
+    var barChartGs = chart.selectAll("g")
+    	.data(data)
+
+    barChartGs.select('rect')
+        .attr('fill', function(d) {
+            return barChartColorScale(d.value);
+        })
+        .transition()
+        .duration(500)
+        .delay(function(d, i) { return i * 25; })        
+        .attr("width", function(d, i) {
+            return x(d.value) - 3;
+        }); 	
+
+   	barChartGs.select('.inside-bar-text')
+   		.text(function(d) {
+            if (divId === '#fastestGrowing' || divId === '#mostBunching') {
+                return d.value + '%';
+            } else if (divId === '#slowest') {
+                return d.value + ' mph';
+            }
+            return app.numberWithCommas(d.value);
+        })
+        .transition()
+        .duration(500)
+        .delay(function(d, i) { return i * 25; })
+        .attr("x", function(d) {
+            return x(d.value) - 10;
+        })
+
+    barChartGs.select('.outside-bar-text')
+    	.text(function(d) {
+            return d.label;
+        })
+        .transition()
+        .duration(500)
+        .delay(function(d, i) { return i * 25; })
+        .attr("x", function(d) {
+            return x(d.value) + 3;
+        })
+
+    // enter
+    var enterBars = barChartGs.enter().append("g")
         .attr("transform", function(d, i) {
             return "translate(0," + i * barHeight + ")";
         });
 
-    bar.append("rect")
+    enterBars.append("rect")
         .attr('fill', function(d) {
             return barChartColorScale(d.value);
         })
+        .attr("height", barHeight - 5)
+        .attr("width", 0)
+       .merge(barChartGs)
+       	.transition()
+        .duration(500)
+        .delay(function(d, i) { return i * 25; })
         .attr("width", function(d, i) {
             return x(d.value) - 3;
-        })
-        .attr("height", barHeight - 5);
-
-    bar.append("text")
+        });
+        
+    enterBars.append("text")
         .attr("class", "inside-bar-text")
-        .attr("x", function(d) {
-            return x(d.value) - 10;
-        })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
@@ -475,17 +555,37 @@ app.createBarChart = function(divId, barChartColorScale, data) {
                 return d.value + ' mph';
             }
             return app.numberWithCommas(d.value);
-        });
-    bar.append("text")
-        .attr("class", "outside-bar-text")
-        .attr("x", function(d) {
-            return x(d.value) + 3;
         })
+        .attr("x", 10)
+        .transition()
+        .duration(500)
+        .delay(function(d, i) { return i * 25; })  
+        .attr("x", function(d) {
+            return x(d.value) - 10;
+        });
+
+    enterBars.append("text")
+        .attr("class", "outside-bar-text")
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
             return d.label;
+        })
+        .attr("x", 23)
+        .transition()
+        .duration(500)
+        .delay(function(d, i) { return i * 25; })
+        .attr("x", function(d) {
+            return x(d.value) + 3;
         });
+
+    // exit
+    barChartGs.exit()
+        .transition()
+        .duration(500)
+        .style('opacity', '0')
+        .remove();
+
 };
 
 app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
@@ -517,7 +617,7 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
       sql: routesMapSQL,
       // cartocss: '#layer {line-width: 1;line-color: ramp([route_id], ("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928","#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695","#CF1C90","#f97b72","#A5AA99"), category(23)); line-opacity: ;}',
       cartocss: '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
-      interactivity: 'cartodb_id, route_id',
+      interactivity: 'cartodb_id, route_id, trip_heads',
     }]
   })
   .addTo(app.map)
@@ -527,19 +627,20 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
         $("body").removeClass("loading");
       }
 
+      layer.setInteraction(true);
+
       app.busRouteLayer = layer;
       var sublayer = layer.getSubLayer(0);
-      sublayer.setInteractivity('cartodb_id, route_id');
-      // tooltip definition for createLayer()
-      var tooltip = layer.leafletMap.viz.addOverlay({
-        type: 'tooltip',
-        layer: sublayer,
-        template: $('#tooltip_template').html(),
-        width: 120,
-        position: 'top|right',
-        fields: [{ route_id: 'route_id' }]
-      });
-      $('#district-map').append(tooltip.render().el);
+      sublayer.setInteraction(true);
+      sublayer.setInteractivity('cartodb_id, route_id, trip_heads');
+
+      cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id', 'trip_heads'],
+          {
+             infowindowTemplate: $('#infowindow_template').html()
+          });
+      //cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id'])
+
+
 
   });
 
@@ -674,13 +775,13 @@ app.ordinal_suffix_of = function(i) {
 }
 
 // D3 color scales
-app.greenColorScale = d3.scale.linear()
+app.greenColorScale = d3.scaleLinear()
     .range(['#31fd5f', '#1b7640']);
 
-app.mostBunchingColorScale = d3.scale.linear()
+app.mostBunchingColorScale = d3.scaleLinear()
     .range(['#ff4442', '#b43d3e']);
 
-app.slowestColorScale = d3.scale.linear()
+app.slowestColorScale = d3.scaleLinear()
     .range(['#b43d3e', '#ff4442']);
 
 
