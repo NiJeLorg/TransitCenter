@@ -78,7 +78,7 @@ main .choose-district {
 }
 
 main .metric-component {
-    font-family: 'HelveticaNeue', sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .metric-component .push-right {
@@ -92,7 +92,7 @@ main .metric-component {
 }
 
 .metric-component .chart-component {
-    border: 1px solid #979797;
+    border: 1px solid #dddddd;
 }
 
 .chart-component h5 {
@@ -102,8 +102,8 @@ main .metric-component {
 
 .metric-component .metric-text {
     margin: 0;
-    font-size: 18px;
-    font-family: 'HelveticaNeue', sans-serif;
+    font-size: 12px;
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
 }
 
 main .data {
@@ -113,26 +113,25 @@ main .data {
 
 .data .table-chart-holder {
     margin-top: 40px;
-    font-family: 'HelveticaNeue', sans-serif;
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
 }
 
 .table-chart-holder h3 {
-    font-family: 'HelveticaNeue', sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 52px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
 .table-chart-holder .table-data {
-    padding: 20px;
-    border: 1px solid #979797;
+    padding: 0;
     height: 400px;
     overflow-y: scroll;
 }
 
 .table-data table {
     width: 100%;
-    border: 1px solid #979797;
+    border: 1px solid #dddddd;
     height: 400px;
     overflow-y: scroll;
 }
@@ -144,27 +143,26 @@ main .data {
 
 table th {
     text-align: center !important;
-    border-right: 1px solid #979797;
+    border: 1px solid #dddddd;
     font-weight: bold;
     padding: 14px 0;
     color: #333333;
-    font-size: 20px;
-}
-
-table tr:nth-child(odd) {
-    background-color: #D8D8D8;
-}
-
-table tr:nth-child(1) {
+    font-size: 22px;
+    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
     background: #fff;
+
+}
+
+tbody tr:nth-child(even) {
+    background: #eee;
 }
 
 table td {
     text-align: center !important;
     font-size: 18px;
     padding: 16px 0;
-    border-top: 1px solid #979797;
-    border-right: 1px solid #979797;
+    border-top: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
 }
 
 .table-data .note-text {
@@ -192,6 +190,10 @@ footer p {
     fill: none;
     stroke: #979797;
     shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
 }
 
 .bar--positive {
