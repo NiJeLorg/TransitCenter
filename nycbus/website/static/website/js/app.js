@@ -428,7 +428,6 @@ app.createReportCardDropdowns = function (route_id) {
       routeIDs.push(data.rows[i].route_id);
     }
     routeIDs.sort(naturalCompare);
-    console.log(routeIDs);
 
     function naturalCompare(a, b) {
         var ax = [], bx = [];
@@ -996,7 +995,7 @@ app.initializeSpeedGauge = function() {
     minValue: 0,
     maxValue: 16,
     transitionMs: 2000,
-    majorTicks: 500,
+    majorTicks: 15,
     pointerHeadLengthPercent: 0.85,
   });
   app.speedGaugeObject.render();
@@ -1075,7 +1074,7 @@ app.speedGauge = function (container, configuration) {
     transitionMs        : 1000,
     
     majorTicks          : 5,
-    labelFormat         : d3.format(',g'),
+    labelFormat         : d3.format(',d'),
     labelInset          : 10,
     
     arcColorFn          : d3.interpolateHsl(d3.rgb('#FF4000'), d3.rgb('#5BCF59'))
@@ -1093,7 +1092,7 @@ app.speedGauge = function (container, configuration) {
   var tickData = undefined;
   var pointer = undefined;
 
-  var donut = d3.layout.pie();
+  var donut = d3.pie();
   
   function deg2rad(deg) {
     return deg * Math.PI / 180;
@@ -1116,14 +1115,14 @@ app.speedGauge = function (container, configuration) {
     pointerHeadLength = Math.round(r * config.pointerHeadLengthPercent);
 
     // a linear scale that maps domain values to a percent from 0..1
-    scale = d3.scale.linear()
+    scale = d3.scaleLinear()
       .range([0,1])
       .domain([config.minValue, config.maxValue]);
       
     ticks = scale.ticks(config.majorTicks);
     tickData = d3.range(config.majorTicks).map(function() {return 1/config.majorTicks;});
     
-    arc = d3.svg.arc()
+    arc = d3.arc()
       .innerRadius(r - config.ringWidth - config.ringInset)
       .outerRadius(r - config.ringInset)
       .startAngle(function(d, i) {
@@ -1136,7 +1135,7 @@ app.speedGauge = function (container, configuration) {
       });
 
     // arcs for text labels
-    arcLabels = d3.svg.arc()
+    arcLabels = d3.arc()
       .innerRadius(r - config.ringWidth + 10)
       .outerRadius(r - config.ringInset + 10)
       .startAngle(-90 * (Math.PI/180))
@@ -1204,7 +1203,7 @@ app.speedGauge = function (container, configuration) {
             [-(config.pointerWidth / 2), 0],
             [0, config.pointerTailLength],
             [config.pointerWidth / 2, 0] ];
-    var pointerLine = d3.svg.line().interpolate('monotone');
+    var pointerLine = d3.line();
     var pg = svg.append('g').data([lineData])
         .attr('class', 'pointer')
         .attr('transform', centerTx);
@@ -1223,9 +1222,10 @@ app.speedGauge = function (container, configuration) {
     }
     var ratio = scale(newValue);
     var newAngle = config.minAngle + (ratio * range);
+    var ease = d3.easeLinearIn;
     pointer.transition()
       .duration(config.transitionMs)
-      .ease('elastic')
+      .ease(d3.easeElasticOut)
       .attr('transform', 'rotate(' +newAngle +')');
   }
   that.update = update;
@@ -1592,49 +1592,49 @@ app.ordinal_suffix_of = function (i) {
 
 
 // color ranges for text. Set domains based on data above
-app.speedTextColorScale = d3.scale.quantize()
+app.speedTextColorScale = d3.scaleQuantize()
   .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
 
-app.ridershipTextColorScale = d3.scale.quantize()
+app.ridershipTextColorScale = d3.scaleQuantize()
   .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
 
-app.ridershipRankingTextColorScale = d3.scale.quantize()
+app.ridershipRankingTextColorScale = d3.scaleQuantize()
   .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.ridershipChangeTextColorScale = d3.scale.quantize()
+app.ridershipChangeTextColorScale = d3.scaleQuantize()
   .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
 
-app.bunchTextColorScale = d3.scale.quantize()
+app.bunchTextColorScale = d3.scaleQuantize()
   .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus1ColorScale = d3.scale.quantize()
+app.bus1ColorScale = d3.scaleQuantize()
   .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus2ColorScale = d3.scale.quantize()
+app.bus2ColorScale = d3.scaleQuantize()
   .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus3ColorScale = d3.scale.quantize()
+app.bus3ColorScale = d3.scaleQuantize()
   .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus4ColorScale = d3.scale.quantize()
+app.bus4ColorScale = d3.scaleQuantize()
   .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus5ColorScale = d3.scale.quantize()
+app.bus5ColorScale = d3.scaleQuantize()
   .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
-app.bus1MarginScale = d3.scale.linear()
+app.bus1MarginScale = d3.scaleLinear()
   .range([30, 2]);
 
-app.bus2MarginScale = d3.scale.linear()
+app.bus2MarginScale = d3.scaleLinear()
   .range([30, 2]);
 
-app.bus3MarginScale = d3.scale.linear()
+app.bus3MarginScale = d3.scaleLinear()
   .range([30, 2]);
 
-app.bus4MarginScale = d3.scale.linear()
+app.bus4MarginScale = d3.scaleLinear()
   .range([30, 2]);
 
-app.bus5MarginScale = d3.scale.linear()
+app.bus5MarginScale = d3.scaleLinear()
   .range([30, 2]);
 
 

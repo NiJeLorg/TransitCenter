@@ -174,6 +174,13 @@ app.createDataTable = function() {
         .append('th')
         .text(function(column) {
             return column;
+        })
+        .attr('data-sortable-type', function(d) {
+            if (d == 'ROUTE') {
+                return 'alpha';
+            } else {
+                return 'numeric';
+            }
         });
 
     var rows = tbody.selectAll('tr')
@@ -199,7 +206,10 @@ app.createDataTable = function() {
             } 
             return d.value;
         });
+    // initialize sortable
     window.Sortable.init();
+    // initialize sticky header
+    $('.table-data table').stickyTableHeaders({scrollableArea: $('.table-data')});
     $('.table-data table tr td:nth-child(3)').each(function(i, el) {
         var textValue = $(el).text();
         textValue = parseFloat(textValue, 10)
@@ -221,13 +231,8 @@ app.updateBarCharts = function(routesWithinSQL) {
         // using the routes selected by district, build a query for top three slowest routes
         var slowestQuery = 'SELECT route_id, speed, ranking FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC';
 
-        app.activeAjaxConnections++;
         app.sqlclient.execute(slowestQuery)
             .done(function(data) {
-                app.activeAjaxConnections--;
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
                 // create data object and pass to bar chart for the form
                 //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
                 var slowestArray = [];
@@ -249,6 +254,9 @@ app.updateBarCharts = function(routesWithinSQL) {
                 }
 
                 app.createDataTable();
+
+                // remove loading class at the end of the ajax chaing
+                $("body").removeClass("loading");
             })
             .error(function(errors) {
                 // errors contains a list of errors
@@ -261,13 +269,8 @@ app.updateBarCharts = function(routesWithinSQL) {
         // using the routes selected by district, build a query for top three routes by most bunching
         var mostBunchingQuery = 'SELECT route_id, prop_bunched, ranking FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC';
 
-        app.activeAjaxConnections++;
         app.sqlclient.execute(mostBunchingQuery)
             .done(function(data) {
-                app.activeAjaxConnections--;
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
                 // create data object and pass to bar chart for the form
                 //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
                 var bunching = [];
@@ -301,13 +304,8 @@ app.updateBarCharts = function(routesWithinSQL) {
         // using the routes selected by district, build a query for top three routes by fastest growing
         var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015, prop_change_group_rank_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC';
 
-        app.activeAjaxConnections++;
         app.sqlclient.execute(fastestGrowingQuery)
             .done(function(data) {
-                app.activeAjaxConnections--;
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
                 // create data object and pass to bar chart for the form
                 //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
                 var ridershipChange = [];
@@ -342,13 +340,9 @@ app.updateBarCharts = function(routesWithinSQL) {
 
         var ridershipQuery = 'SELECT route_id, year_2015, group_rank_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC';
 
-        app.activeAjaxConnections++;
+        
         app.sqlclient.execute(ridershipQuery)
             .done(function(data) {
-                app.activeAjaxConnections--;
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
                 // create data object and pass to bar chart for the form
                 //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
                 var ridershipArray = [];
@@ -943,7 +937,3 @@ app.ordinal_suffix_of = function(i) {
     return i + "th";
 }
 
-
-
-// calculating if all ajax connections are complete
-app.activeAjaxConnections = 0;
