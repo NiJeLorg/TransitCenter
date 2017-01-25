@@ -40,6 +40,11 @@
     font-weight: bold;
 }
 
+.main-heading a {
+    color: #fff;
+    text-decoration: none;
+}
+
 .main-heading-card {
     font-size: 3.5em;
 }
@@ -143,7 +148,7 @@ main header h2 {
     line-height: 95%;
 }
 
-.ways-to-address h4 {
+.ways-to-address  {
     font-size: 1.6em;
 }
 
@@ -299,7 +304,6 @@ div.cartodb-tooltip-content p {
         display: block;
         border: 1px solid #aaa;
     }
-
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {
         width: 48%;
