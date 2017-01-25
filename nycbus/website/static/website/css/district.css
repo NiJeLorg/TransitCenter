@@ -148,9 +148,17 @@ main header h2 {
     line-height: 95%;
 }
 
-.ways-to-address  {
+.ways-to-address {
     font-size: 1.6em;
 }
+
+.turnaround-campaign {
+    padding: 1% 1%;
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+
 
 .turnaround-campaign h4 {
     font-size: 1.6em;
@@ -161,9 +169,6 @@ main header h2 {
     font-size: 12px;
 }
 
-.turnaround-campaign p {
-    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
-}
 
 footer {
     background: #555555;
