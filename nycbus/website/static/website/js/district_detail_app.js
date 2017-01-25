@@ -41,7 +41,7 @@ app.createListeners = function() {
     $('#number').change(function() {
         app.districtNumber = $(this).val();
         // add loading modal
-        $("body").addClass("loading");
+        // $("body").addClass("loading");
         // update route selection and data
 
         app.selectRoutes();
@@ -203,7 +203,7 @@ app.createDataTable = function() {
                 return d.value + ' mph';
             } else if (d.column === 'ridership') {
                 return app.numberWithCommas(d.value);
-            } 
+            }
             return d.value;
         });
     // initialize sortable
@@ -340,7 +340,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
         var ridershipQuery = 'SELECT route_id, year_2015, group_rank_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC';
 
-        
+
         app.sqlclient.execute(ridershipQuery)
             .done(function(data) {
                 // create data object and pass to bar chart for the form
@@ -399,7 +399,7 @@ app.createBarChart = function(divId, data) {
     rankG.append("line")
         .style("stroke", "#979797")
         .style("shape-rendering", "crispEdges")
-        .attr("x1", '-60') 
+        .attr("x1", '-60')
         .attr("x2", '0')
         .attr("y1", '31')
         .attr("y2", '31');
@@ -420,7 +420,7 @@ app.createBarChart = function(divId, data) {
     } else {
         app.updateBarChart(divId, data);
     }
-    
+
 
 };
 
@@ -485,7 +485,7 @@ app.updateBarChart = function(divId, data) {
         .delay(function(d, i) { return i * 25; })
         .attr("width", function(d, i) {
             return x(d.value);
-        }); 
+        });
 
     barChartGs.select(".bus-value-text")
         .text(function(d) {
@@ -498,10 +498,10 @@ app.updateBarChart = function(divId, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })       
+        .delay(function(d, i) { return i * 25; })
         .attr("x", function(d) {
             return x(d.value) + 5;
-        });        
+        });
 
     barChartGs.select(".bus-route")
         .attr("class", function(d) {
@@ -516,7 +516,7 @@ app.updateBarChart = function(divId, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })        
+        .delay(function(d, i) { return i * 25; })
         .attr("x", function(d) {
             if (divId === '#bunching') {
                 if (d.value.toFixed(1).length == 4) {
@@ -538,7 +538,7 @@ app.updateBarChart = function(divId, data) {
                 } else {
                     return x(d.value) + 39;
                 }
-            }  
+            }
         });
 
     barChartGs.select(".borough-ranking")
@@ -588,7 +588,7 @@ app.updateBarChart = function(divId, data) {
         .attr("x", 10)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })       
+        .delay(function(d, i) { return i * 25; })
         .attr("x", function(d) {
             return x(d.value) + 5;
         });
@@ -610,7 +610,7 @@ app.updateBarChart = function(divId, data) {
         .attr("x", 50)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })        
+        .delay(function(d, i) { return i * 25; })
         .attr("x", function(d) {
             if (divId === '#bunching') {
                 if (d.value.toFixed(1).length == 4) {
@@ -632,7 +632,7 @@ app.updateBarChart = function(divId, data) {
                 } else {
                     return x(d.value) + 39;
                 }
-            }  
+            }
         });
 
     enterBars.append("text")
@@ -748,10 +748,10 @@ app.updateNegativeBarChart = function(divId, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })      
+        .delay(function(d, i) { return i * 25; })
         .attr("x", function(d) {
             return (d.value < 0 ? x(d.value) - 5 : x(d.value) + 5);
-        }); 
+        });
 
     barChartGs.select(".bus-route")
         .attr("class", function(d) {
@@ -769,7 +769,7 @@ app.updateNegativeBarChart = function(divId, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })        
+        .delay(function(d, i) { return i * 25; })
         .attr("x", function(d) {
             if (d.value < 0) {
                 if (d.value.toFixed(1).length == 5) {
@@ -831,7 +831,7 @@ app.updateNegativeBarChart = function(divId, data) {
         .text(function(d) {
             return d.value + '%';
         })
-        .attr("x", function(d) { 
+        .attr("x", function(d) {
             return (d.value < 0 ? x(0) - 5 : x(0) + 5);
         })
         .transition()
@@ -859,7 +859,7 @@ app.updateNegativeBarChart = function(divId, data) {
         .text(function(d) {
             return d.label;
         })
-        .attr("x", function(d) { 
+        .attr("x", function(d) {
             return (d.value < 0 ? x(0) - 40 : x(0) + 30);
         })
         .transition()
@@ -912,8 +912,8 @@ app.updateNegativeBarChart = function(divId, data) {
         .attr("transform", "translate(" + yAxisLeft + "," + marginTopPlus30 + ")")
         .transition()
         .duration(400)
-        .call(yAxis);                 
-        
+        .call(yAxis);
+
 }
 
 
