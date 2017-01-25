@@ -170,9 +170,12 @@ app.selectRoutes = function() {
 
     var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN ('+ routesWithinSQL +')';
 
+    var routesWithDataSQL = 'SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, ridership.year_2015, ridership.prop_change_2010_2015, speed.speed, bunching.prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id IN ('+ routesWithinSQL +')';
+
+
     // update the map
     // interactive
-    app.reportCardMap(districtMapSQL, routesMapSQL);
+    app.reportCardMap(districtMapSQL, routesWithDataSQL, routesMapSQL);
 
     //static
     app.reportCardMapStatic(districtMapSQL, routesMapSQL);
@@ -598,15 +601,13 @@ app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
 
 
 // interactive map
-app.reportCardMap = function (districtMapSQL, routesMapSQL) {
+app.reportCardMap = function (districtMapSQL, routesWithDataSQL, routesMapSQL) {
 
     if (app.map.hasLayer(app.districtLayer)) {
         app.map.removeLayer(app.districtLayer);
-        //app.districtLayer.clear();
     }
     if (app.map.hasLayer(app.busRouteLayer)) {
         app.map.removeLayer(app.busRouteLayer);
-        //app.busRouteLayer.clear();
     }
 
   app.activeAjaxConnections++;
@@ -614,10 +615,9 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
     user_name: app.username,
     type: 'cartodb',
     sublayers: [{
-      sql: routesMapSQL,
-      // cartocss: '#layer {line-width: 1;line-color: ramp([route_id], ("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928","#7F3C8D","#11A579","#3969AC","#F2B701","#E73F74","#80BA5A","#E68310","#008695","#CF1C90","#f97b72","#A5AA99"), category(23)); line-opacity: ;}',
+      sql: routesWithDataSQL,
       cartocss: '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
-      interactivity: 'cartodb_id, route_id, trip_heads',
+      interactivity: 'cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched',
     }]
   })
   .addTo(app.map)
@@ -632,13 +632,11 @@ app.reportCardMap = function (districtMapSQL, routesMapSQL) {
       app.busRouteLayer = layer;
       var sublayer = layer.getSubLayer(0);
       sublayer.setInteraction(true);
-      sublayer.setInteractivity('cartodb_id, route_id, trip_heads');
+      sublayer.setInteractivity('cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched');
 
-      cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id', 'trip_heads'],
-          {
-             infowindowTemplate: $('#infowindow_template').html()
-          });
-      //cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id'])
+      console.log(sublayer);
+
+      cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'],{infowindowTemplate: $('#infowindow_template').html()});
 
 
 

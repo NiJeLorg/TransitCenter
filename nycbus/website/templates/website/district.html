@@ -90,21 +90,36 @@
         </div>
         <div class="bus-map-holder">
             <div class="ways-to-address card bottom-buffer">
-                <p> Everyday, New Yorkers take 2.5 million rides on the city's buses. These buses are slow, unreliable, and unfortunately getting worse. It doesn't have to be this way! Ways to improve our buses now: - Speed up boarding with tap and go payment at all doors, - Add more bus lanes with effective enforcement, - Give buses priority at traffic lights</p>
+                <p> Everyday, New Yorkers take 2.5 million rides on the city's buses. These buses are slow, unreliable, and unfortunately getting worse. It doesn't have to be this way! Ways to improve our buses now:
+                </p>
+                <ul>
+                    <li>Speed up boarding with tap and go payment at all doors</li>
+                    <li>Add more bus lanes with effective enforcement</li>
+                    <li>Give buses priority at traffic lights</li>
+                </ul>
             </div>
-            <div class="district-map-holder card">
-                {% verbatim %}
-                <script type="tooltip/html" id="tooltip_template">
-                    <div class="cartodb-tooltip-content-wrapper">
-                        <div class="cartodb-tooltip-content">
-                            <p>{{ route_id }}</p>
+            <div id='district-map' class='district-map'></div>
+            <div id='district-map-static' class='district-map-static'></div>
+            {% verbatim %}
+            <script type="infowindow/html" id="infowindow_template">
+                <div class="cartodb-popup">
+                    <a href="#close" class="cartodb-popup-close-button close">x</a>
+                    <div class="cartodb-popup-content-wrapper">
+                        <div class="cartodb-popup-content">
+                            <h3>{{content.data.route_id}}</h3>
+                            <h4>Speed</h4>
+                            <p>{{content.data.speed}} mph</p>
+                            <h4>Bunching</h4>
+                            <p>{{content.data.prop_bunched}}%</p>
+                            <h4>Ridership</h4>
+                            <p>{{content.data.year_2015}}</p>
+                            <a href="http://busturnaround.nyc/?route={{content.data.route_id}}">Route Report Card</a>
                         </div>
                     </div>
-                </script>
-                {% endverbatim %}
-                <div id='district-map' class='district-map'></div>
-                <div id='district-map-static' class='district-map-static'></div>
-            </div>
+                    <div class="cartodb-popup-tip-container"></div>
+                </div>
+            </script>
+            {% endverbatim %}
         </div>
     </div>
     </div>
@@ -149,21 +164,6 @@
         </div>
     </div>
 </div>
-<script type="infowindow/html" id="infowindow_template">
-    <div class="cartodb-popup">
-        <a href="#close" class="cartodb-popup-close-button close">x</a>
-        <div class="cartodb-popup-content-wrapper">
-            <div class="cartodb-popup-content">
-                {% verbatim %}
-                <h3>{{content.data.route_id}}</h3>
-                <h4>Trip Heads</h4>
-                <p>{{content.data.trip_heads}}</p>
-                {% endverbatim %}
-            </div>
-        </div>
-        <div class="cartodb-popup-tip-container"></div>
-    </div>
-</script>
 {% endblock %} {% block js_block %}
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/district_app.js' %}"></script>
