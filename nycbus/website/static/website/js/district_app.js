@@ -44,7 +44,7 @@ app.createListeners = function() {
     $('#number').change(function() {
         app.districtNumber = $(this).val();
         // add loading modal
-        $("body").addClass("loading");
+        // $("body").addClass("loading");
         // update route selection and data
 
         app.selectRoutes();
@@ -320,7 +320,7 @@ app.updateBarCharts = function(routesWithinSQL) {
             } else {
                 app.createBarChart('#ridership', app.greenColorScale, ridershipArray);
             }
-    		
+
             app.createNotesForRidershipBarChart(ridershipNotesArray);
 
 
@@ -358,9 +358,9 @@ app.updateBarCharts = function(routesWithinSQL) {
             } else {
                 app.createBarChart('#fastestGrowing', app.greenColorScale, fastestGrowingArray);
             }
-    		
 
-    		
+
+
 
         })
         .error(function(errors) {
@@ -492,10 +492,10 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })        
+        .delay(function(d, i) { return i * 25; })
         .attr("width", function(d, i) {
             return x(d.value) - 3;
-        }); 	
+        });
 
    	barChartGs.select('.inside-bar-text')
    		.text(function(d) {
@@ -543,7 +543,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("width", function(d, i) {
             return x(d.value) - 3;
         });
-        
+
     enterBars.append("text")
         .attr("class", "inside-bar-text")
         .attr("y", (barHeight - 5) / 2)
@@ -559,7 +559,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("x", 10)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })  
+        .delay(function(d, i) { return i * 25; })
         .attr("x", function(d) {
             return x(d.value) - 10;
         });

@@ -299,9 +299,7 @@ div.cartodb-tooltip-content p {
         display: block;
         border: 1px solid #aaa;
     }
-    .district-map-holder {
-        height: 50vh;
-    }
+
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {
         width: 48%;
