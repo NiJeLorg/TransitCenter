@@ -26,15 +26,22 @@
                           </select>
                       </h2>
                     </li>
+                    <li>
+                        <div class="print-button-holder">
+                            <button data-toggle='tooltip' title="Click here to print this page" data-placement="bottom">
+                                <a href="javascript:window.print()"> <i class="fa fa-print fa-3x" aria-hidden='true'></i></a>
+                            </button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
     </header>
-    <div class="print-button-holder">
+<!--     <div class="print-button-holder">
         <button data-toggle='tooltip' title="Click here to print this page" data-placement="bottom">
             <a href="javascript:window.print()"> <i class="fa fa-print fa-3x" aria-hidden='true'></i></a>
         </button>
-    </div>
+    </div> -->
     <div class="main-component">
         <div class="bus-routes-holder">
             <div class="report-card card bottom-buffer">
@@ -168,7 +175,7 @@
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/district_app.js' %}"></script>
 <script type="text/javascript">
-// $("body").addClass("loading");
+$("body").addClass("loading");
 var district = '{{ district }}';
 window.onload = app.init;
 </script>

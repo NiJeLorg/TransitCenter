@@ -44,7 +44,7 @@ app.createListeners = function() {
     $('#number').change(function() {
         app.districtNumber = $(this).val();
         // add loading modal
-        // $("body").addClass("loading");
+        $("body").addClass("loading");
         // update route selection and data
 
         app.selectRoutes();
@@ -52,40 +52,6 @@ app.createListeners = function() {
         window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
     });
 }
-
-app.highlightRoute = function(routeId) {
-    app.mapLayers.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ routeId +'"] {line-width: 3;line-color: #F78C6C; line-opacity: 0.75;}');
-
-
-    //  var routesWithDataSQL = "SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, ridership.year_2015, ridership.prop_change_2010_2015, speed.speed, bunching.prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '" + routeId + "'";
-
-    // cartodb.createLayer(app.map, {
-    //         user_name: app.username,
-    //         type: 'cartodb',
-    //         sublayers: [{
-    //             sql: routesWithDataSQL,
-    //             cartocss: '#layer {line-width: 3;line-color: #F78C6C; line-opacity: 0.75;}',
-    //             interactivity: 'cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched',
-    //         }]
-    //     })
-    //     .addTo(app.map)
-    //     .done(function(layer) {
-    //       console.log(layer, 'layer');
-
-
-    //         layer.setInteraction(true);
-
-    //         app.busRouteLayer = layer;
-    //         var sublayer = layer.getSubLayer(0);
-    //         sublayer.setInteraction(true);
-    //         sublayer.setInteractivity('cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched');
-
-    //         console.log(sublayer);
-
-    //         cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
-
-    //     });
-};
 
 app.updateNumberDropdown = function() {
     // clear numbers and destroy select2 box if neccesary
@@ -573,10 +539,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("transform", function(d, i) {
             return "translate(0," + i * barHeight + ")";
         })
-        .on('mouseover', function(d, i) {
-            console.log(d.label);
-            app.highlightRoute(d.label)
-        });
+        .on('mouseover', function(d) {
+            app.highlightRoute(d.label);
+        })
+        .on('mouseout', function(d) {
+            app.resetRouteStyle();
+        });;
 
 
     enterBars.append("rect")
@@ -687,11 +655,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
             sublayer.setInteraction(true);
             sublayer.setInteractivity('cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched');
 
-            console.log(sublayer);
-
             cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
-
-
 
         });
 
@@ -719,6 +683,29 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
         });
 
 }
+
+app.highlightRoute = function(routeId) {
+    app.mapLayers.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ routeId +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+    // open infowindow
+    // Select one of the geometries from the table
+    var sql = "SELECT cartodb_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(the_geom), 0.5)) FROM mta_nyct_bus_routes WHERE route_id = '"+ routeId +"' LIMIT 1";
+    app.sqlclient.execute(sql)
+        .done(function(data) {
+            console.log(data);
+            // now fire a click where the returned point is located
+            app.mapLayers.trigger('featureClick', null, [data.rows[0]['st_y'], data.rows[0]['st_x']], null, { cartodb_id: data.rows[0]['cartodb_id'] }, 0);
+
+        })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        });
+
+};
+
+app.resetRouteStyle = function() {
+    app.mapLayers.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}');
+};
 
 
 // static map

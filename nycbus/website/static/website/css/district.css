@@ -116,9 +116,11 @@ main header h2 {
 }
 
 .print-button-holder {
-    display: flex;
+    display: block;
+    margin-top: -9px;
+/*    display: flex;
     justify-content: flex-end;
-    margin: 10px 0;
+    margin: 10px 0;*/
 }
 
 .print-button-holder button {
@@ -198,7 +200,7 @@ footer .logos-holder {
 
 .district-map,
 .district-map-static {
-    height: 88.3vh;
+    height: 51.5vh;
 }
 
 .district-map {
@@ -257,7 +259,7 @@ div.cartodb-popup div.cartodb-popup-content p {
 @media (max-width: 1024px) {
     .district-map,
     .district-map-static {
-        height: 97.3vh;
+        height: 51.5vh;
     }
 }
 
@@ -294,7 +296,10 @@ div.cartodb-popup div.cartodb-popup-content p {
     }
     .district-map,
     .district-map-static {
-        height: 65vh;
+        height: 50vh;
+    }
+    .print-button-holder {
+        display: none;
     }
 }
 
