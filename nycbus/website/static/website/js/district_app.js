@@ -15,7 +15,7 @@ app.init = function() {
     });
 
     // pull district number out of global district variable -- use this number on initial page load
-    app.districtNumber = district.replace( /^\D+/g, '');
+    app.districtNumber = district.replace(/^\D+/g, '');
     app.districtName = district.replace(/\d+/g, '');
     app.firstRun = true;
 
@@ -23,7 +23,7 @@ app.init = function() {
     app.createListeners();
 
     // set up report card drop down menu
-   	app.initSelect2MenuDistrictName();
+    app.initSelect2MenuDistrictName();
 
     // enable bootstrap tooltips
     $('[data-toggle="tooltip"]').tooltip();
@@ -44,12 +44,12 @@ app.createListeners = function() {
     $('#number').change(function() {
         app.districtNumber = $(this).val();
         // add loading modal
-        // $("body").addClass("loading");
+        $("body").addClass("loading");
         // update route selection and data
 
         app.selectRoutes();
         // create url parameters
-        window.history.pushState( {} , '', '?district=' + $('#selectDistrict').val() + $('#number').val() );
+        window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
     });
 }
 
@@ -77,7 +77,7 @@ app.updateNumberDropdown = function() {
         app.districtFieldName = 'coun_dist';
         app.printDistrict = 'City Council District';
     } else {
-         // Community Board
+        // Community Board
         app.districtTable = 'nyc_community_districts';
         app.districtFieldName = 'boro_cd';
         app.printDistrict = 'Community Board District';
@@ -91,7 +91,7 @@ app.updateNumberDropdown = function() {
 app.createNumberOptions = function() {
 
     // first pull state assembly districts and append
-    var sql = "SELECT "+ app.districtFieldName +" FROM "+ app.districtTable +" ORDER BY "+ app.districtFieldName;
+    var sql = "SELECT " + app.districtFieldName + " FROM " + app.districtTable + " ORDER BY " + app.districtFieldName;
     app.sqlclient.execute(sql)
         .done(function(data) {
 
@@ -112,52 +112,52 @@ app.createNumberOptions = function() {
 
 
 app.initSelect2MenuDistrictName = function() {
-	// when done create select2 menu
-	// if mobile, skip setting up select 2
-	if (($('body')).width() < 767) {
-	    $("#selectDistrict").val(app.districtName);
-        app.updateNumberDropdown();
-	} else {
-	    app.selectDistrictMenu = $("#selectDistrict").select2();
-	    app.selectDistrictMenu.val(app.districtName).trigger("change");
-	}
-}
-
-app.initSelect2MenuDistrictNumber = function() {
-    // which district number should we use?
-    console.log(app.firstRun);
-    if (!app.firstRun) {
-        app.districtNumber = $("#number").val();
-    }
-    console.log(app.districtNumber);
-
     // when done create select2 menu
     // if mobile, skip setting up select 2
     if (($('body')).width() < 767) {
-        $("#number").val(app.districtNumber);
-        app.selectRoutes();
+        $("#selectDistrict").val(app.districtName);
+        app.updateNumberDropdown();
     } else {
-        app.selectDistrictNumberMenu = $("#number").select2();
-        app.selectDistrictNumberMenu.val(app.districtNumber).trigger("change");
+        app.selectDistrictMenu = $("#selectDistrict").select2();
+        app.selectDistrictMenu.val(app.districtName).trigger("change");
     }
-
-    // after first run, set app.firstRun = false;
-     app.firstRun = false;
 }
-/********/
+
+app.initSelect2MenuDistrictNumber = function() {
+        // which district number should we use?
+        console.log(app.firstRun);
+        if (!app.firstRun) {
+            app.districtNumber = $("#number").val();
+        }
+        console.log(app.districtNumber);
+
+        // when done create select2 menu
+        // if mobile, skip setting up select 2
+        if (($('body')).width() < 767) {
+            $("#number").val(app.districtNumber);
+            app.selectRoutes();
+        } else {
+            app.selectDistrictNumberMenu = $("#number").select2();
+            app.selectDistrictNumberMenu.val(app.districtNumber).trigger("change");
+        }
+
+        // after first run, set app.firstRun = false;
+        app.firstRun = false;
+    }
+    /********/
 
 // SQL set up to select routes from selected district
 app.selectRoutes = function() {
-	// get district number with regex
-	var districtNumber = $("#number").val();
+    // get district number with regex
+    var districtNumber = $("#number").val();
 
-	// set up query to pull geometry for district
+    // set up query to pull geometry for district
 
-    var districtGeomSQL = 'SELECT district.the_geom FROM '+ app.districtTable +' AS district WHERE '+ app.districtFieldName +' = ' + districtNumber;
+    var districtGeomSQL = 'SELECT district.the_geom FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + districtNumber;
 
 
-	// now select the distinct routes that intersect that geometry
-    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , ("+ districtGeomSQL +") )";
+    // now select the distinct routes that intersect that geometry
+    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
 
     // pass routesWithinSQL to bar chart update function
     app.updateBarCharts(routesWithinSQL);
@@ -166,11 +166,11 @@ app.selectRoutes = function() {
     app.updateTextDataVis(routesWithinSQL, districtGeomSQL);
 
 
-    var districtMapSQL = 'SELECT * FROM '+ app.districtTable +' AS district WHERE '+ app.districtFieldName +' = ' + districtNumber;
+    var districtMapSQL = 'SELECT * FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + districtNumber;
 
-    var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN ('+ routesWithinSQL +')';
+    var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN (' + routesWithinSQL + ')';
 
-    var routesWithDataSQL = 'SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, ridership.year_2015, ridership.prop_change_2010_2015, speed.speed, bunching.prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id IN ('+ routesWithinSQL +')';
+    var routesWithDataSQL = "SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id IN (" + routesWithinSQL + ")";
 
 
     // update the map
@@ -184,35 +184,35 @@ app.selectRoutes = function() {
 
 // pull data and update text based on selected district
 app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
-	// set district name
+    // set district name
 
-	$('#districtName').text(app.printDistrict + ' ' + app.districtNumber);
+    $('#districtName').text(app.printDistrict + ' ' + app.districtNumber);
 
 
-	// calculate bus commuters based on census block group data
-	var commuterQuery = 'SELECT sum(acs.hd01_vd11) FROM acs_14_5yr_b08301 AS acs WHERE ST_Intersects( acs.the_geom , ('+ districtGeomSQL +') )';
+    // calculate bus commuters based on census block group data
+    var commuterQuery = 'SELECT sum(acs.hd01_vd11) FROM acs_14_5yr_b08301 AS acs WHERE ST_Intersects( acs.the_geom , (' + districtGeomSQL + ') )';
 
     app.activeAjaxConnections++;
     app.sqlclient.execute(commuterQuery)
         .done(function(data) {
             app.activeAjaxConnections--;
 
-            $({countNum: $('#busCommuters').text().replace(',','')}).animate({countNum: data.rows[0].sum}, {
-              duration: 1000,
-              easing:'linear',
-              step: function() {
-                if (this.countNum) {
-                  $('#busCommuters').text(app.numberWithCommas(parseInt(this.countNum)));
-                } else {
-                  $('#busCommuters').text('0');
+            $({ countNum: $('#busCommuters').text().replace(',', '') }).animate({ countNum: data.rows[0].sum }, {
+                duration: 1000,
+                easing: 'linear',
+                step: function() {
+                    if (this.countNum) {
+                        $('#busCommuters').text(app.numberWithCommas(parseInt(this.countNum)));
+                    } else {
+                        $('#busCommuters').text('0');
+                    }
+                },
+                complete: function() {
+                    $('#busCommuters').text(app.numberWithCommas(parseInt(this.countNum)));
+                    if (app.activeAjaxConnections == 0) {
+                        $("body").removeClass("loading");
+                    }
                 }
-              },
-              complete: function() {
-               $('#busCommuters').text(app.numberWithCommas(parseInt(this.countNum)));
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
-              }
             });
         })
         .error(function(errors) {
@@ -221,30 +221,30 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
         });
 
 
- 	// calculate number of bus routes that fall within this district
+    // calculate number of bus routes that fall within this district
     app.activeAjaxConnections++;
     app.sqlclient.execute(routesWithinSQL)
         .done(function(data) {
             app.activeAjaxConnections--;
 
-        	// pull total_rows from response
-		    $({countNum: $('#busRoutes').text()}).animate({countNum: data.total_rows}, {
-		      duration: 1000,
-		      easing:'linear',
-		      step: function() {
-		        if (this.countNum) {
-		          $('#busRoutes').text(parseInt(this.countNum));
-		        } else {
-		          $('#busRoutes').text('0');
-		        }
-		      },
-		      complete: function() {
-		       $('#busRoutes').text(parseInt(this.countNum));
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
+            // pull total_rows from response
+            $({ countNum: $('#busRoutes').text() }).animate({ countNum: data.total_rows }, {
+                duration: 1000,
+                easing: 'linear',
+                step: function() {
+                    if (this.countNum) {
+                        $('#busRoutes').text(parseInt(this.countNum));
+                    } else {
+                        $('#busRoutes').text('0');
+                    }
+                },
+                complete: function() {
+                    $('#busRoutes').text(parseInt(this.countNum));
+                    if (app.activeAjaxConnections == 0) {
+                        $("body").removeClass("loading");
+                    }
                 }
-		      }
-		    });
+            });
 
         })
         .error(function(errors) {
@@ -254,7 +254,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 
 
     // calculate poverty level based on census block group data
-    var poveryQuery = 'SELECT sum(acs.hd01_vd01) as total, sum(acs.hd01_vd02) as poor FROM acs_14_5yr_b17021 AS acs WHERE ST_Intersects( acs.the_geom , ('+ districtGeomSQL +') )';
+    var poveryQuery = 'SELECT sum(acs.hd01_vd01) as total, sum(acs.hd01_vd02) as poor FROM acs_14_5yr_b17021 AS acs WHERE ST_Intersects( acs.the_geom , (' + districtGeomSQL + ') )';
     var pctPoor;
     app.activeAjaxConnections++;
     app.sqlclient.execute(poveryQuery)
@@ -262,22 +262,22 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
             app.activeAjaxConnections--;
             pctPoor = parseInt(((data.rows[0].poor / data.rows[0].total) * 100).toFixed())
 
-            $({countNum: $('#percentPoverty').text()}).animate({countNum: pctPoor}, {
-              duration: 1000,
-              easing:'linear',
-              step: function() {
-                if (this.countNum) {
-                  $('#percentPoverty').text(parseInt(this.countNum));
-                } else {
-                  $('#percentPoverty').text('0');
+            $({ countNum: $('#percentPoverty').text() }).animate({ countNum: pctPoor }, {
+                duration: 1000,
+                easing: 'linear',
+                step: function() {
+                    if (this.countNum) {
+                        $('#percentPoverty').text(parseInt(this.countNum));
+                    } else {
+                        $('#percentPoverty').text('0');
+                    }
+                },
+                complete: function() {
+                    $('#percentPoverty').text(parseInt(this.countNum));
+                    if (app.activeAjaxConnections == 0) {
+                        $("body").removeClass("loading");
+                    }
                 }
-              },
-              complete: function() {
-               $('#percentPoverty').text(parseInt(this.countNum));
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
-              }
             });
         })
         .error(function(errors) {
@@ -291,7 +291,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 app.updateBarCharts = function(routesWithinSQL) {
 
     // using the routes selected by district, build a query for top three routes in ridership
-	var ridershipQuery = 'SELECT route_id, year_2015, note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
+    var ridershipQuery = 'SELECT route_id, year_2015, note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
 
     app.activeAjaxConnections++;
     app.sqlclient.execute(ridershipQuery)
@@ -301,21 +301,21 @@ app.updateBarCharts = function(routesWithinSQL) {
                 $("body").removeClass("loading");
             }
 
-        	// create data object and pass to bar chart for the form
-        	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-        	var ridershipArray = [];
+            // create data object and pass to bar chart for the form
+            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+            var ridershipArray = [];
             var ridershipNotesArray = [];
             var label;
-        	for (var i = 0; i < data.rows.length; i++) {
+            for (var i = 0; i < data.rows.length; i++) {
                 if (data.rows[i].note) {
                     ridershipNotesArray.push(data.rows[i].note);
                     label = data.rows[i].route_id + '*'
                 } else {
                     label = data.rows[i].route_id;
                 }
-        		ridershipArray.push({ label: label, value: data.rows[i].year_2015 });
+                ridershipArray.push({ label: label, value: data.rows[i].year_2015 });
 
-        	}
+            }
 
             // check for existance of SVG and update chart if it already esists
             if ($('#ridership').html()) {
@@ -335,7 +335,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
 
     // using the routes selected by district, build a query for top three routes by fastest growing
-	var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN ('+ routesWithinSQL +') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
+    var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
 
 
     app.activeAjaxConnections++;
@@ -346,14 +346,14 @@ app.updateBarCharts = function(routesWithinSQL) {
                 $("body").removeClass("loading");
             }
 
-        	// create data object and pass to bar chart for the form
-        	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-        	var fastestGrowingArray = [];
-        	var pct;
-        	for (var i = 0; i < data.rows.length; i++) {
-        		pct = parseFloat((data.rows[i].prop_change_2010_2015 * 100).toFixed());
-        		fastestGrowingArray.push({ label: data.rows[i].route_id, value: pct });
-        	}
+            // create data object and pass to bar chart for the form
+            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+            var fastestGrowingArray = [];
+            var pct;
+            for (var i = 0; i < data.rows.length; i++) {
+                pct = parseFloat((data.rows[i].prop_change_2010_2015 * 100).toFixed());
+                fastestGrowingArray.push({ label: data.rows[i].route_id, value: pct });
+            }
 
             // check for existance of SVG and update chart if it already esists
             if ($('#fastestGrowing').html()) {
@@ -372,7 +372,7 @@ app.updateBarCharts = function(routesWithinSQL) {
         });
 
     // using the routes selected by district, build a query for top three routes by most bunching
-	var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN ('+ routesWithinSQL +') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
+    var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
 
     app.activeAjaxConnections++;
     app.sqlclient.execute(mostBunchingQuery)
@@ -382,14 +382,14 @@ app.updateBarCharts = function(routesWithinSQL) {
                 $("body").removeClass("loading");
             }
 
-        	// create data object and pass to bar chart for the form
-        	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-        	var mostBunchingArray = [];
-        	var pct;
-        	for (var i = 0; i < data.rows.length; i++) {
-        		pct = parseFloat((data.rows[i].prop_bunched * 100).toFixed(1));
-        		mostBunchingArray.push({ label: data.rows[i].route_id, value: pct });
-        	}
+            // create data object and pass to bar chart for the form
+            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+            var mostBunchingArray = [];
+            var pct;
+            for (var i = 0; i < data.rows.length; i++) {
+                pct = parseFloat((data.rows[i].prop_bunched * 100).toFixed(1));
+                mostBunchingArray.push({ label: data.rows[i].route_id, value: pct });
+            }
 
             // check for existance of SVG and update chart if it already esists
             if ($('#mostBunching').html()) {
@@ -408,7 +408,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
 
     // using the routes selected by district, build a query for top three slowest routes
-	var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN ('+ routesWithinSQL +') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
+    var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
 
     app.activeAjaxConnections++;
     app.sqlclient.execute(slowestQuery)
@@ -418,14 +418,14 @@ app.updateBarCharts = function(routesWithinSQL) {
                 $("body").removeClass("loading");
             }
 
-        	// create data object and pass to bar chart for the form
-        	//var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
-        	var slowestArray = [];
-        	var num;
-        	for (var i = 0; i < data.rows.length; i++) {
-        		num = parseFloat(data.rows[i].speed.toFixed(1));
-        		slowestArray.push({ label: data.rows[i].route_id, value: num });
-        	}
+            // create data object and pass to bar chart for the form
+            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+            var slowestArray = [];
+            var num;
+            for (var i = 0; i < data.rows.length; i++) {
+                num = parseFloat(data.rows[i].speed.toFixed(1));
+                slowestArray.push({ label: data.rows[i].route_id, value: num });
+            }
 
             // check for existance of SVG and update chart if it already esists
             if ($('#slowest').html()) {
@@ -478,7 +478,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
 
     var x = d3.scaleLinear()
         .domain([0, d3.max(arr)])
-        .range([barWidth/4, barWidth]);
+        .range([barWidth / 4, barWidth]);
 
     var chart = d3.select(divId)
         .select('svg')
@@ -487,7 +487,8 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
 
     // update
     var barChartGs = chart.selectAll("g")
-    	.data(data)
+        .data(data)
+        .on('click', function(d, i) { console.log(d); })
 
     barChartGs.select('rect')
         .attr('fill', function(d) {
@@ -495,13 +496,15 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("width", function(d, i) {
             return x(d.value) - 3;
         });
 
-   	barChartGs.select('.inside-bar-text')
-   		.text(function(d) {
+    barChartGs.select('.inside-bar-text')
+        .text(function(d) {
             if (divId === '#fastestGrowing' || divId === '#mostBunching') {
                 return d.value + '%';
             } else if (divId === '#slowest') {
@@ -511,18 +514,22 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return x(d.value) - 10;
         })
 
     barChartGs.select('.outside-bar-text')
-    	.text(function(d) {
+        .text(function(d) {
             return d.label;
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return x(d.value) + 3;
         })
@@ -531,7 +538,14 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
     var enterBars = barChartGs.enter().append("g")
         .attr("transform", function(d, i) {
             return "translate(0," + i * barHeight + ")";
-        });
+        })
+        .on('mouseover', function(d) {
+            app.highlightRoute(d.label);
+        })
+        .on('mouseout', function(d) {
+            //app.resetRouteStyle();
+        });;
+
 
     enterBars.append("rect")
         .attr('fill', function(d) {
@@ -539,10 +553,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("height", barHeight - 5)
         .attr("width", 0)
-       .merge(barChartGs)
-       	.transition()
+        .merge(barChartGs)
+        .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("width", function(d, i) {
             return x(d.value) - 3;
         });
@@ -562,7 +578,9 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("x", 10)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return x(d.value) - 10;
         });
@@ -577,7 +595,9 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("x", 23)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return x(d.value) + 3;
         });
@@ -595,13 +615,13 @@ app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
     // clear previous notes
     $('#ridershipNotes').html('');
     for (var i = ridershipNotesArray.length - 1; i >= 0; i--) {
-        $('#ridershipNotes').append( "<p><sup>*</sup>"+ ridershipNotesArray[i] +"</p>" );
+        $('#ridershipNotes').append("<p><sup>*</sup>" + ridershipNotesArray[i] + "</p>");
     }
 }
 
 
 // interactive map
-app.reportCardMap = function (districtMapSQL, routesWithDataSQL, routesMapSQL) {
+app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
 
     if (app.map.hasLayer(app.districtLayer)) {
         app.map.removeLayer(app.districtLayer);
@@ -610,143 +630,173 @@ app.reportCardMap = function (districtMapSQL, routesWithDataSQL, routesMapSQL) {
         app.map.removeLayer(app.busRouteLayer);
     }
 
-  app.activeAjaxConnections++;
-  cartodb.createLayer(app.map, {
-    user_name: app.username,
-    type: 'cartodb',
-    sublayers: [{
-      sql: routesWithDataSQL,
-      cartocss: '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
-      interactivity: 'cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched',
-    }]
-  })
-  .addTo(app.map)
-  .done(function(layer) {
-      app.activeAjaxConnections--;
-      if (app.activeAjaxConnections == 0) {
-        $("body").removeClass("loading");
-      }
+    app.activeAjaxConnections++;
+    cartodb.createLayer(app.map, {
+            user_name: app.username,
+            type: 'cartodb',
+            sublayers: [{
+                sql: routesWithDataSQL,
+                cartocss: '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
+                interactivity: 'cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched',
+            }]
+        })
+        .addTo(app.map)
+        .done(function(layer) {
+            app.routeLayer = layer;
+            app.activeAjaxConnections--;
+            if (app.activeAjaxConnections == 0) {
+                $("body").removeClass("loading");
+            }
 
-      layer.setInteraction(true);
+            layer.setInteraction(true);
 
-      app.busRouteLayer = layer;
-      var sublayer = layer.getSubLayer(0);
-      sublayer.setInteraction(true);
-      sublayer.setInteractivity('cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched');
+            app.busRouteLayer = layer;
+            app.routesSublayer = layer.getSubLayer(0);
+            app.routesSublayer.setInteraction(true);
+            app.routesSublayer.setInteractivity('cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched');
 
-      console.log(sublayer);
+            cdb.vis.Vis.addInfowindow(app.map, app.routesSublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
 
-      cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'],{infowindowTemplate: $('#infowindow_template').html()});
+            app.routesSublayer.on('featureClick', function(e, pos, latlng, data) {
+                console.log(data.route_id);
+                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ data.route_id +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+            });
 
+        });
 
+    app.activeAjaxConnections++;
+    cartodb.createLayer(app.map, {
+            user_name: app.username,
+            type: 'cartodb',
+            sublayers: [{
+                sql: districtMapSQL,
+                cartocss: '#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}',
+            }]
+        })
+        .addTo(app.map)
+        .done(function(layer) {
+            app.activeAjaxConnections--;
 
-  });
+            app.districtLayer = layer;
+            app.sqlclient.getBounds(routesMapSQL).done(function(bounds) {
+                app.map.fitBounds(bounds);
+                if (app.activeAjaxConnections == 0) {
+                    $("body").removeClass("loading");
+                }
+            });
 
-  app.activeAjaxConnections++;
-  cartodb.createLayer(app.map, {
-    user_name: app.username,
-    type: 'cartodb',
-    sublayers: [{
-      sql: districtMapSQL,
-      cartocss: '#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}',
-    }]
-  })
-  .addTo(app.map)
-  .done(function(layer) {
-    app.activeAjaxConnections--;
-
-    app.districtLayer = layer;
-    app.sqlclient.getBounds(routesMapSQL).done(function(bounds) {
-        app.map.fitBounds(bounds);
-        if (app.activeAjaxConnections == 0) {
-          $("body").removeClass("loading");
-        }
-    });
-
-  });
+        });
 
 }
 
+app.highlightRoute = function(routeId) {
+    // strip out a trailing * if one exists
+    routeId = routeId.replace('*', '');
+
+    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ routeId +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+    // open infowindow
+    // Select one of the geometries from the table
+    var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '"+ routeId +"' LIMIT 1";
+    app.sqlclient.execute(sql)
+        .done(function(data) {
+            console.log(data);
+            // center map on returned lat/lng
+            var latLng = new L.LatLng(data.rows[0]['st_y'], data.rows[0]['st_x']);
+            app.map.panTo(latLng);
+
+            // now fire a click where the returned point is located
+            app.routesSublayer.trigger('featureClick', null, [data.rows[0]['st_y'], data.rows[0]['st_x']], null, { route_id: data.rows[0]['route_id'], speed: data.rows[0]['speed'], prop_bunched: data.rows[0]['prop_bunched'], year_2015: data.rows[0]['year_2015'], prop_change_2010_2015: data.rows[0]['prop_change_2010_2015'] }, 0);
+
+        })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        });
+
+};
+
+app.resetRouteStyle = function() {
+    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}');
+};
+
 
 // static map
-app.reportCardMapStatic = function (districtMapSQL, routesMapSQL) {
-  // make a static map using CARTO Static API
-  // first get bounds for the map
-  app.bounds = [];
-  app.sqlclient.getBounds(routesMapSQL)
-    .done(function(bounds) {
-      app.bounds = bounds;
-      createStaticMap();
-    });
+app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
+    // make a static map using CARTO Static API
+    // first get bounds for the map
+    app.bounds = [];
+    app.sqlclient.getBounds(routesMapSQL)
+        .done(function(bounds) {
+            app.bounds = bounds;
+            createStaticMap();
+        });
 
-  /**** If we want to try adding labels to text layers use somethign like the following cartocss
+    /**** If we want to try adding labels to text layers use somethign like the following cartocss
 <<<<<<< HEAD
   * text-name:[boro_name];text-face-name:'DejaVu Sans Book';text-size:50;text-fill: #6F808D;text-halo-radius: 1;text-halo-fill: rgba(255, 255, 255, 0.75);text-transform:uppercase;
   ****/
-   // "cartocss": '#layer {::shape {line-width: 1;line-color: #005777; line-opacity: 0.75;} ::label {text-name:[route_id]; text-face-name:"DejaVu Sans Book"; text-size:14; text-fill: #6F808D; text-halo-radius: 1; text-halo-fill: rgba(255, 255, 255, 0.75); text-transform:uppercase; text-placement: line; text-dy: 12; text-avoid-edges: true; text-min-distance: 100;} }',
+    // "cartocss": '#layer {::shape {line-width: 1;line-color: #005777; line-opacity: 0.75;} ::label {text-name:[route_id]; text-face-name:"DejaVu Sans Book"; text-size:14; text-fill: #6F808D; text-halo-radius: 1; text-halo-fill: rgba(255, 255, 255, 0.75); text-transform:uppercase; text-placement: line; text-dy: 12; text-avoid-edges: true; text-min-distance: 100;} }',
 
-  var mapconfig = {
-    "layers": [
+    var mapconfig = {
+        "layers": [
 
-      {
-        "type": "http",
-        "options": {
-          "urlTemplate": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
-          "subdomains": [
-            "a",
-            "b",
-            "c"
-          ]
-        }
-      },
-       {
-        "type": "mapnik",
-        "options": {
-          "sql": routesMapSQL,
-          "cartocss": '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
-          "cartocss_version": "2.1.1"
-        }
-      },
-      {
-        "type": "mapnik",
-        "options": {
-          "sql": districtMapSQL,
-          "cartocss": "#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}",
-          "cartocss_version": "2.1.1"
-        }
-      },
-    ]
-  }
+            {
+                "type": "http",
+                "options": {
+                    "urlTemplate": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+                    "subdomains": [
+                        "a",
+                        "b",
+                        "c"
+                    ]
+                }
+            }, {
+                "type": "mapnik",
+                "options": {
+                    "sql": routesMapSQL,
+                    "cartocss": '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
+                    "cartocss_version": "2.1.1"
+                }
+            }, {
+                "type": "mapnik",
+                "options": {
+                    "sql": districtMapSQL,
+                    "cartocss": "#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}",
+                    "cartocss_version": "2.1.1"
+                }
+            },
+        ]
+    }
 
-  var mapWidth = parseInt($('.district-map').width());
-  var mapHeight = parseInt($('.district-map').height());
+    var mapWidth = parseInt($('.district-map').width());
+    var mapHeight = parseInt($('.district-map').height());
 
-  var createStaticMap = function () {
+    var createStaticMap = function() {
 
-      app.activeAjaxConnections++;
-      $.ajax({
-        crossOrigin: true,
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        url: 'https://'+app.username+'.carto.com/api/v1/map',
-        data: JSON.stringify(mapconfig),
-        success: function(data) {
-          app.activeAjaxConnections--;
-          if (app.activeAjaxConnections == 0) {
-            $("body").removeClass("loading");
-          }
+        app.activeAjaxConnections++;
+        $.ajax({
+            crossOrigin: true,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: 'https://' + app.username + '.carto.com/api/v1/map',
+            data: JSON.stringify(mapconfig),
+            success: function(data) {
+                app.activeAjaxConnections--;
+                if (app.activeAjaxConnections == 0) {
+                    $("body").removeClass("loading");
+                }
 
-          // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
-          // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
-          var url = 'https://'+app.username+'.carto.com/api/v1/map/static/bbox/'+data.layergroupid+'/'+app.bounds[1][1]+','+app.bounds[1][0]+','+app.bounds[0][1]+','+app.bounds[0][0]+'/'+mapWidth+'/'+mapHeight+'.png';
-          // get map image
-          $('#district-map-static').html('<img class="img-responsive" src="'+url+'" />');
-        }
+                // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
+                // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
+                var url = 'https://' + app.username + '.carto.com/api/v1/map/static/bbox/' + data.layergroupid + '/' + app.bounds[1][1] + ',' + app.bounds[1][0] + ',' + app.bounds[0][1] + ',' + app.bounds[0][0] + '/' + mapWidth + '/' + mapHeight + '.png';
+                // get map image
+                $('#district-map-static').html('<img class="img-responsive" src="' + url + '" />');
+            }
 
-      });
+        });
 
-  }
+    }
 
 }
 
@@ -784,7 +834,7 @@ app.slowestColorScale = d3.scaleLinear()
 
 
 // map set up
-app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{ attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });
+app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });
 
 app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10 });
 

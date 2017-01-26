@@ -116,9 +116,11 @@ main header h2 {
 }
 
 .print-button-holder {
-    display: flex;
+    display: block;
+    margin-top: -9px;
+/*    display: flex;
     justify-content: flex-end;
-    margin: 10px 0;
+    margin: 10px 0;*/
 }
 
 .print-button-holder button {
@@ -158,8 +160,6 @@ main header h2 {
     font-weight: lighter;
 }
 
-
-
 .turnaround-campaign h4 {
     font-size: 1.6em;
 }
@@ -168,7 +168,6 @@ main header h2 {
     margin: 0;
     font-size: 12px;
 }
-
 
 footer {
     background: #555555;
@@ -201,7 +200,8 @@ footer .logos-holder {
 
 .district-map,
 .district-map-static {
-    height: 88.3vh;
+    height: 51.5vh;
+    width: 100%;
 }
 
 .district-map {
@@ -218,6 +218,44 @@ div.cartodb-tooltip-content p {
 }
 
 
+/* STYLES FOR INFOWINDOW */
+
+div.cartodb-popup h1, div.cartodb-popup h2, div.cartodb-popup h3, div.cartodb-popup h4, div.cartodb-popup h5, div.cartodb-popup h6,  {
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div.cartodb-popup p {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div.cartodb-popup div.cartodb-popup-content-wrapper {
+    width: 100%;
+    max-width: 100%;
+}
+
+div.cartodb-popup div.cartodb-popup-content h3 {
+    color: #555555;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #555555;
+    margin-bottom: 8px;
+}
+
+div.cartodb-popup div.cartodb-popup-content h4 {
+    color: #777777;
+    margin-bottom: 0;
+}
+
+div.cartodb-popup div.cartodb-popup-content p {
+    color: #333333;
+}
+
+
+
+/* STYLES FOR INFOWINDOW */
+
+
 /* MAIN STYLES */
 
 
@@ -226,7 +264,7 @@ div.cartodb-tooltip-content p {
 @media (max-width: 1024px) {
     .district-map,
     .district-map-static {
-        height: 97.3vh;
+        height: 51.5vh;
     }
 }
 
@@ -263,7 +301,10 @@ div.cartodb-tooltip-content p {
     }
     .district-map,
     .district-map-static {
-        height: 65vh;
+        height: 50vh;
+    }
+    .print-button-holder {
+        display: none;
     }
 }
 
@@ -305,9 +346,17 @@ div.cartodb-tooltip-content p {
     .district-map {
         display: none;
     }
+    .card {
+        border: none;
+        padding: 0;
+    }
     .district-map-static {
+        margin-top: 20px;
         display: block;
-        border: 1px solid #aaa;
+        /*border: 1px solid #aaa;*/
+    }
+    .people {
+        margin-bottom: -10px;
     }
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {

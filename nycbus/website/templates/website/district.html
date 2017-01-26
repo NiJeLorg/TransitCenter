@@ -1,7 +1,8 @@
 {% extends 'website/base.html' %} {% load staticfiles %} {% block title %}| District Level Analysis{% endblock %} {% block css_block %}
-<link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" /> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
+<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+<link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}">
+ {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
 <main>
     <header class="row">
         <div class="header-title col-md-5">
@@ -26,15 +27,22 @@
                           </select>
                       </h2>
                     </li>
+                    <li>
+                        <div class="print-button-holder">
+                            <button data-toggle='tooltip' title="Print this page" data-placement="bottom">
+                                <a href="javascript:window.print()"> <i class="fa fa-print fa-3x" aria-hidden='true'></i></a>
+                            </button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
     </header>
-    <div class="print-button-holder">
+<!--     <div class="print-button-holder">
         <button data-toggle='tooltip' title="Click here to print this page" data-placement="bottom">
             <a href="javascript:window.print()"> <i class="fa fa-print fa-3x" aria-hidden='true'></i></a>
         </button>
-    </div>
+    </div> -->
     <div class="main-component">
         <div class="bus-routes-holder">
             <div class="report-card card bottom-buffer">
@@ -95,7 +103,10 @@
                 </ul>
             </div>
             <div id='district-map' class='district-map'></div>
-            <div id='district-map-static' class='district-map-static'></div>
+            <div class='district-map-static'>
+                <h3 class="text-uppercase sub-heading-card">District Route Map</h3>
+                <div id='district-map-static' class='district-map-static'></div>
+            </div>           
             {% verbatim %}
             <script type="infowindow/html" id="infowindow_template">
                 <div class="cartodb-popup">
@@ -108,7 +119,7 @@
                             <h4>Bunching</h4>
                             <p>{{content.data.prop_bunched}}%</p>
                             <h4>Ridership</h4>
-                            <p>{{content.data.year_2015}}</p>
+                            <p>{{content.data.year_2015}} ({{content.data.prop_change_2010_2015}}%)</p>
                             <a href="http://busturnaround.nyc/?route={{content.data.route_id}}">Route Report Card</a>
                         </div>
                     </div>
@@ -168,7 +179,7 @@
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/district_app.js' %}"></script>
 <script type="text/javascript">
-// $("body").addClass("loading");
+$("body").addClass("loading");
 var district = '{{ district }}';
 window.onload = app.init;
 </script>
