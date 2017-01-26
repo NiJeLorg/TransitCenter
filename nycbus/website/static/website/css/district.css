@@ -201,6 +201,7 @@ footer .logos-holder {
 .district-map,
 .district-map-static {
     height: 51.5vh;
+    width: 100%;
 }
 
 .district-map {
@@ -219,13 +220,17 @@ div.cartodb-tooltip-content p {
 
 /* STYLES FOR INFOWINDOW */
 
-div.cartodb-infowindow {
-    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+div.cartodb-popup h1, div.cartodb-popup h2, div.cartodb-popup h3, div.cartodb-popup h4, div.cartodb-popup h5, div.cartodb-popup h6,  {
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div.cartodb-popup p {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 div.cartodb-popup div.cartodb-popup-content-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 100%;
+    max-width: 100%;
 }
 
 div.cartodb-popup div.cartodb-popup-content h3 {
@@ -239,7 +244,7 @@ div.cartodb-popup div.cartodb-popup-content h3 {
 
 div.cartodb-popup div.cartodb-popup-content h4 {
     color: #777777;
-    margin-bottom: 5px;
+    margin-bottom: 0;
 }
 
 div.cartodb-popup div.cartodb-popup-content p {
@@ -341,9 +346,17 @@ div.cartodb-popup div.cartodb-popup-content p {
     .district-map {
         display: none;
     }
+    .card {
+        border: none;
+        padding: 0;
+    }
     .district-map-static {
+        margin-top: 20px;
         display: block;
-        border: 1px solid #aaa;
+        /*border: 1px solid #aaa;*/
+    }
+    .people {
+        margin-bottom: -10px;
     }
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {

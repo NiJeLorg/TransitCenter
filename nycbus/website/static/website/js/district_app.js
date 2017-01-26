@@ -170,7 +170,7 @@ app.selectRoutes = function() {
 
     var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN (' + routesWithinSQL + ')';
 
-    var routesWithDataSQL = 'SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, ridership.year_2015, ridership.prop_change_2010_2015, speed.speed, bunching.prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id IN (' + routesWithinSQL + ')';
+    var routesWithDataSQL = "SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id IN (" + routesWithinSQL + ")";
 
 
     // update the map
@@ -543,7 +543,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             app.highlightRoute(d.label);
         })
         .on('mouseout', function(d) {
-            app.resetRouteStyle();
+            //app.resetRouteStyle();
         });;
 
 
@@ -642,7 +642,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
         })
         .addTo(app.map)
         .done(function(layer) {
-            app.mapLayers = layer;
+            app.routeLayer = layer;
             app.activeAjaxConnections--;
             if (app.activeAjaxConnections == 0) {
                 $("body").removeClass("loading");
@@ -651,11 +651,16 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
             layer.setInteraction(true);
 
             app.busRouteLayer = layer;
-            var sublayer = layer.getSubLayer(0);
-            sublayer.setInteraction(true);
-            sublayer.setInteractivity('cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched');
+            app.routesSublayer = layer.getSubLayer(0);
+            app.routesSublayer.setInteraction(true);
+            app.routesSublayer.setInteractivity('cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched');
 
-            cdb.vis.Vis.addInfowindow(app.map, sublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
+            cdb.vis.Vis.addInfowindow(app.map, app.routesSublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
+
+            app.routesSublayer.on('featureClick', function(e, pos, latlng, data) {
+                console.log(data.route_id);
+                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ data.route_id +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+            });
 
         });
 
@@ -685,15 +690,22 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
 }
 
 app.highlightRoute = function(routeId) {
-    app.mapLayers.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ routeId +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+    // strip out a trailing * if one exists
+    routeId = routeId.replace('*', '');
+
+    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ routeId +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
     // open infowindow
     // Select one of the geometries from the table
-    var sql = "SELECT cartodb_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(the_geom), 0.5)) FROM mta_nyct_bus_routes WHERE route_id = '"+ routeId +"' LIMIT 1";
+    var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '"+ routeId +"' LIMIT 1";
     app.sqlclient.execute(sql)
         .done(function(data) {
             console.log(data);
+            // center map on returned lat/lng
+            var latLng = new L.LatLng(data.rows[0]['st_y'], data.rows[0]['st_x']);
+            app.map.panTo(latLng);
+
             // now fire a click where the returned point is located
-            app.mapLayers.trigger('featureClick', null, [data.rows[0]['st_y'], data.rows[0]['st_x']], null, { cartodb_id: data.rows[0]['cartodb_id'] }, 0);
+            app.routesSublayer.trigger('featureClick', null, [data.rows[0]['st_y'], data.rows[0]['st_x']], null, { route_id: data.rows[0]['route_id'], speed: data.rows[0]['speed'], prop_bunched: data.rows[0]['prop_bunched'], year_2015: data.rows[0]['year_2015'], prop_change_2010_2015: data.rows[0]['prop_change_2010_2015'] }, 0);
 
         })
         .error(function(errors) {
@@ -704,7 +716,7 @@ app.highlightRoute = function(routeId) {
 };
 
 app.resetRouteStyle = function() {
-    app.mapLayers.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}');
+    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}');
 };
 
 
