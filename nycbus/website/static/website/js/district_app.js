@@ -690,8 +690,9 @@ app.calcMapHeightAndLoad = function() {
     // interactive
     app.reportCardMap(districtMapSQL, routesWithDataSQL, routesMapSQL);
 
-    //static
-    app.reportCardMapStatic(districtMapSQL, routesMapSQL);
+    /**** Removing the static print map for now ****/
+    //static map
+    //app.reportCardMapStatic(districtMapSQL, routesMapSQL);
 
 }
 
