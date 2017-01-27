@@ -154,11 +154,15 @@ app.selectRoutes = function() {
     // now select the distinct routes that intersect that geometry
     var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
 
-    // pass routesWithinSQL to bar chart update function
-    app.updateBarCharts(routesWithinSQL);
+    // find out when all of the bar charts and text infographics have loaded so we can set the height of the map
+    app.reportCardLoaded = 6;
 
     // update data vis text
     app.updateTextDataVis(routesWithinSQL, districtGeomSQL);
+
+    // pass routesWithinSQL to bar chart update function
+    app.updateBarCharts(routesWithinSQL);
+
 
 }
 
@@ -189,6 +193,10 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     $('#totalRidership').text(app.numberWithCommas(parseInt(this.countNum)));
                     if (app.activeAjaxConnections == 0) {
                         $("body").removeClass("loading");
+                    }
+                    app.reportCardLoaded--;
+                    if (app.reportCardLoaded == 0) {
+                        app.calcMapHeightAndLoad();
                     }
                 }
             });
@@ -254,6 +262,10 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     if (app.activeAjaxConnections == 0) {
                         $("body").removeClass("loading");
                     }
+                    app.reportCardLoaded--;
+                    if (app.reportCardLoaded == 0) {
+                        app.calcMapHeightAndLoad();
+                    }
                 }
             });
 
@@ -306,7 +318,6 @@ app.updateBarCharts = function(routesWithinSQL) {
     var ridershipQuery = 'SELECT route_id, year_2015, note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
 
     app.activeAjaxConnections++;
-    app.reportCardLoaded++;
     app.sqlclient.execute(ridershipQuery)
         .done(function(data) {
             app.activeAjaxConnections--;
@@ -356,7 +367,6 @@ app.updateBarCharts = function(routesWithinSQL) {
 
 
     app.activeAjaxConnections++;
-    app.reportCardLoaded++;
     app.sqlclient.execute(fastestGrowingQuery)
         .done(function(data) {
             app.activeAjaxConnections--;
@@ -395,7 +405,6 @@ app.updateBarCharts = function(routesWithinSQL) {
     var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
 
     app.activeAjaxConnections++;
-    app.reportCardLoaded++;
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
             app.activeAjaxConnections--;
@@ -435,7 +444,6 @@ app.updateBarCharts = function(routesWithinSQL) {
     var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
 
     app.activeAjaxConnections++;
-    app.reportCardLoaded++;
     app.sqlclient.execute(slowestQuery)
         .done(function(data) {
             app.activeAjaxConnections--;
@@ -652,6 +660,9 @@ app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
 app.calcMapHeightAndLoad = function() {
     // get height of report card container and set height of map based on other containers
     var height = $('.report-card').height() - $('.ways-to-address').height() - 20;
+    console.log('report-card', $('.report-card').height());
+    console.log("ways", $('.ways-to-address').height());
+    console.log("calc", height);
     $('.district-map').height(height);
 
     // run set up functions
@@ -908,6 +919,4 @@ app.slowestColorScale = d3.scaleLinear()
 // calculating if all ajax connections are complete
 app.activeAjaxConnections = 0;
 
-// find out when all of the bar charts have loaded so we can set the height of the map
-app.reportCardLoaded = 0;
 
