@@ -46,17 +46,20 @@
     <div class="main-component">
         <div class="bus-routes-holder">
             <div class="report-card card bottom-buffer">
-                <h2 class="main-heading margin-bottom">Report Card for <span id="districtName"></span></h2>
+                <h2 class="main-heading margin-bottom"><span class="turnaround-heading">Turnaround</span> Report Card for <span class="districtName"></span></h2>
                 <div class="people row">
-                    <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total number of bus commuters who live in this district."><span id="busCommuters">0</span> <small>bus commuters</small></h2>
+                    <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total weekday ridership of all routes in this district in 2015."><span id="totalRidership">0</span> <small>total weekday riders</small></h2>
                 </div>
+<!--                 <div class="people row">
+                    <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total number of bus commuters who live in this district."><span id="busCommuters">0</span> <small>bus commuters</small></h2>
+                </div> -->
                 <div class="row">
                     <div class="col-sm-12 col-md-5">
                         <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total number of bus routes that cross the district."><span id="busRoutes">0</span> <small>bus routes</small></h2>
                     </div>
-                    <div class="col-sm-12 col-md-7">
+                    <!-- <div class="col-sm-12 col-md-7">
                         <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Percentage of all people in the district who are in poverty."><span id="percentPoverty">0</span>% <small>poverty rate</small></h2>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="bus-routes-graphs row">
                     <h3 class="text-uppercase sub-heading-card">Bus Routes</h3>
@@ -103,8 +106,8 @@
                 </ul>
             </div>
             <div id='district-map' class='district-map'></div>
-            <div class='district-map-static'>
-                <h3 class="text-uppercase sub-heading-card">District Route Map</h3>
+            <div class='district-map-static-wrapper'>
+                <h3 class="text-uppercase sub-heading-card">Bus Routes in <span class="districtName"></span></h3>
                 <div id='district-map-static' class='district-map-static'></div>
             </div>           
             {% verbatim %}
@@ -148,6 +151,20 @@
         </div>
         <div class="logo">
             <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
+        </div>
+    </div>
+    <div class="logos-holder-print">
+        <div class="logo">
+            <img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" />
+        </div>
+        <div class="logo">
+            <img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" />
+        </div>
+        <div class="logo">
+            <img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" />
+        </div>
+        <div class="logo">
+            <img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" />
         </div>
     </div>
     <div class="copyright">
