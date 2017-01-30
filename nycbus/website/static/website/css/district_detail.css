@@ -310,16 +310,20 @@ footer p {
         margin: 0;
         padding: 0;
     }
-    @page {
-        margin: 2cm;
-    }
     main header,
     .data .table-chart-holder,
     footer {
         display: none;
     }
+    main .data {
+        padding: 0 5px;
+        margin: 0;
+    }
+    .data .row {
+        margin-bottom: 0;
+    }
     main .choose-district p {
-        font-size: 2em;
+        font-size: 1em;
         margin-right: 0;
     }
     .choose-district .dropdown-select {
@@ -327,13 +331,16 @@ footer p {
         height: 21px;
     }
     main .metric-component {
-        margin-bottom: 16em;
+        margin-bottom: 15.5em;
+    }
+    .metric-component h3 {
+        margin-bottom: 10px;
     }
     #speed-metric-component {
         margin-bottom: 0;
     }
     .dropdown-select h2 {
-        font-size: 2em;
+        font-size: 1em;
     }
     .data .col-md-6 {
         width: 100%;
