@@ -310,14 +310,15 @@ footer p {
         margin: 0;
         padding: 0;
     }
-    // @page {
-    //     margin: 2cm;
-    // }
-    main header {
+    @page {
+        margin: 2cm;
+    }
+    main header,
+    .data .table-chart-holder,
+    footer {
         display: none;
     }
-    main .choose-district p,
-    .table-chart-holder h3 {
+    main .choose-district p {
         font-size: 2em;
         margin-right: 0;
     }
@@ -326,7 +327,10 @@ footer p {
         height: 21px;
     }
     main .metric-component {
-        margin-bottom: 14em;
+        margin-bottom: 16em;
+    }
+    #speed-metric-component {
+        margin-bottom: 0;
     }
     .dropdown-select h2 {
         font-size: 2em;
