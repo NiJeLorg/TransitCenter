@@ -78,7 +78,7 @@ main .choose-district {
 }
 
 main .metric-component {
-    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .metric-component .push-right {
@@ -117,7 +117,7 @@ main .data {
 }
 
 .table-chart-holder h3 {
-    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 52px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -148,9 +148,8 @@ table th {
     padding: 14px 0;
     color: #333333;
     font-size: 22px;
-    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background: #fff;
-
 }
 
 tbody tr:nth-child(even) {
@@ -300,5 +299,45 @@ footer p {
     }
     .metric-component h3 {
         font-size: 52px;
+    }
+}
+
+@media print {
+    body {
+        color: #000;
+        background: #fff;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    // @page {
+    //     margin: 2cm;
+    // }
+    main header {
+        display: none;
+    }
+    main .choose-district p,
+    .table-chart-holder h3 {
+        font-size: 2em;
+        margin-right: 0;
+    }
+    .choose-district .dropdown-select {
+        display: block;
+        height: 21px;
+    }
+    main .metric-component {
+        margin-bottom: 14em;
+    }
+    .dropdown-select h2 {
+        font-size: 2em;
+    }
+    .data .col-md-6 {
+        width: 100%;
+    }
+    .metric-component .chart-parent {
+        width: 100%;
+    }
+    .metric-component .push-right {
+        float: none;
     }
 }
