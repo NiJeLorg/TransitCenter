@@ -1,3 +1,49 @@
+/* OVERIDE BOOTSTRAP STYLES */
+
+.row {
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.col-md-5,
+.col-md-6,
+.col-md-7 {
+    padding: 0;
+}
+
+.navbar-right {
+    margin-right: 0;
+}
+
+
+/* OVERIDE BOOTSTRAP STYLES */
+
+
+/* OVERIDE SELECT2 STYLES */
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #aaa;
+}
+
+
+/* OVERIDE SELECT2 STYLES */
+
+/* UTILITY CLASS // REUSABLE STYLES // */
+
+.bottom-buffer {
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #fff;
+    border: solid 1px #DDDDDD;
+    padding: 2% 3%;
+}
+
+
+/* UTILITY CLASS // REUSABLE STYLES // */
+
+
 body.loading {
     overflow: hidden;
 }
@@ -32,7 +78,7 @@ body.loading .loading-modal {
     fill: #fff;
 }
 
-main header {
+/*main header {
     height: 80px;
     background: #15B6E5;
     color: #fff;
@@ -59,9 +105,56 @@ main .choose-district {
     align-items: center;
     margin-top: 40px;
     margin-bottom: 33px;
+}*/
+
+* {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.choose-district p {
+a {
+   -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+main {
+    padding: 1.5% 2%;
+}
+
+main header h2 {
+    color: #fff;
+    margin: 0;
+}
+
+.main-heading {
+    font-size: 4.5em;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.main-heading .districtName {
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.main-heading a {
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+    text-decoration: none;
+}
+
+.main-heading a:hover {
+    color: #17bee8;
+}
+
+.header-dropdown-select {
+    bottom: -25px;
+}
+
+.print-title {
+    display: none;
+}
+
+/*.choose-district p {
     font-size: 52px;
     margin: 0;
     margin-right: 25px;
@@ -77,6 +170,16 @@ main .choose-district {
 }
 
 .choose-district .print-button-holder button {
+    background: none;
+    border: 0;
+}*/
+
+.print-button-holder {
+    display: none;
+    margin-top: -9px;
+}
+
+.print-button-holder button {
     background: none;
     border: 0;
 }
@@ -120,7 +223,7 @@ main .metric-component {
 }
 
 main .data {
-    padding: 0 80px;
+    padding: 0;
     margin-bottom: 90px;
 }
 
@@ -130,7 +233,7 @@ main .data {
 }
 
 .table-chart-holder h3 {
-    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 52px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -140,6 +243,7 @@ main .data {
     padding: 0;
     height: 400px;
     overflow-y: scroll;
+    border-bottom: 1px solid #dddddd;
 }
 
 .table-data table {
@@ -182,19 +286,42 @@ table td {
     font-size: 18px;
 }
 
-footer {
-    height: 80px;
-    background: #15B6E5;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
+.turnaround-campaign {
+    padding: 1% 2%;
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
+    font-size: 1.8em;
 }
 
-footer p {
-    margin: 0;
-    font-size: 24px;
+footer {
+    background: #555555;
+}
+
+footer .logos-holder {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2%;
+}
+
+.logos-holder .logo {
+    margin-right: 3%;
+}
+
+footer .logos-holder-print {
+    display: none;
+}
+
+.copyright {
+    text-align: center;
+    padding: 1% 0;
+}
+
+.copyright p { 
+    color: #fff;
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
 }
 
 .axis path,
@@ -236,8 +363,12 @@ footer p {
 }
 
 @media screen and (min-width: 320px) {
-    #selectDistrict {
-        width: 90%;
+    .main-heading {
+        font-size: 3.5em;
+    }
+    .selectDistrict {
+        font-size: 0.65em;
+        color: #333333;
     }
     main .choose-district {
         flex-direction: column;
@@ -266,14 +397,14 @@ footer p {
 }
 
 @media screen and (min-width: 768px) {
+    .main-heading {
+        font-size: 4.5em;
+    }
     #selectDistrict {
         width: 100%;
     }
     main .choose-district {
         flex-direction: column;
-    }
-    main .data {
-        padding: 0 30px;
     }
     .choose-district p {
         font-size: 42px;
@@ -292,6 +423,9 @@ footer p {
     }
     .table-chart-holder h3 {
         font-size: 42px;
+    }
+    .print-button-holder {
+        display: block;
     }
 }
 
@@ -313,6 +447,9 @@ footer p {
     .metric-component h3 {
         font-size: 52px;
     }
+    .table-chart-holder h3 {
+        font-size: 52px;
+    }
 }
 
 @media print {
@@ -323,13 +460,21 @@ footer p {
         margin: 0;
         padding: 0;
     }
+    h3 {
+        font-size: 20px;
+    }
     main header,
-    .print-button-holder,
-    footer {
+    .print-button-holder,     
+    footer .logos-holder,
+    .copyright {
         display: none;
     }
+    .print-title {
+        display: block;
+        margin-bottom: 20px;
+    }
     main .data {
-        padding: 0 5px;
+        padding: 0;
         margin: 0;
     }
     .data .row {
@@ -375,5 +520,25 @@ footer p {
     .table-data table thead tr th,
     table tbody tr td {
         font-size: 1em;
+    }
+    .turnaround-campaign {
+        padding: 1% 2%;
+        font-size: 1.2em;
+    }
+    footer {
+        display: block;
+        margin-top: 20px;
+    }
+    footer .logos-holder-print {
+        background-color: #555555 !important;
+    }
+    footer .logos-holder-print {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .logos-holder-print .logo {
+        max-width: 18%;
+        margin: 2%;
     }
 }
