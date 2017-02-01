@@ -72,13 +72,26 @@ main .choose-district {
     align-items: center;
 }
 
+.choose-district .print-button-holder {
+    margin-left: 30px;
+}
+
+.choose-district .print-button-holder button {
+    background: none;
+    border: 0;
+}
+
+.print-button-holder i {
+    color: #333333;
+}
+
 .dropdown-select h2 {
     margin: 0;
     font-size: 52px;
 }
 
 main .metric-component {
-    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .metric-component .push-right {
@@ -117,7 +130,7 @@ main .data {
 }
 
 .table-chart-holder h3 {
-    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 52px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -148,9 +161,8 @@ table th {
     padding: 14px 0;
     color: #333333;
     font-size: 22px;
-    font-family: "MarkWebPro-Heavy W01 Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background: #fff;
-
 }
 
 tbody tr:nth-child(even) {
@@ -300,5 +312,68 @@ footer p {
     }
     .metric-component h3 {
         font-size: 52px;
+    }
+}
+
+@media print {
+    body {
+        color: #000;
+        background: #fff;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    main header,
+    .print-button-holder,
+    footer {
+        display: none;
+    }
+    main .data {
+        padding: 0 5px;
+        margin: 0;
+    }
+    .data .row {
+        margin-bottom: 0;
+    }
+    main .choose-district p {
+        font-size: 1.5em;
+        margin-right: 0;
+    }
+    .choose-district .dropdown-select {
+        display: block;
+        height: 38px;
+    }
+    main .metric-component {
+        margin-bottom: 15.5em;
+        page-break-inside: avoid;
+    }
+    .metric-component h3 {
+        margin-bottom: 10px;
+    }
+    #speed-metric-component {
+        margin-bottom: 0;
+    }
+    .dropdown-select h2,
+    .table-chart-holder h3 {
+        font-size: 1.5em;
+    }
+    .data .col-md-6 {
+        width: 100%;
+    }
+    .metric-component .chart-parent {
+        width: 100%;
+    }
+    .metric-component .push-right {
+        float: none;
+    }
+    .table-chart-holder {
+        page-break-inside: avoid;
+    }
+    .table-chart-holder .table-data {
+        height: initial;
+    }
+    .table-data table thead tr th,
+    table tbody tr td {
+        font-size: 1em;
     }
 }
