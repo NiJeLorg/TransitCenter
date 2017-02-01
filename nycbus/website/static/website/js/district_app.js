@@ -174,10 +174,8 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 
     // calculate the average weekly ridership for the routes that intersect the district
     var ridershipQuery = 'SELECT sum(year_2015) FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL';
-    app.activeAjaxConnections++;
     app.sqlclient.execute(ridershipQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
 
             $({ countNum: $('#totalRidership').text().replace(',', '') }).animate({ countNum: data.rows[0].sum }, {
                 duration: 1000,
@@ -191,9 +189,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 },
                 complete: function() {
                     $('#totalRidership').text(app.numberWithCommas(parseInt(this.countNum)));
-                    if (app.activeAjaxConnections == 0) {
-                        $("body").removeClass("loading");
-                    }
                     app.reportCardLoaded--;
                     if (app.reportCardLoaded == 0) {
                         app.calcMapHeightAndLoad();
@@ -241,7 +236,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 
 
     // calculate number of bus routes that fall within this district
-    app.activeAjaxConnections++;
     app.sqlclient.execute(routesWithinSQL)
         .done(function(data) {
             app.activeAjaxConnections--;
@@ -259,9 +253,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 },
                 complete: function() {
                     $('#busRoutes').text(parseInt(this.countNum));
-                    if (app.activeAjaxConnections == 0) {
-                        $("body").removeClass("loading");
-                    }
                     app.reportCardLoaded--;
                     if (app.reportCardLoaded == 0) {
                         app.calcMapHeightAndLoad();
@@ -317,14 +308,8 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three routes in ridership
     var ridershipQuery = 'SELECT route_id, year_2015, note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
 
-    app.activeAjaxConnections++;
     app.sqlclient.execute(ridershipQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var ridershipArray = [];
@@ -366,14 +351,8 @@ app.updateBarCharts = function(routesWithinSQL) {
     var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
 
 
-    app.activeAjaxConnections++;
     app.sqlclient.execute(fastestGrowingQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var fastestGrowingArray = [];
@@ -404,14 +383,8 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three routes by most bunching
     var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
 
-    app.activeAjaxConnections++;
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var mostBunchingArray = [];
@@ -443,14 +416,8 @@ app.updateBarCharts = function(routesWithinSQL) {
     // using the routes selected by district, build a query for top three slowest routes
     var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
 
-    app.activeAjaxConnections++;
     app.sqlclient.execute(slowestQuery)
         .done(function(data) {
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var slowestArray = [];
@@ -660,9 +627,6 @@ app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
 app.calcMapHeightAndLoad = function() {
     // get height of report card container and set height of map based on other containers
     var height = $('.report-card').height() - $('.ways-to-address').height() - 20;
-    console.log('report-card', $('.report-card').height());
-    console.log("ways", $('.ways-to-address').height());
-    console.log("calc", height);
     $('.district-map').height(height);
 
     // run set up functions
@@ -729,11 +693,6 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
         .addTo(app.map)
         .done(function(layer) {
             app.routeLayer = layer;
-            app.activeAjaxConnections--;
-            if (app.activeAjaxConnections == 0) {
-                $("body").removeClass("loading");
-            }
-
             app.routeLayer.setInteraction(true);
 
             app.routesSublayer = app.routeLayer.getSubLayer(0);
@@ -745,6 +704,11 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
             app.routesSublayer.on('featureClick', function(e, pos, latlng, data) {
                 app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ data.route_id +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
             });
+
+            app.activeAjaxConnections--;
+            if (app.activeAjaxConnections == 0) {
+                $("body").removeClass("loading");
+            }
 
         });
 
@@ -851,8 +815,8 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
         ]
     }
 
-    var mapWidth = 670;
-    var mapHeight = 400;
+    var mapWidth = 400;
+    var mapHeight = 300;
 
     var createStaticMap = function() {
 
@@ -865,17 +829,16 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
             url: 'https://' + app.username + '.carto.com/api/v1/map',
             data: JSON.stringify(mapconfig),
             success: function(data) {
+                // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
+                // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
+                var url = 'https://' + app.username + '.carto.com/api/v1/map/static/bbox/' + data.layergroupid + '/' + app.bounds[1][1] + ',' + app.bounds[1][0] + ',' + app.bounds[0][1] + ',' + app.bounds[0][0] + '/' + mapWidth + '/' + mapHeight + '.png';
+                // get map image
+                $('#district-map-static').html('<img src="' + url + '" />');
+
                 app.activeAjaxConnections--;
                 if (app.activeAjaxConnections == 0) {
                     $("body").removeClass("loading");
                 }
-
-                // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
-                // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
-                var url = 'https://' + app.username + '.carto.com/api/v1/map/static/bbox/' + data.layergroupid + '/' + app.bounds[1][1] + ',' + app.bounds[1][0] + ',' + app.bounds[0][1] + ',' + app.bounds[0][0] + '/' + mapWidth + '/' + mapHeight + '.png';
-                console.log(url);
-                // get map image
-                $('#district-map-static').html('<img src="' + url + '" />');
             }
 
         });
