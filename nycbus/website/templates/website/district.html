@@ -1,8 +1,7 @@
 {% extends 'website/base.html' %} {% load staticfiles %} {% block title %}| District Level Analysis{% endblock %} {% block css_block %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-<link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}">
- {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}"> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
 <main>
     <header class="row">
         <div class="header-title col-md-5">
@@ -42,6 +41,9 @@
         <div class="bus-routes-holder">
             <div class="report-card card bottom-buffer">
                 <h2 class="main-heading margin-bottom"><span class="turnaround-heading">Turnaround</span> Report Card for <span class="districtName"></span></h2>
+                <div class="source-link">
+                    <a href="#">busturnaround.nyc</a>
+                </div>
                 <div class="bus-routes-row row">
                     <div class="col-sm-12 col-md-5">
                         <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total number of bus routes that cross the district."><span id="busRoutes">0</span> <small>bus routes</small></h2>
@@ -50,13 +52,12 @@
                         <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Percentage of all people in the district who are in poverty."><span id="percentPoverty">0</span>% <small>poverty rate</small></h2>
                     </div> -->
                 </div>
-               <div class="riders-row row">
+                <div class="riders-row row">
                     <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total 2015 weekday ridership of all routes crossing this district."><span id="totalRidership">0</span> <small>total weekday riders</small></h2>
                 </div>
-<!--                 <div class="people row">
+                <!--                 <div class="people row">
                     <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total number of bus commuters who live in this district."><span id="busCommuters">0</span> <small>bus commuters</small></h2>
                 </div> -->
-
                 <div class="bus-routes-graphs row">
                     <h3 class="text-uppercase sub-heading-card">Bus Routes</h3>
                     <div class="bus-routes-bars">
@@ -95,17 +96,19 @@
             <div class="ways-to-address card bottom-buffer">
                 <p> Everyday, New Yorkers take 2.5 million rides on the city's buses. These buses are slow, unreliable, and unfortunately getting worse. It doesn't have to be this way! Ways to improve our buses now:
                 </p>
-                <ul>
-                    <li>Add more bus lanes with effective enforcement</li>
-                    <li>Speed up boarding with tap and go payment at all doors</li>
-                    <li>Give buses priority at traffic lights</li>
-                </ul>
+                <div class="address-list-static-map">
+                    <ul>
+                        <li>Add more bus lanes with effective enforcement</li>
+                        <li>Speed up boarding with tap and go payment at all doors</li>
+                        <li>Give buses priority at traffic lights</li>
+                    </ul>
+                    <div class='district-map-static-wrapper'>
+                        <h3 class="text-uppercase sub-heading-card">Bus Routes in <span class="districtName"></span></h3>
+                        <div id='district-map-static' class='district-map-static'></div>
+                    </div>
+                </div>
             </div>
             <div id='district-map' class='district-map'></div>
-            <div class='district-map-static-wrapper'>
-                <h3 class="text-uppercase sub-heading-card">Bus Routes in <span class="districtName"></span></h3>
-                <div id='district-map-static' class='district-map-static'></div>
-            </div>           
             {% verbatim %}
             <script type="infowindow/html" id="infowindow_template">
                 <div class="cartodb-popup">
@@ -131,7 +134,7 @@
 </main>
 <footer>
     <div class="turnaround-campaign card bottom-buffer">
-         <span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
+        <span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
     </div>
     <div class="logos-holder">
         <div class="logo">

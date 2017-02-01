@@ -35,9 +35,9 @@
 }
 
 a {
-   -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .main-heading {
@@ -46,7 +46,8 @@ a {
     font-weight: bold;
 }
 
-.main-heading .districtName, .main-heading .turnaround-heading {
+.main-heading .districtName,
+.main-heading .turnaround-heading {
     font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -70,8 +71,6 @@ a {
 }
 
 
-
-
 /* UTILITY CLASS // TYPOGRAPHY STYLES // */
 
 
@@ -83,7 +82,6 @@ a {
 
 .card {
     background: #fff;
-    border: solid 1px #DDDDDD;
     padding: 2% 3%;
 }
 
@@ -92,6 +90,10 @@ a {
 
 
 /* MAIN STYLES */
+
+body {
+    -webkit-print-color-adjust: exact;
+}
 
 body.loading {
     overflow: hidden;
@@ -121,6 +123,10 @@ main {
     background-attachment: scroll;
     background-position-y: 90%;
     padding: 1.5% 2%;
+}
+
+main .source-link {
+    display: none;
 }
 
 main header h2 {
@@ -188,15 +194,12 @@ main header h2 {
     font-size: 12px;
 }
 
-footer {
-    background: #555555;
-}
-
 footer .logos-holder {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     padding: 2%;
+    background: #555555;
 }
 
 .logos-holder .logo {
@@ -210,12 +213,13 @@ footer .logos-holder-print {
 .copyright {
     text-align: center;
     padding: 1% 0;
+    background: #555555;
 }
 
-.copyright p { 
-	color: #fff;
-	font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
-	font-weight: 400;
+.copyright p {
+    color: #fff;
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
+    font-weight: 400;
     font-size: 18px;
     line-height: 24px;
 }
@@ -240,12 +244,6 @@ footer .logos-holder-print {
 
 .district-map-static-wrapper {
     display: none;
-}
-
-.district-map-static {
-	height: 200px;
-	width: 48%;
-	margin-left: 2%;
 }
 
 div.cartodb-tooltip-content p {
@@ -273,7 +271,6 @@ div.cartodb-popup div.cartodb-popup-content h3 {
     padding-bottom: 8px;
     border-bottom: 1px solid #555555;
     margin-bottom: 8px;
-
 }
 
 div.cartodb-popup div.cartodb-popup-content h4 {
@@ -285,7 +282,6 @@ div.cartodb-popup div.cartodb-popup-content h4 {
 div.cartodb-popup div.cartodb-popup-content p {
     color: #333333;
 }
-
 
 
 /* STYLES FOR INFOWINDOW */
@@ -376,18 +372,28 @@ div.cartodb-popup div.cartodb-popup-content p {
     header,
     .sub-heading-card,
     .methodsLink,
+    .leaflet-bottom,
+    .cartodb-logo,
+    div.cartodb-popup,
     .district-map,
-    footer .logos-holder,
-    .copyright
-     {
-        display: none;
+    .logos-holder, .copyright {
+        display: none !important;
+    }
+    main .source-link {
+        display: flex;
+        justify-content: center;
+    }
+    .source-link a {
+        font-size: 2em;
+        color: #17BEE8;
+        text-decoration: underline;
     }
     .main-heading {
         text-align: center;
         font-size: 2em;
     }
     .main-heading-card {
-      font-size: 1.8em;
+        font-size: 1.8em;
     }
     .turnaround-heading {
         display: inline-block;
@@ -397,40 +403,49 @@ div.cartodb-popup div.cartodb-popup-content p {
         padding: 0;
     }
     .turnaround-campaign {
-    	padding: 1% 2%;
+        padding: 1% 2%;
         font-size: 1.2em;
     }
-    footer {
-    	display: block;
-        margin-top: 20px;
-    }
-    footer .logos-holder-print {
-        background-color: #555555 !important;
-    }
+    // footer {
+    //     display: block;
+    //     margin-top: 20px;
+    // }
     footer .logos-holder-print {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+        -webkit-print-color-adjust: exact;
+        background-color: #555555 !important;
     }
     .logos-holder-print .logo {
         max-width: 18%;
         margin: 2%;
     }
-    .ways-to-address p, .ways-to-address ul {
+    .ways-to-address p,
+    .ways-to-address ul {
         font-size: 1.2em;
     }
-/*    .district-map-static-wrapper {
-        display: inline-block;
-        float: right;
+    .ways-to-address ul {
+      font-size: 1.6em;
+      margin-right: 2%;
     }
-*/
+    .district-map-static-wrapper {
+        display: block;
+    }
+    .address-list-static-map {
+      display: flex;
+    }
+    .address-list-static-map ul, .address-list-static-map .district-map-static-wrapper {
+      flex-basis: 48%;
+    }
+
     .bus-routes-row {
-	    display: inline-block;
-	    margin-left: 0;
-	    width: 49%;
+        display: inline-block;
+        margin-left: 0;
+        width: 49%;
     }
     .riders-row {
-    	display: inline-block;
+        display: inline-block;
     }
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {

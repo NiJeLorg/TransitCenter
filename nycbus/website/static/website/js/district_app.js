@@ -669,7 +669,7 @@ app.calcMapHeightAndLoad = function() {
     if (typeof app.map === "undefined") {
         app.mapSetup();
     }
-    
+
     // get district number
     var districtNumber = $("#number").val();
 
@@ -692,7 +692,7 @@ app.calcMapHeightAndLoad = function() {
 
     /**** Removing the static print map for now ****/
     //static map
-    //app.reportCardMapStatic(districtMapSQL, routesMapSQL);
+    app.reportCardMapStatic(districtMapSQL, routesMapSQL);
 
 }
 
@@ -703,7 +703,7 @@ app.mapSetup = function() {
 
     app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10, closePopupOnClick: true });
 
-    app.map.addLayer(app.tiles);  
+    app.map.addLayer(app.tiles);
 }
 
 // interactive map
@@ -808,7 +808,7 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
     // make a static map using CARTO Static API
     // first get bounds for the map
     app.bounds = [];
-    app.sqlclient.getBounds(routesMapSQL)
+    app.sqlclient.getBounds(districtMapSQL)
         .done(function(bounds) {
             app.bounds = bounds;
             createStaticMap();
@@ -851,8 +851,8 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
         ]
     }
 
-    var mapWidth = parseInt($('.district-map').width());
-    var mapHeight = parseInt($('.district-map').height());
+    var mapWidth = 670;
+    var mapHeight = 400;
 
     var createStaticMap = function() {
 
@@ -873,8 +873,9 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
                 // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
                 // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
                 var url = 'https://' + app.username + '.carto.com/api/v1/map/static/bbox/' + data.layergroupid + '/' + app.bounds[1][1] + ',' + app.bounds[1][0] + ',' + app.bounds[0][1] + ',' + app.bounds[0][0] + '/' + mapWidth + '/' + mapHeight + '.png';
+                console.log(url);
                 // get map image
-                $('#district-map-static').html('<img class="img-responsive" src="' + url + '" />');
+                $('#district-map-static').html('<img src="' + url + '" />');
             }
 
         });

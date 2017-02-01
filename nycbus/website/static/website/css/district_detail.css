@@ -28,6 +28,7 @@
 
 /* OVERIDE SELECT2 STYLES */
 
+
 /* UTILITY CLASS // REUSABLE STYLES // */
 
 .bottom-buffer {
@@ -42,7 +43,6 @@
 
 
 /* UTILITY CLASS // REUSABLE STYLES // */
-
 
 body.loading {
     overflow: hidden;
@@ -78,7 +78,9 @@ body.loading .loading-modal {
     fill: #fff;
 }
 
+
 /*main header {
+>>>>>>> 778c216195f611dbbe86a69580eb8b2bc16a0d5b
     height: 80px;
     background: #15B6E5;
     color: #fff;
@@ -112,9 +114,9 @@ main .choose-district {
 }
 
 a {
-   -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 main {
@@ -124,6 +126,10 @@ main {
 main header h2 {
     color: #fff;
     margin: 0;
+}
+
+main .source-link {
+    display: none;
 }
 
 .main-heading {
@@ -153,6 +159,7 @@ main header h2 {
 .print-title {
     display: none;
 }
+
 
 /*.choose-district p {
     font-size: 52px;
@@ -316,7 +323,7 @@ footer .logos-holder-print {
     padding: 1% 0;
 }
 
-.copyright p { 
+.copyright p {
     color: #fff;
     font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
     font-weight: 400;
@@ -403,7 +410,6 @@ footer .logos-holder-print {
     .selectDistrict {
         font-size: 1em;
     }
-
     main .choose-district {
         flex-direction: column;
     }
@@ -465,7 +471,7 @@ footer .logos-holder-print {
         font-size: 20px;
     }
     main header,
-    .print-button-holder,     
+    .print-button-holder,
     footer .logos-holder,
     .copyright {
         display: none;
@@ -499,6 +505,15 @@ footer .logos-holder-print {
     #speed-metric-component {
         margin-bottom: 0;
     }
+    main .source-link {
+        display: flex;
+        justify-content: center;
+    }
+    .source-link a {
+        font-size: 2em;
+        color: #17BEE8;
+        text-decoration: underline;
+    }
     .dropdown-select h2,
     .table-chart-holder h3 {
         font-size: 1.5em;
@@ -531,12 +546,14 @@ footer .logos-holder-print {
         margin-top: 20px;
     }
     footer .logos-holder-print {
+        -webkit-print-color-adjust: exact;
         background-color: #555555 !important;
     }
     footer .logos-holder-print {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+        -webkit-print-color-adjust: exact;
     }
     .logos-holder-print .logo {
         max-width: 18%;
