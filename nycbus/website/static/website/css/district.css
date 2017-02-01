@@ -34,6 +34,12 @@
     font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+a {
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
 .main-heading {
     font-size: 4.5em;
     font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -46,8 +52,13 @@
 }
 
 .main-heading a {
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #fff;
     text-decoration: none;
+}
+
+.main-heading a:hover {
+    color: #333;
 }
 
 .main-heading-card {
@@ -134,9 +145,6 @@ main header h2 {
 .print-button-holder {
     display: block;
     margin-top: -9px;
-    /*    display: flex;
-    justify-content: flex-end;
-    margin: 10px 0;*/
 }
 
 .print-button-holder button {
@@ -236,12 +244,6 @@ footer .logos-holder-print {
 
 .district-map-static-wrapper {
     display: none;
-}
-
-.district-map-static {
-    height: 200px;
-    width: 48%;
-    margin-left: 2%;
 }
 
 div.cartodb-tooltip-content p {
@@ -373,7 +375,8 @@ div.cartodb-popup div.cartodb-popup-content p {
     .leaflet-bottom,
     .cartodb-logo,
     div.cartodb-popup,
-    .copyright {
+    .district-map,
+    .logos-holder, .copyright {
         display: none !important;
     }
     main .source-link {
@@ -407,15 +410,13 @@ div.cartodb-popup div.cartodb-popup-content p {
     //     display: block;
     //     margin-top: 20px;
     // }
-    footer .logos-holder {
+    footer .logos-holder-print {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
         -webkit-print-color-adjust: exact;
         background-color: #555555 !important;
     }
-    // footer .logos-holder-print {
-    //     display: flex;
-    //     justify-content: center;
-    //     flex-wrap: wrap;
-    // }
     .logos-holder-print .logo {
         max-width: 18%;
         margin: 2%;
@@ -424,11 +425,20 @@ div.cartodb-popup div.cartodb-popup-content p {
     .ways-to-address ul {
         font-size: 1.2em;
     }
-    /*    .district-map-static-wrapper {
-        display: inline-block;
-        float: right;
+    .ways-to-address ul {
+      font-size: 1.6em;
+      margin-right: 2%;
     }
-*/
+    .district-map-static-wrapper {
+        display: block;
+    }
+    .address-list-static-map {
+      display: flex;
+    }
+    .address-list-static-map ul, .address-list-static-map .district-map-static-wrapper {
+      flex-basis: 48%;
+    }
+
     .bus-routes-row {
         display: inline-block;
         margin-left: 0;

@@ -4,23 +4,20 @@
 <link rel="stylesheet" type="text/css" href="{% static 'website/css/district_detail.css' %}">
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" /> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
 <main>
-<!--     <div class="source-link">
-        <a href="#">busturnaround.nyc</a>
-    </div> -->
-    <header>
-        <p class="nyc-bus">NYC Bus Turnaround</p>
-        <p class="details">DETAILS</p>
-    </header>
-    <div class="choose-district">
-        <p>Details For</p>
-        <div class="dropdown-select">
-            <ul class="nav navbar-nav">
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
-                <li>
-                    <h2 class="text-center">
-                        <select id="selectDistrict" class="selectDistrict">
+    <header class="row">
+        <div class="header-title col-md-5">
+            <h2 class="main-heading">
+            <a href="/">Turnaround</a></h2>
+        </div>
+        <div class="header-dropdown-select col-md-7">
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <h2 class="text-center">
+                          <select id="selectDistrict" class="selectDistrict">
                             <option value="senate">State Senate District</option>
                             <option value="assembly">State Assembly District</option>
                             <option value="council">City Council District</option>
@@ -28,17 +25,28 @@
                           </select>
                           <select id="number" class="selectDistrict">
                           </select>
-                    </h2>
-                </li>
-            </ul>
+                      </h2>
+                    </li>
+                    <li>
+                        <div class="print-button-holder">
+                            <button data-toggle='tooltip' title="Print this page" data-placement="bottom">
+                                <a href="javascript:window.print()"> <i class="fa fa-print fa-3x" aria-hidden='true'></i></a>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="print-button-holder">
-            <button data-toggle='tooltip' title="Print this page" data-placement="bottom">
-                <a href="javascript:window.print()"> <i class="fa fa-print fa-3x" aria-hidden='true'></i></a>
-            </button>
-        </div>
-    </div>
+    </header>
     <div class="data">
+        <div class="row">
+            <div class="print-title">
+                <h3 class='text-center'>Turnaround Detailed Report Card for <span class="districtName"></span></h3>
+            </div>
+            <div class="source-link">
+                <a href="#">busturnaround.nyc</a>
+            </div>
+        </div>
         <div class="row">
             <div class="metric-component col-md-6 col-sm-12">
                 <div class="chart-parent">
@@ -89,7 +97,42 @@
     </div>
 </main>
 <footer>
-    <p>Copyright &copy; TransitCenter 2016</p>
+    <div class="turnaround-campaign card bottom-buffer">
+        <span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
+    </div>
+    <div class="logos-holder">
+        <div class="logo">
+            <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
+        </div>
+        <div class="logo">
+            <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
+        </div>
+        <div class="logo">
+            <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
+        </div>
+        <div class="logo">
+            <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
+        </div>
+    </div>
+    <div class="logos-holder-print">
+        <div class="logo">
+            <img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" />
+        </div>
+        <div class="logo">
+            <img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" />
+        </div>
+        <div class="logo">
+            <img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" />
+        </div>
+        <div class="logo">
+            <img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" />
+        </div>
+    </div>
+    <div class="copyright">
+        <p>Copyright &copy;
+            <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}
+        </p>
+    </div>
 </footer>
 {% endblock %} {% block modal_block %} {% endblock %} {% block js_block %}
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
@@ -97,7 +140,7 @@
 <script type="text/javascript" src="{% static 'website/vendor/js/jquery.stickytableheaders.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'website/js/district_detail_app.js' %}"></script>
 <script type="text/javascript">
-// $("body").addClass("loading");
+$("body").addClass("loading");
 var district = '{{ district }}';
 window.onload = app.init;
 </script>

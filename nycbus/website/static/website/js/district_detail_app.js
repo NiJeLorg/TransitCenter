@@ -25,6 +25,9 @@ app.init = function() {
     // set up report card drop down menu
     app.initSelect2MenuDistrictName();
 
+    // enable bootstrap tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+
 };
 
 // sets up listeners
@@ -41,8 +44,10 @@ app.createListeners = function() {
     $('#number').change(function() {
         app.districtNumber = $(this).val();
         // add loading modal
-        // $("body").addClass("loading");
+        $("body").addClass("loading");
         // update route selection and data
+
+        $('.districtName').text(app.printDistrict + ' ' + app.districtNumber);
 
         app.selectRoutes();
         // create url parameters
