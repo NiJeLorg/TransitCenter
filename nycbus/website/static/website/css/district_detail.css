@@ -400,9 +400,10 @@ footer .logos-holder-print {
     .main-heading {
         font-size: 4.5em;
     }
-    #selectDistrict {
-        width: 100%;
+    .selectDistrict {
+        font-size: 1em;
     }
+
     main .choose-district {
         flex-direction: column;
     }
