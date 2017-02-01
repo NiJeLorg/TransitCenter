@@ -209,7 +209,7 @@ app.createDataTable = function() {
     // initialize sortable
     window.Sortable.init();
     // initialize sticky header
-    $('.table-data table').stickyTableHeaders({scrollableArea: $('.table-data')});
+    $('.table-data table').stickyTableHeaders({ scrollableArea: $('.table-data') });
     $('.table-data table tr td:nth-child(3)').each(function(i, el) {
         var textValue = $(el).text();
         textValue = parseFloat(textValue, 10)
@@ -368,9 +368,23 @@ app.updateBarCharts = function(routesWithinSQL) {
 
 app.createBarChart = function(divId, data) {
     var margin = { top: 20, right: 70, bottom: 50, left: 80 };
-    var width = $('.metric-component .chart-component').width() - margin.left - margin.right;
+    var width,
         barHeight = 25;
-    var height = (barHeight * (data.length - 1)) - (margin.top - margin.bottom);
+    var checkWidth = $('.metric-component .chart-component').width() - margin.left - margin.right;
+    if (checkWidth > 670) {
+        width = 670;
+    } else {
+        width = checkWidth;
+    }
+    var checkHeight = (barHeight * (data.length - 1)) - (margin.top - margin.bottom);
+    if (checkHeight > 700) {
+        height = 700;
+        barHeight = (height + (margin.top - margin.bottom)) / (data.length - 1);
+    } else {
+        height = checkHeight;
+    }
+
+
     var chart = d3.select(divId)
         .append('svg')
         .attr("width", width + margin.left + margin.right)
@@ -435,10 +449,24 @@ app.updateBarChart = function(divId, data) {
     }
     var margin = { top: 20, right: 70, bottom: 50, left: 80 };
     var marginTopPlus30 = margin.top + 30;
-    var width = $('.metric-component .chart-component').width() - margin.left - margin.right,
-        barHeight = 25,
+    var width;
+    var checkWidth = $('.metric-component .chart-component').width() - margin.left - margin.right;
+    if (checkWidth > 670) {
+        width = 670;
+    } else {
+        width = checkWidth;
+    }
+    var barHeight = 25,
         barWidth = width * (3 / 4);
-    var height = (barHeight * (data.length - 1)) - (margin.top - margin.bottom);
+
+    var checkHeight = (barHeight * (data.length - 1)) - (margin.top - margin.bottom);
+    if (checkHeight > 700) {
+        height = 700;
+        barHeight = (height + (margin.top - margin.bottom)) / (data.length - 1);
+        console.log(barHeight);
+    } else {
+        height = checkHeight;
+    }
     var totalHeight = height + margin.top;
     var rangeWidth = width - 45;
     var mobileBreakpoint = 425;
@@ -469,7 +497,11 @@ app.updateBarChart = function(divId, data) {
         .ticks(0);
 
     var barChartGs = mainG.selectAll(".bars")
-        .data(data);
+        .data(data)
+        .attr("transform", function(d, i) {
+            var traslateDown = (i * barHeight);
+            return "translate(0," + traslateDown + ")";
+        });
 
     // update
     barChartGs.select('rect')
@@ -480,9 +512,12 @@ app.updateBarChart = function(divId, data) {
                 return '#15B6E5';
             }
         })
+        .attr("height", barHeight - 5)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("width", function(d, i) {
             return x(d.value);
         });
@@ -496,9 +531,12 @@ app.updateBarChart = function(divId, data) {
             }
             return app.numberWithCommas(d.value);
         })
+        .attr("y", (barHeight - 5) / 2)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return x(d.value) + 5;
         });
@@ -514,9 +552,12 @@ app.updateBarChart = function(divId, data) {
         .text(function(d) {
             return d.label;
         })
+        .attr("y", (barHeight - 5) / 2)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             if (divId === '#bunching') {
                 if (d.value.toFixed(1).length == 4) {
@@ -544,7 +585,8 @@ app.updateBarChart = function(divId, data) {
     barChartGs.select(".borough-ranking")
         .text(function(d) {
             return d.ranking;
-        });
+        })
+        .attr("y", (barHeight - 5) / 2);
 
     // enter
     var enterBars = barChartGs.enter().append("g")
@@ -564,10 +606,12 @@ app.updateBarChart = function(divId, data) {
         })
         .attr("height", barHeight - 5)
         .attr("width", 0)
-       .merge(barChartGs)
+        .merge(barChartGs)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("width", function(d, i) {
             return x(d.value);
         });
@@ -588,7 +632,9 @@ app.updateBarChart = function(divId, data) {
         .attr("x", 10)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return x(d.value) + 5;
         });
@@ -610,7 +656,9 @@ app.updateBarChart = function(divId, data) {
         .attr("x", 50)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             if (divId === '#bunching') {
                 if (d.value.toFixed(1).length == 4) {
@@ -679,10 +727,22 @@ app.updateNegativeBarChart = function(divId, data) {
     }
     var margin = { top: 20, right: 70, bottom: 50, left: 80 };
     var marginTopPlus30 = margin.top + 30;
-    var width = $('.metric-component .chart-component').width() - margin.left - margin.right,
-        barHeight = 25,
+    var width;
+    var checkWidth = $('.metric-component .chart-component').width() - margin.left - margin.right;
+    if (checkWidth > 670) {
+        width = 670;
+    } else {
+        width = checkWidth;
+    }
+    var barHeight = 25,
         barWidth = width * (3 / 4);
-    var height = (barHeight * (data.length - 1)) - (margin.top - margin.bottom);
+    var checkHeight = (barHeight * (data.length - 1)) - (margin.top - margin.bottom);
+    if (checkHeight > 700) {
+        height = 700;
+        barHeight = (height + (margin.top - margin.bottom)) / (data.length - 1);
+    } else {
+        height = checkHeight;
+    }
     var totalHeight = height + margin.top;
     var y = d3.scaleLinear()
         .range([height, 0])
@@ -718,7 +778,11 @@ app.updateNegativeBarChart = function(divId, data) {
     }
 
     var barChartGs = mainG.selectAll(".bars")
-        .data(data);
+        .data(data)
+        .attr("transform", function(d, i) {
+            var traslateDown = (i * barHeight);
+            return "translate(0," + traslateDown + ")";
+        });
 
     // update
     barChartGs.select('rect')
@@ -729,9 +793,12 @@ app.updateNegativeBarChart = function(divId, data) {
                 return "bar bar--" + (d.value < 0 ? "negative" : "positive");
             }
         })
+        .attr("height", barHeight - 5)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return x(Math.min(0, d.value));
         })
@@ -746,9 +813,12 @@ app.updateNegativeBarChart = function(divId, data) {
         .text(function(d) {
             return d.value + '%';
         })
+        .attr("y", (barHeight - 5) / 2)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return (d.value < 0 ? x(d.value) - 5 : x(d.value) + 5);
         });
@@ -767,9 +837,12 @@ app.updateNegativeBarChart = function(divId, data) {
         .text(function(d) {
             return d.label;
         })
+        .attr("y", (barHeight - 5) / 2)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             if (d.value < 0) {
                 if (d.value.toFixed(1).length == 5) {
@@ -791,7 +864,8 @@ app.updateNegativeBarChart = function(divId, data) {
     barChartGs.select(".borough-ranking")
         .text(function(d) {
             return d.ranking;
-        });
+        })
+        .attr("y", (barHeight - 5) / 2);
 
     // enter
     var enterBars = barChartGs.enter().append("g")
@@ -816,7 +890,9 @@ app.updateNegativeBarChart = function(divId, data) {
         .attr("width", 0)
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("width", function(d, i) {
             return Math.abs(x(d.value) - x(0));
         });
@@ -836,7 +912,9 @@ app.updateNegativeBarChart = function(divId, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             return (d.value < 0 ? x(d.value) - 5 : x(d.value) + 5);
         });
@@ -864,7 +942,9 @@ app.updateNegativeBarChart = function(divId, data) {
         })
         .transition()
         .duration(500)
-        .delay(function(d, i) { return i * 25; })
+        .delay(function(d, i) {
+            return i * 25;
+        })
         .attr("x", function(d) {
             if (d.value < 0) {
                 if (d.value.toFixed(1).length == 5) {
@@ -936,4 +1016,3 @@ app.ordinal_suffix_of = function(i) {
     }
     return i + "th";
 }
-
