@@ -34,6 +34,12 @@
     font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+a {
+   -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
 .main-heading {
     font-size: 4.5em;
     font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -45,8 +51,13 @@
 }
 
 .main-heading a {
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #fff;
     text-decoration: none;
+}
+
+.main-heading a:hover {
+    color: #333;
 }
 
 .main-heading-card {
@@ -128,9 +139,6 @@ main header h2 {
 .print-button-holder {
     display: block;
     margin-top: -9px;
-/*    display: flex;
-    justify-content: flex-end;
-    margin: 10px 0;*/
 }
 
 .print-button-holder button {
