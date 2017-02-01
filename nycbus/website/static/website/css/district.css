@@ -71,7 +71,6 @@
 
 .card {
     background: #fff;
-    border: solid 1px #DDDDDD;
     padding: 2% 3%;
 }
 
@@ -80,6 +79,10 @@
 
 
 /* MAIN STYLES */
+
+body {
+    -webkit-print-color-adjust: exact;
+}
 
 body.loading {
     overflow: hidden;
@@ -183,15 +186,12 @@ main header h2 {
     font-size: 12px;
 }
 
-footer {
-    background: #555555;
-}
-
 footer .logos-holder {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     padding: 2%;
+    background: #555555;
 }
 
 .logos-holder .logo {
@@ -205,6 +205,7 @@ footer .logos-holder-print {
 .copyright {
     text-align: center;
     padding: 1% 0;
+    background: #555555;
 }
 
 .copyright p {
@@ -369,10 +370,11 @@ div.cartodb-popup div.cartodb-popup-content p {
     header,
     .sub-heading-card,
     .methodsLink,
-    .district-map,
-    footer .logos-holder,
+    .leaflet-bottom,
+    .cartodb-logo,
+    div.cartodb-popup,
     .copyright {
-        display: none;
+        display: none !important;
     }
     main .source-link {
         display: flex;
@@ -401,18 +403,19 @@ div.cartodb-popup div.cartodb-popup-content p {
         padding: 1% 2%;
         font-size: 1.2em;
     }
-    footer {
-        display: block;
-        margin-top: 20px;
-    }
-    footer .logos-holder-print {
+    // footer {
+    //     display: block;
+    //     margin-top: 20px;
+    // }
+    footer .logos-holder {
+        -webkit-print-color-adjust: exact;
         background-color: #555555 !important;
     }
-    footer .logos-holder-print {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+    // footer .logos-holder-print {
+    //     display: flex;
+    //     justify-content: center;
+    //     flex-wrap: wrap;
+    // }
     .logos-holder-print .logo {
         max-width: 18%;
         margin: 2%;
