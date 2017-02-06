@@ -44,6 +44,11 @@ p {
   font-size: 18px;
   line-height: 24px;        
 }
+li {
+  font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+}
 .label {
   font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
@@ -119,6 +124,7 @@ a {
   transition: min-height 0.5s ease-in-out;
 }
 .navbar-custom .navbar-brand .extra-text {
+  display: none;
   opacity: 0;
   -webkit-transition: opacity 0.5s ease-in-out;
   -moz-transition: opacity 0.5s ease-in-out;
@@ -146,6 +152,7 @@ a {
     font-size: 44px;
   }
   .navbar-custom .navbar-brand .extra-text {
+    display: inline;
     opacity: 1;
   }
 }
@@ -278,7 +285,7 @@ a {
 @media (min-width: 768px) {
   .intro-card-wrapper .flex-card {
     padding: 0 35px;
-    width: 50%;
+    width: 33.3%;
   }
 }
 .intro-card-wrapper .flex-card .card {
@@ -288,6 +295,19 @@ a {
 .intro-card-wrapper .flex-card .card p {
   flex: 1 0 auto;
 }
+
+.carousel-control {
+  width: 5%;
+}
+
+.carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
+  right: 30%;
+}
+
+.carousel-control .icon-next, .carousel-control .glyphicon-chevron-left {
+  left: 30%;
+}
+
 
 #mission {
   position: relative;

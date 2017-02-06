@@ -22,6 +22,15 @@
           <div class="intro-card-wrapper">
               <div class="flex-card">
                 <div class="card">
+                  <h4>Top Ten Streets for Bus Improvement in 2017</h4>
+                  <p>Browse our top ten prime streets for practical, near-term bus improvements across all five New York City boroughs.</p>
+                  <a href="#top-ten" class="page-scroll">
+                      <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
+                  </a>
+                </div>
+              </div>          
+              <div class="flex-card">
+                <div class="card">
                   <h4>Route Report Card</h4>
                   <p>See a high level report card on any bus route across New York City.</p>
                   <a href="#report-card" class="page-scroll">
@@ -46,6 +55,95 @@
           </div>            
       </div>
   </header>
+
+  <!-- Pick and Story Picture Book -->
+  <section id="top-ten" class="pick-section">
+    <div class="container-fluid"> 
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+
+          <div id="top-ten-carousel" class="carousel slide" data-interval="false">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+              <div class="item active" data-route="cover">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-Cover.png' %}" alt="Top 10 streets for bus improvements in 2017:" >
+              </div>
+              <div class="item" data-route="B41">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-1.png' %}" alt="B41" >
+              </div>
+              <div class="item" data-route="BX19">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-2.png' %}" alt="Bx19">
+              </div>
+              <div class="item" data-route="Q58">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-3.png' %}" alt="Q58">
+              </div>
+              <div class="item" data-route="BX9">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-4.png' %}" alt="Bx9">
+              </div>
+              <div class="item" data-route="M101">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-5.png' %}" alt="M101">
+              </div>
+              <div class="item" data-route="Q66">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-6.png' %}" alt="Q66, Q69, Q100">
+              </div>
+              <div class="item" data-route="M57">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-7.png' %}" alt="M57, M31">
+              </div>
+              <div class="item" data-route="B35">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-8.png' %}" alt="B35">
+              </div>
+              <div class="item" data-route="S48">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-9.png' %}" alt="S48, S98">
+              </div>
+              <div class="item" data-route="BX28">
+                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-10.png' %}" alt="Bx28, Bx38">
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#top-ten-carousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#top-ten-carousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+          <span class="methodsLink">
+            <a id="carousel-report-card-link" class="page-scroll" href="#report-card">See our high level report cards below.</a>
+          </span>
+        </div>
+      </div>
+      <div class="row margin-top-20">
+        <div class="col-sm-8 col-sm-offset-2">
+          <p>
+            The Bus Turnaround Coalition has identified the top ten prime streets for practical, near-term bus improvements across all five New York City boroughs. These ten bus routes suffer from the greatest disparity in travel times between peak and off-peak hours, meaning 250,000 riders traveling during prime commute times--when most riders are on the system--face unnecessarily slow, unreliable commutes to work, school, and important appointments. The coalition is asking the New York City Department of Transportation to take the lead on making these improvements in 2017. 
+          </p>
+          <p>
+            Our list of suggested improvements includes
+            <ul>
+              <li>bus bulbs and boarding islands</li>
+              <li>optimized traffic signals, </li>
+              <li>queue-jumps, and </li>
+              <li>dedicated lanes that would be applied where appropriate. </li>
+            </ul>
+          </p>
+          <p>
+            The routes and corridors selected for these treatments have high ridership, roads that can support street improvements without negative impacts for single-occupancy vehicles, and, most importantly, a wide variance in travel times between peak and off-peak hours. 
+          </p>
+        </div>
+      </div>
+      <div class="row">
+
+      </div>
+    </div>   
+  </section>
 
   <!-- Report Card Section -->
   <section id="report-card" class="report-card-section">

@@ -48,11 +48,13 @@ app.scrollingInteractions = function () {
     var introHeight = $(".intro").height() - 60;
     if ($("#fixedNav").offset().top >= introHeight && $('body').width() >= 1150) {
         $(".navbar-custom .navbar-brand .extra-text").css( "opacity", "0" );
+        $(".navbar-custom .navbar-brand .extra-text").css( "display", "none" );
         $(".navbar-custom .navbar-brand").css( "font-size", "32px" );
         $(".navbar-custom .navbar-brand").css( "width", "200px" );
         $(".navbar-custom").css( "min-height", "50px" );
     } else if ($('body').width() >= 1150){
         $(".navbar-custom .navbar-brand .extra-text").css( "opacity", "1" );
+        $(".navbar-custom .navbar-brand .extra-text").css( "display", "inline" );
         $(".navbar-custom .navbar-brand").css( "font-size", "44px" );
         $(".navbar-custom .navbar-brand").css( "width", "600px" );
         $(".navbar-custom").css( "min-height", "120px" );
@@ -326,6 +328,29 @@ app.createListeners = function () {
       // update share buttons
       app.updateShareButtons($(this).val());
     });
+
+    // carousel listener -- when switched, update the report card for this route
+    $('#top-ten-carousel').on('slide.bs.carousel', function (e) {
+      console.log($(e.relatedTarget).data('route'));
+      var route_id = $(e.relatedTarget).data('route');
+
+      if (route_id == 'cover') {
+        $('#carousel-report-card-link').text('See our high level report cards below.');
+      } else {
+        // update the report card
+        if (($('body')).width() < 767) {
+          $("#selectRoute").val(route_id);
+        } else {
+          app.selectRouteMenu.val(route_id).trigger("change");
+        }
+        var text = 'See our high level report card for the ' + route_id + '.';
+        $('#carousel-report-card-link').text(text);
+      }
+
+      
+
+    })
+
 }
 
 app.randomPersona = function () {
