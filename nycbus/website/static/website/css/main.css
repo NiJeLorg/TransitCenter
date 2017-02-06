@@ -253,6 +253,9 @@ a {
   border: solid 1px #ddd;
   background-color: #fff;
 }
+.card .latest-news {
+  color: #17BEE8;
+}
 @media (min-width: 768px) {
   .intro {
     height: 100%;
@@ -306,6 +309,10 @@ a {
 
 .carousel-control .icon-next, .carousel-control .glyphicon-chevron-left {
   left: 30%;
+}
+
+.carousel-control.right, .carousel-control.left {
+  background-image: none;
 }
 
 
