@@ -331,7 +331,6 @@ app.createListeners = function () {
 
     // carousel listener -- when switched, update the report card for this route
     $('#top-ten-carousel').on('slide.bs.carousel', function (e) {
-      console.log($(e.relatedTarget).data('route'));
       var route_id = $(e.relatedTarget).data('route');
 
       if (route_id == 'cover') {
@@ -339,16 +338,14 @@ app.createListeners = function () {
       } else {
         // update the report card
         if (($('body')).width() < 767) {
-          $("#selectRoute").val(route_id);
+          $("#selectRoute").val(route_id).trigger('change');
         } else {
           app.selectRouteMenu.val(route_id).trigger("change");
         }
         var text = 'See our high level report card for the ' + route_id + '.';
         $('#carousel-report-card-link').text(text);
       }
-
       
-
     })
 
 }
