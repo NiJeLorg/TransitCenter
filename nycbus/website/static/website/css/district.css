@@ -46,19 +46,18 @@ a {
     font-weight: bold;
 }
 
-.main-heading .districtName,
-.main-heading .turnaround-heading {
+.main-heading .districtName {
     font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .main-heading a {
     font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #fff;
+    color: #333;
     text-decoration: none;
 }
 
 .main-heading a:hover {
-    color: #333;
+    color: #17bee8;
 }
 
 .main-heading-card {
@@ -82,6 +81,7 @@ a {
 
 .card {
     background: #fff;
+    border: solid 1px #DDDDDD;
     padding: 2% 3%;
 }
 
@@ -117,11 +117,11 @@ body.loading .loading-modal {
 }
 
 main {
-    background-image: url(images/cover_background_small.png);
+/*    background-image: url(images/cover_background_small.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: scroll;
-    background-position-y: 90%;
+    background-position-y: 90%;*/
     padding: 1.5% 2%;
 }
 
@@ -172,6 +172,7 @@ main header h2 {
 
 .report-card h2 {
     line-height: 95%;
+    margin-top: 10px;
 }
 
 .ways-to-address p {
@@ -184,7 +185,7 @@ main header h2 {
 }
 
 .turnaround-campaign {
-    padding: 1% 2%;
+    padding: 2% 3%;
     font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
     font-size: 1.8em;
 }
@@ -203,7 +204,7 @@ footer .logos-holder {
 }
 
 .logos-holder .logo {
-    margin-right: 3%;
+    margin: 3%;
 }
 
 footer .logos-holder-print {
@@ -305,9 +306,6 @@ div.cartodb-popup div.cartodb-popup-content p {
     .ways-to-address {
         margin-bottom: 3%;
     }
-    .logos-holder .logo {
-        margin-bottom: 10%;
-    }
     .main-component {
         display: block;
         margin-top: 10%;
@@ -407,6 +405,7 @@ div.cartodb-popup div.cartodb-popup-content p {
     .turnaround-campaign {
         padding: 0% 2%;
         font-size: 1.1em;
+        margin-bottom: 1%;
     }
 /*    footer {
         display: block;
@@ -428,7 +427,7 @@ div.cartodb-popup div.cartodb-popup-content p {
     }
     .ways-to-address p,
     .ways-to-address ul {
-        font-size: 1.2em;
+        font-size: 1.1em;
     }
     .district-map-static-wrapper {
         display: block;
