@@ -155,7 +155,7 @@ app.selectRoutes = function() {
     var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
 
     // find out when all of the bar charts and text infographics have loaded so we can set the height of the map
-    app.reportCardLoaded = 6;
+    app.reportCardLoaded = 8;
 
     // update data vis text
     app.updateTextDataVis(routesWithinSQL, districtGeomSQL);
@@ -206,10 +206,8 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     // // calculate bus commuters based on census block group data
     // var commuterQuery = 'SELECT sum(acs.hd01_vd11) FROM acs_14_5yr_b08301 AS acs WHERE ST_Intersects( acs.the_geom , (' + districtGeomSQL + ') )';
 
-    // app.activeAjaxConnections++;
     // app.sqlclient.execute(commuterQuery)
     //     .done(function(data) {
-    //         app.activeAjaxConnections--;
 
     //         $({ countNum: $('#busCommuters').text().replace(',', '') }).animate({ countNum: data.rows[0].sum }, {
     //             duration: 1000,
@@ -223,9 +221,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     //             },
     //             complete: function() {
     //                 $('#busCommuters').text(app.numberWithCommas(parseInt(this.countNum)));
-    //                 if (app.activeAjaxConnections == 0) {
-    //                     $("body").removeClass("loading");
-    //                 }
     //             }
     //         });
     //     })
@@ -238,7 +233,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     // calculate number of bus routes that fall within this district
     app.sqlclient.execute(routesWithinSQL)
         .done(function(data) {
-            app.activeAjaxConnections--;
 
             // pull total_rows from response
             $({ countNum: $('#busRoutes').text() }).animate({ countNum: data.total_rows }, {
@@ -254,6 +248,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 complete: function() {
                     $('#busRoutes').text(parseInt(this.countNum));
                     app.reportCardLoaded--;
+
                     if (app.reportCardLoaded == 0) {
                         app.calcMapHeightAndLoad();
                     }
@@ -271,10 +266,8 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     // // calculate poverty level based on census block group data
     // var poveryQuery = 'SELECT sum(acs.hd01_vd01) as total, sum(acs.hd01_vd02) as poor FROM acs_14_5yr_b17021 AS acs WHERE ST_Intersects( acs.the_geom , (' + districtGeomSQL + ') )';
     // var pctPoor;
-    // app.activeAjaxConnections++;
     // app.sqlclient.execute(poveryQuery)
     //     .done(function(data) {
-    //         app.activeAjaxConnections--;
     //         pctPoor = parseInt(((data.rows[0].poor / data.rows[0].total) * 100).toFixed())
 
     //         $({ countNum: $('#percentPoverty').text() }).animate({ countNum: pctPoor }, {
@@ -289,9 +282,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     //             },
     //             complete: function() {
     //                 $('#percentPoverty').text(parseInt(this.countNum));
-    //                 if (app.activeAjaxConnections == 0) {
-    //                     $("body").removeClass("loading");
-    //                 }
     //             }
     //         });
     //     })
@@ -299,6 +289,63 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     //         // errors contains a list of errors
     //         console.log("errors:" + errors);
     //     });
+
+
+    // calculate the average speed for routes intersecting the district weighted by ridership
+    var avgSpeedWeightedQuery = 'SELECT sum(speedtable.speed * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavg FROM speed_by_route_10_2015_05_2016 AS speedtable, mta_nyct_bus_avg_weekday_ridership AS ridershiptable WHERE speedtable.route_id = ridershiptable.route_id AND ridershiptable.route_id IN (' + routesWithinSQL + ') AND ridershiptable.year_2015 IS NOT NULL';
+    app.sqlclient.execute(avgSpeedWeightedQuery)
+        .done(function(data) {
+            $({ countNum: $('#avgSpeedWeighted').text() }).animate({ countNum: data.rows[0].wavg.toFixed(1) }, {
+                duration: 1000,
+                easing: 'linear',
+                step: function() {
+                    if (this.countNum) {
+                        $('#avgSpeedWeighted').text(parseFloat(this.countNum).toFixed(1));
+                    } else {
+                        $('#avgSpeedWeighted').text('0');
+                    }
+                },
+                complete: function() {
+                    $('#avgSpeedWeighted').text(parseFloat(this.countNum).toFixed(1));
+                    app.reportCardLoaded--;
+                    if (app.reportCardLoaded == 0) {
+                        app.calcMapHeightAndLoad();
+                    }
+                }
+            });
+        })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        });
+
+    // calculate the average speed for routes intersecting the district weighted by ridership
+    var avgBunchingWeightedQuery = 'SELECT sum(bunchingtable.prop_bunched * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavg FROM bunching_10_2015_05_2016 AS bunchingtable, mta_nyct_bus_avg_weekday_ridership AS ridershiptable WHERE bunchingtable.route_id = ridershiptable.route_id AND ridershiptable.route_id IN (' + routesWithinSQL + ') AND ridershiptable.year_2015 IS NOT NULL';
+    app.sqlclient.execute(avgBunchingWeightedQuery)
+        .done(function(data) {
+            $({ countNum: $('#avgBunchingWeighted').text() }).animate({ countNum: (data.rows[0].wavg * 100).toFixed(1) }, {
+                duration: 1000,
+                easing: 'linear',
+                step: function() {
+                    if (this.countNum) {
+                        $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
+                    } else {
+                        $('#avgBunchingWeighted').text('0');
+                    }
+                },
+                complete: function() {
+                    $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
+                    app.reportCardLoaded--;
+                    if (app.reportCardLoaded == 0) {
+                        app.calcMapHeightAndLoad();
+                    }
+                }
+            });
+        })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        });
 
 }
 
@@ -820,7 +867,6 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
 
     var createStaticMap = function() {
 
-        app.activeAjaxConnections++;
         $.ajax({
             crossOrigin: true,
             type: 'POST',
@@ -834,11 +880,6 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
                 var url = 'https://' + app.username + '.carto.com/api/v1/map/static/bbox/' + data.layergroupid + '/' + app.bounds[1][1] + ',' + app.bounds[1][0] + ',' + app.bounds[0][1] + ',' + app.bounds[0][0] + '/' + mapWidth + '/' + mapHeight + '.png';
                 // get map image
                 $('#district-map-static').html('<img src="' + url + '" />');
-
-                app.activeAjaxConnections--;
-                if (app.activeAjaxConnections == 0) {
-                    $("body").removeClass("loading");
-                }
             }
 
         });

@@ -294,7 +294,7 @@ table td {
 }
 
 .turnaround-campaign {
-    padding: 1% 2%;
+    padding: 2% 3%;
     font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
     font-size: 1.8em;
 }
@@ -311,7 +311,7 @@ footer .logos-holder {
 }
 
 .logos-holder .logo {
-    margin-right: 3%;
+    margin: 3%;
 }
 
 footer .logos-holder-print {
