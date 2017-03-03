@@ -2,6 +2,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
 <link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}"> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
+<div class="district-map-holder">
+    <div id='district-map' class='district-map'></div>
+    <button class="toggle-district-map"></button>
+</div>
 <main>
     <header class="row">
         <div class="header-title col-md-5">
@@ -47,7 +51,6 @@
                 </h2>
                 <div class="bus-routes-row row">
                     <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total number of bus routes that cross the district."><span id="busRoutes">0</span> <small>bus routes with</small></h2>
-
                     <!-- <div class="col-sm-12 col-md-7">
                         <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Percentage of all people in the district who are in poverty."><span id="percentPoverty">0</span>% <small>poverty rate</small></h2>
                     </div> -->
@@ -57,10 +60,10 @@
                 </div>
                 <div class="bus-routes-row row">
                     <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="The average speed of each bus route that crosses this district weighted by ridership."><small>Average speed of</small> <span id="avgSpeedWeighted">0</span> <small>mph</small></h2>
-                </div>   
+                </div>
                 <div class="riders-row row">
                     <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="The average percentage of buses on routes that cross this district that arrive at less than 25 percent of the scheduled interval behind the previous bus."><small>Average bunching of</small> <span id="avgBunchingWeighted">0</span> <small>%</small></h2>
-                </div>             
+                </div>
                 <div class="bus-routes-graphs row">
                     <h3 class="text-uppercase sub-heading-card">Bus Routes</h3>
                     <div class="bus-routes-bars">
@@ -107,13 +110,15 @@
                             <li>Give buses priority at traffic lights</li>
                         </ul>
                     </div>
+                    <div class="turnaround-campaign">
+                        <span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
+                    </div>
                     <div class='district-map-static-wrapper'>
                         <h4 class="district-name-static-map">Routes in <span class="districtName"></span></h4>
                         <div id='district-map-static' class='district-map-static'></div>
                     </div>
                 </div>
             </div>
-            <div id='district-map' class='district-map card'></div>
             {% verbatim %}
             <script type="infowindow/html" id="infowindow_template">
                 <div class="cartodb-popup">
@@ -138,9 +143,6 @@
     </div>
 </main>
 <footer>
-    <div class="turnaround-campaign card">
-        <span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
-    </div>
     <div class="logos-holder">
         <div class="logo">
             <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>

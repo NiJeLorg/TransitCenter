@@ -50,7 +50,17 @@ app.createListeners = function() {
         // create url parameters
         window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
     });
-}
+
+    $('.toggle-district-map').on('click', function() {
+        $('.district-map-holder').css('height', '300px');
+        new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
+        setTimeout(function() {
+            app.map.invalidateSize();
+            app.map.fitBounds(app.bounds);
+        }, 300);
+
+    });
+};
 
 app.updateNumberDropdown = function() {
     // clear numbers and destroy select2 box if neccesary
@@ -674,7 +684,7 @@ app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
 app.calcMapHeightAndLoad = function() {
     // get height of report card container and set height of map based on other containers
     var height = $('.report-card').height() - $('.ways-to-address').height() - 20;
-    $('.district-map').height(height);
+    // $('.district-map').height(height);
 
     // run set up functions
     if (typeof app.map === "undefined") {
@@ -712,7 +722,7 @@ app.calcMapHeightAndLoad = function() {
 app.mapSetup = function() {
     app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });
 
-    app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10, closePopupOnClick: true });
+    app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10, closePopupOnClick: true, zoomControl: false });
 
     app.map.addLayer(app.tiles);
 }
@@ -749,7 +759,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
             cdb.vis.Vis.addInfowindow(app.map, app.routesSublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
 
             app.routesSublayer.on('featureClick', function(e, pos, latlng, data) {
-                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ data.route_id +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "' + data.route_id + '"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
             });
 
             app.activeAjaxConnections--;
@@ -774,7 +784,8 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
 
             app.districtLayer = layer;
             app.sqlclient.getBounds(routesMapSQL).done(function(bounds) {
-                app.map.fitBounds(bounds);
+                app.bounds = bounds;
+                app.map.fitBounds(app.bounds);
                 if (app.activeAjaxConnections == 0) {
                     $("body").removeClass("loading");
                 }
@@ -788,10 +799,10 @@ app.highlightRoute = function(routeId) {
     // strip out a trailing * if one exists
     routeId = routeId.replace('*', '');
 
-    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ routeId +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "' + routeId + '"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
     // open infowindow
     // Select one of the geometries from the table
-    var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '"+ routeId +"' LIMIT 1";
+    var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '" + routeId + "' LIMIT 1";
     app.sqlclient.execute(sql)
         .done(function(data) {
             // center map on returned lat/lng
@@ -924,5 +935,3 @@ app.slowestColorScale = d3.scaleLinear()
 
 // calculating if all ajax connections are complete
 app.activeAjaxConnections = 0;
-
-
