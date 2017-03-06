@@ -52,7 +52,7 @@ app.createListeners = function() {
     });
 
     $('.toggle-district-map').on('click', function() {
-        $('.district-map-holder').css('height', '300px');
+        $('.district-map-holder').css('height', '30%');
         new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
         setTimeout(function() {
             app.map.invalidateSize();
