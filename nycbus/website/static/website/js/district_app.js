@@ -50,7 +50,21 @@ app.createListeners = function() {
         // create url parameters
         window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
     });
-}
+
+    app.toggleDistrictMap = false;
+    $('.toggle-district-map').on('click', function() {
+        app.toggleDistrictMap = true;
+
+        $('.district-map-holder').css('height', '300px');
+        $('.toggle-district-map').css('display', 'none');
+        new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
+        setTimeout(function() {
+            app.map.invalidateSize();
+            app.map.fitBounds(app.bounds);
+        }, 300);
+
+    });
+};
 
 app.updateNumberDropdown = function() {
     // clear numbers and destroy select2 box if neccesary
@@ -145,11 +159,9 @@ app.initSelect2MenuDistrictNumber = function() {
 
 // SQL set up to select routes from selected district
 app.selectRoutes = function() {
-    // get district number
-    var districtNumber = $("#number").val();
 
     // set up query to pull geometry for district
-    var districtGeomSQL = 'SELECT district.the_geom FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + districtNumber;
+    var districtGeomSQL = 'SELECT district.the_geom FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + app.districtNumber;
 
     // now select the distinct routes that intersect that geometry
     var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
@@ -674,7 +686,7 @@ app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
 app.calcMapHeightAndLoad = function() {
     // get height of report card container and set height of map based on other containers
     var height = $('.report-card').height() - $('.ways-to-address').height() - 20;
-    $('.district-map').height(height);
+    // $('.district-map').height(height);
 
     // run set up functions
     if (typeof app.map === "undefined") {
@@ -693,13 +705,15 @@ app.calcMapHeightAndLoad = function() {
 
     var districtMapSQL = 'SELECT * FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + districtNumber;
 
+    var allDistictMapSQL = 'SELECT * FROM ' + app.districtTable + ' AS district';
+
     var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN (' + routesWithinSQL + ')';
 
     var routesWithDataSQL = "SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id IN (" + routesWithinSQL + ")";
 
     // update the map
     // interactive
-    app.reportCardMap(districtMapSQL, routesWithDataSQL, routesMapSQL);
+    app.reportCardMap(districtMapSQL, routesWithDataSQL, routesMapSQL, allDistictMapSQL);
 
     /**** Removing the static print map for now ****/
     //static map
@@ -712,20 +726,122 @@ app.calcMapHeightAndLoad = function() {
 app.mapSetup = function() {
     app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });
 
-    app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.7127837, -74.0059413], zoom: 10, closePopupOnClick: true });
+    app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.74, -73.89], zoom: 11, closePopupOnClick: true, zoomControl: false });
 
     app.map.addLayer(app.tiles);
 }
 
 // interactive map
-app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
+app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, allDistictMapSQL) {
 
+    if (app.map.hasLayer(app.allDistrictLayer)) {
+        app.map.removeLayer(app.allDistrictLayer);
+    }
     if (app.map.hasLayer(app.districtLayer)) {
         app.map.removeLayer(app.districtLayer);
     }
     if (app.map.hasLayer(app.routeLayer)) {
         app.map.removeLayer(app.routeLayer);
     }
+
+    app.polygons = {};
+
+    function geometryHover(layer, options) {
+
+        options = options || {}
+        var HIGHLIGHT_STYLE = {
+            weight: 2,
+            color: '#979797',
+            opacity: 1,
+            fillColor: 'rgb(184, 233, 134)',
+            fillOpacity: 0.4
+        };
+        // {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}
+        style = options.style || HIGHLIGHT_STYLE;
+        var polygonsHighlighted = [];
+
+
+        // fetch the geometry
+        var sql = new cartodb.SQL({ user: app.username, format: 'geojson' });
+        sql.execute("select cartodb_id, " + app.districtFieldName + " as districtNum, the_geom as the_geom from (" + layer.getSQL() + ") as _wrap").done(function(geojson) {
+            console.log(geojson, 'geojson');
+            var features = geojson.features;
+            for (var i = 0; i < features.length; ++i) {
+                var f = geojson.features[i];
+                var key = f.properties.cartodb_id
+
+                // generate geometry
+                //var geometry = L.GeoJSON.geometryToLayer(features[i].geometry);
+                var geo = L.geoJson(features[i], {
+                    onEachFeature: function(feature, layer) {
+                        layer.on('click', function() {
+                          app.selectDistrictNumberMenu.val(feature.properties.districtnum).trigger("change");
+                        });
+                    }
+                });
+
+                geo.setStyle(style);
+                //console.log(geo, "geometries");
+                // add to polygons
+                app.polygons[key] = app.polygons[key] || [];
+                app.polygons[key].push(geo);
+            }
+        });
+
+        function featureOver(e, pos, latlng, data) {
+            featureOut();
+            var pol = app.polygons[data.cartodb_id] || [];
+            for (var i = 0; i < pol.length; ++i) {
+                app.map.addLayer(pol[i]);
+                polygonsHighlighted.push(pol[i]);
+            }
+        }
+
+        function featureOut() {
+            var pol = polygonsHighlighted;
+            for (var i = 0; i < pol.length; ++i) {
+                app.map.removeLayer(pol[i]);
+            }
+            polygonsHighlighted = [];
+        }
+
+        layer.on('featureOver', featureOver);
+        layer.on('featureOut', featureOut);
+        layer.setInteraction(true);
+
+    }
+
+    var districtFieldName = 'cartodb_id, ' + app.districtFieldName;
+
+    cartodb.createLayer(app.map, {
+            user_name: app.username,
+            type: 'cartodb',
+            sublayers: [{
+                sql: allDistictMapSQL,
+                cartocss: '#layer {line-width: 1;line-color: #FF6600;line-opacity: 1;polygon-opacity: 0;}',
+                interactivity: districtFieldName,
+            }]
+        })
+        .addTo(app.map)
+        .done(function(layer) {
+            app.allDistrictLayer = layer;
+            layer.setInteraction(true);
+            app.districtSublayer = layer.getSubLayer(0);
+            //app.districtSublayer.setInteraction(true);
+            //app.districtSublayer.setInteractivity(districtFieldName);
+            geometryHover(app.districtSublayer);
+
+            // app.sqlclient.getBounds(routesMapSQL).done(function(bounds) {
+            //     app.bounds = bounds;
+            //     //app.map.fitBounds(app.bounds);
+            //     if (app.activeAjaxConnections == 0) {
+            //         $("body").removeClass("loading");
+            //     }
+            // });
+
+        });
+
+
 
     app.activeAjaxConnections++;
     cartodb.createLayer(app.map, {
@@ -749,7 +865,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
             cdb.vis.Vis.addInfowindow(app.map, app.routesSublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
 
             app.routesSublayer.on('featureClick', function(e, pos, latlng, data) {
-                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ data.route_id +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "' + data.route_id + '"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
             });
 
             app.activeAjaxConnections--;
@@ -773,25 +889,28 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL) {
             app.activeAjaxConnections--;
 
             app.districtLayer = layer;
-            app.sqlclient.getBounds(routesMapSQL).done(function(bounds) {
-                app.map.fitBounds(bounds);
+            app.sqlclient.getBounds(districtMapSQL).done(function(bounds) {
+                app.bounds = bounds;
+                if (app.toggleDistrictMap) {
+                    app.map.fitBounds(app.bounds);
+                }
+
                 if (app.activeAjaxConnections == 0) {
                     $("body").removeClass("loading");
                 }
             });
 
         });
-
 }
 
 app.highlightRoute = function(routeId) {
     // strip out a trailing * if one exists
     routeId = routeId.replace('*', '');
 
-    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "'+ routeId +'"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "' + routeId + '"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
     // open infowindow
     // Select one of the geometries from the table
-    var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '"+ routeId +"' LIMIT 1";
+    var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '" + routeId + "' LIMIT 1";
     app.sqlclient.execute(sql)
         .done(function(data) {
             // center map on returned lat/lng
@@ -924,5 +1043,3 @@ app.slowestColorScale = d3.scaleLinear()
 
 // calculating if all ajax connections are complete
 app.activeAjaxConnections = 0;
-
-
