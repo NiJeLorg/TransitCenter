@@ -553,7 +553,9 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
     var barChartGs = chart.selectAll("g")
         .data(data)
         .on('mouseover', function(d) {
-            app.highlightRoute(d.label);
+            if (app.toggleDistrictMap) {
+                app.highlightRoute(d.label);
+            }
         });
 
     barChartGs.select('rect')
@@ -606,7 +608,9 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return "translate(0," + i * barHeight + ")";
         })
         .on('mouseover', function(d) {
-            app.highlightRoute(d.label);
+            if (app.toggleDistrictMap) {
+                app.highlightRoute(d.label);
+            }
         });
 
 
