@@ -184,10 +184,8 @@ main header h2 {
     font-size: 1.8em;
 }
 
-.turnaround-campaign {
-    margin-top: 4%;
-    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
-    font-size: 1.8em;
+.turnaround-campaign-print {
+    display: none;
 }
 
 .ridershipNotes p {
@@ -394,7 +392,9 @@ div.cartodb-popup div.cartodb-popup-content p {
     div.cartodb-popup,
     .district-map,
     .logos-holder,
-    .copyright {
+    .copyright,
+    .turnaround-campaign-web, 
+    .district-map-holder {
         display: none !important;
     }
     main {
@@ -422,7 +422,10 @@ div.cartodb-popup div.cartodb-popup-content p {
         border: none;
         padding: 0;
     }
-    .turnaround-campaign {
+    .turnaround-campaign-print {
+        display: block;
+        margin-top: 1%;
+        font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
         font-size: 1.1em;
         margin-bottom: 1%;
     }
