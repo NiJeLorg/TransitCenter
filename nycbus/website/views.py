@@ -24,5 +24,5 @@ def district_analysis(request):
 	return render(request, 'website/district.html', {'district':district,})
 
 def district_detail_analysis(request):
-	district = request.GET.get("district","senate10")
+	district = request.GET.get("district","citywide")
 	return render(request, 'website/district_detail.html', {'district':district,})
