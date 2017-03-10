@@ -57,9 +57,7 @@ app.createListeners = function() {
         $('.district-map-holder').css('height', '300px');
         $('.toggle-district-map').css('display', 'none');
 
-        if (app.zoomControls) {
-
-        } else {
+        if (!app.zoomControls) {
             new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
         }
 
@@ -67,6 +65,9 @@ app.createListeners = function() {
             app.map.invalidateSize();
             app.map.fitBounds(app.bounds);
         }, 300);
+
+        // destroy tooltips
+        $('.bar-chart-wrapper').tooltip('destroy');
 
     });
 };
@@ -514,7 +515,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
 app.createBarChart = function(divId, barChartColorScale, data) {
 
-    var width = $('.bus-routes-bars .col-md-6').width(),
+    var width = $('.bar-chart-wrapper').width(),
         barHeight = 25;
 
     var chart = d3.select(divId)
@@ -541,7 +542,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
     app.mostBunchingColorScale.domain([0, d3.max(arr)]);
     app.slowestColorScale.domain([0, d3.max(arr)]);
 
-    var width = $('.bus-routes-bars .col-md-6').width(),
+    var width = $('.bar-chart-wrapper').width(),
         barHeight = 25,
         barWidth = width * (3 / 4);
 
@@ -557,7 +558,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
     // update
     var barChartGs = chart.selectAll("g")
         .data(data)
-        .on('mouseover', function(d) {
+        .on('click', function(d) {
             if (app.toggleDistrictMap) {
                 app.highlightRoute(d.label);
             }
@@ -612,12 +613,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("transform", function(d, i) {
             return "translate(0," + i * barHeight + ")";
         })
-        .on('mouseover', function(d) {
+        .attr("class", "clickable-g-container")   
+        .on('click', function(d) {
             if (app.toggleDistrictMap) {
                 app.highlightRoute(d.label);
             }
         });
-
 
     enterBars.append("rect")
         .attr('fill', function(d) {
@@ -740,6 +741,8 @@ app.mapSetup = function() {
     if ($('.district-map-holder').css('position') == 'fixed') {
         app.toggleDistrictMap = true;
         app.zoomControls = new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
+        // destroy tooltips
+        $('.bar-chart-wrapper').tooltip('destroy');
     } else {
         app.toggleDistrictMap = false;
     }
@@ -881,7 +884,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             cdb.vis.Vis.addInfowindow(app.map, app.routesSublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
 
             app.routesSublayer.on('featureClick', function(e, pos, latlng, data) {
-                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "' + data.route_id + '"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "' + data.route_id + '"]::z1 {line-width: 4;line-color: #1b7640; line-opacity: 1;}');
             });
 
             app.activeAjaxConnections--;
