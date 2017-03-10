@@ -157,17 +157,21 @@ main header h2 {
 }
 
 .main-component {
-    display: flex;
+    /*display: flex;*/
+    display: block;
     margin-top: 2%;
 }
 
 .bus-routes-holder {
-    width: 48%;
+    width: 100%;
+    /*width: 48%;*/
 }
 
 .bus-map-holder {
-    margin-left: 4%;
-    width: 48%;
+    /*margin-left: 4%;
+    width: 48%;*/
+    margin-left: 0;
+    width: 100%;
 }
 
 .report-card h2 {
@@ -186,6 +190,14 @@ main header h2 {
 
 .turnaround-campaign-print {
     display: none;
+}
+
+.bar-chart-wrapper {
+    max-width: 400px;
+}
+
+.clickable-g-container {
+    cursor: pointer;
 }
 
 .ridershipNotes p {
@@ -365,7 +377,7 @@ div.cartodb-popup div.cartodb-popup-content p {
 }
 
 @media (min-width: 87em) {
-    main {
+    main, footer {
         width: 72%;
     }
     .district-map-holder {
@@ -488,11 +500,19 @@ div.cartodb-popup div.cartodb-popup-content p {
         flex-basis: 46%;
     }
     .bus-routes-row {
+        display: block;
+        margin-left: 0;
+        width: 100%;
+    }
+    .riders-row {
+        display: inline-block;
+    }
+    .average-speed-row {
         display: inline-block;
         margin-left: 0;
         width: 49%;
     }
-    .riders-row {
+    .average-bunching-row {
         display: inline-block;
     }
     .bus-routes-bars .col-md-6,
