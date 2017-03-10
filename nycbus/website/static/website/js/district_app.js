@@ -51,13 +51,18 @@ app.createListeners = function() {
         window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
     });
 
-    app.toggleDistrictMap = false;
+
     $('.toggle-district-map').on('click', function() {
         app.toggleDistrictMap = true;
-
         $('.district-map-holder').css('height', '300px');
         $('.toggle-district-map').css('display', 'none');
-        new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
+
+        if (app.zoomControls) {
+
+        } else {
+            new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
+        }
+
         setTimeout(function() {
             app.map.invalidateSize();
             app.map.fitBounds(app.bounds);
@@ -732,6 +737,13 @@ app.mapSetup = function() {
 
     app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.74, -73.89], zoom: 11, closePopupOnClick: true, zoomControl: false });
 
+    if ($('.district-map-holder').css('position') == 'fixed') {
+        app.toggleDistrictMap = true;
+        app.zoomControls = new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
+    } else {
+        app.toggleDistrictMap = false;
+    }
+
     app.map.addLayer(app.tiles);
 }
 
@@ -779,7 +791,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
                 var geo = L.geoJson(features[i], {
                     onEachFeature: function(feature, layer) {
                         layer.on('click', function() {
-                          app.selectDistrictNumberMenu.val(feature.properties.districtnum).trigger("change");
+                            app.selectDistrictNumberMenu.val(feature.properties.districtnum).trigger("change");
                         });
                     }
                 });
