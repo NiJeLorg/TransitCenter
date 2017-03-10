@@ -364,6 +364,26 @@ div.cartodb-popup div.cartodb-popup-content p {
     }
 }
 
+@media (min-width: 87em) {
+    main {
+        width: 72%;
+    }
+    .district-map-holder {
+        position: fixed;
+        width: 28%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        box-shadow: 3px 3px 18px #ccc;
+    }
+    .toggle-district-map {
+        display: none;
+    }
+}
+
+
+
+
 
 /* MEDIA QUERIES */
 
@@ -393,7 +413,7 @@ div.cartodb-popup div.cartodb-popup-content p {
     .district-map,
     .logos-holder,
     .copyright,
-    .turnaround-campaign-web, 
+    .turnaround-campaign-web,
     .district-map-holder {
         display: none !important;
     }

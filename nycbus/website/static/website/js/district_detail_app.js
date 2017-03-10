@@ -15,8 +15,14 @@ app.init = function() {
     });
 
     // pull district number out of global district variable -- use this number on initial page load
-    app.districtNumber = district.replace(/^\D+/g, '');
-    app.districtName = district.replace(/\d+/g, '');
+    console.log(district, 'DISTRICT'); // senate-10
+    var split = district.split('-');
+    console.log(split, 'SPLIT');
+    app.districtName = split[0];
+    app.districtNumber = split[1];
+    // app.districtNumber = district.replace(/^\D+/g, '');
+    // app.districtName = district.replace(/\d+/g, '');
+    console.log(app.districtName, 'init');
     app.firstRun = true;
 
     // set up listeners
@@ -42,7 +48,12 @@ app.createListeners = function() {
 
     // listen for on change to update visualizations
     $('#number').change(function() {
-        app.districtNumber = $(this).val();
+        if ($(this).val() == null) {
+            app.districtNumber = '';
+        } else {
+            app.districtNumber = $(this).val();
+        }
+
         // add loading modal
         $("body").addClass("loading");
         // update route selection and data
@@ -51,7 +62,7 @@ app.createListeners = function() {
 
         app.selectRoutes();
         // create url parameters
-        window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
+        window.history.pushState({}, '', '?district=' + app.districtName + '-' + app.districtNumber);
     });
 };
 
@@ -62,8 +73,20 @@ app.updateNumberDropdown = function() {
     }
 
     $("#number").html('');
+
     // select district table and field names
-    if (app.districtName == 'senate') {
+    console.log(app.districtName);
+    if (app.districtName == 'citywide') {
+        // State Sentate
+        app.districtTable = '';
+        app.districtFieldName = '';
+        app.printDistrict = 'Citywide';
+    } else if (app.districtName == 'borough') {
+        // Borough
+        app.districtTable = 'nyc_borough_boundaries';
+        app.districtFieldName = 'boro_name';
+        app.printDistrict = 'Borough';
+    } else if (app.districtName == 'senate') {
         // State Sentate
         app.districtTable = 'nyc_state_senate_districts';
         app.districtFieldName = 'stsendist';
@@ -85,7 +108,12 @@ app.updateNumberDropdown = function() {
         app.printDistrict = 'Community Board District';
     }
     // update number dropdown menu
-    app.createNumberOptions();
+    if (app.districtName == 'citywide') {
+        app.initSelect2MenuDistrictNumber();
+    } else {
+        app.createNumberOptions();
+    }
+
 
 }
 
@@ -147,16 +175,26 @@ app.initSelect2MenuDistrictName = function() {
     /********/
 
 // SQL set up to select routes from selected district
-app.selectRoutes = function(district) {
+app.selectRoutes = function() {
 
-    // get district number with regex
-    var districtNumber = $("#number").val();
+    var routesWithinSQL, districtGeomSQL;
 
     // set up query to pull geometry for district
-    var districtGeomSQL = 'SELECT district.the_geom FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + districtNumber;
+    if (app.districtName == 'borough') {
+        districtGeomSQL = "SELECT district.the_geom FROM " + app.districtTable + " AS district WHERE " + app.districtFieldName + " = '" + app.districtNumber + "'";
+    } else {
+        districtGeomSQL = "SELECT district.the_geom FROM " + app.districtTable + " AS district WHERE " + app.districtFieldName + " = " + app.districtNumber;
+    }
+
+    console.log(districtGeomSQL);
 
     // now select the distinct routes that intersect that geometry
-    var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
+    if (app.districtName == 'citywide') {
+        routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%'";
+    } else {
+        routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
+    }
+
 
     // pass routesWithinSQL to bar chart update function
     app.updateBarCharts(routesWithinSQL);
