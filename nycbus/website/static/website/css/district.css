@@ -322,12 +322,6 @@ div.cartodb-popup div.cartodb-popup-content p {
 
 /* MEDIA QUERIES */
 
-@media (max-width: 1024px) {
-    .district-map {
-        height: 50vh;
-    }
-}
-
 @media (max-width: 768px) {
     .col-md-offset-1 {
         margin-left: 0;
@@ -355,9 +349,6 @@ div.cartodb-popup div.cartodb-popup-content p {
     .selectDistrict {
         font-size: 0.65em;
         color: #333333;
-    }
-    .district-map {
-        height: 50vh;
     }
     .print-button-holder {
         display: none;
