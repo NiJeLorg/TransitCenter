@@ -255,8 +255,6 @@ footer .logos-holder-print {
     display: block;
 }
 
-
-
 .district-map-static-wrapper {
     display: none;
 }
@@ -307,7 +305,17 @@ div.cartodb-popup div.cartodb-popup-content p {
 
 /* MEDIA QUERIES */
 
+@media (max-width: 1440px) {
+    .district-map-holder {
+        height: 400px;
+        box-shadow: 0 3px 18px #ccc;
+    }
+}
+
 @media (max-width: 768px) {
+    .district-map-holder {
+        height: 300px;
+    }
     .col-md-offset-1 {
         margin-left: 0;
     }
@@ -353,7 +361,8 @@ div.cartodb-popup div.cartodb-popup-content p {
 }
 
 @media (min-width: 87em) {
-    main, footer {
+    main,
+    footer {
         width: 72%;
     }
     .district-map-holder {
@@ -368,9 +377,6 @@ div.cartodb-popup div.cartodb-popup-content p {
         display: none;
     }
 }
-
-
-
 
 
 /* MEDIA QUERIES */
