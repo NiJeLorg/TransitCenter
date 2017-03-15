@@ -51,6 +51,9 @@ app.createListeners = function() {
         window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
     });
 
+    $('.toggle-city').click(function() {
+        app.map.setView(new L.LatLng(40.74, -73.89), 10);
+    });
 
     $('.toggle-district-map').on('click', function() {
         app.toggleDistrictMap = true;

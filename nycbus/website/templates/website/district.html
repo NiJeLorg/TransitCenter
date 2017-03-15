@@ -4,7 +4,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}"> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
 <div class="district-map-holder">
     <div id='district-map' class='district-map'></div>
-    <button class="toggle-city">City</button>
+    <button class="toggle-city">
+      <img src="{% static 'website/css/images/city-icon.svg' %}" height="40px">
+    </button>
 </div>
 <main>
     <header class="row">
