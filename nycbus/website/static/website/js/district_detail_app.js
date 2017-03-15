@@ -15,14 +15,11 @@ app.init = function() {
     });
 
     // pull district number out of global district variable -- use this number on initial page load
-    console.log(district, 'DISTRICT'); // senate-10
     var split = district.split('-');
-    console.log(split, 'SPLIT');
     app.districtName = split[0];
     app.districtNumber = split[1];
     // app.districtNumber = district.replace(/^\D+/g, '');
     // app.districtName = district.replace(/\d+/g, '');
-    console.log(app.districtName, 'init');
     app.firstRun = true;
 
     // set up listeners
@@ -75,7 +72,6 @@ app.updateNumberDropdown = function() {
     $("#number").html('');
 
     // select district table and field names
-    console.log(app.districtName);
     if (app.districtName == 'citywide') {
         // State Sentate
         app.districtTable = '';
@@ -186,7 +182,6 @@ app.selectRoutes = function() {
         districtGeomSQL = "SELECT district.the_geom FROM " + app.districtTable + " AS district WHERE " + app.districtFieldName + " = " + app.districtNumber;
     }
 
-    console.log(districtGeomSQL);
 
     // now select the distinct routes that intersect that geometry
     if (app.districtName == 'citywide') {
@@ -504,9 +499,14 @@ app.updateBarChart = function(divId, data) {
 
     var checkHeight = (barHeight * (data.length - 1)) - (margin.top - margin.bottom);
     if (checkHeight > 700) {
-        height = 700;
+        if (app.districtName === 'citywide') {
+            height = 3200;
+        } else if (app.districtName === 'borough') {
+            height = 1000;
+        } else {
+            height = 700;
+        }
         barHeight = (height + (margin.top - margin.bottom)) / (data.length - 1);
-        console.log(barHeight);
     } else {
         height = checkHeight;
     }
@@ -781,7 +781,13 @@ app.updateNegativeBarChart = function(divId, data) {
         barWidth = width * (3 / 4);
     var checkHeight = (barHeight * (data.length - 1)) - (margin.top - margin.bottom);
     if (checkHeight > 700) {
-        height = 700;
+        if (app.districtName === 'citywide') {
+            height = 3200;
+        } else if (app.districtName === 'borough') {
+            height = 1000;
+        } else {
+            height = 700;
+        }
         barHeight = (height + (margin.top - margin.bottom)) / (data.length - 1);
     } else {
         height = checkHeight;
