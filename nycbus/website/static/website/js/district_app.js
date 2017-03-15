@@ -740,14 +740,16 @@ app.mapSetup = function() {
 
     app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.74, -73.89], zoom: 11, closePopupOnClick: true, zoomControl: false });
 
-    if ($('.district-map-holder').css('position') == 'fixed') {
-        app.toggleDistrictMap = true;
-        app.zoomControls = new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
-        // destroy tooltips
-        $('.bar-chart-wrapper').tooltip('destroy');
-    } else {
-        app.toggleDistrictMap = false;
-    }
+    // if ($('.district-map-holder').css('position') == 'fixed') {
+    //     app.toggleDistrictMap = true;
+    //     app.zoomControls = new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
+    //     // destroy tooltips
+    //     $('.bar-chart-wrapper').tooltip('destroy');
+    // } else {
+    //     app.toggleDistrictMap = false;
+    // }
+
+    app.zoomControls = new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
 
     app.map.addLayer(app.tiles);
 }
