@@ -223,6 +223,11 @@ main .metric-component {
     font-size: 18px;
 }
 
+.chart-component .svg-container {
+    max-height: 700px;
+    overflow-y: scroll;
+}
+
 .metric-component .metric-text {
     margin: 0;
     font-size: 12px;
