@@ -54,7 +54,6 @@ app.createListeners = function() {
 
     $('.toggle-district-map').on('click', function() {
         app.toggleDistrictMap = true;
-        $('.district-map-holder').css('height', '300px');
         $('.toggle-district-map').css('display', 'none');
 
         if (!app.zoomControls) {
@@ -613,7 +612,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("transform", function(d, i) {
             return "translate(0," + i * barHeight + ")";
         })
-        .attr("class", "clickable-g-container")   
+        .attr("class", "clickable-g-container")
         .on('click', function(d) {
             if (app.toggleDistrictMap) {
                 app.highlightRoute(d.label);
