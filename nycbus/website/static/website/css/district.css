@@ -41,7 +41,7 @@ a {
 }
 
 .main-heading {
-    font-size: 4.5em;
+    font-size: 4em;
     font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
 }
@@ -61,7 +61,7 @@ a {
 }
 
 .main-heading-card {
-    font-size: 3.5em;
+    font-size: 3em;
 }
 
 .sub-heading-card {
@@ -180,7 +180,7 @@ main header h2 {
 }
 
 .ways-to-address p {
-    font-size: 1.8em;
+    font-size: 1.4em;
     font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
 }
 
@@ -247,6 +247,12 @@ footer .logos-holder-print {
 .district-map-holder {
     height: 300px;
     box-shadow: 0 3px 18px #ccc;
+}
+
+.toggle-city {
+    position: absolute;
+    top: 75px;
+    left: 10px;
 }
 
 .district-map {

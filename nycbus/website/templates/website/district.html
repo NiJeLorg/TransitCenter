@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'website/css/district.css' %}"> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
 <div class="district-map-holder">
     <div id='district-map' class='district-map'></div>
+    <button class="toggle-city">City</button>
 </div>
 <main>
     <header class="row">
@@ -49,12 +50,12 @@
                     </span>
                 </h2>
                 <div class="bus-routes-row row">
-                    <h2 class="main-heading-card" ><span data-toggle="tooltip" data-placement="top" title="Total number of bus routes that cross the district."><span id="busRoutes">0</span> <small>bus routes</span> with </small><span data-toggle="tooltip" data-placement="top" title="Total 2015 weekday ridership of all routes crossing this district."><span id="totalRidership">0</span> <small>total weekday riders</small></span></h2>
+                    <h2 class="main-heading-card"><span data-toggle="tooltip" data-placement="top" title="Total number of bus routes that cross the district."><span id="busRoutes">0</span> <small>bus routes</span> with </small><span data-toggle="tooltip" data-placement="top" title="Total 2015 weekday ridership of all routes crossing this district."><span id="totalRidership">0</span> <small>total weekday riders</small></span></h2>
                     <!-- <div class="col-sm-12 col-md-7">
                         <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Percentage of all people in the district who are in poverty."><span id="percentPoverty">0</span>% <small>poverty rate</small></h2>
                     </div> -->
                 </div>
-<!--                 <div class="riders-row row">
+                <!--                 <div class="riders-row row">
                     <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="Total 2015 weekday ridership of all routes crossing this district."><span id="totalRidership">0</span> <small>total weekday riders</small></h2>
                 </div> -->
                 <div class="average-speed-row row">
@@ -70,14 +71,14 @@
                             <div class="col-md-6 col-sm-12">
                                 <h4 data-toggle="tooltip" data-placement="top" title="Top 3 highest ridership routes in this district.">Highest Ridership</h4>
                                 <div class="bar-chart-wrapper" data-toggle="tooltip" data-placement="top" title="View this route on a larger map by clicking on the map at the top of the page.">
-	                                <div id="ridership"></div>
-	                                <div id="ridershipNotes" class="ridershipNotes"></div>
+                                    <div id="ridership"></div>
+                                    <div id="ridershipNotes" class="ridershipNotes"></div>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <h4 data-toggle="tooltip" data-placement="top" title="Top 3 routes with the highest growth in ridership in this district from 2010-2015.">Fastest Growing Ridership</h4>
                                 <div class="bar-chart-wrapper" data-toggle="tooltip" data-placement="top" title="View this route on a larger map by clicking on the map at the top of the page.">
-                                	<div id="fastestGrowing"></div>
+                                    <div id="fastestGrowing"></div>
                                 </div>
                             </div>
                         </div>
@@ -85,13 +86,13 @@
                             <div class="col-md-6 col-sm-12">
                                 <h4 data-toggle="tooltip" data-placement="top" title="Top 3 routes with the highest percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus in the district.">Most Bunching</h4>
                                 <div class="bar-chart-wrapper" data-toggle="tooltip" data-placement="top" title="View this route on a larger map by clicking on the map at the top of the page.">
-                                	<div id="mostBunching"></div>
+                                    <div id="mostBunching"></div>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <h4 data-toggle="tooltip" data-placement="top" title="Slowest 3 bus routes in the district.">Slowest</h4>
                                 <div class="bar-chart-wrapper" data-toggle="tooltip" data-placement="top" title="View this route on a larger map by clicking on the map at the top of the page.">
-                                	<div id="slowest"></div>
+                                    <div id="slowest"></div>
                                 </div>
                             </div>
                         </div>
@@ -116,8 +117,8 @@
                             <li>Give buses priority at traffic lights</li>
                         </ul>
                         <p class="turnaround-campaign-web">
-	                        <span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
-	                    </p>
+                            <span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
+                        </p>
                     </div>
                     <div class='district-map-static-wrapper'>
                         <h4 class="district-name-static-map">Routes in <span class="districtName"></span></h4>
@@ -125,7 +126,7 @@
                     </div>
                 </div>
                 <div class="turnaround-campaign-print">
-                	<span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
+                    <span class="empahasize-text">The Bus Turnaround Coalition</span> is a group of diverse New Yorkers determined to turn around the poor service that plagues the city’s bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
                 </div>
             </div>
             {% verbatim %}
