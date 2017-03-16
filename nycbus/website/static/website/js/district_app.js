@@ -52,7 +52,7 @@ app.createListeners = function() {
     });
 
     $('.toggle-city').click(function() {
-        app.map.setView(new L.LatLng(40.74, -73.89), 10);
+        app.map.setView(new L.LatLng(40.7, -74.0), 10);
     });
 
     // $('.toggle-district-map').on('click', function() {
