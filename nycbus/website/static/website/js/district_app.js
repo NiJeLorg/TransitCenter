@@ -55,23 +55,20 @@ app.createListeners = function() {
         app.map.setView(new L.LatLng(40.74, -73.89), 10);
     });
 
-    $('.toggle-district-map').on('click', function() {
-        app.toggleDistrictMap = true;
-        $('.toggle-district-map').css('display', 'none');
+    // $('.toggle-district-map').on('click', function() {
+    //     app.toggleDistrictMap = true;
+    //     $('.toggle-district-map').css('display', 'none');
 
-        if (!app.zoomControls) {
-            new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
-        }
+    //     if (!app.zoomControls) {
+    //         new L.Control.Zoom({ position: 'topleft' }).addTo(app.map);
+    //     }
 
-        setTimeout(function() {
-            app.map.invalidateSize();
-            app.map.fitBounds(app.bounds);
-        }, 300);
+    //     setTimeout(function() {
+    //         app.map.invalidateSize();
+    //         app.map.fitBounds(app.bounds);
+    //     }, 300);
 
-        // destroy tooltips
-        $('.bar-chart-wrapper').tooltip('destroy');
-
-    });
+    // });
 };
 
 app.updateNumberDropdown = function() {
