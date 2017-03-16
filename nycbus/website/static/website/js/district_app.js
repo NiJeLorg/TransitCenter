@@ -558,9 +558,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
     var barChartGs = chart.selectAll("g")
         .data(data)
         .on('click', function(d) {
-            if (app.toggleDistrictMap) {
-                app.highlightRoute(d.label);
-            }
+            app.highlightRoute(d.label);
         });
 
     barChartGs.select('rect')
@@ -614,9 +612,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("class", "clickable-g-container")
         .on('click', function(d) {
-            if (app.toggleDistrictMap) {
-                app.highlightRoute(d.label);
-            }
+            app.highlightRoute(d.label);
         });
 
     enterBars.append("rect")
@@ -911,9 +907,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             app.districtLayer = layer;
             app.sqlclient.getBounds(districtMapSQL).done(function(bounds) {
                 app.bounds = bounds;
-                if (app.toggleDistrictMap) {
-                    app.map.fitBounds(app.bounds);
-                }
+                app.map.fitBounds(app.bounds);
 
                 if (app.activeAjaxConnections == 0) {
                     $("body").removeClass("loading");
