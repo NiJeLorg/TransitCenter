@@ -1008,7 +1008,7 @@ app.updateRidershipChange = function () {
 }
 
 app.initializeSpeedGauge = function() {
-    // set up report card speed gauge
+  // set up report card speed gauge
   app.speedGaugeObject = app.speedGauge('#speed-gauge', {
     size: 200,
     clipWidth: 200,
