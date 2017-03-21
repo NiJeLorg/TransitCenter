@@ -156,7 +156,7 @@ app.initSpeedGauge = function() {
     app.speedGaugeObject = app.speedGauge('#speed-gauge', {
         size: 200,
         clipWidth: 200,
-        clipHeight: 110,
+        clipHeight: 120,
         ringWidth: 60,
         minValue: 0,
         maxValue: 19,
@@ -993,7 +993,7 @@ app.speedGauge = function (container, configuration) {
     labelFormat         : d3.format(',d'),
     labelInset          : 10,
     
-    arcColorFn          : d3.interpolateHsl(d3.rgb('#FF4000'), d3.rgb('#5BCF59'))
+    arcColorFn          : d3.interpolateHsl(d3.rgb('#ff4442'), d3.rgb('#65e863'))
   };
   var range = undefined;
   var r = undefined;
@@ -1063,6 +1063,10 @@ app.speedGauge = function (container, configuration) {
   function centerTranslation() {
     return 'translate('+r +','+ r +')';
   }
+
+  function belowleftcenterTranslation() {
+    return 'translate('+ (r) +','+ (r+20) +')';
+  }
   
   function isRendered() {
     return (svg !== undefined);
@@ -1081,7 +1085,7 @@ app.speedGauge = function (container, configuration) {
     var arcs = svg.append('g')
         .attr('class', 'arc')
         .attr('transform', centerTx);
-  
+
     arcs.selectAll('path')
         .data(tickData)
       .enter().append('path')
@@ -1127,6 +1131,15 @@ app.speedGauge = function (container, configuration) {
     pointer = pg.append('path')
       .attr('d', pointerLine/*function(d) { return pointerLine(d) +'Z';}*/ )
       .attr('transform', 'rotate(' +config.minAngle +')');
+
+    // mph text
+    var belowleftcenterTx = belowleftcenterTranslation();
+    var mphText = svg.append('g')
+        .attr('class', 'label')
+        .attr('transform', belowleftcenterTx);
+      mphText.append('text')
+        .text('mph');
+
       
     update(newValue === undefined ? 0 : newValue);
   }

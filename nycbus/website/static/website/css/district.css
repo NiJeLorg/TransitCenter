@@ -276,6 +276,21 @@ div.cartodb-tooltip-content p {
     font-weight: bold !important;
 }
 
+/* STYLES FOR SPEED GAUGE */
+.speed-gauge g.arc {
+  fill: steelblue;
+}
+.speed-gauge g.pointer {
+  fill: #777;
+  stroke: #777;
+}
+.speed-gauge g.label text {
+  text-anchor: middle;
+  font-size: 12px;
+  font-weight: bold;
+  fill: #333;
+}
+/* STYLES FOR SPEED GAUGE */
 
 /* STYLES FOR INFOWINDOW */
 
