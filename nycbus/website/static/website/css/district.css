@@ -277,6 +277,15 @@ div.cartodb-tooltip-content p {
 }
 
 /* STYLES FOR SPEED GAUGE */
+.label {
+  font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 1px; 
+  text-transform: uppercase; 
+  color: #333;      
+}
 .speed-gauge g.arc {
   fill: steelblue;
 }
