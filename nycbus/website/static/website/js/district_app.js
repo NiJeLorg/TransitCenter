@@ -130,25 +130,25 @@ app.initSelect2MenuDistrictName = function() {
 }
 
 app.initSelect2MenuDistrictNumber = function() {
-    // which district number should we use?
-    if (!app.firstRun) {
-        app.districtNumber = $("#number").val();
-    }
+        // which district number should we use?
+        if (!app.firstRun) {
+            app.districtNumber = $("#number").val();
+        }
 
-    // when done create select2 menu
-    // if mobile, skip setting up select 2
-    if (($('body')).width() < 767) {
-        $("#number").val(app.districtNumber);
-        app.selectRoutes();
-    } else {
-        app.selectDistrictNumberMenu = $("#number").select2();
-        app.selectDistrictNumberMenu.val(app.districtNumber).trigger("change");
-    }
+        // when done create select2 menu
+        // if mobile, skip setting up select 2
+        if (($('body')).width() < 767) {
+            $("#number").val(app.districtNumber);
+            app.selectRoutes();
+        } else {
+            app.selectDistrictNumberMenu = $("#number").select2();
+            app.selectDistrictNumberMenu.val(app.districtNumber).trigger("change");
+        }
 
-    // after first run, set app.firstRun = false;
-    app.firstRun = false;
-}
-/********/
+        // after first run, set app.firstRun = false;
+        app.firstRun = false;
+    }
+    /********/
 
 app.initSpeedGauge = function() {
     // update speed gauge
@@ -204,7 +204,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
             // create array of routes that fall with the district so we don't ahve to hit the DB with a spatial query every time
             app.routeIDArray = [];
             for (var i = 0; i < data.rows.length; i++) {
-                app.routeIDArray.push("'" + String( data.rows[i].route_id ) + "'");
+                app.routeIDArray.push("'" + String(data.rows[i].route_id) + "'");
             }
 
             // start remaining SQL queries
@@ -302,8 +302,10 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
                         if (app.reportCardLoaded == 0) {
                             app.calcMapHeightAndLoad();
                         }
+
+                        app.avgBunchingWeighted = this.countNum;
                     }
-                });           
+                });
 
             })
             .error(function(errors) {
@@ -320,9 +322,11 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
         var baQuery = 'SELECT speedtable.speed AS baspeed, bunchingtable.prop_bunched AS babunching, bunchingtable.route_id AS borough FROM speed_by_route_10_2015_05_2016 AS speedtable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = bunchingtable.route_id AND bunchingtable.route_id IN (' + baWithinSQL + ')';
         app.sqlclient.execute(baQuery)
             .done(function(data) {
-                
+
                 // update speed gauge
                 app.speedGaugeObject.update(app.avgSpeedWeighted, data.rows);
+
+                app.bunchingKey(app.avgBunchingWeighted, data.rows);
 
                 // pull the routes within the boroughs
                 getRoutesWithinBoroughs();
@@ -331,7 +335,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
             .error(function(errors) {
                 // errors contains a list of errors
                 console.log("errors:" + errors);
-            }); 
+            });
     }
 
     function getRoutesWithinBoroughs() {
@@ -341,10 +345,10 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
         var routesWithinBoroughSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + boroughGeomSQL + ") )";
         app.sqlclient.execute(routesWithinBoroughSQL)
             .done(function(data) {
-                // create array of routes that fall with the borough(s) 
+                // create array of routes that fall with the borough(s)
                 app.boroughRouteIDArray = [];
                 for (var i = 0; i < data.rows.length; i++) {
-                    app.boroughRouteIDArray.push("'" + String( data.rows[i].route_id ) + "'");
+                    app.boroughRouteIDArray.push("'" + String(data.rows[i].route_id) + "'");
                 }
 
                 // get the max values for the routes within the selected boroughs
@@ -354,7 +358,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
             .error(function(errors) {
                 // errors contains a list of errors
                 console.log("errors:" + errors);
-            });        
+            });
 
     }
 
@@ -374,7 +378,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
             .error(function(errors) {
                 // errors contains a list of errors
                 console.log("errors:" + errors);
-            });  
+            });
 
     }
 
@@ -566,11 +570,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         x.domain([0, app.maxBunching]);
     } else if (divId === '#slowest') {
         x.domain([0, app.maxSpeed]);
-    } else if (divId === '#ridership'){
+    } else if (divId === '#ridership') {
         x.domain([0, app.maxRidership]);
     }
 
-            
+
     var chart = d3.select(divId)
         .select('svg')
         .attr("width", width)
@@ -1047,275 +1051,299 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
 }
 
 
-app.speedGauge = function (container, configuration) {
-  var that = {};
-  var config = {
-    size              : 200,
-    clipWidth         : 200,
-    clipHeight        : 110,
-    ringInset         : 20,
-    ringWidth         : 20,
+app.speedGauge = function(container, configuration) {
+    var that = {};
+    var config = {
+        size: 200,
+        clipWidth: 200,
+        clipHeight: 110,
+        ringInset: 20,
+        ringWidth: 20,
 
-    pointerWidth        : 10,
-    pointerTailLength     : 5,
-    pointerHeadLengthPercent  : 0.9,
+        pointerWidth: 10,
+        pointerTailLength: 5,
+        pointerHeadLengthPercent: 0.9,
 
-    minValue          : 0,
-    maxValue          : 10,
+        minValue: 0,
+        maxValue: 10,
 
-    minAngle          : -90,
-    maxAngle          : 90,
+        minAngle: -90,
+        maxAngle: 90,
 
-    transitionMs        : 1000,
+        transitionMs: 1000,
 
-    majorTicks          : 5,
-    labelFormat         : d3.format(',d'),
-    labelInset          : 10,
+        majorTicks: 5,
+        labelFormat: d3.format(',d'),
+        labelInset: 10,
 
-    arcColorFn          : d3.interpolateHsl(d3.rgb('#ff4442'), d3.rgb('#65e863'))
-  };
-  var range = undefined;
-  var r = undefined;
-  var pointerHeadLength = undefined;
-  var value = 0;
+        arcColorFn: d3.interpolateHsl(d3.rgb('#ff4442'), d3.rgb('#65e863'))
+    };
+    var range = undefined;
+    var r = undefined;
+    var pointerHeadLength = undefined;
+    var value = 0;
 
-  var svg = undefined;
-  var arc = undefined;
-  var arcLabels = undefined;
-  var scale = undefined;
-  var ticks = undefined;
-  var tickData = undefined;
-  var pointer = undefined;
-  var pointerLine = d3.line();
-  var baPg = undefined;
-  var baPointer = undefined;
-  var baPointerText = undefined;
+    var svg = undefined;
+    var arc = undefined;
+    var arcLabels = undefined;
+    var scale = undefined;
+    var ticks = undefined;
+    var tickData = undefined;
+    var pointer = undefined;
+    var pointerLine = d3.line();
+    var baPg = undefined;
+    var baPointer = undefined;
+    var baPointerText = undefined;
 
-  var donut = d3.pie();
+    var donut = d3.pie();
 
-  function deg2rad(deg) {
-    return deg * Math.PI / 180;
-  }
-
-  function newAngle(d) {
-    var ratio = scale(d);
-    var newAngle = config.minAngle + (ratio * range);
-    return newAngle;
-  }
-
-  function configure(configuration) {
-    var prop = undefined;
-    for ( prop in configuration ) {
-      config[prop] = configuration[prop];
+    function deg2rad(deg) {
+        return deg * Math.PI / 180;
     }
 
-    range = config.maxAngle - config.minAngle;
-    r = config.size / 2;
-    pointerHeadLength = Math.round(r * config.pointerHeadLengthPercent);
+    function newAngle(d) {
+        var ratio = scale(d);
+        var newAngle = config.minAngle + (ratio * range);
+        return newAngle;
+    }
 
-    // a linear scale that maps domain values to a percent from 0..1
-    scale = d3.scaleLinear()
-      .range([0,1])
-      .domain([config.minValue, config.maxValue]);
+    function configure(configuration) {
+        var prop = undefined;
+        for (prop in configuration) {
+            config[prop] = configuration[prop];
+        }
 
-    ticks = scale.ticks(config.majorTicks);
-    tickData = d3.range(config.majorTicks).map(function() {return 1/config.majorTicks;});
+        range = config.maxAngle - config.minAngle;
+        r = config.size / 2;
+        pointerHeadLength = Math.round(r * config.pointerHeadLengthPercent);
 
-    arc = d3.arc()
-      .innerRadius(r - config.ringWidth - config.ringInset)
-      .outerRadius(r - config.ringInset)
-      .startAngle(function(d, i) {
-        var ratio = d * i;
-        return deg2rad(config.minAngle + (ratio * range));
-      })
-      .endAngle(function(d, i) {
-        var ratio = d * (i+1);
-        return deg2rad(config.minAngle + (ratio * range));
-      });
+        // a linear scale that maps domain values to a percent from 0..1
+        scale = d3.scaleLinear()
+            .range([0, 1])
+            .domain([config.minValue, config.maxValue]);
 
-    // arcs for text labels
-    arcLabels = d3.arc()
-      .innerRadius(r - config.ringWidth + 10)
-      .outerRadius(r - config.ringInset + 10)
-      .startAngle(-90 * (Math.PI/180))
-      .endAngle(90 * (Math.PI/180));
+        ticks = scale.ticks(config.majorTicks);
+        tickData = d3.range(config.majorTicks).map(function() {
+            return 1 / config.majorTicks;
+        });
 
-  }
-  that.configure = configure;
+        arc = d3.arc()
+            .innerRadius(r - config.ringWidth - config.ringInset)
+            .outerRadius(r - config.ringInset)
+            .startAngle(function(d, i) {
+                var ratio = d * i;
+                return deg2rad(config.minAngle + (ratio * range));
+            })
+            .endAngle(function(d, i) {
+                var ratio = d * (i + 1);
+                return deg2rad(config.minAngle + (ratio * range));
+            });
 
-  function centerTranslation() {
-    return 'translate('+r +','+ r +')';
-  }
+        // arcs for text labels
+        arcLabels = d3.arc()
+            .innerRadius(r - config.ringWidth + 10)
+            .outerRadius(r - config.ringInset + 10)
+            .startAngle(-90 * (Math.PI / 180))
+            .endAngle(90 * (Math.PI / 180));
 
-  function belowleftcenterTranslation() {
-    return 'translate('+ (r) +','+ (r+20) +')';
-  }
+    }
+    that.configure = configure;
 
-  function isRendered() {
-    return (svg !== undefined);
-  }
-  that.isRendered = isRendered;
+    function centerTranslation() {
+        return 'translate(' + r + ',' + r + ')';
+    }
 
-  function render(newValue) {
-    svg = d3.select(container)
-      .append('svg:svg')
-        .attr('class', 'gauge')
-        .attr('width', config.clipWidth)
-        .attr('height', config.clipHeight);
+    function belowleftcenterTranslation() {
+        return 'translate(' + (r) + ',' + (r + 20) + ')';
+    }
 
-    var centerTx = centerTranslation();
+    function isRendered() {
+        return (svg !== undefined);
+    }
+    that.isRendered = isRendered;
 
-    var arcs = svg.append('g')
-        .attr('class', 'arc')
-        .attr('transform', centerTx);
+    function render(newValue) {
+        svg = d3.select(container)
+            .append('svg:svg')
+            .attr('class', 'gauge')
+            .attr('width', config.clipWidth)
+            .attr('height', config.clipHeight);
 
-    arcs.selectAll('path')
-        .data(tickData)
-      .enter().append('path')
-        .attr('fill', function(d, i) {
-          return config.arcColorFn(d * i);
-        })
-        .attr('d', arc);
+        var centerTx = centerTranslation();
 
-    // arc for labels
-    var arcText = svg.append('g')
-        .attr('transform', centerTx);
-    arcText.append("path")
-        .attr("id", "curve")
-        .attr("d", arcLabels)
-        .attr('fill', 'none');
+        var arcs = svg.append('g')
+            .attr('class', 'arc')
+            .attr('transform', centerTx);
 
-    var avgSpeed = config.maxValue/2;
-    ticks = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
-    var lg = svg.append('g')
-        .attr('class', 'label')
-        .attr('transform', centerTx);
-    lg.selectAll('text')
-        .data(ticks)
-      .enter().append('text')
-        .attr('transform', function(d) {
-          var ratio = scale(d);
-          var newAngle = config.minAngle + (ratio * range);
-          return 'rotate(' +newAngle +') translate(0,' +(config.labelInset - r) +')';
-        })
-        .text(config.labelFormat);
+        arcs.selectAll('path')
+            .data(tickData)
+            .enter().append('path')
+            .attr('fill', function(d, i) {
+                return config.arcColorFn(d * i);
+            })
+            .attr('d', arc);
+
+        // arc for labels
+        var arcText = svg.append('g')
+            .attr('transform', centerTx);
+        arcText.append("path")
+            .attr("id", "curve")
+            .attr("d", arcLabels)
+            .attr('fill', 'none');
+
+        var avgSpeed = config.maxValue / 2;
+        ticks = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+        var lg = svg.append('g')
+            .attr('class', 'label')
+            .attr('transform', centerTx);
+        lg.selectAll('text')
+            .data(ticks)
+            .enter().append('text')
+            .attr('transform', function(d) {
+                var ratio = scale(d);
+                var newAngle = config.minAngle + (ratio * range);
+                return 'rotate(' + newAngle + ') translate(0,' + (config.labelInset - r) + ')';
+            })
+            .text(config.labelFormat);
 
 
-    var lineData = [ [config.pointerWidth / 2, 0],
+        var lineData = [
+            [config.pointerWidth / 2, 0],
             [0, -pointerHeadLength],
             [-(config.pointerWidth / 2), 0],
             [0, config.pointerTailLength],
-            [config.pointerWidth / 2, 0] ];
+            [config.pointerWidth / 2, 0]
+        ];
 
-    // borough average pointer
-    baPg = svg.append('g')
-        .attr('class', 'ba-pointer')
-        .attr('transform', centerTx);
+        // borough average pointer
+        baPg = svg.append('g')
+            .attr('class', 'ba-pointer')
+            .attr('transform', centerTx);
 
-    // pointer line
-    var pg = svg.append('g').data([lineData])
-        .attr('class', 'pointer')
-        .attr('transform', centerTx);
+        // pointer line
+        var pg = svg.append('g').data([lineData])
+            .attr('class', 'pointer')
+            .attr('transform', centerTx);
 
-    pointer = pg.append('path')
-      .attr('d', pointerLine )
-      .attr('transform', 'rotate(' +config.minAngle +')');
-
-
-    // mph text
-    var belowleftcenterTx = belowleftcenterTranslation();
-    var mphText = svg.append('g')
-        .attr('class', 'label')
-        .attr('transform', belowleftcenterTx);
-      mphText.append('text')
-        .text('mph');
+        pointer = pg.append('path')
+            .attr('d', pointerLine)
+            .attr('transform', 'rotate(' + config.minAngle + ')');
 
 
-    update(newValue === undefined ? 0 : newValue, []);
-  }
-  that.render = render;
+        // mph text
+        var belowleftcenterTx = belowleftcenterTranslation();
+        var mphText = svg.append('g')
+            .attr('class', 'label')
+            .attr('transform', belowleftcenterTx);
+        mphText.append('text')
+            .text('mph');
 
-  function update(newValue, boroughAverages, newConfiguration) {
-    if ( newConfiguration  !== undefined) {
-      configure(newConfiguration);
+
+        update(newValue === undefined ? 0 : newValue, []);
     }
-    var ratio = scale(newValue);
-    var newAngle = config.minAngle + (ratio * range);
-    var ease = d3.easeLinearIn;
-    pointer.transition()
-      .duration(config.transitionMs)
-      .ease(d3.easeElasticOut)
-      .attr('transform', 'rotate(' +newAngle +')');
-  
+    that.render = render;
 
-    // create ba pointers
-    var baPointers = baPg.selectAll(".ba-pointers")
-      .data(boroughAverages);
+    function update(newValue, boroughAverages, newConfiguration) {
+        if (newConfiguration !== undefined) {
+            configure(newConfiguration);
+        }
+        var ratio = scale(newValue);
+        var newAngle = config.minAngle + (ratio * range);
+        var ease = d3.easeLinearIn;
+        pointer.transition()
+            .duration(config.transitionMs)
+            .ease(d3.easeElasticOut)
+            .attr('transform', 'rotate(' + newAngle + ')');
 
-    // update
-    baPointers.transition()
-        .duration(config.transitionMs)
-        .ease(d3.easeElasticOut)
-        .attr('transform', function(d) {
-            var baRatio = scale(d.baspeed);
-            var newAngle = config.minAngle + (baRatio * range);
-            return 'rotate(' +newAngle +')';
-        });
 
-    baPointers.select("text")
-        .text(function(d) { 
-            var justBorough = d.borough.replace('Average', '')
-            return justBorough; 
-        });
+        // create ba pointers
+        var baPointers = baPg.selectAll(".ba-pointers")
+            .data(boroughAverages);
 
-    // enter
-    var enterPointers = baPointers.enter().append('g')
-        .classed('ba-pointers', true);
+        // update
+        baPointers.transition()
+            .duration(config.transitionMs)
+            .ease(d3.easeElasticOut)
+            .attr('transform', function(d) {
+                var baRatio = scale(d.baspeed);
+                var newAngle = config.minAngle + (baRatio * range);
+                return 'rotate(' + newAngle + ')';
+            });
 
-    enterPointers.append('line')
-        .attr("x1", 0)
-        .attr("y1", 0)
-        .attr("x2", -95)
-        .attr("y2", 0)
-        .attr("stroke-width", 1)
-        .attr("stroke", "#777");
+        baPointers.select("text")
+            .text(function(d) {
+                var justBorough = d.borough.replace('Average', '')
+                return justBorough;
+            });
 
-    enterPointers.append('text')
-        .attr("font-size", "10")
-        .attr("text-anchor", "start")
-        .attr("fill", "#777")
-        .attr("x", -90)
-        .text(function(d) { 
-            var justBorough = d.borough.replace('Average', '')
-            return justBorough; 
-        });
+        // enter
+        var enterPointers = baPointers.enter().append('g')
+            .classed('ba-pointers', true);
 
-    enterPointers.merge(baPointers)
-        .transition()
-        .duration(config.transitionMs)
-        .ease(d3.easeElasticOut)
-        .attr('transform', function(d) {
-            var baRatio = scale(d.baspeed);
-            var newAngle = config.minAngle + (baRatio * range) + 90;
-            return 'rotate(' +newAngle +')';
-        });
+        enterPointers.append('line')
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", -95)
+            .attr("y2", 0)
+            .attr("stroke-width", 1)
+            .attr("stroke", "#777");
 
-    // exit
-    baPointers.exit()
-        .transition()
-        .duration(500)
-        .style('opacity', '0')
-        .remove();
+        enterPointers.append('text')
+            .attr("font-size", "10")
+            .attr("text-anchor", "start")
+            .attr("fill", "#777")
+            .attr("x", -90)
+            .text(function(d) {
+                var justBorough = d.borough.replace('Average', '')
+                return justBorough;
+            });
 
-  }
-   
+        enterPointers.merge(baPointers)
+            .transition()
+            .duration(config.transitionMs)
+            .ease(d3.easeElasticOut)
+            .attr('transform', function(d) {
+                var baRatio = scale(d.baspeed);
+                var newAngle = config.minAngle + (baRatio * range) + 90;
+                return 'rotate(' + newAngle + ')';
+            });
 
-  that.update = update;
+        // exit
+        baPointers.exit()
+            .transition()
+            .duration(500)
+            .style('opacity', '0')
+            .remove();
 
-  configure(configuration);
+    }
 
-  return that;
+
+    that.update = update;
+
+    configure(configuration);
+
+    return that;
 }
+
+app.bunchingKey = function(districtAvg, boroughAvgs) {
+
+  var leftScale = d3.scaleLinear()
+      .domain([0, 25])
+      .range([0, 100]);
+
+  d3.select("#district-average-vertical-container")
+    // .transition()
+    // .duration(500)
+    .style('left', leftScale(districtAvg) + '%');
+
+  d3.select("#district-average-vertical-container p")
+    .text(districtAvg + '%');
+
+
+
+
+}
+
 
 
 

@@ -289,9 +289,9 @@ div.cartodb-tooltip-content p {
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
-  letter-spacing: 1px; 
-  text-transform: uppercase; 
-  color: #333;      
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #333;
 }
 .speed-gauge g.arc {
   fill: steelblue;
@@ -307,6 +307,56 @@ div.cartodb-tooltip-content p {
   fill: #333;
 }
 /* STYLES FOR SPEED GAUGE */
+
+ .bunching-bar {
+  height: 124px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.color-ramp-horizontal-bar {
+  width: 75%;
+  height: 40px;
+  background: linear-gradient(left, #65e863, #ff4442);
+  display: flex;
+  background:  #65e863; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #65e863 , #F4E952,  #ff4442); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #65e863, #F4E952,  #ff4442); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #65e863, #F4E952,  #ff4442); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #65e863 , #F4E952,  #ff4442); /* Standard syntax */
+}
+
+.color-ramp-horizontal-bar .district-average-vertical-container {
+  position: relative;
+  top: -25px;
+}
+
+.district-average-vertical {
+  height: 50px;
+  width: 7px;
+  background: blue;
+}
+
+.district-average-vertical-container p, .borough-average-vertical-container p {
+  position: relative;
+  margin: 0;
+}
+
+// .district-average-vertical-container p {
+
+// }
+
+.color-ramp-horizontal-bar .borough-average-vertical-container {
+  position: relative;
+}
+
+.borough-average-vertical {
+  height: 40px;
+  border: 2px dashed black;
+  width: 2px;
+}
 
 /* STYLES FOR INFOWINDOW */
 

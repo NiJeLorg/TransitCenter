@@ -5,7 +5,7 @@
 <div class="district-map-holder">
     <div id='district-map' class='district-map'></div>
     <button class="toggle-city">
-      <img src="{% static 'website/css/images/city-icon.svg' %}" height="40px">
+        <img src="{% static 'website/css/images/city-icon.svg' %}" height="40px">
     </button>
 </div>
 <main>
@@ -73,8 +73,17 @@
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="The average percentage of buses on routes that cross this district that arrive at less than 25 percent of the scheduled interval behind the previous bus."><small>Average bunching of</small> <span id="avgBunchingWeighted">0</span> <small>%</small></h2>
-                                <div class="color-key-wrapper">
-                                    <div id="bunching-bar" class="bunching-bar"></div>
+                                <div id="bunching-bar" class="bunching-bar">
+                                    <div class="color-ramp-horizontal-bar">
+                                        <div id="district-average-vertical-container" class="district-average-vertical-container">
+                                            <p>0%</p>
+                                            <div class="district-average-vertical"></div>
+                                        </div>
+                                        <div class="borough-average-vertical-container">
+                                            <div class="borough-average-vertical"></div>
+                                            <p></p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <h4 data-toggle="tooltip" data-placement="top" title="Top 3 routes with the highest percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus in the district.">Most Bunching</h4>
                                 <div class="bar-chart-wrapper">
@@ -97,7 +106,7 @@
                                     <div id="fastestGrowing"></div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
                 <div class="row">
