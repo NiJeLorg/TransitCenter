@@ -210,9 +210,6 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
             // start remaining SQL queries
             getAverages();
 
-            // run bar chart update function
-            app.updateBarCharts();
-
             // pull total_rows from response
             $({ countNum: $('#busRoutes').text() }).animate({ countNum: data.total_rows }, {
                 duration: 1000,
@@ -243,7 +240,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
 
     // calculate the average speed, ridership and bunching for routes intersecting the district weighted by ridership
     function getAverages() {
-        var avgWeightedQuery = 'SELECT sum(ridershiptable.year_2015) AS ridership, sum(speedtable.speed * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavgspeed, sum(bunchingtable.prop_bunched * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavgbunching FROM speed_by_route_10_2015_05_2016 AS speedtable, mta_nyct_bus_avg_weekday_ridership AS ridershiptable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = ridershiptable.route_id AND speedtable.route_id = bunchingtable.route_id AND ridershiptable.route_id IN (' + routesWithinSQL + ') AND ridershiptable.year_2015 IS NOT NULL';
+        var avgWeightedQuery = 'SELECT sum(ridershiptable.year_2015) AS ridership, sum(speedtable.speed * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavgspeed, sum(bunchingtable.prop_bunched * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavgbunching FROM speed_by_route_10_2015_05_2016 AS speedtable, mta_nyct_bus_avg_weekday_ridership AS ridershiptable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = ridershiptable.route_id AND speedtable.route_id = bunchingtable.route_id AND ridershiptable.route_id IN (' + app.routeIDArray.join(",") + ') AND ridershiptable.year_2015 IS NOT NULL';
         app.sqlclient.execute(avgWeightedQuery)
             .done(function(data) {
                 $({ countNum: $('#totalRidership').text().replace(',', '') }).animate({ countNum: data.rows[0].ridership }, {
@@ -323,16 +320,63 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
         var baQuery = 'SELECT speedtable.speed AS baspeed, bunchingtable.prop_bunched AS babunching, bunchingtable.route_id AS borough FROM speed_by_route_10_2015_05_2016 AS speedtable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = bunchingtable.route_id AND bunchingtable.route_id IN (' + baWithinSQL + ')';
         app.sqlclient.execute(baQuery)
             .done(function(data) {
-                console.log(data);
                 
                 // update speed gauge
                 app.speedGaugeObject.update(app.avgSpeedWeighted, data.rows);
+
+                // pull the routes within the boroughs
+                getRoutesWithinBoroughs();
 
             })
             .error(function(errors) {
                 // errors contains a list of errors
                 console.log("errors:" + errors);
             }); 
+    }
+
+    function getRoutesWithinBoroughs() {
+        // query the borough boundaries to see which routes fall within each borough
+        var boroughGeomSQL = "SELECT borough.the_geom FROM nyc_borough_boundaries AS borough WHERE ST_Intersects( borough.the_geom, (" + districtGeomSQL + ") )";
+
+        var routesWithinBoroughSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
+        app.sqlclient.execute(routesWithinBoroughSQL)
+            .done(function(data) {
+                // create array of routes that fall with the borough(s) 
+                app.boroughRouteIDArray = [];
+                for (var i = 0; i < data.rows.length; i++) {
+                    app.boroughRouteIDArray.push("'" + String( data.rows[i].route_id ) + "'");
+                }
+
+                // get the max values for the routes within the selected boroughs
+                getExtremes();
+
+            })
+            .error(function(errors) {
+                // errors contains a list of errors
+                console.log("errors:" + errors);
+            });        
+
+    }
+
+    function getExtremes() {
+        var extremesQuery = 'SELECT max(ridership.year_2015) AS maxridership, max(ridership.prop_change_2010_2015) AS maxpropridership, max(bunching.prop_bunched) AS maxbunching, max(speed.speed) AS maxspeed FROM mta_nyct_bus_avg_weekday_ridership AS ridership, bunching_10_2015_05_2016 AS bunching, speed_by_route_10_2015_05_2016 AS speed WHERE ridership.route_id IN (' + app.boroughRouteIDArray.join(",") + ') AND ridership.year_2015 IS NOT NULL';
+        app.sqlclient.execute(extremesQuery)
+            .done(function(data) {
+                console.log(data);
+                app.maxBunching = data.rows[0].maxbunching * 100;
+                app.maxPropRidership = data.rows[0].maxpropridership * 100;
+                app.maxRidership = data.rows[0].maxridership;
+                app.maxSpeed = data.rows[0].maxspeed;
+
+                // run bar chart update function
+                app.updateBarCharts();
+
+            })
+            .error(function(errors) {
+                // errors contains a list of errors
+                console.log("errors:" + errors);
+            });  
+
     }
 
 
@@ -363,9 +407,9 @@ app.updateBarCharts = function() {
 
             // check for existance of SVG and update chart if it already esists
             if ($('#ridership').html()) {
-                app.updateBarChart('#ridership', app.greenColorScale, ridershipArray);
+                app.updateBarChart('#ridership', app.blueColorScale, ridershipArray);
             } else {
-                app.createBarChart('#ridership', app.greenColorScale, ridershipArray);
+                app.createBarChart('#ridership', app.blueColorScale, ridershipArray);
             }
 
             app.createNotesForRidershipBarChart(ridershipNotesArray);
@@ -399,9 +443,9 @@ app.updateBarCharts = function() {
 
             // check for existance of SVG and update chart if it already esists
             if ($('#fastestGrowing').html()) {
-                app.updateBarChart('#fastestGrowing', app.greenColorScale, fastestGrowingArray);
+                app.updateBarChart('#fastestGrowing', app.blueColorScale, fastestGrowingArray);
             } else {
-                app.createBarChart('#fastestGrowing', app.greenColorScale, fastestGrowingArray);
+                app.createBarChart('#fastestGrowing', app.blueColorScale, fastestGrowingArray);
             }
 
             app.reportCardLoaded--;
@@ -496,28 +540,38 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 };
 
 app.updateBarChart = function(divId, barChartColorScale, data) {
-    var arr = [];
-    for (var i = 0; i < data.length; i++) {
-        for (var key in data[i]) {
-            if (typeof data[i][key] === 'number') {
-                arr.push(data[i][key]);
-            }
-        }
-    }
+    // var arr = [];
+    // for (var i = 0; i < data.length; i++) {
+    //     for (var key in data[i]) {
+    //         if (typeof data[i][key] === 'number') {
+    //             arr.push(data[i][key]);
+    //         }
+    //     }
+    // }
 
     // D3 color scales
-    app.greenColorScale.domain([0, d3.max(arr)]);
-    app.mostBunchingColorScale.domain([0, d3.max(arr)]);
-    app.slowestColorScale.domain([0, d3.max(arr)]);
+    app.blueColorScale.domain([0, app.maxRidership]);
+    app.mostBunchingColorScale.domain([0, app.maxBunching]);
+    app.slowestColorScale.domain([0, app.maxSpeed]);
 
     var width = $('.bar-chart-wrapper').width(),
         barHeight = 25,
         barWidth = width * (3 / 4);
 
     var x = d3.scaleLinear()
-        .domain([0, d3.max(arr)])
         .range([barWidth / 4, barWidth]);
 
+    if (divId === '#fastestGrowing') {
+        x.domain([0, app.maxPropRidership]);
+    } else if (divId === '#mostBunching') {
+        x.domain([0, app.maxBunching]);
+    } else if (divId === '#slowest') {
+        x.domain([0, app.maxSpeed]);
+    } else if (divId === '#ridership'){
+        x.domain([0, app.maxRidership]);
+    }
+
+            
     var chart = d3.select(divId)
         .select('svg')
         .attr("width", width)
@@ -741,7 +795,6 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             fillColor: 'rgb(184, 233, 134)',
             fillOpacity: 0.4
         };
-        // {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}
         style = options.style || HIGHLIGHT_STYLE;
         var polygonsHighlighted = [];
 
@@ -749,7 +802,6 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
         // fetch the geometry
         var sql = new cartodb.SQL({ user: app.username, format: 'geojson' });
         sql.execute("select cartodb_id, " + app.districtFieldName + " as districtNum, the_geom as the_geom from (" + layer.getSQL() + ") as _wrap").done(function(geojson) {
-            console.log(geojson, 'geojson');
             var features = geojson.features;
             for (var i = 0; i < features.length; ++i) {
                 var f = geojson.features[i];
@@ -1289,8 +1341,8 @@ app.ordinal_suffix_of = function(i) {
 }
 
 // D3 color scales
-app.greenColorScale = d3.scaleLinear()
-    .range(['#31fd5f', '#1b7640']);
+app.blueColorScale = d3.scaleLinear()
+    .range(['#005777', '#005777']);
 
 app.mostBunchingColorScale = d3.scaleLinear()
     .range(['#ff4442', '#b43d3e']);
