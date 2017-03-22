@@ -1008,17 +1008,19 @@ app.updateRidershipChange = function () {
 }
 
 app.initializeSpeedGauge = function() {
-    // set up report card speed gauge
+  // set up report card speed gauge
   app.speedGaugeObject = app.speedGauge('#speed-gauge', {
     size: 200,
     clipWidth: 200,
-    clipHeight: 110,
+    clipHeight: 120,
     ringWidth: 60,
     minValue: 0,
-    maxValue: 16,
+    maxValue: 19,
     transitionMs: 2000,
     majorTicks: 15,
-    pointerHeadLengthPercent: 0.85,
+    pointerWidth: 5,
+    pointerTailLength: 3,
+    pointerHeadLengthPercent: 0.95,
   });
   app.speedGaugeObject.render();
   // add initial speed object
@@ -1099,7 +1101,7 @@ app.speedGauge = function (container, configuration) {
     labelFormat         : d3.format(',d'),
     labelInset          : 10,
     
-    arcColorFn          : d3.interpolateHsl(d3.rgb('#FF4000'), d3.rgb('#5BCF59'))
+    arcColorFn          : d3.interpolateHsl(d3.rgb('#ff4442'), d3.rgb('#65e863'))
   };
   var range = undefined;
   var r = undefined;
@@ -1169,6 +1171,10 @@ app.speedGauge = function (container, configuration) {
   function centerTranslation() {
     return 'translate('+r +','+ r +')';
   }
+
+  function belowleftcenterTranslation() {
+    return 'translate('+ (r) +','+ (r+20) +')';
+  }
   
   function isRendered() {
     return (svg !== undefined);
@@ -1205,7 +1211,7 @@ app.speedGauge = function (container, configuration) {
         .attr('fill', 'none');
     
     var avgSpeed = config.maxValue/2;
-    ticks = [1, 3, 5, 7, 9, 11, 13, 15]
+    ticks = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
     var lg = svg.append('g')
         .attr('class', 'label')
         .attr('transform', centerTx);
@@ -1233,6 +1239,14 @@ app.speedGauge = function (container, configuration) {
     pointer = pg.append('path')
       .attr('d', pointerLine/*function(d) { return pointerLine(d) +'Z';}*/ )
       .attr('transform', 'rotate(' +config.minAngle +')');
+
+    // mph text
+    var belowleftcenterTx = belowleftcenterTranslation();
+    var mphText = svg.append('g')
+        .attr('class', 'label')
+        .attr('transform', belowleftcenterTx);
+      mphText.append('text')
+        .text('mph');
       
     update(newValue === undefined ? 0 : newValue);
   }
