@@ -1018,7 +1018,9 @@ app.initializeSpeedGauge = function() {
     maxValue: 19,
     transitionMs: 2000,
     majorTicks: 15,
-    pointerHeadLengthPercent: 0.85,
+    pointerWidth: 5,
+    pointerTailLength: 3,
+    pointerHeadLengthPercent: 0.95,
   });
   app.speedGaugeObject.render();
   // add initial speed object

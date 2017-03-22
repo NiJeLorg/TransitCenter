@@ -164,7 +164,7 @@ app.initSpeedGauge = function() {
         majorTicks: 15,
         pointerWidth: 5,
         pointerTailLength: 3,
-        pointerHeadLengthPercent: 0.85,
+        pointerHeadLengthPercent: 0.95,
     });
     app.speedGaugeObject.render();
 }
@@ -179,57 +179,39 @@ app.selectRoutes = function() {
     // now select the distinct routes that intersect that geometry
     var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
 
+
+    var baWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE (mta.route_id = 'Bronx Average' OR mta.route_id = 'Brooklyn Average' OR mta.route_id = 'Manhattan Average' OR mta.route_id = 'Queens Average' OR mta.route_id = 'Staten Island Average') AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
+
+
     // find out when all of the bar charts and text infographics have loaded so we can set the height of the map
     app.reportCardLoaded = 8;
 
     // update data vis text
-    app.updateTextDataVis(routesWithinSQL, districtGeomSQL);
-
-    // pass routesWithinSQL to bar chart update function
-    app.updateBarCharts(routesWithinSQL);
+    app.updateTextDataVis(routesWithinSQL, baWithinSQL, districtGeomSQL);
 
 
 }
 
 // pull data and update text based on selected district
-app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
+app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) {
     // set district name
 
     $('.districtName').text(app.printDistrict + ' ' + app.districtNumber);
 
-    // calculate the average weekly ridership for the routes that intersect the district
-    var ridershipQuery = 'SELECT sum(year_2015) FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL';
-    app.sqlclient.execute(ridershipQuery)
-        .done(function(data) {
-
-            $({ countNum: $('#totalRidership').text().replace(',', '') }).animate({ countNum: data.rows[0].sum }, {
-                duration: 1000,
-                easing: 'linear',
-                step: function() {
-                    if (this.countNum) {
-                        $('#totalRidership').text(app.numberWithCommas(parseInt(this.countNum)));
-                    } else {
-                        $('#totalRidership').text('0');
-                    }
-                },
-                complete: function() {
-                    $('#totalRidership').text(app.numberWithCommas(parseInt(this.countNum)));
-                    app.reportCardLoaded--;
-                    if (app.reportCardLoaded == 0) {
-                        app.calcMapHeightAndLoad();
-                    }
-                }
-            });
-        })
-        .error(function(errors) {
-            // errors contains a list of errors
-            console.log("errors:" + errors);
-        });
-
-
     // calculate number of bus routes that fall within this district
     app.sqlclient.execute(routesWithinSQL)
         .done(function(data) {
+            // create array of routes that fall with the district so we don't ahve to hit the DB with a spatial query every time
+            app.routeIDArray = [];
+            for (var i = 0; i < data.rows.length; i++) {
+                app.routeIDArray.push("'" + String( data.rows[i].route_id ) + "'");
+            }
+
+            // start remaining SQL queries
+            getAverages();
+
+            // run bar chart update function
+            app.updateBarCharts();
 
             // pull total_rows from response
             $({ countNum: $('#busRoutes').text() }).animate({ countNum: data.total_rows }, {
@@ -259,77 +241,112 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
         });
 
 
-    // calculate the average speed for routes intersecting the district weighted by ridership
-    var avgSpeedWeightedQuery = 'SELECT sum(speedtable.speed * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavg FROM speed_by_route_10_2015_05_2016 AS speedtable, mta_nyct_bus_avg_weekday_ridership AS ridershiptable WHERE speedtable.route_id = ridershiptable.route_id AND ridershiptable.route_id IN (' + routesWithinSQL + ') AND ridershiptable.year_2015 IS NOT NULL';
-    app.sqlclient.execute(avgSpeedWeightedQuery)
-        .done(function(data) {
-            $({ countNum: $('#avgSpeedWeighted').text() }).animate({ countNum: data.rows[0].wavg.toFixed(1) }, {
-                duration: 1000,
-                easing: 'linear',
-                step: function() {
-                    if (this.countNum) {
+    // calculate the average speed, ridership and bunching for routes intersecting the district weighted by ridership
+    function getAverages() {
+        var avgWeightedQuery = 'SELECT sum(ridershiptable.year_2015) AS ridership, sum(speedtable.speed * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavgspeed, sum(bunchingtable.prop_bunched * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavgbunching FROM speed_by_route_10_2015_05_2016 AS speedtable, mta_nyct_bus_avg_weekday_ridership AS ridershiptable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = ridershiptable.route_id AND speedtable.route_id = bunchingtable.route_id AND ridershiptable.route_id IN (' + routesWithinSQL + ') AND ridershiptable.year_2015 IS NOT NULL';
+        app.sqlclient.execute(avgWeightedQuery)
+            .done(function(data) {
+                $({ countNum: $('#totalRidership').text().replace(',', '') }).animate({ countNum: data.rows[0].ridership }, {
+                    duration: 1000,
+                    easing: 'linear',
+                    step: function() {
+                        if (this.countNum) {
+                            $('#totalRidership').text(app.numberWithCommas(parseInt(this.countNum)));
+                        } else {
+                            $('#totalRidership').text('0');
+                        }
+                    },
+                    complete: function() {
+                        $('#totalRidership').text(app.numberWithCommas(parseInt(this.countNum)));
+                        app.reportCardLoaded--;
+                        if (app.reportCardLoaded == 0) {
+                            app.calcMapHeightAndLoad();
+                        }
+                    }
+                });
+
+                $({ countNum: $('#avgSpeedWeighted').text() }).animate({ countNum: data.rows[0].wavgspeed.toFixed(1) }, {
+                    duration: 1000,
+                    easing: 'linear',
+                    step: function() {
+                        if (this.countNum) {
+                            $('#avgSpeedWeighted').text(parseFloat(this.countNum).toFixed(1));
+                        } else {
+                            $('#avgSpeedWeighted').text('0');
+                        }
+                    },
+                    complete: function() {
                         $('#avgSpeedWeighted').text(parseFloat(this.countNum).toFixed(1));
-                    } else {
-                        $('#avgSpeedWeighted').text('0');
-                    }
-                },
-                complete: function() {
-                    $('#avgSpeedWeighted').text(parseFloat(this.countNum).toFixed(1));
-                    app.reportCardLoaded--;
-                    if (app.reportCardLoaded == 0) {
-                        app.calcMapHeightAndLoad();
-                    }
+                        app.reportCardLoaded--;
+                        if (app.reportCardLoaded == 0) {
+                            app.calcMapHeightAndLoad();
+                        }
 
+                        app.avgSpeedWeighted = this.countNum;
 
-                    app.speedGaugeObject.update(this.countNum);
-                }
+                        getBoroughAverages();
+
+                    }
+                });
+
+                $({ countNum: $('#avgBunchingWeighted').text() }).animate({ countNum: (data.rows[0].wavgbunching * 100).toFixed(1) }, {
+                    duration: 1000,
+                    easing: 'linear',
+                    step: function() {
+                        if (this.countNum) {
+                            $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
+                        } else {
+                            $('#avgBunchingWeighted').text('0');
+                        }
+                    },
+                    complete: function() {
+                        $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
+                        app.reportCardLoaded--;
+                        if (app.reportCardLoaded == 0) {
+                            app.calcMapHeightAndLoad();
+                        }
+                    }
+                });           
+
+            })
+            .error(function(errors) {
+                // errors contains a list of errors
+                console.log("errors:" + errors);
             });
-        })
-        .error(function(errors) {
-            // errors contains a list of errors
-            console.log("errors:" + errors);
-        });
+
+    }
+
+
 
     // calculate the average speed for routes intersecting the district weighted by ridership
-    var avgBunchingWeightedQuery = 'SELECT sum(bunchingtable.prop_bunched * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavg FROM bunching_10_2015_05_2016 AS bunchingtable, mta_nyct_bus_avg_weekday_ridership AS ridershiptable WHERE bunchingtable.route_id = ridershiptable.route_id AND ridershiptable.route_id IN (' + routesWithinSQL + ') AND ridershiptable.year_2015 IS NOT NULL';
-    app.sqlclient.execute(avgBunchingWeightedQuery)
-        .done(function(data) {
-            $({ countNum: $('#avgBunchingWeighted').text() }).animate({ countNum: (data.rows[0].wavg * 100).toFixed(1) }, {
-                duration: 1000,
-                easing: 'linear',
-                step: function() {
-                    if (this.countNum) {
-                        $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
-                    } else {
-                        $('#avgBunchingWeighted').text('0');
-                    }
-                },
-                complete: function() {
-                    $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
-                    app.reportCardLoaded--;
-                    if (app.reportCardLoaded == 0) {
-                        app.calcMapHeightAndLoad();
-                    }
-                }
-            });
-        })
-        .error(function(errors) {
-            // errors contains a list of errors
-            console.log("errors:" + errors);
-        });
+    function getBoroughAverages() {
+        var baQuery = 'SELECT speedtable.speed AS baspeed, bunchingtable.prop_bunched AS babunching, bunchingtable.route_id AS borough FROM speed_by_route_10_2015_05_2016 AS speedtable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = bunchingtable.route_id AND bunchingtable.route_id IN (' + baWithinSQL + ')';
+        app.sqlclient.execute(baQuery)
+            .done(function(data) {
+                console.log(data);
+                
+                // update speed gauge
+                app.speedGaugeObject.update(app.avgSpeedWeighted, data.rows);
+
+            })
+            .error(function(errors) {
+                // errors contains a list of errors
+                console.log("errors:" + errors);
+            }); 
+    }
+
 
 }
 
 // pull data and creates bar charts for selected district
-app.updateBarCharts = function(routesWithinSQL) {
+app.updateBarCharts = function() {
 
     // using the routes selected by district, build a query for top three routes in ridership
-    var ridershipQuery = 'SELECT route_id, year_2015, note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
+    var ridershipQuery = 'SELECT route_id, year_2015, note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
 
     app.sqlclient.execute(ridershipQuery)
         .done(function(data) {
             // create data object and pass to bar chart for the form
-            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var ridershipArray = [];
             var ridershipNotesArray = [];
             var label;
@@ -366,7 +383,7 @@ app.updateBarCharts = function(routesWithinSQL) {
 
 
     // using the routes selected by district, build a query for top three routes by fastest growing
-    var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + routesWithinSQL + ') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
+    var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
 
 
     app.sqlclient.execute(fastestGrowingQuery)
@@ -399,12 +416,11 @@ app.updateBarCharts = function(routesWithinSQL) {
         });
 
     // using the routes selected by district, build a query for top three routes by most bunching
-    var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
+    var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
 
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
             // create data object and pass to bar chart for the form
-            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var mostBunchingArray = [];
             var pct;
             for (var i = 0; i < data.rows.length; i++) {
@@ -432,12 +448,11 @@ app.updateBarCharts = function(routesWithinSQL) {
 
 
     // using the routes selected by district, build a query for top three slowest routes
-    var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + routesWithinSQL + ') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
+    var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
 
     app.sqlclient.execute(slowestQuery)
         .done(function(data) {
             // create data object and pass to bar chart for the form
-            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var slowestArray = [];
             var num;
             for (var i = 0; i < data.rows.length; i++) {
@@ -1009,7 +1024,10 @@ app.speedGauge = function (container, configuration) {
   var ticks = undefined;
   var tickData = undefined;
   var pointer = undefined;
+  var pointerLine = d3.line();
+  var baPg = undefined;
   var baPointer = undefined;
+  var baPointerText = undefined;
 
   var donut = d3.pie();
 
@@ -1125,30 +1143,22 @@ app.speedGauge = function (container, configuration) {
             [0, -pointerHeadLength],
             [-(config.pointerWidth / 2), 0],
             [0, config.pointerTailLength],
-            [config.pointerWidth / 2, 0] ],
-      baLineData =  [ [1, 0],
-            [0, -pointerHeadLength],
-            [-1, 0],
-            [0, config.pointerTailLength],
-            [1, 0] ];
+            [config.pointerWidth / 2, 0] ];
 
-    var pointerLine = d3.line();
+    // borough average pointer
+    baPg = svg.append('g')
+        .attr('class', 'ba-pointer')
+        .attr('transform', centerTx);
+
+    // pointer line
     var pg = svg.append('g').data([lineData])
         .attr('class', 'pointer')
         .attr('transform', centerTx);
 
     pointer = pg.append('path')
-      .attr('d', pointerLine/*function(d) { return pointerLine(d) +'Z';}*/ )
+      .attr('d', pointerLine )
       .attr('transform', 'rotate(' +config.minAngle +')');
 
-    // boroough average pointer
-    var baPg = svg.append('g').data([baLineData])
-        .attr('class', 'ba-pointer')
-        .attr('transform', centerTx);
-
-    baPointer = baPg.append('path')
-      .attr('d', pointerLine/*function(d) { return pointerLine(d) +'Z';}*/ )
-      .attr('transform', 'rotate(' +config.minAngle +')');
 
     // mph text
     var belowleftcenterTx = belowleftcenterTranslation();
@@ -1159,11 +1169,11 @@ app.speedGauge = function (container, configuration) {
         .text('mph');
 
 
-    update(newValue === undefined ? 0 : newValue);
+    update(newValue === undefined ? 0 : newValue, []);
   }
   that.render = render;
 
-  function update(newValue, boroughAverage, newConfiguration) {
+  function update(newValue, boroughAverages, newConfiguration) {
     if ( newConfiguration  !== undefined) {
       configure(newConfiguration);
     }
@@ -1174,14 +1184,69 @@ app.speedGauge = function (container, configuration) {
       .duration(config.transitionMs)
       .ease(d3.easeElasticOut)
       .attr('transform', 'rotate(' +newAngle +')');
+  
+
+    // create ba pointers
+    var baPointers = baPg.selectAll(".ba-pointers")
+      .data(boroughAverages);
+
+    // update
+    baPointers.transition()
+        .duration(config.transitionMs)
+        .ease(d3.easeElasticOut)
+        .attr('transform', function(d) {
+            var baRatio = scale(d.baspeed);
+            var newAngle = config.minAngle + (baRatio * range);
+            return 'rotate(' +newAngle +')';
+        });
+
+    baPointers.select("text")
+        .text(function(d) { 
+            var justBorough = d.borough.replace('Average', '')
+            return justBorough; 
+        });
+
+    // enter
+    var enterPointers = baPointers.enter().append('g')
+        .classed('ba-pointers', true);
+
+    enterPointers.append('line')
+        .attr("x1", 0)
+        .attr("y1", 0)
+        .attr("x2", -95)
+        .attr("y2", 0)
+        .attr("stroke-width", 1)
+        .attr("stroke", "#777");
+
+    enterPointers.append('text')
+        .attr("font-size", "10")
+        .attr("text-anchor", "start")
+        .attr("fill", "#777")
+        .attr("x", -90)
+        .text(function(d) { 
+            var justBorough = d.borough.replace('Average', '')
+            return justBorough; 
+        });
+
+    enterPointers.merge(baPointers)
+        .transition()
+        .duration(config.transitionMs)
+        .ease(d3.easeElasticOut)
+        .attr('transform', function(d) {
+            var baRatio = scale(d.baspeed);
+            var newAngle = config.minAngle + (baRatio * range) + 90;
+            return 'rotate(' +newAngle +')';
+        });
+
+    // exit
+    baPointers.exit()
+        .transition()
+        .duration(500)
+        .style('opacity', '0')
+        .remove();
+
   }
- var baRatio = scale(boroughAverage);
-   newAngle = config.minAngle + (baRatio * range);
-    baPointer.transition()
-      .duration(config.transitionMs)
-      .ease(d3.easeElasticOut)
-      .attr('transform', 'rotate(' +newAngle +')');
-  }
+   
 
   that.update = update;
 

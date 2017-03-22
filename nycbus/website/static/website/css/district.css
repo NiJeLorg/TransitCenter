@@ -290,8 +290,8 @@ div.cartodb-tooltip-content p {
   fill: steelblue;
 }
 .speed-gauge g.pointer {
-  fill: #777;
-  stroke: #777;
+  fill: #333;
+  stroke: #333;
 }
 .speed-gauge g.label text {
   text-anchor: middle;
