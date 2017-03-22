@@ -760,7 +760,18 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
                 var geo = L.geoJson(features[i], {
                     onEachFeature: function(feature, layer) {
                         layer.on('click', function() {
-                            app.selectDistrictNumberMenu.val(feature.properties.districtnum).trigger("change");
+                            app.districtNumber = feature.properties.districtnum;
+                            if (app.selectDistrictNumberMenu) {
+                                app.selectDistrictNumberMenu.val(app.districtNumber).trigger("change");
+                            } else {
+                                $("#number").val(app.districtNumber);
+                                // add loading modal
+                                $("body").addClass("loading");
+                                // update route selection and data
+                                app.selectRoutes();
+                                // create url parameters
+                                window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
+                            }
                         });
                     }
                 });

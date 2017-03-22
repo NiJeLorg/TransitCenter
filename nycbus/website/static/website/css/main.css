@@ -713,7 +713,7 @@ body {
 @media (min-width: 850px) {
   .speed-gauge {
     position: absolute;
-    bottom: 3px;
+    bottom: -6px;
     left: 220px;
   }
 }

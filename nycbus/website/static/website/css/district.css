@@ -20,6 +20,10 @@
 
 /* OVERIDE SELECT2 STYLES */
 
+.select2-container {
+    min-width: 70px;
+}
+
 .select2-container--default .select2-selection--single {
     border: 1px solid #aaa;
 }
@@ -276,7 +280,10 @@ div.cartodb-tooltip-content p {
     font-weight: bold !important;
 }
 
-/* STYLES FOR SPEED GAUGE */
+/* STYLES FOR COLOR KEYS (SPEED GAUGE AND BUNCHING BAR) */
+.color-key-wrapper {
+    margin-left: 50px;
+}
 .label {
   font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
