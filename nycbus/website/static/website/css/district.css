@@ -188,6 +188,12 @@ main header h2 {
     font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
 }
 
+.ways-to-address .advantages {
+    border-bottom: 1px solid #DDDDDD;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
 .ways-to-address ul {
     font-size: 1.4em;
 }
@@ -261,7 +267,7 @@ footer .logos-holder-print {
     border: none;
     background: #fff;
     border: 1px solid #ccc;
-    box-shadow: 0 1px 5px rgba(0,0,0,.65);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .65);
     border-radius: 4px;
 }
 
@@ -280,83 +286,103 @@ div.cartodb-tooltip-content p {
     font-weight: bold !important;
 }
 
+
 /* STYLES FOR COLOR KEYS (SPEED GAUGE AND BUNCHING BAR) */
+
 .color-key-wrapper {
     margin-left: 50px;
 }
+
 .label {
-  font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 22px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #333;
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #333;
 }
+
 .speed-gauge g.arc {
-  fill: steelblue;
+    fill: steelblue;
 }
+
 .speed-gauge g.pointer {
-  fill: #333;
-  stroke: #333;
+    fill: #333;
+    stroke: #333;
 }
+
 .speed-gauge g.label text {
-  text-anchor: middle;
-  font-size: 12px;
-  font-weight: bold;
-  fill: #333;
+    text-anchor: middle;
+    font-size: 12px;
+    font-weight: bold;
+    fill: #333;
 }
+
+
 /* STYLES FOR SPEED GAUGE */
 
- .bunching-bar {
-  height: 124px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.bunching-bar {
+    height: 124px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .color-ramp-horizontal-bar {
-  width: 75%;
-  height: 40px;
-  background: linear-gradient(left, #65e863, #ff4442);
-  display: flex;
-  background:  #65e863; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left, #65e863 , #F4E952,  #ff4442); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(right, #65e863, #F4E952,  #ff4442); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(right, #65e863, #F4E952,  #ff4442); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, #65e863 , #F4E952,  #ff4442); /* Standard syntax */
+    width: 75%;
+    height: 40px;
+    margin-top: 30px;
+    display: flex;
+    background: #65e863;
+    /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #65e863, #F4E952, #ff4442);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #65e863, #F4E952, #ff4442);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #65e863, #F4E952, #ff4442);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #65e863, #F4E952, #ff4442);
+    /* Standard syntax */
 }
 
 .color-ramp-horizontal-bar .district-average-vertical-container {
-  position: relative;
-  top: -25px;
+    position: relative;
+    top: -5px;
 }
 
 .district-average-vertical {
-  height: 50px;
-  width: 7px;
-  background: blue;
+    height: 50px;
+    width: 7px;
+    background: #333;
+    position: absolute;
 }
 
-.district-average-vertical-container p, .borough-average-vertical-container p {
-  position: relative;
-  margin: 0;
+.district-average-vertical-container p,
+.borough-average-vertical-container p {
+    position: absolute;
+    margin: 0;
 }
 
-// .district-average-vertical-container p {
+.borough-average-vertical-container p {
+    color: #777;
+}
 
-// }
+.district-average-vertical-container p {
+    top: -20px;
+}
 
 .color-ramp-horizontal-bar .borough-average-vertical-container {
-  position: relative;
+    position: relative;
 }
 
 .borough-average-vertical {
-  height: 40px;
-  border: 2px dashed black;
-  width: 2px;
+    position: absolute;
+    height: 40px;
+    border: 2px dashed #777;
+    width: 2px;
 }
+
 
 /* STYLES FOR INFOWINDOW */
 
@@ -443,13 +469,17 @@ div.cartodb-popup div.cartodb-popup-content p {
 
 @media (max-width: 425px) {
     .main-heading {
-        font-size: 3.5em;
+        font-size: 3em;
+        text-align: center;
     }
     .main-heading-card {
         font-size: 2.5em;
     }
     .sub-heading-card {
         font-size: 1em;
+    }
+    .color-ramp-horizontal-bar {
+      width: 94%;
     }
 }
 

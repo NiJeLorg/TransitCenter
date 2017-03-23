@@ -554,8 +554,8 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
 
     // D3 color scales
     app.blueColorScale.domain([0, app.maxRidership]);
-    app.mostBunchingColorScale.domain([0, app.maxBunching]);
-    app.slowestColorScale.domain([0, app.maxSpeed]);
+    app.mostBunchingColorScale.domain([0, 12.5, 25]);
+    app.slowestColorScale.domain([0, 9.5, 19]);
 
     var width = $('.bar-chart-wrapper').width(),
         barHeight = 25,
@@ -1339,9 +1339,57 @@ app.bunchingKey = function(districtAvg, boroughAvgs) {
   d3.select("#district-average-vertical-container p")
     .text(districtAvg + '%');
 
+console.log(boroughAvgs);
 
+    var selection = d3.select('.color-ramp-horizontal-bar');
 
+    // update
+    var selAllDivs = selection.selectAll('.borough-average-vertical-container')
+      .data(boroughAvgs)
+      .style('left', function(d) {
+        console.log(d.babunching);
+        return leftScale(d.babunching * 100) + '%';
+      });
 
+    var updateDivs = selAllDivs.select('p')
+      .text(function(d) {
+        return d.borough.replace('Average', '');
+      });
+
+    // enter
+    var enterDivs = selAllDivs.enter().append('div')
+      .classed('borough-average-vertical-container', true)
+      .style('left', function(d) {
+        console.log(d.babunching);
+        return leftScale(d.babunching * 100) + '%';
+      });
+
+    enterDivs.append('div')
+       .classed('borough-average-vertical', true);
+
+    enterDivs.append('p')
+      .text(function(d) {
+        return d.borough.replace('Average', '');
+      })
+      .style('top', function(d, i) {
+        if (i == 1) {
+          return "54px";
+        } else if (i == 2) {
+          return "68px";
+        } else {
+          return "40px";
+        }
+
+      });;
+
+    enterDivs.merge(selAllDivs);
+
+    // exit
+    selAllDivs.exit()
+        .transition()
+        .duration(500)
+        .style('opacity', '0')
+        .remove();
 }
 
 
@@ -1372,10 +1420,10 @@ app.blueColorScale = d3.scaleLinear()
     .range(['#005777', '#005777']);
 
 app.mostBunchingColorScale = d3.scaleLinear()
-    .range(['#ff4442', '#b43d3e']);
+    .range(['#65e863' , '#F4E952',  '#ff4442']);
 
 app.slowestColorScale = d3.scaleLinear()
-    .range(['#b43d3e', '#ff4442']);
+    .range(['#b43d3e', '#F4E952', '#ff4442']);
 
 
 
