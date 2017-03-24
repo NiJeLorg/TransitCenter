@@ -334,16 +334,11 @@ div.cartodb-tooltip-content p {
     height: 40px;
     margin-top: 30px;
     display: flex;
-    background: #1a9641;
-    /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #1a9641, #a6d96a, #F4E952, #fdae61, #d7191c);
-    /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #1a9641, #a6d96a, #F4E952, #fdae61, #d7191c);
-    /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #1a9641, #a6d96a, #F4E952,#fdae61, #d7191c);
-    /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #1a9641, #a6d96a, #F4E952, #fdae61, #d7191c);
-    /* Standard syntax */
+    background-color: #1a9641; /* fallback color if gradients are not supported */
+    background-image: -webkit-linear-gradient(left, #1a9641, #a6d96a, #F4E952, #F4E952, #fdae61, #d67419, #d7191c); /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+    background-image:    -moz-linear-gradient(right, #1a9641, #a6d96a, #F4E952, #F4E952, #fdae61, #d67419, #d7191c); /* For Firefox (3.6 to 15) */
+    background-image:      -o-linear-gradient(right, #1a9641, #a6d96a, #F4E952, #F4E952, #fdae61, #d67419, #d7191c); /* For old Opera (11.1 to 12.0) */ 
+    background-image:         linear-gradient(to right, #1a9641, #a6d96a, #F4E952, #F4E952, #fdae61, #d67419, #d7191c); /* Standard syntax; must be last */
 }
 
 .color-ramp-horizontal-bar .district-average-vertical-container {
