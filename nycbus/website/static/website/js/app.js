@@ -609,39 +609,33 @@ app.reportCardMap = function (route_id) {
 }
 
 app.initialDataBounds = function (route_id) {
-  // select min and max values for speed dataset
-  // min
-  app.sqlclient.execute("SELECT min(speed), max(speed) FROM table_5150808763")
-  .done(function(data) {
-    //app.minSpeed = data.rows[0].min;
-    app.minSpeed = 0;
-    app.maxSpeed = data.rows[0].max;
-    // set color domain for text colors
+  app.minPropBunched = 0;
+  app.maxPropBunched = 25;
+  app.oneFifthPropBunched = (app.maxPropBunched - app.minPropBunched) / 5;
+  app.firstFifth = app.minPropBunched + app.oneFifthPropBunched;
+  app.secondFifth = app.minPropBunched + (app.oneFifthPropBunched * 2);
+  app.thirdFifth = app.minPropBunched + (app.oneFifthPropBunched * 3);
+  app.fourthFifth = app.minPropBunched + (app.oneFifthPropBunched * 4);
+  app.fifthFifth = app.minPropBunched + (app.oneFifthPropBunched * 5);
 
-    //app.speedTextColorScale.domain([0,app.maxSpeed/10,app.maxSpeed/9,app.maxSpeed/8,app.maxSpeed/7,app.maxSpeed/6,app.maxSpeed/5,app.maxSpeed/4,app.maxSpeed/3,app.maxSpeed/2,app.maxSpeed]);
-    //app.speedTextColorScale.domain([0,2,4,6,8,10,12,14,16,18]);
-    app.speedTextColorScale.domain([app.minSpeed, app.maxSpeed]);
-    // load speed data on the initially selected route
-    loadRouteSpeed();
+  app.bus5MarginScale.domain([app.minPropBunched, app.firstFifth]);
+  app.bus4MarginScale.domain([app.firstFifth, app.secondFifth]);
+  app.bus3MarginScale.domain([app.secondFifth, app.thirdFifth]);
+  app.bus2MarginScale.domain([app.thirdFifth, app.fourthFifth]);
+  app.bus1MarginScale.domain([app.fourthFifth, app.fifthFifth]);
+
+  app.sqlclient.execute("SELECT speed FROM table_5150808763 WHERE route_id = '"+ route_id +"'")
+  .done(function(data) {
+    app.routeSpeed = data.rows[0].speed.toFixed(1);
+    app.initializeSpeedGauge();
+    // set initial text value and color
+    app.updateSpeedText(app.routeSpeed);
   })
   .error(function(errors) {
+    // errors contains a list of errors
     console.log("errors:" + errors);
-  });
-
-  function loadRouteSpeed() {
-    app.sqlclient.execute("SELECT speed FROM table_5150808763 WHERE route_id = '"+ route_id +"'")
-    .done(function(data) {
-      app.routeSpeed = data.rows[0].speed.toFixed(1);
-      app.initializeSpeedGauge();
-      // set initial text value and color
-      $('#speedNumber').text(app.routeSpeed);
-      $('#speedNumber').css( "color", app.speedTextColorScale(app.routeSpeed) );
-    })
-    .error(function(errors) {
-      // errors contains a list of errors
-      console.log("errors:" + errors);
-    });   
-  }
+  });   
+  
 
   // select min and max numbers for ridership change
   app.sqlclient.execute("SELECT min(prop_change_2010_2015), max(prop_change_2010_2015) FROM mta_nyct_bus_avg_weekday_ridership")
@@ -667,59 +661,13 @@ app.initialDataBounds = function (route_id) {
       app.ridershipTextColorScale.domain([app.minRidership, app.maxRidership]);
       // update riderhip figures for this route
       app.updateRidership(route_id);
+      // update bunching text and graphic for this route
+      app.updateBunching(route_id);
     })
     .error(function(errors) {
       console.log("errors:" + errors);
     }); 
   }
-
-  // select min and max numbers for ridership data
-  app.sqlclient.execute("SELECT min(prop_bunched), max(prop_bunched) FROM bunching_10_2015_05_2016")
-  .done(function(data) {
-    app.minPropBunched = data.rows[0].min * 100;
-    app.maxPropBunched = data.rows[0].max * 100;
-    // set color domain for text colors
-    app.bunchTextColorScale.domain([app.minPropBunched, app.maxPropBunched]);
-    // set up margin and color scales for each bus
-    app.bunchMarginColorScales();
-    // update bunching text and graphic for this route
-    app.updateBunching(route_id);
-  })
-  .error(function(errors) {
-    console.log("errors:" + errors);
-  }); 
-
-}
-
-app.bunchMarginColorScales = function () {
-  // calculate 5ths
-  app.oneFifthPropBunched = (app.maxPropBunched - app.minPropBunched) / 5;
-  app.firstFifth = app.minPropBunched + app.oneFifthPropBunched;
-  app.secondFifth = app.minPropBunched + (app.oneFifthPropBunched * 2);
-  app.thirdFifth = app.minPropBunched + (app.oneFifthPropBunched * 3);
-  app.fourthFifth = app.minPropBunched + (app.oneFifthPropBunched * 4);
-  app.fifthFifth = app.minPropBunched + (app.oneFifthPropBunched * 5);
-
-/* Changing to one color scale for all buses
-  app.bus5ColorScale.domain([app.minPropBunched, app.firstFifth]);
-  app.bus4ColorScale.domain([app.firstFifth, app.secondFifth]);
-  app.bus3ColorScale.domain([app.secondFifth, app.thirdFifth]);
-  app.bus2ColorScale.domain([app.thirdFifth, app.fourthFifth]);
-  app.bus1ColorScale.domain([app.fourthFifth, app.fifthFifth]);
-*/
-
-  app.bus5ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
-  app.bus4ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
-  app.bus3ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
-  app.bus2ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
-  app.bus1ColorScale.domain([app.minPropBunched, app.maxPropBunched]);
-
-
-  app.bus5MarginScale.domain([app.minPropBunched, app.firstFifth]);
-  app.bus4MarginScale.domain([app.firstFifth, app.secondFifth]);
-  app.bus3MarginScale.domain([app.secondFifth, app.thirdFifth]);
-  app.bus2MarginScale.domain([app.thirdFifth, app.fourthFifth]);
-  app.bus1MarginScale.domain([app.fourthFifth, app.fifthFifth]);
 
 }
 
@@ -746,7 +694,7 @@ app.updateBunching = function(route_id) {
 app.updateBunchingText = function () {
   if (app.propBunched == 'N/A') {
     $('#bunchedNumber').text('N/A');
-    $('#bunchedNumber').css( "color", app.bunchTextColorScale(0) );
+    $('#bunchedNumber').css( "color", app.bunchColorScale(0) );
   } else {
     $({countNum: $('#bunchedNumber').text().replace('%','')}).animate({countNum: app.propBunched}, {
       duration: 1000,
@@ -754,99 +702,61 @@ app.updateBunchingText = function () {
       step: function() {
         if (this.countNum) {
           $('#bunchedNumber').text(parseFloat(this.countNum).toFixed(1) + '%');
-          $('#bunchedNumber').css( "color", app.bunchTextColorScale(this.countNum) );
+          $('#bunchedNumber').css( "color", app.bunchColorScale(this.countNum) );
         } else {
           $('#bunchedNumber').text('0%');
         }
       },
       complete: function() {
         $('#bunchedNumber').text(parseFloat(this.countNum).toFixed(1) + '%');
-        $('#bunchedNumber').css( "color", app.bunchTextColorScale(this.countNum) );
+        $('#bunchedNumber').css( "color", app.bunchColorScale(this.countNum) );
       }
     });    
   }
 
 }
 
-/* 
-  app.firstFifth = app.minPropBunched + app.oneFifthPropBunched;
-  app.secondFifth = app.minPropBunched + (app.oneFifthPropBunched * 2);
-  app.thirdFifth = app.minPropBunched + (app.oneFifthPropBunched * 3);
-  app.fourthFifth = app.minPropBunched + (app.oneFifthPropBunched * 4);
-  app.fifthFifth = app.minPropBunched + (app.oneFifthPropBunched * 5);
-*/
 app.updateBunchingGraphic = function () {
+  var color = app.bunchColorScale(app.propBunched);
+  console.log(app.propBunched);
   if (app.propBunched <= app.firstFifth) {
     // update the margin/color for fifth bus and set the other buses to their minimum
-    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.propBunched);
-
-    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.firstFifth);
-    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.secondFifth);
-    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.thirdFifth);
-    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.fourthFifth);
   } else if (app.propBunched <= app.secondFifth) {
-    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.firstFifth);
-
-    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.propBunched);
-
-    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.secondFifth);
-    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.thirdFifth);
-    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.fourthFifth);
   } else if (app.propBunched <= app.thirdFifth) {
-    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.firstFifth);
-    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.secondFifth);
-
-    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.propBunched);
-
-    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.thirdFifth);
-    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.fourthFifth);
   } else if (app.propBunched <= app.fourthFifth) {
-    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.firstFifth);
-    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.secondFifth);
-    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.thirdFifth);
-
-    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.propBunched);
-
-    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.fourthFifth);
   } else {
-    var color5 = app.bus5ColorScale(app.propBunched);
     var margin5 = app.bus5MarginScale(app.firstFifth);
-    var color4 = app.bus4ColorScale(app.propBunched);
     var margin4 = app.bus4MarginScale(app.secondFifth);
-    var color3 = app.bus3ColorScale(app.propBunched);
     var margin3 = app.bus3MarginScale(app.thirdFifth);
-    var color2 = app.bus2ColorScale(app.propBunched);
     var margin2 = app.bus2MarginScale(app.fourthFifth);
-
-    var color1 = app.bus1ColorScale(app.propBunched);
     var margin1 = app.bus1MarginScale(app.propBunched);    
   }
   // apply colors and margins
-  d3.select("#useBus5").transition().duration(1000).style("fill", color5);
-  d3.select("#useBus4").transition().duration(1000).style("fill", color4);
-  d3.select("#useBus3").transition().duration(1000).style("fill", color3);
-  d3.select("#useBus2").transition().duration(1000).style("fill", color2);
-  d3.select("#useBus1").transition().duration(1000).style("fill", color1);
+  d3.select("#useBus5").transition().duration(1000).style("fill", color);
+  d3.select("#useBus4").transition().duration(1000).style("fill", color);
+  d3.select("#useBus3").transition().duration(1000).style("fill", color);
+  d3.select("#useBus2").transition().duration(1000).style("fill", color);
+  d3.select("#useBus1").transition().duration(1000).style("fill", color);
 
   margin5 = margin5 + 'px';
   margin4 = margin4 + 'px';
@@ -1025,8 +935,6 @@ app.initializeSpeedGauge = function() {
   app.speedGaugeObject.render();
   // add initial speed object
   app.speedGaugeObject.update(app.routeSpeed);
-  // update speed number
-  $('#speedNumber').text(app.routeSpeed);
 }
 
 app.updateSpeedGuageAndText = function(route_id) {
@@ -1101,7 +1009,7 @@ app.speedGauge = function (container, configuration) {
     labelFormat         : d3.format(',d'),
     labelInset          : 10,
     
-    arcColorFn          : d3.interpolateHsl(d3.rgb('#ff4442'), d3.rgb('#65e863'))
+    arcColorFn          : d3.scaleLinear().domain([0,0.25,0.5,0.75,1]).range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']),
   };
   var range = undefined;
   var r = undefined;
@@ -1628,8 +1536,14 @@ app.ordinal_suffix_of = function (i) {
 
 
 // color ranges for text. Set domains based on data above
-app.speedTextColorScale = d3.scaleQuantize()
-  .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
+app.speedTextColorScale = d3.scaleLinear()
+  .domain([0, 4.75, 9.5, 14.25, 19])
+  .range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']);
+
+app.bunchColorScale = d3.scaleLinear()
+  .domain([0, 6.25, 12.5, 18.75, 25])
+  .range(['#1a9641', '#a6d96a', '#F4E952', '#fdae61', '#d7191c']);
+
 
 app.ridershipTextColorScale = d3.scaleQuantize()
   .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
@@ -1640,23 +1554,6 @@ app.ridershipRankingTextColorScale = d3.scaleQuantize()
 app.ridershipChangeTextColorScale = d3.scaleQuantize()
   .range(["#a94442","#a50026","#d73027","#f46d43","#fdae61","#a6d96a","#66bd63","#1a9850","#006837","#3c763d"]);
 
-app.bunchTextColorScale = d3.scaleQuantize()
-  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
-
-app.bus1ColorScale = d3.scaleQuantize()
-  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
-
-app.bus2ColorScale = d3.scaleQuantize()
-  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
-
-app.bus3ColorScale = d3.scaleQuantize()
-  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
-
-app.bus4ColorScale = d3.scaleQuantize()
-  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
-
-app.bus5ColorScale = d3.scaleQuantize()
-  .range(["#3c763d", "#006837","#1a9850","#66bd63","#a6d96a","#fdae61","#f46d43","#d73027","#a50026","#a94442"]);
 
 app.bus1MarginScale = d3.scaleLinear()
   .range([30, 2]);
@@ -1672,7 +1569,6 @@ app.bus4MarginScale = d3.scaleLinear()
 
 app.bus5MarginScale = d3.scaleLinear()
   .range([30, 2]);
-
 
 // share buttons
 app.updateShareButtons = function (route_id) {

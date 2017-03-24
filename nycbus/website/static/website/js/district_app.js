@@ -329,7 +329,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
                 app.bunchingKey(app.avgBunchingWeighted, data.rows);
 
                 // pull the routes within the boroughs
-                getRoutesWithinBoroughs();
+                getBoroughGeoms();
 
             })
             .error(function(errors) {
@@ -338,29 +338,62 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
             });
     }
 
-    function getRoutesWithinBoroughs() {
-        // query the borough boundaries to see which routes fall within each borough
-        var boroughGeomSQL = "SELECT borough.the_geom FROM nyc_borough_boundaries AS borough WHERE ST_Intersects( borough.the_geom, (" + districtGeomSQL + ") )";
-
-        var routesWithinBoroughSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + boroughGeomSQL + ") )";
-        app.sqlclient.execute(routesWithinBoroughSQL)
+    function getBoroughGeoms() {
+        var boroughGeomSQL = "SELECT ST_AsText(borough.the_geom) FROM nyc_borough_boundaries AS borough WHERE ST_Intersects( borough.the_geom, (" + districtGeomSQL + ") )";
+        app.sqlclient.execute(boroughGeomSQL)
             .done(function(data) {
+                var count = data.rows.length - 1;
                 // create array of routes that fall with the borough(s)
                 app.boroughRouteIDArray = [];
+                // create array of borough geoms
                 for (var i = 0; i < data.rows.length; i++) {
-                    app.boroughRouteIDArray.push("'" + String(data.rows[i].route_id) + "'");
+                    var routesWithinBoroughSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( ST_AsText(mta.the_geom)::geometry, '" + data.rows[i].st_astext + "'::geometry)";
+                    app.sqlclient.execute(routesWithinBoroughSQL)
+                        .done(function(data_j) {
+                            for (var j = 0; j < data_j.rows.length; j++) {
+                                app.boroughRouteIDArray.push("'" + String(data_j.rows[j].route_id) + "'");
+                            }
+
+                            if (count = i) {
+                                getExtremes();
+                            }
+
+                        })
+                        .error(function(errors) {
+                            // errors contains a list of errors
+                            console.log("errors:" + errors);
+                        });
+
+
                 }
 
-                // get the max values for the routes within the selected boroughs
-                getExtremes();
+
 
             })
             .error(function(errors) {
                 // errors contains a list of errors
                 console.log("errors:" + errors);
             });
-
     }
+
+    // function getRoutesWithinBoroughs(boroughGeom) {
+    //     // query the borough boundaries to see which routes fall within each borough
+        
+    //     var routesWithinBoroughSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , " + boroughGeom + ")";
+    //     app.sqlclient.execute(routesWithinBoroughSQL)
+    //         .done(function(data) {
+    //             for (var i = 0; i < data.rows.length; i++) {
+    //                 app.boroughRouteIDArray.push("'" + String(data.rows[i].route_id) + "'");
+    //             }
+
+    //         })
+    //         .error(function(errors) {
+    //             // errors contains a list of errors
+    //             console.log("errors:" + errors);
+    //         });
+
+    // }
+
 
     function getExtremes() {
         var extremesQuery = 'SELECT max(ridership.year_2015) AS maxridership, max(ridership.prop_change_2010_2015) AS maxpropridership, max(bunching.prop_bunched) AS maxbunching, max(speed.speed) AS maxspeed FROM mta_nyct_bus_avg_weekday_ridership AS ridership, bunching_10_2015_05_2016 AS bunching, speed_by_route_10_2015_05_2016 AS speed WHERE ridership.route_id IN (' + app.boroughRouteIDArray.join(",") + ') AND ridership.year_2015 IS NOT NULL';
@@ -543,26 +576,13 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 };
 
 app.updateBarChart = function(divId, barChartColorScale, data) {
-    // var arr = [];
-    // for (var i = 0; i < data.length; i++) {
-    //     for (var key in data[i]) {
-    //         if (typeof data[i][key] === 'number') {
-    //             arr.push(data[i][key]);
-    //         }
-    //     }
-    // }
-
-    // D3 color scales
-    app.blueColorScale.domain([0, app.maxRidership]);
-    app.mostBunchingColorScale.domain([0, 12.5, 25]);
-    app.slowestColorScale.domain([0, 9.5, 19]);
 
     var width = $('.bar-chart-wrapper').width(),
         barHeight = 25,
         barWidth = width * (3 / 4);
 
     var x = d3.scaleLinear()
-        .range([barWidth / 4, barWidth]);
+        .range([barWidth / 7, barWidth]);
 
     if (divId === '#fastestGrowing') {
         x.domain([0, app.maxPropRidership]);
@@ -1076,7 +1096,7 @@ app.speedGauge = function(container, configuration) {
         labelFormat: d3.format(',d'),
         labelInset: 10,
 
-        arcColorFn: d3.interpolateHsl(d3.rgb('#ff4442'), d3.rgb('#65e863'))
+        arcColorFn: d3.scaleLinear().domain([0,0.25,0.5,0.75,1]).range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']),
     };
     var range = undefined;
     var r = undefined;
@@ -1326,20 +1346,20 @@ app.speedGauge = function(container, configuration) {
 }
 
 app.bunchingKey = function(districtAvg, boroughAvgs) {
+    // sort boroughAvgs
+    boroughAvgs.sort(function(a, b) {
+        return parseFloat(a.babunching) - parseFloat(b.babunching);
+    });
 
-  var leftScale = d3.scaleLinear()
+    var leftScale = d3.scaleLinear()
       .domain([0, 25])
       .range([0, 100]);
 
-  d3.select("#district-average-vertical-container")
-    // .transition()
-    // .duration(500)
+    d3.select("#district-average-vertical-container")
     .style('left', leftScale(districtAvg) + '%');
 
-  d3.select("#district-average-vertical-container p")
+    d3.select("#district-average-vertical-container p")
     .text(districtAvg + '%');
-
-console.log(boroughAvgs);
 
     var selection = d3.select('.color-ramp-horizontal-bar');
 
@@ -1347,7 +1367,6 @@ console.log(boroughAvgs);
     var selAllDivs = selection.selectAll('.borough-average-vertical-container')
       .data(boroughAvgs)
       .style('left', function(d) {
-        console.log(d.babunching);
         return leftScale(d.babunching * 100) + '%';
       });
 
@@ -1360,7 +1379,6 @@ console.log(boroughAvgs);
     var enterDivs = selAllDivs.enter().append('div')
       .classed('borough-average-vertical-container', true)
       .style('left', function(d) {
-        console.log(d.babunching);
         return leftScale(d.babunching * 100) + '%';
       });
 
@@ -1373,11 +1391,11 @@ console.log(boroughAvgs);
       })
       .style('top', function(d, i) {
         if (i == 1) {
-          return "54px";
+          return "58px";
         } else if (i == 2) {
-          return "68px";
+          return "72px";
         } else {
-          return "40px";
+          return "44px";
         }
 
       });;
@@ -1417,13 +1435,16 @@ app.ordinal_suffix_of = function(i) {
 
 // D3 color scales
 app.blueColorScale = d3.scaleLinear()
+    .domain([0, app.maxRidership])
     .range(['#005777', '#005777']);
 
 app.mostBunchingColorScale = d3.scaleLinear()
-    .range(['#65e863' , '#F4E952',  '#ff4442']);
+    .domain([0, 6.25, 12.5, 18.75, 25])
+    .range(['#1a9641', '#a6d96a', '#F4E952', '#fdae61', '#d7191c']);
 
 app.slowestColorScale = d3.scaleLinear()
-    .range(['#b43d3e', '#F4E952', '#ff4442']);
+    .domain([0, 4.75, 9.5, 14.25, 19])
+    .range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']);
 
 
 

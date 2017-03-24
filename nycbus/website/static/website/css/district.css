@@ -45,7 +45,7 @@ a {
 }
 
 .main-heading {
-    font-size: 4em;
+    font-size: 2.8em;
     font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
 }
@@ -65,7 +65,7 @@ a {
 }
 
 .main-heading-card {
-    font-size: 3em;
+    font-size: 2.5em;
 }
 
 .sub-heading-card {
@@ -143,12 +143,12 @@ main header h2 {
 }
 
 .header-dropdown-select {
-    bottom: -2px;
+    bottom: 0px;
 }
 
 .print-button-holder {
     display: block;
-    margin-top: 9px;
+    margin-top: 7px;
 }
 
 .print-button-holder button {
@@ -334,15 +334,15 @@ div.cartodb-tooltip-content p {
     height: 40px;
     margin-top: 30px;
     display: flex;
-    background: #65e863;
+    background: #1a9641;
     /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #65e863, #F4E952, #ff4442);
+    background: -webkit-linear-gradient(left, #1a9641, #a6d96a, #F4E952, #fdae61, #d7191c);
     /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #65e863, #F4E952, #ff4442);
+    background: -o-linear-gradient(right, #1a9641, #a6d96a, #F4E952, #fdae61, #d7191c);
     /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #65e863, #F4E952, #ff4442);
+    background: -moz-linear-gradient(right, #1a9641, #a6d96a, #F4E952,#fdae61, #d7191c);
     /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #65e863, #F4E952, #ff4442);
+    background: linear-gradient(to right, #1a9641, #a6d96a, #F4E952, #fdae61, #d7191c);
     /* Standard syntax */
 }
 
@@ -362,6 +362,7 @@ div.cartodb-tooltip-content p {
 .borough-average-vertical-container p {
     position: absolute;
     margin: 0;
+    line-height: 1.2em;
 }
 
 .borough-average-vertical-container p {
@@ -379,8 +380,8 @@ div.cartodb-tooltip-content p {
 .borough-average-vertical {
     position: absolute;
     height: 40px;
-    border: 2px dashed #777;
-    width: 2px;
+    border: 1px dashed #777;
+    width: 1px;
 }
 
 
@@ -469,11 +470,11 @@ div.cartodb-popup div.cartodb-popup-content p {
 
 @media (max-width: 425px) {
     .main-heading {
-        font-size: 3em;
+        font-size: 2.5em;
         text-align: center;
     }
     .main-heading-card {
-        font-size: 2.5em;
+        font-size: 2.0em;
     }
     .sub-heading-card {
         font-size: 1em;
@@ -522,6 +523,7 @@ div.cartodb-popup div.cartodb-popup-content p {
         max-width: 100% !important;
     }
     header,
+    hr,
     .sub-heading-card,
     .methodsLink,
     .leaflet-bottom,
@@ -541,16 +543,20 @@ div.cartodb-popup div.cartodb-popup-content p {
         display: flex;
         justify-content: center;
     }
+    .report-card h2 {
+    	margin-top: 5px;
+    	margin-bottom: 8px;
+    }
     .source-link a {
         color: #17BEE8;
         text-decoration: underline;
     }
     .main-heading {
         text-align: center;
-        font-size: 2em;
+        font-size: 1.8em;
     }
     .main-heading-card {
-        font-size: 1.8em;
+        font-size: 1.6em;
     }
     .turnaround-heading {
         display: inline-block;
@@ -587,6 +593,7 @@ div.cartodb-popup div.cartodb-popup-content p {
     .ways-to-address p,
     .ways-to-address ul {
         font-size: 1.1em;
+        line-height: 1.3em;
     }
     .district-map-static-wrapper {
         display: block;
@@ -619,6 +626,9 @@ div.cartodb-popup div.cartodb-popup-content p {
     }
     .average-bunching-row {
         display: inline-block;
+    }
+    .color-ramp-horizontal-bar {
+    	-webkit-print-color-adjust:exact;
     }
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {
