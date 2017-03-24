@@ -1439,8 +1439,8 @@ app.blueColorScale = d3.scaleLinear()
     .range(['#005777', '#005777']);
 
 app.mostBunchingColorScale = d3.scaleLinear()
-    .domain([0, 6.25, 12.5, 18.75, 25])
-    .range(['#1a9641', '#a6d96a', '#F4E952', '#fdae61', '#d7191c']);
+    .domain([0, 4.16, 8.33, 12.5, 16.67, 20.83, 25])
+    .range(['#1a9641', '#a6d96a', '#F4E952', '#F4E952', '#fdae61', '#d67419', '#d7191c']);
 
 app.slowestColorScale = d3.scaleLinear()
     .domain([0, 4.75, 9.5, 14.25, 19])
