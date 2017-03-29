@@ -184,7 +184,7 @@ app.selectRoutes = function() {
 
 
     // find out when all of the bar charts and text infographics have loaded so we can set the height of the map
-    app.reportCardLoaded = 8;
+    app.reportCardLoaded = 9;
 
     // update data vis text
     app.updateTextDataVis(routesWithinSQL, baWithinSQL, districtGeomSQL);
@@ -286,24 +286,49 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
                     }
                 });
 
-                $({ countNum: $('#avgBunchingWeighted').text() }).animate({ countNum: (data.rows[0].wavgbunching * 100).toFixed(1) }, {
+                // calculate average bunching numerator and denominator
+                var f = new Fraction(data.rows[0].wavgbunching.toFixed(2));
+
+				app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
+
+                $({ countNum: $('#avgBunchingWeightedNumerator').text() }).animate({ countNum: f.numerator }, {
                     duration: 1000,
                     easing: 'linear',
                     step: function() {
                         if (this.countNum) {
-                            $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
+                            $('#avgBunchingWeightedNumerator').text(parseInt(this.countNum));
                         } else {
-                            $('#avgBunchingWeighted').text('0');
+                            $('#avgBunchingWeightedNumerator').text('0');
                         }
                     },
                     complete: function() {
-                        $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
+                        $('#avgBunchingWeightedNumerator').text(parseInt(this.countNum));
                         app.reportCardLoaded--;
                         if (app.reportCardLoaded == 0) {
                             app.calcMapHeightAndLoad();
                         }
 
-                        app.avgBunchingWeighted = this.countNum;
+                        
+                    }
+                });
+
+                $({ countNum: $('#avgBunchingWeightedDemominator').text() }).animate({ countNum: f.denominator }, {
+                    duration: 1000,
+                    easing: 'linear',
+                    step: function() {
+                        if (this.countNum) {
+                            $('#avgBunchingWeightedDemominator').text(parseInt(this.countNum));
+                        } else {
+                            $('#avgBunchingWeightedDemominator').text('0');
+                        }
+                    },
+                    complete: function() {
+                        $('#avgBunchingWeightedDemominator').text(parseInt(this.countNum));
+                        app.reportCardLoaded--;
+                        if (app.reportCardLoaded == 0) {
+                            app.calcMapHeightAndLoad();
+                        }
+
                     }
                 });
 
@@ -852,7 +877,6 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
                 });
 
                 geo.setStyle(style);
-                //console.log(geo, "geometries");
                 // add to polygons
                 app.polygons[key] = app.polygons[key] || [];
                 app.polygons[key].push(geo);
@@ -1096,7 +1120,7 @@ app.speedGauge = function(container, configuration) {
         labelFormat: d3.format(',d'),
         labelInset: 10,
 
-        arcColorFn: d3.scaleLinear().domain([0,0.25,0.5,0.75,1]).range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']),
+        arcColorFn: d3.scaleLinear().domain([0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1]).range(['#FA7C00', '#FF7F00', '#FF8812', '#FFB100', '#FFB712', '#6DD5EE', '#17C0E8', '#2B54EC']),
     };
     var range = undefined;
     var r = undefined;
@@ -1436,15 +1460,15 @@ app.ordinal_suffix_of = function(i) {
 // D3 color scales
 app.blueColorScale = d3.scaleLinear()
     .domain([0, app.maxRidership])
-    .range(['#005777', '#005777']);
+    .range(['#aaa', '#aaa']);
 
 app.mostBunchingColorScale = d3.scaleLinear()
-    .domain([0, 4.16, 8.33, 12.5, 16.67, 20.83, 25])
-    .range(['#1a9641', '#a6d96a', '#F4E952', '#F4E952', '#fdae61', '#d67419', '#d7191c']);
+    .domain([0, 3.5714, 7.1428, 10.7142, 14.2857, 17.8571, 21.4285, 25])
+    .range(['#2B54EC', '#17C0E8', '#6DD5EE', '#FFB712', '#FFB100', '#FF8812', '#FF7F00', '#FA7C00']);
 
 app.slowestColorScale = d3.scaleLinear()
-    .domain([0, 4.75, 9.5, 14.25, 19])
-    .range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']);
+    .domain([0, 2.714, 5.4285, 8.1428, 10.8571, 13.5714, 16.2857, 19])
+    .range(['#FA7C00', '#FF7F00', '#FF8812', '#FFB100', '#FFB712', '#6DD5EE', '#17C0E8', '#2B54EC']);
 
 
 
