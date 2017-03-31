@@ -138,6 +138,10 @@ main header h2 {
     margin: 0;
 }
 
+.methodsLink {
+    margin-right: 20px;
+}
+
 .turnaround-heading {
     display: none;
 }
@@ -334,11 +338,16 @@ div.cartodb-tooltip-content p {
     height: 40px;
     margin-top: 30px;
     display: flex;
-    background-color: #1a9641; /* fallback color if gradients are not supported */
-    background-image: -webkit-linear-gradient(left, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00); /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
-    background-image:    -moz-linear-gradient(right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00); /* For Firefox (3.6 to 15) */
-    background-image:      -o-linear-gradient(right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00); /* For old Opera (11.1 to 12.0) */ 
-    background-image:         linear-gradient(to right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00); /* Standard syntax; must be last */
+    background-color: #1a9641;
+    /* fallback color if gradients are not supported */
+    background-image: -webkit-linear-gradient(left, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00);
+    /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+    background-image: -moz-linear-gradient(right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00);
+    /* For Firefox (3.6 to 15) */
+    background-image: -o-linear-gradient(right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00);
+    /* For old Opera (11.1 to 12.0) */
+    background-image: linear-gradient(to right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00);
+    /* Standard syntax; must be last */
 }
 
 .color-ramp-horizontal-bar .district-average-vertical-container {
@@ -475,7 +484,7 @@ div.cartodb-popup div.cartodb-popup-content p {
         font-size: 1em;
     }
     .color-ramp-horizontal-bar {
-      width: 94%;
+        width: 94%;
     }
 }
 
@@ -539,8 +548,8 @@ div.cartodb-popup div.cartodb-popup-content p {
         justify-content: center;
     }
     .report-card h2 {
-    	margin-top: 5px;
-    	margin-bottom: 8px;
+        margin-top: 5px;
+        margin-bottom: 8px;
     }
     .source-link a {
         color: #17BEE8;
@@ -623,7 +632,7 @@ div.cartodb-popup div.cartodb-popup-content p {
         display: inline-block;
     }
     .color-ramp-horizontal-bar {
-    	-webkit-print-color-adjust:exact;
+        -webkit-print-color-adjust: exact;
     }
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {

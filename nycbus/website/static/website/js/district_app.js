@@ -308,7 +308,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
                             app.calcMapHeightAndLoad();
                         }
 
-                        
+
                     }
                 });
 
@@ -403,7 +403,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
 
     // function getRoutesWithinBoroughs(boroughGeom) {
     //     // query the borough boundaries to see which routes fall within each borough
-        
+
     //     var routesWithinBoroughSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , " + boroughGeom + ")";
     //     app.sqlclient.execute(routesWithinBoroughSQL)
     //         .done(function(data) {
@@ -1261,8 +1261,6 @@ app.speedGauge = function(container, configuration) {
 
         // borough average pointer
         baPg = svg.append('g')
-            .attr('class', 'ba-pointer')
-            .attr('transform', centerTx);
 
         // pointer line
         var pg = svg.append('g').data([lineData])
@@ -1387,51 +1385,6 @@ app.bunchingKey = function(districtAvg, boroughAvgs) {
 
     var selection = d3.select('.color-ramp-horizontal-bar');
 
-    // update
-    var selAllDivs = selection.selectAll('.borough-average-vertical-container')
-      .data(boroughAvgs)
-      .style('left', function(d) {
-        return leftScale(d.babunching * 100) + '%';
-      });
-
-    var updateDivs = selAllDivs.select('p')
-      .text(function(d) {
-        return d.borough.replace('Average', '');
-      });
-
-    // enter
-    var enterDivs = selAllDivs.enter().append('div')
-      .classed('borough-average-vertical-container', true)
-      .style('left', function(d) {
-        return leftScale(d.babunching * 100) + '%';
-      });
-
-    enterDivs.append('div')
-       .classed('borough-average-vertical', true);
-
-    enterDivs.append('p')
-      .text(function(d) {
-        return d.borough.replace('Average', '');
-      })
-      .style('top', function(d, i) {
-        if (i == 1) {
-          return "58px";
-        } else if (i == 2) {
-          return "72px";
-        } else {
-          return "44px";
-        }
-
-      });;
-
-    enterDivs.merge(selAllDivs);
-
-    // exit
-    selAllDivs.exit()
-        .transition()
-        .duration(500)
-        .style('opacity', '0')
-        .remove();
 }
 
 
