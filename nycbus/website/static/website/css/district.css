@@ -355,6 +355,12 @@ div.cartodb-tooltip-content p {
     top: -5px;
 }
 
+.color-ramp-xaxis {
+    height: 10px;
+    width: 100%;
+    background: black;
+}
+
 .district-average-vertical {
     height: 50px;
     width: 7px;
@@ -379,6 +385,38 @@ div.cartodb-tooltip-content p {
 
 .color-ramp-horizontal-bar .borough-average-vertical-container {
     position: relative;
+}
+
+.color-ramp-horizontal-bar .color-ramp-axis {
+    height: 5px;
+    background: #000000;
+    width: 100%;
+    position: relative;
+    top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-ramp-axis .color-ramp-axis-holder {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-ramp-axis-holder .color-ramp-tick-group {
+    display: flex;
+    justify-content: center;
+}
+
+.color-ramp-tick-group .tick {
+    width: 3px;
+    height: 15px;
+    background: #000000;
+}
+
+.color-ramp-tick-group .text {
+    position: absolute;
+    top: 10px;
 }
 
 .borough-average-vertical {

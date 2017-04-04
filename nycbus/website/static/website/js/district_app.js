@@ -289,7 +289,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
                 // calculate average bunching numerator and denominator
                 var f = new Fraction(data.rows[0].wavgbunching.toFixed(2));
 
-				app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
+                app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
 
                 $({ countNum: $('#avgBunchingWeightedNumerator').text() }).animate({ countNum: f.numerator }, {
                     duration: 1000,
@@ -610,7 +610,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .range([barWidth / 7, barWidth]);
 
     if (divId === '#fastestGrowing') {
-        x.domain([0, app.maxPropRidership]);
+        if (app.maxPropRidership > 100) {
+            app.maxPropRidership = 110;
+            x.domain([0, app.maxPropRidership]);
+        } else {
+            x.domain([0, 100]);
+        }
     } else if (divId === '#mostBunching') {
         x.domain([0, app.maxBunching]);
     } else if (divId === '#slowest') {
@@ -618,7 +623,6 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
     } else if (divId === '#ridership') {
         x.domain([0, app.maxRidership]);
     }
-
 
     var chart = d3.select(divId)
         .select('svg')
@@ -642,7 +646,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("width", function(d, i) {
-            return x(d.value) - 3;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) - 3;
+            } else {
+                return x(d.value) - 3;
+            }
         });
 
     barChartGs.select('.inside-bar-text')
@@ -660,7 +668,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("x", function(d) {
-            return x(d.value) - 10;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) - 10;
+            } else {
+                return x(d.value) - 10;
+            }
         })
 
     barChartGs.select('.outside-bar-text')
@@ -673,7 +685,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("x", function(d) {
-            return x(d.value) + 3;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) + 3;
+            } else {
+                return x(d.value) + 3;
+            }
         })
 
     // enter
@@ -699,7 +715,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("width", function(d, i) {
-            return x(d.value) - 3;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) - 3;
+            } else {
+                return x(d.value) - 3;
+            }
+
         });
 
     enterBars.append("text")
@@ -721,7 +742,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("x", function(d) {
-            return x(d.value) - 10;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) - 10;
+            } else {
+                return x(d.value) - 10;
+            }
         });
 
     enterBars.append("text")
@@ -738,7 +763,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("x", function(d) {
-            return x(d.value) + 3;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) + 3;
+            } else {
+                return x(d.value) + 3;
+            }
+
         });
 
     // exit
@@ -1120,7 +1150,7 @@ app.speedGauge = function(container, configuration) {
         labelFormat: d3.format(',d'),
         labelInset: 10,
 
-        arcColorFn: d3.scaleLinear().domain([0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1]).range(['#FA7C00', '#FF7F00', '#FF8812', '#FFB100', '#FFB712', '#6DD5EE', '#17C0E8', '#2B54EC']),
+        arcColorFn: d3.scaleLinear().domain([0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1]).range(['#FA7C00', '#FF7F00', '#FF8812', '#FFB100', '#FFB712', '#6DD5EE', '#17C0E8', '#2B54EC']),
     };
     var range = undefined;
     var r = undefined;
@@ -1374,16 +1404,26 @@ app.bunchingKey = function(districtAvg, boroughAvgs) {
     });
 
     var leftScale = d3.scaleLinear()
-      .domain([0, 25])
-      .range([0, 100]);
+        .domain([0, 25])
+        .range([0, 100]);
 
     d3.select("#district-average-vertical-container")
-    .style('left', leftScale(districtAvg) + '%');
+        .style('left', leftScale(districtAvg) + '%');
 
     d3.select("#district-average-vertical-container p")
-    .text(districtAvg + '%');
+        .text(districtAvg + '%');
 
-    var selection = d3.select('.color-ramp-horizontal-bar');
+    // var xAxis = d3.axisBottom(leftScale)
+
+    // var colorRampWidth = $('.color-ramp-horizontal-bar')
+    //     .width();
+
+    // var svgContainer = d3.select('.color-ramp-horizontal-bar')
+    //     .append('svg')
+    //     .attr('width', colorRampWidth)
+    //     .attr('height', 10)
+    //     .call(xAxis);
+
 
 }
 
