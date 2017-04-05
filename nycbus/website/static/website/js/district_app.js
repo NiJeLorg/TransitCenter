@@ -338,6 +338,22 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     }
                 });
 
+                $({ countNum: $('#avgBunchingWeightedPct').text() }).animate({ countNum: app.avgBunchingWeighted }, {
+                    duration: 1000,
+                    easing: 'linear',
+                    step: function() {
+                        if (this.countNum) {
+                            $('#avgBunchingWeightedPct').text(parseFloat(this.countNum).toFixed(1));
+                        } else {
+                            $('#avgBunchingWeightedPct').text('0');
+                        }
+                    },
+                    complete: function() {
+                        $('#avgBunchingWeightedPct').text(parseFloat(this.countNum).toFixed(1));
+                    }
+                });
+
+
             })
             .error(function(errors) {
                 // errors contains a list of errors
@@ -493,6 +509,13 @@ app.updateBarCharts = function() {
                 app.createBarChart('#fastestGrowing', app.blueColorScale, fastestGrowingArray);
             }
 
+            if (fastestGrowingArray.length == 0) {
+                $('#fastestGrowing').html('');
+                $('#noneGrowing').html('<p>There are no routes with growing ridership in this district.</p>');
+            } else {
+                $('#noneGrowing').html('');
+            }
+
             app.reportCardLoaded--;
             if (app.reportCardLoaded == 0) {
                 app.calcMapHeightAndLoad();
@@ -593,9 +616,9 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         barWidth = width * (3 / 4);
 
     var x = d3.scaleLinear()
-        .range([barWidth / 7, barWidth]);
 
     if (divId === '#fastestGrowing') {
+        x.range([0, barWidth]);
         if (app.maxPropRidership > 100) {
             app.maxPropRidership = 110;
             x.domain([0, app.maxPropRidership]);
@@ -603,10 +626,13 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             x.domain([0, 100]);
         }
     } else if (divId === '#mostBunching') {
+        x.range([barWidth / 7, barWidth]);
         x.domain([0, app.maxBunching]);
     } else if (divId === '#slowest') {
+        x.range([barWidth / 7, barWidth]);
         x.domain([0, app.maxSpeed]);
     } else if (divId === '#ridership') {
+        x.range([barWidth / 7, barWidth]);
         x.domain([0, app.maxRidership]);
     }
 
@@ -640,6 +666,13 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         });
 
     barChartGs.select('.inside-bar-text')
+        .attr("class", function(d) {
+            if (divId === '#fastestGrowing' && d.value < 15) {
+                return "inside-bar-text outside";
+            } else {
+                return "inside-bar-text";
+            }  
+        })
         .text(function(d) {
             if (divId === '#fastestGrowing' || divId === '#mostBunching') {
                 return d.value + '%';
@@ -656,6 +689,8 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
                 return x(110) - 10;
+            } else if (divId === '#fastestGrowing' && d.value < 15) {
+                return x(d.value) + 3;
             } else {
                 return x(d.value) - 10;
             }
@@ -673,10 +708,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
                 return x(110) + 3;
+            } else if (divId === '#fastestGrowing' && d.value < 15) {
+                return x(d.value) + 42;
             } else {
                 return x(d.value) + 3;
             }
-        })
+        });
 
     // enter
     var enterBars = barChartGs.enter().append("g")
@@ -710,7 +747,13 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         });
 
     enterBars.append("text")
-        .attr("class", "inside-bar-text")
+        .attr("class", function(d) {
+            if (divId === '#fastestGrowing' && d.value < 15) {
+                return "inside-bar-text outside";
+            } else {
+                return "inside-bar-text";
+            }  
+        })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
@@ -730,6 +773,8 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
                 return x(110) - 10;
+            } else if (divId === '#fastestGrowing' && d.value < 15) {
+                return x(d.value) + 3;
             } else {
                 return x(d.value) - 10;
             }
@@ -751,10 +796,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
                 return x(110) + 3;
+            } else if (divId === '#fastestGrowing' && d.value < 15) {
+                return x(d.value) + 42;
             } else {
                 return x(d.value) + 3;
             }
-
         });
 
     // exit
@@ -1142,7 +1188,7 @@ app.speedGauge = function(container, configuration) {
         labelFormat: d3.format(',d'),
         labelInset: 10,
 
-        arcColorFn: d3.scaleLinear().domain([0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1]).range(['#FA7C00', '#FF7F00', '#FF8812', '#FFB100', '#FFB712', '#6DD5EE', '#17C0E8', '#2B54EC']),
+        arcColorFn: d3.scaleLinear().domain([0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1]).range(['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#a6d96a', '#1a9850']),
     };
     var range = undefined;
     var r = undefined;
@@ -1367,13 +1413,12 @@ app.blueColorScale = d3.scaleLinear()
     .range(['#aaa', '#aaa']);
 
 app.mostBunchingColorScale = d3.scaleLinear()
-    // .domain([0, 3.5714, 7.1428, 10.7142, 14.2857, 17.8571, 21.4285, 25])
     .domain([0, 2.857, 5.714, 8.571, 11.428, 14.285, 17.1428, 20])
-    .range(['#2B54EC', '#17C0E8', '#6DD5EE', '#FFB712', '#FFB100', '#FF8812', '#FF7F00', '#FA7C00']);
+    .range(['#1a9850', '#a6d96a', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d73027', '#a50026']);
 
 app.slowestColorScale = d3.scaleLinear()
     .domain([0, 2.714, 5.4285, 8.1428, 10.8571, 13.5714, 16.2857, 19])
-    .range(['#FA7C00', '#FF7F00', '#FF8812', '#FFB100', '#FFB712', '#6DD5EE', '#17C0E8', '#2B54EC']);
+    .range(['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#a6d96a', '#1a9850']);
 
 
 
