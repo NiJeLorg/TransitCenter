@@ -180,20 +180,18 @@ app.selectRoutes = function() {
     var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
 
 
-    var baWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE (mta.route_id = 'Bronx Average' OR mta.route_id = 'Brooklyn Average' OR mta.route_id = 'Manhattan Average' OR mta.route_id = 'Queens Average' OR mta.route_id = 'Staten Island Average') AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
-
 
     // find out when all of the bar charts and text infographics have loaded so we can set the height of the map
     app.reportCardLoaded = 9;
 
     // update data vis text
-    app.updateTextDataVis(routesWithinSQL, baWithinSQL, districtGeomSQL);
+    app.updateTextDataVis(routesWithinSQL, districtGeomSQL);
 
 
 }
 
 // pull data and update text based on selected district
-app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) {
+app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     // set district name
 
     $('.districtName').text(app.printDistrict + ' ' + app.districtNumber);
@@ -281,7 +279,11 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
 
                         app.avgSpeedWeighted = this.countNum;
 
-                        getBoroughAverages();
+                        // update speed gauge
+                        app.speedGaugeObject.update(app.avgSpeedWeighted);
+
+                        // pull the routes within the boroughs
+                        getBoroughGeoms();
 
                     }
                 });
@@ -290,6 +292,10 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
                 var f = new Fraction(data.rows[0].wavgbunching.toFixed(2));
 
                 app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
+
+                // update bunching key
+                app.bunchingKey(app.avgBunchingWeighted);
+
 
                 $({ countNum: $('#avgBunchingWeightedNumerator').text() }).animate({ countNum: f.numerator }, {
                     duration: 1000,
@@ -340,28 +346,6 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
 
     }
 
-
-
-    // calculate the average speed for routes intersecting the district weighted by ridership
-    function getBoroughAverages() {
-        var baQuery = 'SELECT speedtable.speed AS baspeed, bunchingtable.prop_bunched AS babunching, bunchingtable.route_id AS borough FROM speed_by_route_10_2015_05_2016 AS speedtable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = bunchingtable.route_id AND bunchingtable.route_id IN (' + baWithinSQL + ')';
-        app.sqlclient.execute(baQuery)
-            .done(function(data) {
-
-                // update speed gauge
-                app.speedGaugeObject.update(app.avgSpeedWeighted, data.rows);
-
-                app.bunchingKey(app.avgBunchingWeighted, data.rows);
-
-                // pull the routes within the boroughs
-                getBoroughGeoms();
-
-            })
-            .error(function(errors) {
-                // errors contains a list of errors
-                console.log("errors:" + errors);
-            });
-    }
 
     function getBoroughGeoms() {
         var boroughGeomSQL = "SELECT ST_AsText(borough.the_geom) FROM nyc_borough_boundaries AS borough WHERE ST_Intersects( borough.the_geom, (" + districtGeomSQL + ") )";
@@ -1289,9 +1273,6 @@ app.speedGauge = function(container, configuration) {
             [config.pointerWidth / 2, 0]
         ];
 
-        // borough average pointer
-        baPg = svg.append('g')
-
         // pointer line
         var pg = svg.append('g').data([lineData])
             .attr('class', 'pointer')
@@ -1315,7 +1296,7 @@ app.speedGauge = function(container, configuration) {
     }
     that.render = render;
 
-    function update(newValue, boroughAverages, newConfiguration) {
+    function update(newValue, newConfiguration) {
         if (newConfiguration !== undefined) {
             configure(newConfiguration);
         }
@@ -1327,66 +1308,6 @@ app.speedGauge = function(container, configuration) {
             .ease(d3.easeElasticOut)
             .attr('transform', 'rotate(' + newAngle + ')');
 
-
-        // create ba pointers
-        var baPointers = baPg.selectAll(".ba-pointers")
-            .data(boroughAverages);
-
-        // update
-        baPointers.transition()
-            .duration(config.transitionMs)
-            .ease(d3.easeElasticOut)
-            .attr('transform', function(d) {
-                var baRatio = scale(d.baspeed);
-                var newAngle = config.minAngle + (baRatio * range);
-                return 'rotate(' + newAngle + ')';
-            });
-
-        baPointers.select("text")
-            .text(function(d) {
-                var justBorough = d.borough.replace('Average', '')
-                return justBorough;
-            });
-
-        // enter
-        var enterPointers = baPointers.enter().append('g')
-            .classed('ba-pointers', true);
-
-        enterPointers.append('line')
-            .attr("x1", 0)
-            .attr("y1", 0)
-            .attr("x2", -95)
-            .attr("y2", 0)
-            .attr("stroke-width", 1)
-            .attr("stroke", "#777");
-
-        enterPointers.append('text')
-            .attr("font-size", "10")
-            .attr("text-anchor", "start")
-            .attr("fill", "#777")
-            .attr("x", -90)
-            .text(function(d) {
-                var justBorough = d.borough.replace('Average', '')
-                return justBorough;
-            });
-
-        enterPointers.merge(baPointers)
-            .transition()
-            .duration(config.transitionMs)
-            .ease(d3.easeElasticOut)
-            .attr('transform', function(d) {
-                var baRatio = scale(d.baspeed);
-                var newAngle = config.minAngle + (baRatio * range) + 90;
-                return 'rotate(' + newAngle + ')';
-            });
-
-        // exit
-        baPointers.exit()
-            .transition()
-            .duration(500)
-            .style('opacity', '0')
-            .remove();
-
     }
 
 
@@ -1397,14 +1318,10 @@ app.speedGauge = function(container, configuration) {
     return that;
 }
 
-app.bunchingKey = function(districtAvg, boroughAvgs) {
-    // sort boroughAvgs
-    boroughAvgs.sort(function(a, b) {
-        return parseFloat(a.babunching) - parseFloat(b.babunching);
-    });
+app.bunchingKey = function(districtAvg) {
 
     var leftScale = d3.scaleLinear()
-        .domain([0, 25])
+        .domain([0, 20])
         .range([0, 100]);
 
     d3.select("#district-average-vertical-container")
@@ -1413,21 +1330,7 @@ app.bunchingKey = function(districtAvg, boroughAvgs) {
     d3.select("#district-average-vertical-container p")
         .text(districtAvg + '%');
 
-    // var xAxis = d3.axisBottom(leftScale)
-
-    // var colorRampWidth = $('.color-ramp-horizontal-bar')
-    //     .width();
-
-    // var svgContainer = d3.select('.color-ramp-horizontal-bar')
-    //     .append('svg')
-    //     .attr('width', colorRampWidth)
-    //     .attr('height', 10)
-    //     .call(xAxis);
-
-
 }
-
-
 
 
 /**** Utility functions ****/
@@ -1456,7 +1359,8 @@ app.blueColorScale = d3.scaleLinear()
     .range(['#aaa', '#aaa']);
 
 app.mostBunchingColorScale = d3.scaleLinear()
-    .domain([0, 3.5714, 7.1428, 10.7142, 14.2857, 17.8571, 21.4285, 25])
+    // .domain([0, 3.5714, 7.1428, 10.7142, 14.2857, 17.8571, 21.4285, 25])
+    .domain([0, 2.857, 5.714, 8.571, 11.428, 14.285, 17.1428, 20])
     .range(['#2B54EC', '#17C0E8', '#6DD5EE', '#FFB712', '#FFB100', '#FF8812', '#FF7F00', '#FA7C00']);
 
 app.slowestColorScale = d3.scaleLinear()
