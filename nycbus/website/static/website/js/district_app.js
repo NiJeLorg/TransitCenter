@@ -849,7 +849,9 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
 
     // remove all polygons from the map
     for (var key in app.polygons) {
-        app.map.removeLayer(app.polygons[key]);
+        if (app.map.hasLayer(app.polygons[key][0])) {
+            app.map.removeLayer(app.polygons[key][0]);
+        }     
     }
 
     app.polygons = {};
