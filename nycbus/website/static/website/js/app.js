@@ -501,7 +501,8 @@ app.createReportCardDropdowns = function (route_id) {
     // when done create select2 menu
     // if mobile, skip setting up select 2
     if (($('body')).width() < 767) {
-      $("#selectRoute").val(route_id);
+      $("#selectRoute").val(route_id).trigger('change');
+
     } else {
       app.selectRouteMenu = $("#selectRoute").select2();
 
@@ -718,7 +719,6 @@ app.updateBunchingText = function () {
 
 app.updateBunchingGraphic = function () {
   var color = app.bunchColorScale(app.propBunched);
-  console.log(app.propBunched);
   if (app.propBunched <= app.firstFifth) {
     // update the margin/color for fifth bus and set the other buses to their minimum
     var margin5 = app.bus5MarginScale(app.propBunched);
