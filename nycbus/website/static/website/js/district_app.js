@@ -816,7 +816,7 @@ app.calcMapHeightAndLoad = function() {
 app.mapSetup = function() {
     app.tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });
 
-    app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.74, -73.89], zoom: 11, closePopupOnClick: true, zoomControl: false });
+    app.map = L.map('district-map', { scrollWheelZoom: false, center: [40.74, -73.89], zoom: 11, closePopupOnClick: true, zoomControl: false, tap: true, });
 
     // if ($('.district-map-holder').css('position') == 'fixed') {
     //     app.toggleDistrictMap = true;
@@ -845,19 +845,31 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
         app.map.removeLayer(app.routeLayer);
     }
 
+    // remove all polygons from the map
+    for (var key in app.polygons) {
+        app.map.removeLayer(app.polygons[key]);
+    }
+
     app.polygons = {};
 
     function geometryHover(layer, options) {
 
         options = options || {}
         var HIGHLIGHT_STYLE = {
-            weight: 2,
-            color: '#979797',
+            weight: 3,
+            color: '#FF6600',
             opacity: 1,
             fillColor: 'rgb(184, 233, 134)',
             fillOpacity: 0.4
         };
-        style = options.style || HIGHLIGHT_STYLE;
+        var style = {
+            weight: 1,
+            color: '#FF6600',
+            opacity: 1,
+            fillColor: '#fff',
+            fillOpacity: 0,            
+        }
+
         var polygonsHighlighted = [];
 
 
@@ -887,21 +899,27 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
                                 window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
                             }
                         });
+
+                        layer.on('mouseover', featureOver);
+                        layer.on('mouseout', featureOut);
+                        
                     }
                 });
 
                 geo.setStyle(style);
+                geo.addTo(app.map);
+
                 // add to polygons
                 app.polygons[key] = app.polygons[key] || [];
                 app.polygons[key].push(geo);
             }
         });
 
-        function featureOver(e, pos, latlng, data) {
+        function featureOver(e) {
             featureOut();
-            var pol = app.polygons[data.cartodb_id] || [];
+            var pol = app.polygons[e.target.feature.properties.cartodb_id] || [];
             for (var i = 0; i < pol.length; ++i) {
-                app.map.addLayer(pol[i]);
+                pol[i].setStyle(HIGHLIGHT_STYLE);
                 polygonsHighlighted.push(pol[i]);
             }
         }
@@ -909,14 +927,11 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
         function featureOut() {
             var pol = polygonsHighlighted;
             for (var i = 0; i < pol.length; ++i) {
-                app.map.removeLayer(pol[i]);
+                pol[i].setStyle(style);
             }
             polygonsHighlighted = [];
         }
 
-        layer.on('featureOver', featureOver);
-        layer.on('featureOut', featureOut);
-        layer.setInteraction(true);
 
     }
 
@@ -931,22 +946,11 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
                 interactivity: districtFieldName,
             }]
         })
-        .addTo(app.map)
         .done(function(layer) {
             app.allDistrictLayer = layer;
             layer.setInteraction(true);
             app.districtSublayer = layer.getSubLayer(0);
-            //app.districtSublayer.setInteraction(true);
-            //app.districtSublayer.setInteractivity(districtFieldName);
             geometryHover(app.districtSublayer);
-
-            // app.sqlclient.getBounds(routesMapSQL).done(function(bounds) {
-            //     app.bounds = bounds;
-            //     //app.map.fitBounds(app.bounds);
-            //     if (app.activeAjaxConnections == 0) {
-            //         $("body").removeClass("loading");
-            //     }
-            // });
 
         });
 
@@ -990,7 +994,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             type: 'cartodb',
             sublayers: [{
                 sql: districtMapSQL,
-                cartocss: '#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}',
+                cartocss: '#layer {line-width: 3;line-color: #FF6600;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}',
             }]
         })
         .addTo(app.map)
@@ -1075,7 +1079,7 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
                 "type": "mapnik",
                 "options": {
                     "sql": districtMapSQL,
-                    "cartocss": "#layer {line-width: 2;line-color: #979797;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}",
+                    "cartocss": "#layer {line-width: 3;line-color: #FF6600;line-opacity: 1;polygon-fill: rgb(184, 233, 134);polygon-opacity: 0.4;}",
                     "cartocss_version": "2.1.1"
                 }
             },
