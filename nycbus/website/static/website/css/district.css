@@ -138,9 +138,6 @@ main header h2 {
     margin: 0;
 }
 
-.methodsLink {
-    margin-right: 20px;
-}
 
 .turnaround-heading {
     display: none;
@@ -254,6 +251,11 @@ footer .logos-holder-print {
     text-anchor: end;
 }
 
+.inside-bar-text.outside {
+    fill: #333;
+    text-anchor: start;
+}
+
 .card-li {
     font-size: 1.6em;
 }
@@ -340,13 +342,13 @@ div.cartodb-tooltip-content p {
     display: flex;
     background-color: #1a9641;
     /* fallback color if gradients are not supported */
-    background-image: -webkit-linear-gradient(left, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00);
+    background-image: -webkit-linear-gradient(left, #1a9850, #a6d96a, #ffffbf, #fee08b, #fdae61, #f46d43, #d73027, #a50026);
     /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
-    background-image: -moz-linear-gradient(right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00);
+    background-image: -moz-linear-gradient(right, #1a9850, #a6d96a, #ffffbf, #fee08b, #fdae61, #f46d43, #d73027, #a50026);
     /* For Firefox (3.6 to 15) */
-    background-image: -o-linear-gradient(right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00);
+    background-image: -o-linear-gradient(right, #1a9850, #a6d96a, #ffffbf, #fee08b, #fdae61, #f46d43, #d73027, #a50026);
     /* For old Opera (11.1 to 12.0) */
-    background-image: linear-gradient(to right, #2B54EC, #17C0E8, #6DD5EE, #FFB712, #FFB100, #FF8812, #FF7F00, #FA7C00);
+    background-image: linear-gradient(to right, #1a9850, #a6d96a, #ffffbf, #fee08b, #fdae61, #f46d43, #d73027, #a50026);
     /* Standard syntax; must be last */
 }
 
@@ -567,6 +569,7 @@ div.cartodb-popup div.cartodb-popup-content p {
     header,
     hr,
     .sub-heading-card,
+    .routeLink,
     .methodsLink,
     .leaflet-bottom,
     .cartodb-logo,
