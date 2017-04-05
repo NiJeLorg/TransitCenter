@@ -180,20 +180,18 @@ app.selectRoutes = function() {
     var routesWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
 
 
-    var baWithinSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE (mta.route_id = 'Bronx Average' OR mta.route_id = 'Brooklyn Average' OR mta.route_id = 'Manhattan Average' OR mta.route_id = 'Queens Average' OR mta.route_id = 'Staten Island Average') AND ST_Intersects( mta.the_geom , (" + districtGeomSQL + ") )";
-
 
     // find out when all of the bar charts and text infographics have loaded so we can set the height of the map
-    app.reportCardLoaded = 8;
+    app.reportCardLoaded = 9;
 
     // update data vis text
-    app.updateTextDataVis(routesWithinSQL, baWithinSQL, districtGeomSQL);
+    app.updateTextDataVis(routesWithinSQL, districtGeomSQL);
 
 
 }
 
 // pull data and update text based on selected district
-app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) {
+app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     // set district name
 
     $('.districtName').text(app.printDistrict + ' ' + app.districtNumber);
@@ -281,29 +279,62 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
 
                         app.avgSpeedWeighted = this.countNum;
 
-                        getBoroughAverages();
+                        // update speed gauge
+                        app.speedGaugeObject.update(app.avgSpeedWeighted);
+
+                        // pull the routes within the boroughs
+                        getBoroughGeoms();
 
                     }
                 });
 
-                $({ countNum: $('#avgBunchingWeighted').text() }).animate({ countNum: (data.rows[0].wavgbunching * 100).toFixed(1) }, {
+                // calculate average bunching numerator and denominator
+                var f = new Fraction(data.rows[0].wavgbunching.toFixed(2));
+
+                app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
+
+                // update bunching key
+                app.bunchingKey(app.avgBunchingWeighted);
+
+
+                $({ countNum: $('#avgBunchingWeightedNumerator').text() }).animate({ countNum: f.numerator }, {
                     duration: 1000,
                     easing: 'linear',
                     step: function() {
                         if (this.countNum) {
-                            $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
+                            $('#avgBunchingWeightedNumerator').text(parseInt(this.countNum));
                         } else {
-                            $('#avgBunchingWeighted').text('0');
+                            $('#avgBunchingWeightedNumerator').text('0');
                         }
                     },
                     complete: function() {
-                        $('#avgBunchingWeighted').text(parseFloat(this.countNum).toFixed(1));
+                        $('#avgBunchingWeightedNumerator').text(parseInt(this.countNum));
                         app.reportCardLoaded--;
                         if (app.reportCardLoaded == 0) {
                             app.calcMapHeightAndLoad();
                         }
 
-                        app.avgBunchingWeighted = this.countNum;
+
+                    }
+                });
+
+                $({ countNum: $('#avgBunchingWeightedDemominator').text() }).animate({ countNum: f.denominator }, {
+                    duration: 1000,
+                    easing: 'linear',
+                    step: function() {
+                        if (this.countNum) {
+                            $('#avgBunchingWeightedDemominator').text(parseInt(this.countNum));
+                        } else {
+                            $('#avgBunchingWeightedDemominator').text('0');
+                        }
+                    },
+                    complete: function() {
+                        $('#avgBunchingWeightedDemominator').text(parseInt(this.countNum));
+                        app.reportCardLoaded--;
+                        if (app.reportCardLoaded == 0) {
+                            app.calcMapHeightAndLoad();
+                        }
+
                     }
                 });
 
@@ -315,28 +346,6 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
 
     }
 
-
-
-    // calculate the average speed for routes intersecting the district weighted by ridership
-    function getBoroughAverages() {
-        var baQuery = 'SELECT speedtable.speed AS baspeed, bunchingtable.prop_bunched AS babunching, bunchingtable.route_id AS borough FROM speed_by_route_10_2015_05_2016 AS speedtable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = bunchingtable.route_id AND bunchingtable.route_id IN (' + baWithinSQL + ')';
-        app.sqlclient.execute(baQuery)
-            .done(function(data) {
-
-                // update speed gauge
-                app.speedGaugeObject.update(app.avgSpeedWeighted, data.rows);
-
-                app.bunchingKey(app.avgBunchingWeighted, data.rows);
-
-                // pull the routes within the boroughs
-                getBoroughGeoms();
-
-            })
-            .error(function(errors) {
-                // errors contains a list of errors
-                console.log("errors:" + errors);
-            });
-    }
 
     function getBoroughGeoms() {
         var boroughGeomSQL = "SELECT ST_AsText(borough.the_geom) FROM nyc_borough_boundaries AS borough WHERE ST_Intersects( borough.the_geom, (" + districtGeomSQL + ") )";
@@ -378,7 +387,7 @@ app.updateTextDataVis = function(routesWithinSQL, baWithinSQL, districtGeomSQL) 
 
     // function getRoutesWithinBoroughs(boroughGeom) {
     //     // query the borough boundaries to see which routes fall within each borough
-        
+
     //     var routesWithinBoroughSQL = "SELECT DISTINCT mta.route_id FROM mta_nyct_bus_routes AS mta WHERE mta.route_id NOT LIKE '%+' AND mta.route_id NOT LIKE 'BXM%' AND mta.route_id NOT LIKE 'BM%' AND mta.route_id NOT LIKE 'QM%' AND mta.route_id NOT LIKE 'X%' AND mta.route_id <> 'Bronx Average' AND mta.route_id <> 'Brooklyn Average' AND mta.route_id <> 'Manhattan Average' AND mta.route_id <> 'Queens Average' AND mta.route_id <> 'Staten Island Average' AND ST_Intersects( mta.the_geom , " + boroughGeom + ")";
     //     app.sqlclient.execute(routesWithinBoroughSQL)
     //         .done(function(data) {
@@ -585,7 +594,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .range([barWidth / 7, barWidth]);
 
     if (divId === '#fastestGrowing') {
-        x.domain([0, app.maxPropRidership]);
+        if (app.maxPropRidership > 100) {
+            app.maxPropRidership = 110;
+            x.domain([0, app.maxPropRidership]);
+        } else {
+            x.domain([0, 100]);
+        }
     } else if (divId === '#mostBunching') {
         x.domain([0, app.maxBunching]);
     } else if (divId === '#slowest') {
@@ -593,7 +607,6 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
     } else if (divId === '#ridership') {
         x.domain([0, app.maxRidership]);
     }
-
 
     var chart = d3.select(divId)
         .select('svg')
@@ -617,7 +630,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("width", function(d, i) {
-            return x(d.value) - 3;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) - 3;
+            } else {
+                return x(d.value) - 3;
+            }
         });
 
     barChartGs.select('.inside-bar-text')
@@ -635,7 +652,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("x", function(d) {
-            return x(d.value) - 10;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) - 10;
+            } else {
+                return x(d.value) - 10;
+            }
         })
 
     barChartGs.select('.outside-bar-text')
@@ -648,7 +669,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("x", function(d) {
-            return x(d.value) + 3;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) + 3;
+            } else {
+                return x(d.value) + 3;
+            }
         })
 
     // enter
@@ -674,7 +699,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("width", function(d, i) {
-            return x(d.value) - 3;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) - 3;
+            } else {
+                return x(d.value) - 3;
+            }
+
         });
 
     enterBars.append("text")
@@ -696,7 +726,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("x", function(d) {
-            return x(d.value) - 10;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) - 10;
+            } else {
+                return x(d.value) - 10;
+            }
         });
 
     enterBars.append("text")
@@ -713,7 +747,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             return i * 25;
         })
         .attr("x", function(d) {
-            return x(d.value) + 3;
+            if (divId === '#fastestGrowing' && d.value > 110) {
+                return x(110) + 3;
+            } else {
+                return x(d.value) + 3;
+            }
+
         });
 
     // exit
@@ -852,7 +891,6 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
                 });
 
                 geo.setStyle(style);
-                //console.log(geo, "geometries");
                 // add to polygons
                 app.polygons[key] = app.polygons[key] || [];
                 app.polygons[key].push(geo);
@@ -1096,7 +1134,7 @@ app.speedGauge = function(container, configuration) {
         labelFormat: d3.format(',d'),
         labelInset: 10,
 
-        arcColorFn: d3.scaleLinear().domain([0,0.25,0.5,0.75,1]).range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']),
+        arcColorFn: d3.scaleLinear().domain([0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1]).range(['#FA7C00', '#FF7F00', '#FF8812', '#FFB100', '#FFB712', '#6DD5EE', '#17C0E8', '#2B54EC']),
     };
     var range = undefined;
     var r = undefined;
@@ -1235,11 +1273,6 @@ app.speedGauge = function(container, configuration) {
             [config.pointerWidth / 2, 0]
         ];
 
-        // borough average pointer
-        baPg = svg.append('g')
-            .attr('class', 'ba-pointer')
-            .attr('transform', centerTx);
-
         // pointer line
         var pg = svg.append('g').data([lineData])
             .attr('class', 'pointer')
@@ -1263,7 +1296,7 @@ app.speedGauge = function(container, configuration) {
     }
     that.render = render;
 
-    function update(newValue, boroughAverages, newConfiguration) {
+    function update(newValue, newConfiguration) {
         if (newConfiguration !== undefined) {
             configure(newConfiguration);
         }
@@ -1275,66 +1308,6 @@ app.speedGauge = function(container, configuration) {
             .ease(d3.easeElasticOut)
             .attr('transform', 'rotate(' + newAngle + ')');
 
-
-        // create ba pointers
-        var baPointers = baPg.selectAll(".ba-pointers")
-            .data(boroughAverages);
-
-        // update
-        baPointers.transition()
-            .duration(config.transitionMs)
-            .ease(d3.easeElasticOut)
-            .attr('transform', function(d) {
-                var baRatio = scale(d.baspeed);
-                var newAngle = config.minAngle + (baRatio * range);
-                return 'rotate(' + newAngle + ')';
-            });
-
-        baPointers.select("text")
-            .text(function(d) {
-                var justBorough = d.borough.replace('Average', '')
-                return justBorough;
-            });
-
-        // enter
-        var enterPointers = baPointers.enter().append('g')
-            .classed('ba-pointers', true);
-
-        enterPointers.append('line')
-            .attr("x1", 0)
-            .attr("y1", 0)
-            .attr("x2", -95)
-            .attr("y2", 0)
-            .attr("stroke-width", 1)
-            .attr("stroke", "#777");
-
-        enterPointers.append('text')
-            .attr("font-size", "10")
-            .attr("text-anchor", "start")
-            .attr("fill", "#777")
-            .attr("x", -90)
-            .text(function(d) {
-                var justBorough = d.borough.replace('Average', '')
-                return justBorough;
-            });
-
-        enterPointers.merge(baPointers)
-            .transition()
-            .duration(config.transitionMs)
-            .ease(d3.easeElasticOut)
-            .attr('transform', function(d) {
-                var baRatio = scale(d.baspeed);
-                var newAngle = config.minAngle + (baRatio * range) + 90;
-                return 'rotate(' + newAngle + ')';
-            });
-
-        // exit
-        baPointers.exit()
-            .transition()
-            .duration(500)
-            .style('opacity', '0')
-            .remove();
-
     }
 
 
@@ -1345,72 +1318,19 @@ app.speedGauge = function(container, configuration) {
     return that;
 }
 
-app.bunchingKey = function(districtAvg, boroughAvgs) {
-    // sort boroughAvgs
-    boroughAvgs.sort(function(a, b) {
-        return parseFloat(a.babunching) - parseFloat(b.babunching);
-    });
+app.bunchingKey = function(districtAvg) {
 
     var leftScale = d3.scaleLinear()
-      .domain([0, 25])
-      .range([0, 100]);
+        .domain([0, 20])
+        .range([0, 100]);
 
     d3.select("#district-average-vertical-container")
-    .style('left', leftScale(districtAvg) + '%');
+        .style('left', leftScale(districtAvg) + '%');
 
     d3.select("#district-average-vertical-container p")
-    .text(districtAvg + '%');
+        .text(districtAvg + '%');
 
-    var selection = d3.select('.color-ramp-horizontal-bar');
-
-    // update
-    var selAllDivs = selection.selectAll('.borough-average-vertical-container')
-      .data(boroughAvgs)
-      .style('left', function(d) {
-        return leftScale(d.babunching * 100) + '%';
-      });
-
-    var updateDivs = selAllDivs.select('p')
-      .text(function(d) {
-        return d.borough.replace('Average', '');
-      });
-
-    // enter
-    var enterDivs = selAllDivs.enter().append('div')
-      .classed('borough-average-vertical-container', true)
-      .style('left', function(d) {
-        return leftScale(d.babunching * 100) + '%';
-      });
-
-    enterDivs.append('div')
-       .classed('borough-average-vertical', true);
-
-    enterDivs.append('p')
-      .text(function(d) {
-        return d.borough.replace('Average', '');
-      })
-      .style('top', function(d, i) {
-        if (i == 1) {
-          return "58px";
-        } else if (i == 2) {
-          return "72px";
-        } else {
-          return "44px";
-        }
-
-      });;
-
-    enterDivs.merge(selAllDivs);
-
-    // exit
-    selAllDivs.exit()
-        .transition()
-        .duration(500)
-        .style('opacity', '0')
-        .remove();
 }
-
-
 
 
 /**** Utility functions ****/
@@ -1436,15 +1356,16 @@ app.ordinal_suffix_of = function(i) {
 // D3 color scales
 app.blueColorScale = d3.scaleLinear()
     .domain([0, app.maxRidership])
-    .range(['#005777', '#005777']);
+    .range(['#aaa', '#aaa']);
 
 app.mostBunchingColorScale = d3.scaleLinear()
-    .domain([0, 4.16, 8.33, 12.5, 16.67, 20.83, 25])
-    .range(['#1a9641', '#a6d96a', '#F4E952', '#F4E952', '#fdae61', '#d67419', '#d7191c']);
+    // .domain([0, 3.5714, 7.1428, 10.7142, 14.2857, 17.8571, 21.4285, 25])
+    .domain([0, 2.857, 5.714, 8.571, 11.428, 14.285, 17.1428, 20])
+    .range(['#2B54EC', '#17C0E8', '#6DD5EE', '#FFB712', '#FFB100', '#FF8812', '#FF7F00', '#FA7C00']);
 
 app.slowestColorScale = d3.scaleLinear()
-    .domain([0, 4.75, 9.5, 14.25, 19])
-    .range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']);
+    .domain([0, 2.714, 5.4285, 8.1428, 10.8571, 13.5714, 16.2857, 19])
+    .range(['#FA7C00', '#FF7F00', '#FF8812', '#FFB100', '#FFB712', '#6DD5EE', '#17C0E8', '#2B54EC']);
 
 
 
