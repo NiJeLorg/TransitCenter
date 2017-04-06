@@ -289,7 +289,9 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 });
 
                 // calculate average bunching numerator and denominator
-                var f = new Fraction(data.rows[0].wavgbunching.toFixed(2));
+                // var f = new Fraction(roundedToThree);
+
+                f = new Decimal(data.rows[0].wavgbunching).toFraction(20)
 
                 app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
 
@@ -297,7 +299,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 app.bunchingKey(app.avgBunchingWeighted);
 
 
-                $({ countNum: $('#avgBunchingWeightedNumerator').text() }).animate({ countNum: f.numerator }, {
+                $({ countNum: $('#avgBunchingWeightedNumerator').text() }).animate({ countNum: f[0] }, {
                     duration: 1000,
                     easing: 'linear',
                     step: function() {
@@ -318,7 +320,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     }
                 });
 
-                $({ countNum: $('#avgBunchingWeightedDemominator').text() }).animate({ countNum: f.denominator }, {
+                $({ countNum: $('#avgBunchingWeightedDemominator').text() }).animate({ countNum: f[1] }, {
                     duration: 1000,
                     easing: 'linear',
                     step: function() {
@@ -659,9 +661,9 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("width", function(d, i) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) - 3;
+                return x(110);
             } else {
-                return x(d.value) - 3;
+                return x(d.value);
             }
         });
 
@@ -688,11 +690,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) - 10;
+                return x(110) - 7;
             } else if (divId === '#fastestGrowing' && d.value < 15) {
-                return x(d.value) + 3;
+                return x(d.value) + 6;
             } else {
-                return x(d.value) - 10;
+                return x(d.value) - 7;
             }
         })
 
@@ -707,11 +709,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) + 3;
+                return x(110) + 6;
             } else if (divId === '#fastestGrowing' && d.value < 15) {
-                return x(d.value) + 42;
+                return x(d.value) + 45;
             } else {
-                return x(d.value) + 3;
+                return x(d.value) + 6;
             }
         });
 
@@ -739,9 +741,9 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("width", function(d, i) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) - 3;
+                return x(110);
             } else {
-                return x(d.value) - 3;
+                return x(d.value);
             }
 
         });
@@ -772,11 +774,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) - 10;
+                return x(110) - 7;
             } else if (divId === '#fastestGrowing' && d.value < 15) {
-                return x(d.value) + 3;
+                return x(d.value) + 6;
             } else {
-                return x(d.value) - 10;
+                return x(d.value) - 7;
             }
         });
 
@@ -795,11 +797,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) + 3;
+                return x(110) + 6;
             } else if (divId === '#fastestGrowing' && d.value < 15) {
-                return x(d.value) + 42;
+                return x(d.value) + 45;
             } else {
-                return x(d.value) + 3;
+                return x(d.value) + 6;
             }
         });
 
