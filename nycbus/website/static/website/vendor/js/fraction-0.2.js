@@ -266,6 +266,9 @@ Fraction.prototype.normalize = (function()
          * round the number to nine decimal places
          * to avoid js floating point funnies
          */
+         
+         console.log('numerator: ', this.numerator);
+         console.log('denominator: ', this.denominator);
         if (isFloat(this.denominator)) {
             var rounded = roundToPlaces(this.denominator, 9);
             var scaleup = Math.pow(10, rounded.toString().split('.')[1].length);
