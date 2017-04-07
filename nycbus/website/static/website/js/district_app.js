@@ -289,9 +289,25 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 });
 
                 // calculate average bunching numerator and denominator
-                // var f = new Fraction(roundedToThree);
+                var moreThanAlmost = '';
+                if (data.rows[0].wavgbunching > 0.1) {
+                	// greater than 10 %, greatest fraction demoninator should be 10 and we can say "more than" or "almost" depending on how close the value is
+                	f = new Decimal(data.rows[0].wavgbunching).toFraction(10);
+                } else if (data.rows[0].wavgbunching >= 0.045) {
+                	f = new Decimal(data.rows[0].wavgbunching).toFraction(20);
+                } else {
+                	f = new Decimal(data.rows[0].wavgbunching).toFraction(50);
+                }
 
-                f = new Decimal(data.rows[0].wavgbunching).toFraction(20)
+            	// check the fraction against the actual value
+            	if ((f[0]/f[1]) < data.rows[0].wavgbunching && (data.rows[0].wavgbunching - (f[0]/f[1])) > 0.0025 ) {
+            		$('#moreThanAlmost').text('More than');
+            	} else if ((f[0]/f[1]) > data.rows[0].wavgbunching && ((f[0]/f[1]) - data.rows[0].wavgbunching) > 0.0025 ) {
+            		$('#moreThanAlmost').text('Almost');
+            	} else {
+            		$('#moreThanAlmost').text('');
+            	}
+
 
                 app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
 
