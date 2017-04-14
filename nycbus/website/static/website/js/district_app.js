@@ -293,19 +293,24 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 if (data.rows[0].wavgbunching > 0.1) {
                 	// greater than 10 %, greatest fraction demoninator should be 10 and we can say "more than" or "almost" depending on how close the value is
                 	f = new Decimal(data.rows[0].wavgbunching).toFraction(10);
-                } else if (data.rows[0].wavgbunching >= 0.045) {
+                } else if (data.rows[0].wavgbunching >= 0.05) {
                 	f = new Decimal(data.rows[0].wavgbunching).toFraction(20);
                 } else {
-                	f = new Decimal(data.rows[0].wavgbunching).toFraction(50);
+                	f = new Decimal(data.rows[0].wavgbunching).toFraction(40);
                 }
 
             	// check the fraction against the actual value
-            	if ((f[0]/f[1]) < data.rows[0].wavgbunching && (data.rows[0].wavgbunching - (f[0]/f[1])) > 0.0025 ) {
+                console.log(f[0]/f[1]);
+                console.log(data.rows[0].wavgbunching);
+            	if ((f[0]/f[1]) < data.rows[0].wavgbunching && (data.rows[0].wavgbunching - (f[0]/f[1])) > 0.005 ) {
             		$('#moreThanAlmost').text('More than');
-            	} else if ((f[0]/f[1]) > data.rows[0].wavgbunching && ((f[0]/f[1]) - data.rows[0].wavgbunching) > 0.0025 ) {
-            		$('#moreThanAlmost').text('Almost');
+            	} else if ((f[0]/f[1]) > data.rows[0].wavgbunching) {
+            		// if Decimal.js calculated the fraction to be 0.0025 below the value, add 1 to the denominator and say "More than"
+                    $('#moreThanAlmost').text('More than');
+                    f[1] = parseInt(f[1]) + 1;
             	} else {
             		$('#moreThanAlmost').text('');
+
             	}
 
 
@@ -368,6 +373,16 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     },
                     complete: function() {
                         $('#avgBunchingWeightedPct').text(parseFloat(this.countNum).toFixed(1));
+
+                        // check the div's height and ajust margins accordingly
+                        console.log($('#bunching-h2').height());
+                        if ($('#bunching-h2').height() > 33) {
+                            $('.bunching-bar').css('height', '91px');
+                            $('.color-ramp-horizontal-bar').css('margin-top', '22px');
+                        } else {
+                            $('.bunching-bar').css('height', '124px');
+                            $('.color-ramp-horizontal-bar').css('margin-top', '55px');
+                        }
                     }
                 });
 
@@ -491,7 +506,7 @@ app.updateBarCharts = function() {
                 app.createBarChart('#ridership', app.blueColorScale, ridershipArray);
             }
 
-            app.createNotesForRidershipBarChart(ridershipNotesArray);
+            app.createNotesForRidershipBarChart($('#ridershipNotes'), ridershipNotesArray);
 
             app.reportCardLoaded--;
             if (app.reportCardLoaded == 0) {
@@ -506,7 +521,7 @@ app.updateBarCharts = function() {
 
 
     // using the routes selected by district, build a query for top three routes by fastest growing
-    var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015 FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
+    var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015, prop_change_note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
 
 
     app.sqlclient.execute(fastestGrowingQuery)
@@ -514,10 +529,17 @@ app.updateBarCharts = function() {
             // create data object and pass to bar chart for the form
             //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
             var fastestGrowingArray = [];
+            var fastestGrowingRidershipNotesArray = []
             var pct;
             for (var i = 0; i < data.rows.length; i++) {
+                if (data.rows[i].prop_change_note) {
+                    fastestGrowingRidershipNotesArray.push(data.rows[i].prop_change_note);
+                    label = data.rows[i].route_id + '*'
+                } else {
+                    label = data.rows[i].route_id;
+                }
                 pct = parseFloat((data.rows[i].prop_change_2010_2015 * 100).toFixed());
-                fastestGrowingArray.push({ label: data.rows[i].route_id, value: pct });
+                fastestGrowingArray.push({ label: label, value: pct });
             }
 
             // check for existance of SVG and update chart if it already esists
@@ -526,6 +548,8 @@ app.updateBarCharts = function() {
             } else {
                 app.createBarChart('#fastestGrowing', app.blueColorScale, fastestGrowingArray);
             }
+
+            app.createNotesForRidershipBarChart($('#fastestGrowingRidershipNotes'), fastestGrowingRidershipNotesArray);
 
             if (fastestGrowingArray.length == 0) {
                 $('#fastestGrowing').html('');
@@ -631,7 +655,13 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
 
     var width = $('.bar-chart-wrapper').width(),
         barHeight = 25,
-        barWidth = width * (3 / 4);
+        barWidth;
+        if ((width * (3 / 4)) > 275) {
+            barWidth = 275;
+        } else {
+            barWidth = width * (3 / 4);
+        }
+        
 
     var x = d3.scaleLinear()
 
@@ -830,11 +860,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
 
 };
 
-app.createNotesForRidershipBarChart = function(ridershipNotesArray) {
+app.createNotesForRidershipBarChart = function(div, ridershipNotesArray) {
     // clear previous notes
-    $('#ridershipNotes').html('');
+    div.html('');
     for (var i = ridershipNotesArray.length - 1; i >= 0; i--) {
-        $('#ridershipNotes').append("<p><sup>*</sup>" + ridershipNotesArray[i] + "</p>");
+        div.append("<p><sup>*</sup>" + ridershipNotesArray[i] + "</p>");
     }
 }
 
@@ -1030,7 +1060,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             type: 'cartodb',
             sublayers: [{
                 sql: routesWithDataSQL,
-                cartocss: '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
+                cartocss: '#layer {line-width: 2;line-color: #005777; line-opacity: 1;}',
                 interactivity: 'cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched',
             }]
         })
@@ -1046,7 +1076,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             cdb.vis.Vis.addInfowindow(app.map, app.routesSublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
 
             app.routesSublayer.on('featureClick', function(e, pos, latlng, data) {
-                app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "' + data.route_id + '"]::z1 {line-width: 4;line-color: #1b7640; line-opacity: 1;}');
+                app.routeLayer.setCartoCSS('#layer {line-width: 2;line-color: #005777; line-opacity: 1;} #layer[route_id = "' + data.route_id + '"]::z1 {line-width: 4;line-color: #F78C6C; line-opacity: 1;}');
             });
 
             app.activeAjaxConnections--;
@@ -1086,7 +1116,7 @@ app.highlightRoute = function(routeId) {
     // strip out a trailing * if one exists
     routeId = routeId.replace('*', '');
 
-    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;} #layer[route_id = "' + routeId + '"]::z1 {line-width: 3;line-color: #F78C6C; line-opacity: 1;}');
+    app.routeLayer.setCartoCSS('#layer {line-width: 2;line-color: #005777; line-opacity: 1;} #layer[route_id = "' + routeId + '"]::z1 {line-width: 4;line-color: #F78C6C; line-opacity: 1;}');
     // open infowindow
     // Select one of the geometries from the table
     var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '" + routeId + "' LIMIT 1";
@@ -1108,7 +1138,7 @@ app.highlightRoute = function(routeId) {
 };
 
 app.resetRouteStyle = function() {
-    app.routeLayer.setCartoCSS('#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}');
+    app.routeLayer.setCartoCSS('#layer {line-width: 2;line-color: #005777; line-opacity: 1;}');
 };
 
 
@@ -1140,7 +1170,7 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
                 "type": "mapnik",
                 "options": {
                     "sql": routesMapSQL,
-                    "cartocss": '#layer {line-width: 1;line-color: #005777; line-opacity: 0.75;}',
+                    "cartocss": '#layer {line-width: 2;line-color: #005777; line-opacity: 1;}',
                     "cartocss_version": "2.1.1"
                 }
             }, {
