@@ -1185,7 +1185,7 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
     }
 
     var mapWidth = 400;
-    var mapHeight = 300;
+    var mapHeight = 250;
 
     var createStaticMap = function() {
 
