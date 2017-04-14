@@ -212,7 +212,7 @@ main header h2 {
 }
 
 .ridershipNotes p {
-    margin: 0;
+    margin: 0 10px 0 0;
     font-size: 12px;
 }
 
@@ -261,6 +261,7 @@ footer .logos-holder-print {
 }
 
 .district-map-holder {
+    position: relative;
     height: 300px;
     box-shadow: 0 3px 18px #ccc;
 }
@@ -275,6 +276,39 @@ footer .logos-holder-print {
     border: 1px solid #ccc;
     box-shadow: 0 1px 5px rgba(0, 0, 0, .65);
     border-radius: 4px;
+}
+
+.legends-holder {
+    position: absolute;
+    z-index: 2;
+    bottom: 25px;
+    right: 10px;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.239216) 0px 2px 4px 0px;
+    border-radius: 4px;
+    max-height: 540px;
+    overflow-y: auto;
+}
+
+.legend {
+    padding: 16px;
+    width: 192px;
+    background: #fff;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+.legend .range {
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+    color: #2E3C43;
+}
+
+.legend .range  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 2px;
 }
 
 .district-map {
@@ -296,7 +330,7 @@ div.cartodb-tooltip-content p {
 /* STYLES FOR COLOR KEYS (SPEED GAUGE AND BUNCHING BAR) */
 
 .color-key-wrapper {
-    margin-left: 50px;
+    margin-left: 45px;
 }
 
 .label {
@@ -672,8 +706,16 @@ div.cartodb-popup div.cartodb-popup-content p {
     .average-bunching-row {
         display: inline-block;
     }
+    #bunching-h2 {
+        white-space: nowrap;
+    }
+    .bunching-bar{
+        height: 124px !important;
+    }
     .color-ramp-horizontal-bar {
         -webkit-print-color-adjust: exact;
+        margin-top: 55px !important;
+        
     }
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {
