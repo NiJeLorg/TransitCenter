@@ -648,7 +648,8 @@ div.cartodb-popup div.cartodb-popup-content p {
         display: block;
         margin-top: 1%;
         font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
-        font-size: 1.1em;
+        font-size: 1em;
+        line-height: 1.3em;
         margin-bottom: 1%;
     }
     /*    footer {
@@ -671,8 +672,12 @@ div.cartodb-popup div.cartodb-popup-content p {
     }
     .ways-to-address p,
     .ways-to-address ul {
-        font-size: 1.1em;
+        font-size: 1em;
         line-height: 1.3em;
+    }
+    .ways-to-address .advantages {
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
     .district-map-static-wrapper {
         display: block;
@@ -681,7 +686,7 @@ div.cartodb-popup div.cartodb-popup-content p {
         margin-top: 2px;
     }
     .district-map-static {
-        border: 1px #ccc solid;
+        border: 1px #777 solid;
     }
     .address-list-static-map {
         display: flex;
