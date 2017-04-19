@@ -1,157 +1,139 @@
-{% extends 'website/base.html' %}
-{% load staticfiles %}
-
-
-{% block title %}{% endblock %}
-
-{% block css_block %}
+{% extends 'website/base.html' %} {% load staticfiles %} {% block title %}{% endblock %} {% block css_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'website/css/main.css' %}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-{% endblock %}
-
-{% block head_js_block %}
-{% endblock %}
-	
-{% block body_block %}
-  {% include "website/fixedNav.html" %}
-
-  <!-- Intro Header -->
-  <header class="intro">
-      <div class="intro-body">
-          <div class="intro-card-wrapper">
-              <div class="flex-card">
+<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" /> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %} {% include "website/fixedNav.html" %}
+<!-- Intro Header -->
+<header class="intro">
+    <div class="intro-body">
+        <div class="intro-card-wrapper">
+            <div class="flex-card">
                 <div class="card">
-                  <h4><span class="latest-news">Latest News!</span> Top Ten Streets for Bus Improvement in 2017</h4>
-                  <p>Browse our top ten prime streets for practical, near-term bus improvements across all five New York City boroughs.</p>
-                  <a href="#top-ten" class="page-scroll">
-                      <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
-                  </a>
+                    <h4>Latest News! District Report Cards</h4>
+                    <p>See a bus report card for any political district in New York City</p>
+                    <a href="{% url 'district_analysis' %}">
+                        <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
+                    </a>
                 </div>
-              </div>          
-              <div class="flex-card">
-                <div class="card">
-                  <h4>Route Report Card</h4>
-                  <p>See a high level report card on any bus route across New York City.</p>
-                  <a href="#report-card" class="page-scroll">
-                      <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
-                  </a>
-                </div>
-              </div>
-              <div class="flex-card">
-                <div class="card">
-                  <h4>Ride Along</h4>
-                  <p>Ride along with three typical New York City bus riders and see the challenges they face and the solutions that would make their rides and lives better.</p>
-                  <a href="#pick" class="page-scroll">
-                      <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
-                  </a>
-                </div>
-              </div>
-          </div>
-          <div id="mission">
-            <div class="card">
-                <h4>Turnaround: Fixing New York City's Buses</h4><p> is presented by the </p><h4>Bus Turnaround Coalition</h4><p>, a group of diverse New Yorkers determined to turn around the poor service that plagues the city's bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
             </div>
-          </div>            
-      </div>
-  </header>
-
-  <!-- Pick and Story Picture Book -->
-  <section id="top-ten" class="pick-section">
-    <div class="container-fluid"> 
-      <div class="row">
-        <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2 text-center">
-
-          <div id="top-ten-carousel" class="carousel slide" data-interval="false">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-              <div class="item active" data-route="cover">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-Cover.png' %}" alt="Top 10 streets for bus improvements in 2017:" >
-              </div>
-              <div class="item" data-route="B41">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-1.png' %}" alt="B41" >
-              </div>
-              <div class="item" data-route="BX19">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-2.png' %}" alt="Bx19">
-              </div>
-              <div class="item" data-route="Q58">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-3.png' %}" alt="Q58">
-              </div>
-              <div class="item" data-route="BX9">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-4.png' %}" alt="Bx9">
-              </div>
-              <div class="item" data-route="M101">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-5.png' %}" alt="M101">
-              </div>
-              <div class="item" data-route="Q66">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-6.png' %}" alt="Q66, Q69, Q100">
-              </div>
-              <div class="item" data-route="M57">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-7.png' %}" alt="M57, M31">
-              </div>
-              <div class="item" data-route="B35">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-8.png' %}" alt="B35">
-              </div>
-              <div class="item" data-route="S48">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-9.png' %}" alt="S48, S98">
-              </div>
-              <div class="item" data-route="BX28">
-                <img src="{% static 'website/css/images/Bus-Lane-Slideshow-10.png' %}" alt="Bx28, Bx38">
-              </div>
+            <div class="flex-card">
+                <div class="card">
+                    <h4>Route Report Card</h4>
+                    <p>See a high level report card on any bus route across New York City.</p>
+                    <a href="#report-card" class="page-scroll">
+                        <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
+                    </a>
+                </div>
             </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#top-ten-carousel" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#top-ten-carousel" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-          
+            <div class="flex-card">
+                <div class="card">
+                    <h4><span class="latest-news">Latest News!</span> Top Ten Streets for Bus Improvement in 2017</h4>
+                    <p>Browse our top ten prime streets for practical, near-term bus improvements across all five New York City boroughs.</p>
+                    <a href="#top-ten" class="page-scroll">
+                        <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2 text-center">
-          <span class="methodsLink">
+        <div id="mission">
+            <div class="card">
+                <h4>Turnaround: Fixing New York City's Buses</h4>
+                <p> is presented by the </p>
+                <h4>Bus Turnaround Coalition</h4>
+                <p>, a diverse group of New Yorkers determined to turn around the poor service that plagues the city's bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Pick and Story Picture Book -->
+<section id="top-ten" class="pick-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2 text-center">
+                <div id="top-ten-carousel" class="carousel slide" data-interval="false">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active" data-route="cover">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-Cover.png' %}" alt="Top 10 streets for bus improvements in 2017:">
+                        </div>
+                        <div class="item" data-route="B41">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-1.png' %}" alt="B41">
+                        </div>
+                        <div class="item" data-route="BX19">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-2.png' %}" alt="Bx19">
+                        </div>
+                        <div class="item" data-route="Q58">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-3.png' %}" alt="Q58">
+                        </div>
+                        <div class="item" data-route="BX9">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-4.png' %}" alt="Bx9">
+                        </div>
+                        <div class="item" data-route="M101">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-5.png' %}" alt="M101">
+                        </div>
+                        <div class="item" data-route="Q66">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-6.png' %}" alt="Q66, Q69, Q100">
+                        </div>
+                        <div class="item" data-route="M57">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-7.png' %}" alt="M57, M31">
+                        </div>
+                        <div class="item" data-route="B35">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-8.png' %}" alt="B35">
+                        </div>
+                        <div class="item" data-route="S48">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-9.png' %}" alt="S48, S98">
+                        </div>
+                        <div class="item" data-route="BX28">
+                            <img src="{% static 'website/css/images/Bus-Lane-Slideshow-10.png' %}" alt="Bx28, Bx38">
+                        </div>
+                    </div>
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#top-ten-carousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#top-ten-carousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2 text-center">
+                <span class="methodsLink">
             <a id="carousel-report-card-link" class="page-scroll" href="#report-card">See our high level report cards below.</a>
           </span>
+            </div>
         </div>
-      </div>
-      <div class="row margin-top-20">
-        <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2">
-          <p>
-            The Bus Turnaround Coalition has identified the top ten prime streets for practical, near-term bus improvements across all five New York City boroughs. These ten bus routes suffer from the greatest disparity in travel times between peak and off-peak hours, meaning 250,000 riders traveling during prime commute times--when most riders are on the system--face unnecessarily slow, unreliable commutes to work, school, and important appointments.  
-          </p>
-          <p>
-            Our list of suggested improvements includes
-            <ul>
-              <li>bus bulbs and boarding islands</li>
-              <li>optimized traffic signals, </li>
-              <li>queue-jumps, and </li>
-              <li>dedicated lanes that would be applied where appropriate. </li>
-            </ul>
-          </p>
-          <p>
-            The routes and corridors selected for these treatments have high ridership, roads that can support street improvements without negative impacts for single-occupancy vehicles, and, most importantly, a wide variance in travel times between peak and off-peak hours. We are calling on the NYC Department of Transportation to take the lead on making these improvements in 2017.
-          </p>
+        <div class="row margin-top-20">
+            <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2">
+                <p>
+                    The Bus Turnaround Coalition has identified the top ten prime streets for practical, near-term bus improvements across all five New York City boroughs. These ten bus routes suffer from the greatest disparity in travel times between peak and off-peak hours, meaning 250,000 riders traveling during prime commute times--when most riders are on the system--face unnecessarily slow, unreliable commutes to work, school, and important appointments.
+                </p>
+                <p>
+                    Our list of suggested improvements includes
+                    <ul>
+                        <li>bus bulbs and boarding islands</li>
+                        <li>optimized traffic signals, </li>
+                        <li>queue-jumps, and </li>
+                        <li>dedicated lanes that would be applied where appropriate. </li>
+                    </ul>
+                </p>
+                <p>
+                    The routes and corridors selected for these treatments have high ridership, roads that can support street improvements without negative impacts for single-occupancy vehicles, and, most importantly, a wide variance in travel times between peak and off-peak hours. We are calling on the NYC Department of Transportation to take the lead on making these improvements in 2017.
+                </p>
+            </div>
         </div>
-      </div>
-      <div class="row">
-
-      </div>
-    </div>   
-  </section>
-
-  <!-- Report Card Section -->
-  <section id="report-card" class="report-card-section">
-      <div class="container-fluid">
         <div class="row">
-          <div class="col-sm-12 text-center">
-
-            <h1>Report Card for 
+        </div>
+    </div>
+</section>
+<!-- Report Card Section -->
+<section id="report-card" class="report-card-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>Report Card for
               <select id="selectRoute" class="selectRoute" style="width: 300px;">
                 <optgroup id="dropdownBX" label="Bronx">
                 </optgroup>
@@ -173,599 +155,572 @@
                 </optgroup> -->
               </select>
             </h1>
-          </div>
+            </div>
         </div>
         <div class="row">
-          <div class="col-sm-10 col-sm-offset-1">
-            <div class="report-card-card">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-sm-8">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="report-card-card">
                     <div class="container-fluid">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h1 class="reportCardRouteName">BX1</h1>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h3>Speed</h3>
-                          <h2><span id="speedNumber" class="text-success">0</span> <small>mph</small></h2>
-                          <div id="speed-gauge" class="speed-gauge"></div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h3>Bus Bunching</h3>
-                          <h2>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h1 class="reportCardRouteName">BX1</h1>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h3>Speed</h3>
+                                            <h2><span id="speedNumber" class="text-success">0</span> <small>mph</small></h2>
+                                            <div id="speed-gauge" class="speed-gauge"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h3>Bus Bunching</h3>
+                                            <h2>
                             <span id="bunchedNumber" class="text-success">0%</span> <small>bunched</small>
                           </h2>
-                        </div>
-                        <div class="col-sm-12">
-                          <div id="mini-buses"></div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h3>Ridership</h3>
-                          <div id="ridershipData">
-                            <h4>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div id="mini-buses"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h3>Ridership</h3>
+                                            <div id="ridershipData">
+                                                <h4>
                               <small>At</small> <span id="ridershipNumber" class="text-success">0</span> <small>riders per day, the <span class="reportCardRouteName">BX1</span> ranks </small><span id="ridershipRanking" class="text-success">1</span><small> in ridership out of</small> <span id="ridershipMaxRank"></span> <small><span id="ridershipGroup"></span> routes. This represents a </small><span id="ridershipChange" class="text-success">0% increase</span> <small>in ridership since 2010.</small>
                             </h4>
-                          </div>
-                          <div id="noRidershipData" class="hidden">
-                            <h4>Unfortunately, there are no ridership data for this route.</h4>
-                          </div>
-                          <h5><span id="ridershipNotes"></span></h5>
+                                            </div>
+                                            <div id="noRidershipData" class="hidden">
+                                                <h4>Unfortunately, there are no ridership data for this route.</h4>
+                                            </div>
+                                            <h5><span id="ridershipNotes"></span></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div id="route-map"></div>
+                            </div>
                         </div>
-                      </div>
+                        <div class="row margin-top-20">
+                            <div class="col-sm-12 text-center">
+                                <a id="showShareFB" class="btn btn-facebook margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-facebook-official fa-2x"></i></a>
+                                <a id="showShareTwitter" class="btn btn-twitter margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-twitter fa-2x"></i></a>
+                                <a class="btn btn-primary margin-5" href="http://salsa.ridersny.org/p/salsa/web/common/public/signup?signup_page_KEY=10579" role="button"><span class="shareOn">Take Action! </span><i class="fa fa-bullhorn fa-2x"></i></a>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 text-right">
+                                    <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div id="route-map"></div>
-                  </div>
                 </div>
-                <div class="row margin-top-20">
-                  <div class="col-sm-12 text-center">
-                    <a id="showShareFB" class="btn btn-facebook margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-facebook-official fa-2x"></i></a>
-                    <a id="showShareTwitter" class="btn btn-twitter margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-twitter fa-2x"></i></a>
-                    <a class="btn btn-primary margin-5" href="http://salsa.ridersny.org/p/salsa/web/common/public/signup?signup_page_KEY=10579" role="button" ><span class="shareOn">Take Action! </span><i class="fa fa-bullhorn fa-2x"></i></a>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-12 text-right">
-                      <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-  </section>
-
-  <!-- Pick and Story Picture Book -->
-  <section id="pick" class="pick-section text-center">
-    <div class="container-fluid"> 
-      <div class="row">
-        <div class="col-sm-8 col-sm-offset-2">
-          <h1>Ride Along</h1>
-          <h4 id="personaDescriptionText"></h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4 col-sm-offset-1 margin-top-5vh">
-          <img id="persona-image1" class="img-responsive" src="" />
-        </div>
-        <div class="col-sm-2 margin-top-12vh no-mobile">
-          <i class="fa fa-arrow-right fa-5x" aria-hidden="true"></i>
-        </div>       
-        <div class="col-sm-4 margin-top-5vh">
-          <img id="persona-image2" class="img-responsive" src="" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-3 margin-top-5vh">
-          <img class="route-map" src="{% static 'website/css/images/thumb_map_positive.png' %}" />
-        </div>
-        <div class="col-sm-3 margin-top-5vh text-left">
-          <p id="personaPositiveThumbText"></p>
-        </div>
-        <div class="col-sm-3 margin-top-5vh">
-          <img class="route-map" src="{% static 'website/css/images/thumb_map_negative.png' %}" />
-        </div>
-        <div class="col-sm-3 margin-top-5vh text-left">
-          <p id="personaNegativeThumbText"></p>
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col-sm-12 margin-top-5vh">
-          <p>Scroll down to compare <span class="personaName"></span>'s bus journeys</p>
-          <a href="#ride" class="btn btn-circle page-scroll">
-              <i class="fa fa-angle-double-down animated"></i>
-          </a>
-        </div>
-      </div>
-    </div>   
-  </section>
-
-  <!-- Ride Along Section -->
-  <section id="ride" class="ride-section negative" data-slug="ride">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-danger text-center section-heading">Waiting for the Bus</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img negative top">
-            </div>
-          </div>
-          <div class="dot-wrapper">
-            <div class="personaDot text-center">
-              <p class="label"><span class="personaName"></span></p><br />
-              <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-1-a' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-7">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-1-a" class="img-responsive" src="" />
-                  <p id="persona-1-a-text" class="margin-top-10"></p>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>        
-        </div>
-      </div>
-  </section>
-
-  
-  <section id="ride_map_1_b" class="ride-section positive">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-success text-center section-heading">Waiting for the Bus</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img positive top">
-            </div>
-          </div>
-          <div class="dot-wrapper">
-            <div class="personaDot text-center">
-              <p class="label"><span class="personaName"></span></p><br />
-              <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-1-b' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-            	<img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-7">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-1-b" class="img-responsive" src="{% static 'website/css/images/scene_ONTIMEright.png' %}" />
-                  <p id="persona-1-b-text" class="margin-top-10"></p>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
- 
-  <section id="ride_map_1_5_a" class="ride-section negative">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-danger text-center section-heading">Boarding the Bus</h2>
-        </div>     
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img negative top">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-1-5-a' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-7">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-1-5-a" class="img-responsive" src="" />
-                  <p id="persona-1-5-a-text" class="margin-top-10"></p>
-                  <img id="persona-1-5-a-2" class="img-responsive" src="" />
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="ride_map_1_5_b" class="ride-section positive">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-success text-center section-heading">Boarding the Bus</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img positive top">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-1-5-b' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-7">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-1-5-b" class="img-responsive" src="" />
-                  <p id="persona-1-5-b-text" class="margin-top-10"></p>
-                  <img id="persona-1-5-b-2" class="img-responsive" src="" />
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="ride_map_2_a" class="ride-section negative">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-danger text-center section-heading">Dealing With Traffic</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img negative top">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-2-a' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-1">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-2-a" class="img-responsive" src="{% static 'website/css/images/scene_Birdseyebus_stuck.png' %}" />
-                  <p id="persona-2-a-text" class="margin-top-10"></p>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-
-  <section id="ride_map_2_b" class="ride-section positive">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-success text-center section-heading">Dealing With Traffic</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img positive center">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-2-b' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-7">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-2-b" class="img-responsive" src="{% static 'website/css/images/scene_Birdseyebus.png' %}" />
-                  <p id="persona-2-b-text" class="margin-top-10"></p>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="ride_map_3_5_a" class="ride-section negative">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-         <h2 class="text-danger text-center section-heading">Route Design</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img negative centerRight">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-3-5-a' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-1">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-3-5-a" class="img-responsive" src="{% static 'website/css/images/scene_stuckintrafficop.png' %}" />
-                  <p id="persona-3-5-a-text" class="margin-top-10"></p>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="ride_map_3_5_b" class="ride-section positive">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-success text-center section-heading">Route Design</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img positive center">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-3-5-b' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-7">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-3-5-b" class="img-responsive" src="{% static 'website/css/images/happy_busdriver.png' %}" />
-                  <p id="persona-3-5-b-text" class="margin-top-10"></p>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="ride_map_3_a" class="ride-section negative">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-danger text-center section-heading">The Bus We Have</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img negative bottom">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-3-a' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-7">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-3-a" class="img-responsive" src="" />
-                  <p id="persona-3-a-text" class="margin-top-10"></p>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="ride_map_3_b" class="ride-section positive">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-success text-center section-heading">The Bus We Could Have</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img positive center">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-3-b' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5 col-sm-offset-7">
-                 <div class="card margin-top-50vh">
-                  <img id="persona-3-b" class="img-responsive" src="" />
-                  <p id="persona-3-b-text" class="margin-top-10"></p>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="ride_map_4" class="ride-section positive">
-      <div class="picture-book">
-        <div class="raiseZIndex">
-          <h2 class="text-success text-center section-heading">&#160;</h2>
-        </div>
-        <div class="picture-book-img-wrap picture-book-bg">
-          <div class="ride-img-wrap">
-            <div class="picture-book-img ride-img positive center">
-            </div>
-          </div>
-        </div>
-        <div class="picture-book-page">
-          <div id='bus-animation-4' class="bus-animation-wrapper">
-            <div class="bus_temp_postion">
-              <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
-            </div>
-          </div>        
-          <div class="ride-content">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-8 col-sm-offset-2">
-                 <div class="card margin-top-40vh">
-                  <img id="persona-4" class="img-responsive" src="" />
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <!-- Resources Card Section -->
-  <section id="resources" class="intro resources-section">
-      <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-12">
-              <h1 class="white-heading margin-left-12">Resources</h1>
-            </div>
-            <div class="col-sm-12">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="card margin-top-20">
-                      <h4>Get Involved!</h4>
-                      <p>Tell Riders Alliance about your "<a href='http://ridersny.org/buswoes'>Woes on the Bus</a>"</p>
-                      <p>Read our report, "<a href='http://transitcenter.org/programs/nyc/turnaround/'>Turnaround: Fixing New York City's Buses</a>"</p>
-                      <p>Watch Streetfilms' "<a href='http://www.streetfilms.org/nyc-buses-time-for-a-turnaround/'>NYC Buses: Time for a Turnaround</a>"</p>
-                    </div>
-                    <div class="card margin-top-20">
-                      <h4>Mission</h4>
-                      <p>The Bus Turnaround Coalition is a group of diverse New Yorkers determined to turn around the poor service that plagues the city's bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
-                    </div>
-                  </div>
-                  <div class="col-sm-8">
-                    <div class="card margin-top-20">
-                      <h4>Acknowledgements</h4>
-                      <p>The Bus Turnaround Coalition is indebted to Nathan Johnson, whose knowledge of the MTA's Bus Time data is likely unparalleled outside of the MTA. Without his dedication and technical expertise the bus performance analysis presented here would not have been possible. Neil Freeman and Kuan Butts also made valuable contributions to this analysis. Nathan's talents may never have been applied to these data without a call to action from City Councilman Ben Kallos, a champion of bus riders in New York's Fifth District and beyond, who continues to support this campaign. We also thank BetaNYC, which created the space for Councilman Kallos to pitch Nathan and others on the idea of using Bus Time data to measure bus performance, and continues to create opportunities for civic technologists to improve the lives of New Yorkers. </p>
-                      <p>This website is built by the extremely capable hands of JD Godchaux and Lela Prashad of <a href="http://nijel.org/">NiJeL</a>, in partnership with and using technology from <a href="http://carto.com/">CARTO</a>, and with design support from <a href="http://www.objectivesubject.com/">Objective Subject</a> and illustrations by Max Halton. The website's concept and content was developed by the Bus Turnaround Coalition, including Zak Accuardi, Tabitha Decker, Chris Pangilinan, Steven Higashide, Jon Orcutt, and Al Beatty; Nick Sifuentes, John Raskin, and Stephanie Veras of Riders Alliance; Veronica Vanterpool and Vincent Pellecchia of Tri-State Transportation Campaign; and Gene Russianoff and Jaqi Cohen of New York Public Interest Research Group's Straphangers Campaign.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-      <div class="container-fluid text-center">
-        <div class="row">
-          <div class="col-sm-3 margin-top-20">
-            <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
-          </div>
-          <div class="col-sm-3 margin-top-20">
-            <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
-          </div>
-          <div class="col-sm-3 margin-top-20">
-            <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
-          </div>
-          <div class="col-sm-3 margin-top-20">
-            <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 margin-top-20">
-            <p class="white-heading">Copyright &copy; <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}</p>
-          </div>
-        </div>
-
-      </div>
-  </footer>
-
-    <!-- Hidden SVG for bus icons that we'll use later with <use> -->
-  <svg class="bus_icon" style="display: none;">
-    <symbol id="bus_icon">
-      <path d="M52.1 0.1C19.6 0.1 1.9 16.3 0.4 42.2L0.4 42.3C-1.1 68.2 0.9 214.7 0.9 214.7L148.6 214.9C148.6 214.9 149.7 155.5 198.6 155.5 247.3 155.5 250.3 214.6 250.3 214.6L512.1 214.6C512.1 214.6 509.3 156.9 560.2 156.9 611.3 156.9 608.3 213.9 608.3 213.9L710.4 213.9C734.1 213.9 728.2 133.3 728.2 120.6 728.2 108.1 715.6 105.1 715.6 105.1L715.6 21.5C715.6 5.2 715.6 0.1 684.5 0.1L52.1 0.1zM41.1 42.4L147.8 42.4 147.8 103.4 21.4 103.4 21.4 62.2C21.4 51.3 30.3 42.4 41.1 42.4zM173.3 42.4L299.8 42.4 299.8 103.4 173.3 103.4 173.3 42.4zM325.3 42.4L451.8 42.4 451.8 103.4 325.3 103.4 325.3 42.4zM477.3 42.4L603.7 42.4 603.7 103.4 477.3 103.4 477.3 42.4zM640.3 42.4L678.1 42.4 678.1 184.4 640.3 184.4 640.3 42.4zM199.1 165.8C177.5 165.8 160 183.3 160 204.9 160 226.5 177.5 244 199.1 244 220.7 244 238.2 226.5 238.2 204.9 238.2 183.3 220.7 165.8 199.1 165.8zM561.5 165.8C539.9 165.8 522.4 183.3 522.4 204.9 522.4 226.5 539.9 244 561.5 244 583.1 244 600.6 226.5 600.6 204.9 600.6 183.3 583.1 165.8 561.5 165.8zM199.1 186.4C209.2 186.4 217.5 194.6 217.5 204.7 217.5 214.9 209.2 223.1 199.1 223.1 189 223.1 180.7 214.9 180.7 204.7 180.7 194.6 189 186.4 199.1 186.4zM561.5 186.4C571.6 186.4 579.9 194.6 579.9 204.7 579.9 214.9 571.6 223.1 561.5 223.1 551.4 223.1 543.1 214.9 543.1 204.7 543.1 194.6 551.4 186.4 561.5 186.4z"/>
-    </symbol>
-  </svg>
-
-{% endblock %}
-
-{% block modal_block %}
-<div class="modal fade" id="methods" tabindex="-1" role="dialog" aria-labelledby="methodsTitle">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle-o fa-2x" aria-hidden="true"></i></span></button>
-        <h4 class="modal-title" id="methodsTitle">Methodology</h4>
-      </div>
-      <div class="modal-body">
-        <p>Bunching data are calculated as an average of performance during weekdays between the hours of 10am-4pm, for the months of October 2015 and May 2016. These two months are selected because they contain minimal holidays, mild weather (minimizing service disruptions), and fall during the school year. Speed data are calculated for October 2015 only.</p>
-
-        <p><em>Bunching</em> is defined as the percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus. So if Bus #2 is scheduled to arrive eight minutes after Bus #1, but instead Bus #2 arrives less than two minutes after Bus #1, then Bus #2 is considered "bunched". Bus arrival and departure times are estimated using an algorithm developed by Nathan Johnson and applied to the MTA's Bus Time data. More information about Bus Time data is <a href="http://bustime.mta.info/wiki/Developers/OneBusAwayRESTfulAPI">available here</a>. </p>
-
-        <p><em>Speed</em> is calculated using the same Bus Time data in conjunction with route length information gathered from the MTA's publicly provided GTFS schedules. As presented here at the route level, the travel time from start to finish is simply divided by the route's length to calculate average speed. More details available in the <a href="http://busdataapi1.cloudapp.net/about">performance API documentation</a>. </p>
-
-        <p><em>Ridership</em> data are for the average weekday in 2015, as <a href="http://web.mta.info/nyct/facts/ridership/">reported by MTA New York City Transit here</a>. </p>
-
-        <p>More information, including access to arrival data via an API developed by Nathan Johnson and Kuan Butts, <a href="http://bus-data-nyc.github.io/">is available here</a>. </p>
-      </div>
     </div>
-  </div>
+</section>
+<!-- Pick and Story Picture Book -->
+<section id="pick" class="pick-section text-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <h1>Ride Along</h1>
+                <h4 id="personaDescriptionText"></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-1 margin-top-5vh">
+                <img id="persona-image1" class="img-responsive" src="" />
+            </div>
+            <div class="col-sm-2 margin-top-12vh no-mobile">
+                <i class="fa fa-arrow-right fa-5x" aria-hidden="true"></i>
+            </div>
+            <div class="col-sm-4 margin-top-5vh">
+                <img id="persona-image2" class="img-responsive" src="" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 margin-top-5vh">
+                <img class="route-map" src="{% static 'website/css/images/thumb_map_positive.png' %}" />
+            </div>
+            <div class="col-sm-3 margin-top-5vh text-left">
+                <p id="personaPositiveThumbText"></p>
+            </div>
+            <div class="col-sm-3 margin-top-5vh">
+                <img class="route-map" src="{% static 'website/css/images/thumb_map_negative.png' %}" />
+            </div>
+            <div class="col-sm-3 margin-top-5vh text-left">
+                <p id="personaNegativeThumbText"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 margin-top-5vh">
+                <p>Scroll down to compare <span class="personaName"></span>'s bus journeys</p>
+                <a href="#ride" class="btn btn-circle page-scroll">
+                    <i class="fa fa-angle-double-down animated"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Ride Along Section -->
+<section id="ride" class="ride-section negative" data-slug="ride">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-danger text-center section-heading">Waiting for the Bus</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img negative top">
+                </div>
+            </div>
+            <div class="dot-wrapper">
+                <div class="personaDot text-center">
+                    <p class="label"><span class="personaName"></span></p>
+                    <br />
+                    <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-1-a' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-7">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-1-a" class="img-responsive" src="" />
+                                <p id="persona-1-a-text" class="margin-top-10"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_1_b" class="ride-section positive">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-success text-center section-heading">Waiting for the Bus</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img positive top">
+                </div>
+            </div>
+            <div class="dot-wrapper">
+                <div class="personaDot text-center">
+                    <p class="label"><span class="personaName"></span></p>
+                    <br />
+                    <i class="fa fa-dot-circle-o dot" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-1-b' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-7">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-1-b" class="img-responsive" src="{% static 'website/css/images/scene_ONTIMEright.png' %}" />
+                                <p id="persona-1-b-text" class="margin-top-10"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_1_5_a" class="ride-section negative">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-danger text-center section-heading">Boarding the Bus</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img negative top">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-1-5-a' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-7">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-1-5-a" class="img-responsive" src="" />
+                                <p id="persona-1-5-a-text" class="margin-top-10"></p>
+                                <img id="persona-1-5-a-2" class="img-responsive" src="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_1_5_b" class="ride-section positive">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-success text-center section-heading">Boarding the Bus</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img positive top">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-1-5-b' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-7">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-1-5-b" class="img-responsive" src="" />
+                                <p id="persona-1-5-b-text" class="margin-top-10"></p>
+                                <img id="persona-1-5-b-2" class="img-responsive" src="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_2_a" class="ride-section negative">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-danger text-center section-heading">Dealing With Traffic</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img negative top">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-2-a' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-1">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-2-a" class="img-responsive" src="{% static 'website/css/images/scene_Birdseyebus_stuck.png' %}" />
+                                <p id="persona-2-a-text" class="margin-top-10"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_2_b" class="ride-section positive">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-success text-center section-heading">Dealing With Traffic</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img positive center">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-2-b' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-7">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-2-b" class="img-responsive" src="{% static 'website/css/images/scene_Birdseyebus.png' %}" />
+                                <p id="persona-2-b-text" class="margin-top-10"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_3_5_a" class="ride-section negative">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-danger text-center section-heading">Route Design</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img negative centerRight">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-3-5-a' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-1">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-3-5-a" class="img-responsive" src="{% static 'website/css/images/scene_stuckintrafficop.png' %}" />
+                                <p id="persona-3-5-a-text" class="margin-top-10"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_3_5_b" class="ride-section positive">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-success text-center section-heading">Route Design</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img positive center">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-3-5-b' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-7">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-3-5-b" class="img-responsive" src="{% static 'website/css/images/happy_busdriver.png' %}" />
+                                <p id="persona-3-5-b-text" class="margin-top-10"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_3_a" class="ride-section negative">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-danger text-center section-heading">The Bus We Have</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img negative bottom">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-3-a' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-7">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-3-a" class="img-responsive" src="" />
+                                <p id="persona-3-a-text" class="margin-top-10"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_3_b" class="ride-section positive">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-success text-center section-heading">The Bus We Could Have</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img positive center">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-3-b' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-7">
+                            <div class="card margin-top-50vh">
+                                <img id="persona-3-b" class="img-responsive" src="" />
+                                <p id="persona-3-b-text" class="margin-top-10"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="ride_map_4" class="ride-section positive">
+    <div class="picture-book">
+        <div class="raiseZIndex">
+            <h2 class="text-success text-center section-heading">&#160;</h2>
+        </div>
+        <div class="picture-book-img-wrap picture-book-bg">
+            <div class="ride-img-wrap">
+                <div class="picture-book-img ride-img positive center">
+                </div>
+            </div>
+        </div>
+        <div class="picture-book-page">
+            <div id='bus-animation-4' class="bus-animation-wrapper">
+                <div class="bus_temp_postion">
+                    <img class="bus_img_size" src="{% static 'website/css/images/bus_for_animation.png' %}" />
+                </div>
+            </div>
+            <div class="ride-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="card margin-top-40vh">
+                                <img id="persona-4" class="img-responsive" src="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Resources Card Section -->
+<section id="resources" class="intro resources-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="white-heading margin-left-12">Resources</h1>
+            </div>
+            <div class="col-sm-12">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card margin-top-20">
+                                <h4>Get Involved!</h4>
+                                <p>Tell Riders Alliance about your "<a href='http://ridersny.org/buswoes'>Woes on the Bus</a>"</p>
+                                <p>Read our report, "<a href='http://transitcenter.org/programs/nyc/turnaround/'>Turnaround: Fixing New York City's Buses</a>"</p>
+                                <p>Watch Streetfilms' "<a href='http://www.streetfilms.org/nyc-buses-time-for-a-turnaround/'>NYC Buses: Time for a Turnaround</a>"</p>
+                            </div>
+                            <div class="card margin-top-20">
+                                <h4>Mission</h4>
+                                <p>The Bus Turnaround Coalition is a diverse group of New Yorkers determined to turn around the poor service that plagues the city's bus system and the 2.5 million rides taken on it every weekday. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="card margin-top-20">
+                                <h4>Acknowledgements</h4>
+                                <p>The Bus Turnaround Coalition is indebted to Nathan Johnson, whose knowledge of the MTA's Bus Time data is likely unparalleled outside of the MTA. Without his dedication and technical expertise the bus performance analysis presented here would not have been possible. Neil Freeman and Kuan Butts also made valuable contributions to this analysis. Nathan's talents may never have been applied to these data without a call to action from City Councilman Ben Kallos, a champion of bus riders in New York's Fifth District and beyond, who continues to support this campaign. We also thank BetaNYC, which created the space for Councilman Kallos to pitch Nathan and others on the idea of using Bus Time data to measure bus performance, and continues to create opportunities for civic technologists to improve the lives of New Yorkers. </p>
+                                <p>This website is built by the extremely capable hands of JD Godchaux and Lela Prashad of <a href="http://nijel.org/">NiJeL</a>, in partnership with and using technology from <a href="http://carto.com/">CARTO</a>, and with design support from <a href="http://www.objectivesubject.com/">Objective Subject</a> and illustrations by Max Halton. The website's concept and content was developed by the Bus Turnaround Coalition, including Zak Accuardi, Tabitha Decker, Chris Pangilinan, Steven Higashide, Jon Orcutt, and Al Beatty; Nick Sifuentes, John Raskin, and Stephanie Veras of Riders Alliance; Veronica Vanterpool and Vincent Pellecchia of Tri-State Transportation Campaign; and Gene Russianoff and Jaqi Cohen of New York Public Interest Research Group's Straphangers Campaign.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<footer>
+    <div class="container-fluid text-center">
+        <div class="row">
+            <div class="col-sm-3 margin-top-20">
+                <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
+            </div>
+            <div class="col-sm-3 margin-top-20">
+                <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
+            </div>
+            <div class="col-sm-3 margin-top-20">
+                <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
+            </div>
+            <div class="col-sm-3 margin-top-20">
+                <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 margin-top-20">
+                <p class="white-heading">Copyright &copy; <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Hidden SVG for bus icons that we'll use later with <use> -->
+<svg class="bus_icon" style="display: none;">
+    <symbol id="bus_icon">
+        <path d="M52.1 0.1C19.6 0.1 1.9 16.3 0.4 42.2L0.4 42.3C-1.1 68.2 0.9 214.7 0.9 214.7L148.6 214.9C148.6 214.9 149.7 155.5 198.6 155.5 247.3 155.5 250.3 214.6 250.3 214.6L512.1 214.6C512.1 214.6 509.3 156.9 560.2 156.9 611.3 156.9 608.3 213.9 608.3 213.9L710.4 213.9C734.1 213.9 728.2 133.3 728.2 120.6 728.2 108.1 715.6 105.1 715.6 105.1L715.6 21.5C715.6 5.2 715.6 0.1 684.5 0.1L52.1 0.1zM41.1 42.4L147.8 42.4 147.8 103.4 21.4 103.4 21.4 62.2C21.4 51.3 30.3 42.4 41.1 42.4zM173.3 42.4L299.8 42.4 299.8 103.4 173.3 103.4 173.3 42.4zM325.3 42.4L451.8 42.4 451.8 103.4 325.3 103.4 325.3 42.4zM477.3 42.4L603.7 42.4 603.7 103.4 477.3 103.4 477.3 42.4zM640.3 42.4L678.1 42.4 678.1 184.4 640.3 184.4 640.3 42.4zM199.1 165.8C177.5 165.8 160 183.3 160 204.9 160 226.5 177.5 244 199.1 244 220.7 244 238.2 226.5 238.2 204.9 238.2 183.3 220.7 165.8 199.1 165.8zM561.5 165.8C539.9 165.8 522.4 183.3 522.4 204.9 522.4 226.5 539.9 244 561.5 244 583.1 244 600.6 226.5 600.6 204.9 600.6 183.3 583.1 165.8 561.5 165.8zM199.1 186.4C209.2 186.4 217.5 194.6 217.5 204.7 217.5 214.9 209.2 223.1 199.1 223.1 189 223.1 180.7 214.9 180.7 204.7 180.7 194.6 189 186.4 199.1 186.4zM561.5 186.4C571.6 186.4 579.9 194.6 579.9 204.7 579.9 214.9 571.6 223.1 561.5 223.1 551.4 223.1 543.1 214.9 543.1 204.7 543.1 194.6 551.4 186.4 561.5 186.4z" />
+    </symbol>
+</svg>
+{% endblock %} {% block modal_block %}
+<div class="modal fade" id="methods" tabindex="-1" role="dialog" aria-labelledby="methodsTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle-o fa-2x" aria-hidden="true"></i></span></button>
+                <h4 class="modal-title" id="methodsTitle">Methodology</h4>
+            </div>
+            <div class="modal-body">
+                <p>Bunching data are calculated as an average of performance during weekdays between the hours of 10am-4pm, for the months of October 2015 and May 2016. These two months are selected because they contain minimal holidays, mild weather (minimizing service disruptions), and fall during the school year. Speed data are calculated for October 2015 only.</p>
+                <p><em>Bunching</em> is defined as the percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus. So if Bus #2 is scheduled to arrive eight minutes after Bus #1, but instead Bus #2 arrives less than two minutes after Bus #1, then Bus #2 is considered "bunched". Bus arrival and departure times are estimated using an algorithm developed by Nathan Johnson and applied to the MTA's Bus Time data. More information about Bus Time data is <a href="http://bustime.mta.info/wiki/Developers/OneBusAwayRESTfulAPI">available here</a>. </p>
+                <p><em>Speed</em> is calculated using the same Bus Time data in conjunction with route length information gathered from the MTA's publicly provided GTFS schedules. As presented here at the route level, the travel time from start to finish is simply divided by the route's length to calculate average speed. More details available in the <a href="http://api.busturnaround.nyc/">performance API documentation</a>. </p>
+                <p><em>Ridership</em> data are for the average weekday in 2015. </p>
+                <p>More information, including access to arrival data via an API developed by Nathan Johnson and Kuan Butts, <a href="http://bus-data-nyc.github.io/">is available here</a>. </p>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}
-
-{% block js_block %}
+{% endblock %} {% block js_block %}
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/app.js' %}"></script>
 <script type="text/javascript">
@@ -774,8 +729,3 @@ var route = '{{ route }}';
 window.onload = app.init;
 </script>
 {% endblock %}
-
-
-	
-	
-

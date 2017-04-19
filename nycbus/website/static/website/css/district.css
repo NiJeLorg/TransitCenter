@@ -138,7 +138,6 @@ main header h2 {
     margin: 0;
 }
 
-
 .turnaround-heading {
     display: none;
 }
@@ -304,7 +303,7 @@ footer .logos-holder-print {
     color: #2E3C43;
 }
 
-.legend .range  span {
+.legend .range span {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -494,6 +493,29 @@ div.cartodb-popup div.cartodb-popup-content p {
     color: #333333;
 }
 
+.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: #3b5998;
+}
+
+.btn-twitter {
+    color: #fff;
+    background-color: #4099ff;
+    border-color: #4099ff;
+}
+
+.btn .shareOn {
+    padding-right: 5px;
+    display: inline;
+    vertical-align: super;
+    text-transform: uppercase;
+}
+
+.btn:hover {
+    color: #fff;
+}
+
 
 /* STYLES FOR INFOWINDOW */
 
@@ -559,6 +581,13 @@ div.cartodb-popup div.cartodb-popup-content p {
     }
     .color-ramp-horizontal-bar {
         width: 94%;
+    }
+    .legends-holder .legend {
+        padding: 8px;
+    }
+    .legends-holder .legend .title p,
+    .legends-holder .legend .range p {
+        margin-bottom: 6px;
     }
 }
 
@@ -714,13 +743,12 @@ div.cartodb-popup div.cartodb-popup-content p {
     #bunching-h2 {
         white-space: nowrap;
     }
-    .bunching-bar{
+    .bunching-bar {
         height: 124px !important;
     }
     .color-ramp-horizontal-bar {
         -webkit-print-color-adjust: exact;
         margin-top: 55px !important;
-        
     }
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {
