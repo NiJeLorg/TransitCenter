@@ -1490,11 +1490,23 @@ app.activeAjaxConnections = 0;
 // share buttons
 app.updateShareButtons = function(selectDistrict, numberOfDistrict) {
 
+    var typeOfDistrict;
+
+    if (selectDistrict === 'board') {
+        typeOfDistrict = 'Community Board';
+    } else if (selectDistrict === 'council') {
+        typeOfDistrict = 'City Council';
+    } else if (selectDistrict === 'senate') {
+        typeOfDistrict = 'State Senate'
+    } else {
+        typeOfDistrict = 'State Assembly'
+    }
+
     var app_id = '1581540325487727';
-    var fbdescription = "Here's the report card for the " + number + " district in NYC. Check out and compare your district here! #busturnaround";
+    var fbdescription = "Here's the report card for the " + typeOfDistrict + ' District, ' + number + " in NYC. Check out and compare your district here! #busturnaround";
     var fblink = "http://busturnaround.nyc/district/?district=" + selectDistrict + numberOfDistrict;
     var fbpicture = "http://busturnaround.nyc/static/website/css/images/report_card_fb.png";
-    var fbname = "This is the report card for the " + numberOfDistrict;
+    var fbname = "This is the report card for the " + typeOfDistrict + ' Distrct, ' +  numberOfDistrict;
     var fbcaption = "TransitCenter";
     var fbUrl = 'https://www.facebook.com/dialog/feed?app_id=' + app_id + '&display=popup&description=' + encodeURIComponent(fbdescription) + '&link=' + encodeURIComponent(fblink) + '&redirect_uri=' + encodeURIComponent(fblink) + '&name=' + encodeURIComponent(fbname) + '&caption=' + encodeURIComponent(fbcaption) + '&picture=' + encodeURIComponent(fbpicture);
     var fbOnclick = 'window.open("' + fbUrl + '","facebook-share-dialog","width=626,height=436");return false;';
@@ -1502,9 +1514,9 @@ app.updateShareButtons = function(selectDistrict, numberOfDistrict) {
     $('#showShareFB').attr("onclick", fbOnclick);
 
 
-    var twitterlink = "http://busturnaround.nyc/district/?district=" +  selectDistrict + numberOfDistrict;
+    var twitterlink = "http://busturnaround.nyc/district/?district=" + selectDistrict + numberOfDistrict;
     var via = 'TransitCenter';
-    var twittercaption = "Here's the report card for the " + numberOfDistrict + " bus in NYC. Check out your bus here! #busturnaround";
+    var twittercaption = "Report card for the " + typeOfDistrict + ' District, ' + numberOfDistrict + " in NYC. Check out your distinct here!";
     var twitterUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(twitterlink) + '&via=' + encodeURIComponent(via) + '&text=' + encodeURIComponent(twittercaption);
     var twitterOnclick = 'window.open("' + twitterUrl + '","twitter-share-dialog","width=626,height=436");return false;';
     $('#showShareTwitter').attr("href", twitterUrl);
