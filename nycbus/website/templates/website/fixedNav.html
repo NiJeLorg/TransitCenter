@@ -1,5 +1,4 @@
 {% load staticfiles %}
-
 <!-- Navigation -->
 <nav id="fixedNav" class="navbar navbar-custom navbar-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -11,7 +10,6 @@
                 <span class="brand-text">Turnaround<span class="extra-text">: Fixing New York City's Buses</span></span>
             </a>
         </div>
-
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
             <ul class="nav navbar-nav">
@@ -20,10 +18,13 @@
                     <a href="#page-top"></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#top-ten"><h3>Top Ten</h3></a>
+                    <a href="{% url 'district_analysis' %}"><h3>District Report Card</h3></a>
                 </li>
                 <li>
                     <a class="page-scroll" href="#report-card"><h3>Report Card</h3></a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#top-ten"><h3>Top Ten</h3></a>
                 </li>
                 <li>
                     <a class="page-scroll" href="#pick"><h3>Ride Along</h3></a>
