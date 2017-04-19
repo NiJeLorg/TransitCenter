@@ -31,16 +31,21 @@ app.init = function() {
     // enable bootstrap tooltips
     $('[data-toggle="tooltip"]').tooltip();
 
+    //update share buttons
+    app.updateShareButtons();
+
 };
 
 // sets up listeners
 app.createListeners = function() {
 
+    var selectDistrict, numberOfDistrict;
     // listen for on change to update dropdown menu
     $('#selectDistrict').change(function() {
         app.districtName = $(this).val();
         // update route selection and data
         app.updateNumberDropdown();
+        selectDistrict = $(this).val();
     });
 
     // listen for on change to update visualizations
@@ -52,11 +57,18 @@ app.createListeners = function() {
         app.selectRoutes();
         // create url parameters
         window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
+
+        numberOfDistrict = $(this).val();
+
+        app.updateShareButtons(selectDistrict, numberOfDistrict);
+
+
     });
 
     $('.toggle-city').click(function() {
         app.map.setView(new L.LatLng(40.7, -74.0), 10);
     });
+
 
 };
 
@@ -291,27 +303,27 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 // calculate average bunching numerator and denominator
                 var moreThanAlmost = '';
                 if (data.rows[0].wavgbunching > 0.1) {
-                	// greater than 10 %, greatest fraction demoninator should be 10 and we can say "more than" or "almost" depending on how close the value is
-                	f = new Decimal(data.rows[0].wavgbunching).toFraction(10);
+                    // greater than 10 %, greatest fraction demoninator should be 10 and we can say "more than" or "almost" depending on how close the value is
+                    f = new Decimal(data.rows[0].wavgbunching).toFraction(10);
                 } else if (data.rows[0].wavgbunching >= 0.05) {
-                	f = new Decimal(data.rows[0].wavgbunching).toFraction(20);
+                    f = new Decimal(data.rows[0].wavgbunching).toFraction(20);
                 } else {
-                	f = new Decimal(data.rows[0].wavgbunching).toFraction(40);
+                    f = new Decimal(data.rows[0].wavgbunching).toFraction(40);
                 }
 
-            	// check the fraction against the actual value
-                console.log(f[0]/f[1]);
+                // check the fraction against the actual value
+                console.log(f[0] / f[1]);
                 console.log(data.rows[0].wavgbunching);
-            	if ((f[0]/f[1]) < data.rows[0].wavgbunching && (data.rows[0].wavgbunching - (f[0]/f[1])) > 0.005 ) {
-            		$('#moreThanAlmost').text('More than');
-            	} else if ((f[0]/f[1]) > data.rows[0].wavgbunching) {
-            		// if Decimal.js calculated the fraction to be 0.0025 below the value, add 1 to the denominator and say "More than"
+                if ((f[0] / f[1]) < data.rows[0].wavgbunching && (data.rows[0].wavgbunching - (f[0] / f[1])) > 0.005) {
+                    $('#moreThanAlmost').text('More than');
+                } else if ((f[0] / f[1]) > data.rows[0].wavgbunching) {
+                    // if Decimal.js calculated the fraction to be 0.0025 below the value, add 1 to the denominator and say "More than"
                     $('#moreThanAlmost').text('More than');
                     f[1] = parseInt(f[1]) + 1;
-            	} else {
-            		$('#moreThanAlmost').text('');
+                } else {
+                    $('#moreThanAlmost').text('');
 
-            	}
+                }
 
 
                 app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
@@ -574,9 +586,9 @@ app.updateBarCharts = function() {
 
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
-            // take the first route returned and populate link 
+            // take the first route returned and populate link
             $('#individual_report_card').attr("href", "/?route=" + data.rows[0].route_id)
-            // create data object and pass to bar chart for the form
+                // create data object and pass to bar chart for the form
             var mostBunchingArray = [];
             var pct;
             for (var i = 0; i < data.rows.length; i++) {
@@ -656,12 +668,12 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
     var width = $('.bar-chart-wrapper').width(),
         barHeight = 25,
         barWidth;
-        if ((width * (3 / 4)) > 275) {
-            barWidth = 275;
-        } else {
-            barWidth = width * (3 / 4);
-        }
-        
+    if ((width * (3 / 4)) > 275) {
+        barWidth = 275;
+    } else {
+        barWidth = width * (3 / 4);
+    }
+
 
     var x = d3.scaleLinear()
 
@@ -719,7 +731,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
                 return "inside-bar-text outside";
             } else {
                 return "inside-bar-text";
-            }  
+            }
         })
         .text(function(d) {
             if (divId === '#fastestGrowing' || divId === '#mostBunching') {
@@ -800,7 +812,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
                 return "inside-bar-text outside";
             } else {
                 return "inside-bar-text";
-            }  
+            }
         })
         .attr("y", (barHeight - 5) / 2)
         .attr("dy", ".35em")
@@ -945,7 +957,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
     for (var key in app.polygons) {
         if (app.map.hasLayer(app.polygons[key][0])) {
             app.map.removeLayer(app.polygons[key][0]);
-        }     
+        }
     }
 
     app.polygons = {};
@@ -965,7 +977,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             color: '#FF6600',
             opacity: 1,
             fillColor: '#fff',
-            fillOpacity: 0,            
+            fillOpacity: 0,
         }
 
         var polygonsHighlighted = [];
@@ -1000,7 +1012,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
 
                         layer.on('mouseover', featureOver);
                         layer.on('mouseout', featureOut);
-                        
+
                     }
                 });
 
@@ -1472,3 +1484,29 @@ app.slowestColorScale = d3.scaleLinear()
 
 // calculating if all ajax connections are complete
 app.activeAjaxConnections = 0;
+
+
+
+// share buttons
+app.updateShareButtons = function(selectDistrict, numberOfDistrict) {
+
+    var app_id = '1581540325487727';
+    var fbdescription = "Here's the report card for the " + number + " district in NYC. Check out and compare your district here! #busturnaround";
+    var fblink = "http://busturnaround.nyc/district/?district=" + selectDistrict + numberOfDistrict;
+    var fbpicture = "http://busturnaround.nyc/static/website/css/images/report_card_fb.png";
+    var fbname = "This is the report card for the " + numberOfDistrict;
+    var fbcaption = "TransitCenter";
+    var fbUrl = 'https://www.facebook.com/dialog/feed?app_id=' + app_id + '&display=popup&description=' + encodeURIComponent(fbdescription) + '&link=' + encodeURIComponent(fblink) + '&redirect_uri=' + encodeURIComponent(fblink) + '&name=' + encodeURIComponent(fbname) + '&caption=' + encodeURIComponent(fbcaption) + '&picture=' + encodeURIComponent(fbpicture);
+    var fbOnclick = 'window.open("' + fbUrl + '","facebook-share-dialog","width=626,height=436");return false;';
+    $('#showShareFB').attr("href", fbUrl);
+    $('#showShareFB').attr("onclick", fbOnclick);
+
+
+    var twitterlink = "http://busturnaround.nyc/district/?district=" +  selectDistrict + numberOfDistrict;
+    var via = 'TransitCenter';
+    var twittercaption = "Here's the report card for the " + numberOfDistrict + " bus in NYC. Check out your bus here! #busturnaround";
+    var twitterUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(twitterlink) + '&via=' + encodeURIComponent(via) + '&text=' + encodeURIComponent(twittercaption);
+    var twitterOnclick = 'window.open("' + twitterUrl + '","twitter-share-dialog","width=626,height=436");return false;';
+    $('#showShareTwitter').attr("href", twitterUrl);
+    $('#showShareTwitter').attr("onclick", twitterOnclick);
+}
