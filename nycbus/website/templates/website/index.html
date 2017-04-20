@@ -8,7 +8,7 @@
         <div class="intro-card-wrapper">
             <div class="flex-card">
                 <div class="card">
-                    <h4>Latest News! District Report Cards</h4>
+                    <h4><span class="latest-news">Latest News!</span> District Report Cards</h4>
                     <p>See a bus report card for any political district in New York City</p>
                     <a href="{% url 'district_analysis' %}">
                         <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
@@ -26,7 +26,7 @@
             </div>
             <div class="flex-card">
                 <div class="card">
-                    <h4><span class="latest-news">Latest News!</span> Top Ten Streets for Bus Improvement in 2017</h4>
+                    <h4>Top Ten Streets for Bus Improvement in 2017</h4>
                     <p>Browse our top ten prime streets for practical, near-term bus improvements across all five New York City boroughs.</p>
                     <a href="#top-ten" class="page-scroll">
                         <h3>Go <i class="fa fa-arrow-right" aria-hidden="true"></i></h3>
@@ -180,8 +180,8 @@
                                         <div class="col-sm-12">
                                             <h3>Bus Bunching</h3>
                                             <h2>
-                            <span id="bunchedNumber" class="text-success">0%</span> <small>bunched</small>
-                          </h2>
+                                                <small><span id="moreThan"></span></small> <span id="bunchingNumerator">0</span> <small>of</small> <span id="bunchingDemominator">0</span> <small>buses bunched</small> (<span id="bunchedNumber">0%</span>) 
+                                            </h2>
                                         </div>
                                         <div class="col-sm-12">
                                             <div id="mini-buses"></div>
@@ -721,6 +721,7 @@
     </div>
 </div>
 {% endblock %} {% block js_block %}
+<script type="text/javascript" src="{% static 'website/vendor/js/decimal.min.js' %}"></script>
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/app.js' %}"></script>
 <script type="text/javascript">

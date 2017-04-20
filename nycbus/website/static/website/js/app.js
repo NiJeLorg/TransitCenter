@@ -694,9 +694,70 @@ app.updateBunching = function(route_id) {
 
 app.updateBunchingText = function() {
     if (app.propBunched == 'N/A') {
+        $('#bunchingNumerator').text('N/A');
+        $('#bunchingNumerator').css("color", app.bunchColorScale(0));
+        $('#bunchingDemominator').text('N/A');
+        $('#bunchingDemominator').css("color", app.bunchColorScale(0));
         $('#bunchedNumber').text('N/A');
         $('#bunchedNumber').css("color", app.bunchColorScale(0));
     } else {
+
+        var prop = app.propBunched/100;
+        // calculate average bunching numerator and denominator
+        if (app.propBunched > 10) {
+            f = new Decimal(prop).toFraction(10);
+        } else if (app.propBunched >= 5) {
+            f = new Decimal(prop).toFraction(20);
+        } else {
+            f = new Decimal(prop).toFraction(40);
+        }
+
+        console.log(f[0] / f[1]);
+        console.log(app.propBunched);
+
+        if ((f[0] / f[1]) < prop && (prop - (f[0] / f[1])) > 0.5) {
+            $('#moreThan').text('More than');
+        } else if ((f[0] / f[1]) > prop) {
+            $('#moreThan').text('More than');
+            f[1] = parseInt(f[1]) + 1;
+        } else {
+            $('#moreThan').text('');
+        }
+
+        $({ countNum: $('#bunchingNumerator').text() }).animate({ countNum: f[0] }, {
+            duration: 1000,
+            easing: 'linear',
+            step: function() {
+                if (this.countNum) {
+                    $('#bunchingNumerator').text(parseInt(this.countNum));
+                    //$('#bunchingNumerator').css("color", app.bunchColorScale(app.propBunched));
+                } else {
+                    $('#bunchingNumerator').text('0');
+                }
+            },
+            complete: function() {
+                $('#bunchingNumerator').text(parseInt(this.countNum));
+                //$('#bunchingNumerator').css("color", app.bunchColorScale(app.propBunched));
+            }
+        });
+
+        $({ countNum: $('#bunchingDemominator').text() }).animate({ countNum: f[1] }, {
+            duration: 1000,
+            easing: 'linear',
+            step: function() {
+                if (this.countNum) {
+                    $('#bunchingDemominator').text(parseInt(this.countNum));
+                    //$('#bunchingDemominator').css("color", app.bunchColorScale(app.propBunched));
+                } else {
+                    $('#bunchingDemominator').text('0');
+                }
+            },
+            complete: function() {
+                $('#bunchingDemominator').text(parseInt(this.countNum));
+                //$('#bunchingDemominator').css("color", app.bunchColorScale(app.propBunched));
+            }
+        });
+
         $({ countNum: $('#bunchedNumber').text().replace('%', '') }).animate({ countNum: app.propBunched }, {
             duration: 1000,
             easing: 'linear',
@@ -1009,7 +1070,7 @@ app.speedGauge = function(container, configuration) {
         labelFormat: d3.format(',d'),
         labelInset: 10,
 
-        arcColorFn: d3.scaleLinear().domain([0, 0.25, 0.5, 0.75, 1]).range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']),
+        arcColorFn: d3.scaleLinear().domain([0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1]).range(['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#a6d96a', '#1a9850']),
     };
     var range = undefined;
     var r = undefined;
@@ -1549,12 +1610,12 @@ app.ordinal_suffix_of = function(i) {
 
 // color ranges for text. Set domains based on data above
 app.speedTextColorScale = d3.scaleLinear()
-    .domain([0, 4.75, 9.5, 14.25, 19])
-    .range(['#d7191c', '#fdae61', '#F4E952', '#a6d96a', '#1a9641']);
+    .domain([0, 2.714, 5.4285, 8.1428, 10.8571, 13.5714, 16.2857, 19])
+    .range(['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#a6d96a', '#1a9850']);
 
 app.bunchColorScale = d3.scaleLinear()
-    .domain([0, 6.25, 12.5, 18.75, 25])
-    .range(['#1a9641', '#a6d96a', '#F4E952', '#fdae61', '#d7191c']);
+    .domain([0, 2.857, 5.714, 8.571, 11.428, 14.285, 17.1428, 20])
+    .range(['#1a9850', '#a6d96a', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d73027', '#a50026']);
 
 
 app.ridershipTextColorScale = d3.scaleQuantize()
