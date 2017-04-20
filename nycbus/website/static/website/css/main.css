@@ -200,6 +200,9 @@ a {
   color: #333;
 }
 
+.dropdown-menu {
+  background-color: #17BEE8;
+}
 
 
 /*@media (min-width: 850px) {

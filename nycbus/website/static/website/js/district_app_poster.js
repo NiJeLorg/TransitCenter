@@ -31,21 +31,16 @@ app.init = function() {
     // enable bootstrap tooltips
     $('[data-toggle="tooltip"]').tooltip();
 
-    //update share buttons
-    app.updateShareButtons();
-
 };
 
 // sets up listeners
 app.createListeners = function() {
 
-    var selectDistrict, numberOfDistrict;
     // listen for on change to update dropdown menu
     $('#selectDistrict').change(function() {
         app.districtName = $(this).val();
         // update route selection and data
         app.updateNumberDropdown();
-        selectDistrict = $(this).val();
     });
 
     // listen for on change to update visualizations
@@ -57,18 +52,11 @@ app.createListeners = function() {
         app.selectRoutes();
         // create url parameters
         window.history.pushState({}, '', '?district=' + $('#selectDistrict').val() + $('#number').val());
-
-        numberOfDistrict = $(this).val();
-
-        app.updateShareButtons(selectDistrict, numberOfDistrict);
-
-
     });
 
     $('.toggle-city').click(function() {
         app.map.setView(new L.LatLng(40.7, -74.0), 10);
     });
-
 
 };
 
@@ -166,10 +154,10 @@ app.initSpeedGauge = function() {
     // update speed gauge
     // set up report card speed gauge
     app.speedGaugeObject = app.speedGauge('#speed-gauge', {
-        size: 200,
-        clipWidth: 200,
-        clipHeight: 120,
-        ringWidth: 60,
+        size: 800,
+        clipWidth: 860,
+        clipHeight: 460,
+        ringWidth: 300,
         minValue: 0,
         maxValue: 19,
         transitionMs: 2000,
@@ -301,28 +289,29 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 });
 
                 // calculate average bunching numerator and denominator
+                var moreThanAlmost = '';
                 if (data.rows[0].wavgbunching > 0.1) {
-                    // greater than 10 %, greatest fraction demoninator should be 10 and we can say "more than" or "almost" depending on how close the value is
-                    f = new Decimal(data.rows[0].wavgbunching).toFraction(10);
+                	// greater than 10 %, greatest fraction demoninator should be 10 and we can say "more than" or "almost" depending on how close the value is
+                	f = new Decimal(data.rows[0].wavgbunching).toFraction(10);
                 } else if (data.rows[0].wavgbunching >= 0.05) {
-                    f = new Decimal(data.rows[0].wavgbunching).toFraction(20);
+                	f = new Decimal(data.rows[0].wavgbunching).toFraction(20);
                 } else {
-                    f = new Decimal(data.rows[0].wavgbunching).toFraction(40);
+                	f = new Decimal(data.rows[0].wavgbunching).toFraction(40);
                 }
 
-                // check the fraction against the actual value
-                console.log(f[0] / f[1]);
+            	// check the fraction against the actual value
+                console.log(f[0]/f[1]);
                 console.log(data.rows[0].wavgbunching);
-                if ((f[0] / f[1]) < data.rows[0].wavgbunching && (data.rows[0].wavgbunching - (f[0] / f[1])) > 0.005) {
-                    $('#moreThanAlmost').text('More than');
-                } else if ((f[0] / f[1]) > data.rows[0].wavgbunching) {
-                    // if Decimal.js calculated the fraction to be 0.0025 below the value, add 1 to the denominator and say "More than"
+            	if ((f[0]/f[1]) < data.rows[0].wavgbunching && (data.rows[0].wavgbunching - (f[0]/f[1])) > 0.005 ) {
+            		$('#moreThanAlmost').text('More than');
+            	} else if ((f[0]/f[1]) > data.rows[0].wavgbunching) {
+            		// if Decimal.js calculated the fraction to be 0.0025 below the value, add 1 to the denominator and say "More than"
                     $('#moreThanAlmost').text('More than');
                     f[1] = parseInt(f[1]) + 1;
-                } else {
-                    $('#moreThanAlmost').text('');
+            	} else {
+            		$('#moreThanAlmost').text('');
 
-                }
+            	}
 
 
                 app.avgBunchingWeighted = (data.rows[0].wavgbunching * 100).toFixed(1);
@@ -385,15 +374,6 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                     complete: function() {
                         $('#avgBunchingWeightedPct').text(parseFloat(this.countNum).toFixed(1));
 
-                        // check the div's height and ajust margins accordingly
-                        console.log($('#bunching-h2').height());
-                        if ($('#bunching-h2').height() > 33) {
-                            $('.bunching-bar').css('height', '91px');
-                            $('.color-ramp-horizontal-bar').css('margin-top', '22px');
-                        } else {
-                            $('.bunching-bar').css('height', '124px');
-                            $('.color-ramp-horizontal-bar').css('margin-top', '55px');
-                        }
                     }
                 });
 
@@ -502,7 +482,7 @@ app.updateBarCharts = function() {
             for (var i = 0; i < data.rows.length; i++) {
                 if (data.rows[i].note) {
                     ridershipNotesArray.push(data.rows[i].note);
-                    label = data.rows[i].route_id + '*'
+                    label = data.rows[i].route_id;
                 } else {
                     label = data.rows[i].route_id;
                 }
@@ -545,7 +525,7 @@ app.updateBarCharts = function() {
             for (var i = 0; i < data.rows.length; i++) {
                 if (data.rows[i].prop_change_note) {
                     fastestGrowingRidershipNotesArray.push(data.rows[i].prop_change_note);
-                    label = data.rows[i].route_id + '*'
+                    label = data.rows[i].route_id;
                 } else {
                     label = data.rows[i].route_id;
                 }
@@ -585,9 +565,9 @@ app.updateBarCharts = function() {
 
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
-            // take the first route returned and populate link
+            // take the first route returned and populate link 
             $('#individual_report_card').attr("href", "/?route=" + data.rows[0].route_id)
-                // create data object and pass to bar chart for the form
+            // create data object and pass to bar chart for the form
             var mostBunchingArray = [];
             var pct;
             for (var i = 0; i < data.rows.length; i++) {
@@ -651,7 +631,7 @@ app.updateBarCharts = function() {
 app.createBarChart = function(divId, barChartColorScale, data) {
 
     var width = $('.bar-chart-wrapper').width(),
-        barHeight = 25;
+        barHeight = 175;
 
     var chart = d3.select(divId)
         .append('svg')
@@ -665,15 +645,9 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 app.updateBarChart = function(divId, barChartColorScale, data) {
 
     var width = $('.bar-chart-wrapper').width(),
-        barHeight = 25,
-        barWidth;
-    if ((width * (3 / 4)) > 275) {
-        barWidth = 275;
-    } else {
+        barHeight = 175,
         barWidth = width * (3 / 4);
-    }
-
-
+        
     var x = d3.scaleLinear()
 
     if (divId === '#fastestGrowing') {
@@ -685,13 +659,13 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
             x.domain([0, 100]);
         }
     } else if (divId === '#mostBunching') {
-        x.range([barWidth / 7, barWidth]);
+        x.range([barWidth / 3, barWidth]);
         x.domain([0, app.maxBunching]);
     } else if (divId === '#slowest') {
-        x.range([barWidth / 7, barWidth]);
+        x.range([barWidth / 3, barWidth]);
         x.domain([0, app.maxSpeed]);
     } else if (divId === '#ridership') {
-        x.range([barWidth / 7, barWidth]);
+        x.range([barWidth / 3, barWidth]);
         x.domain([0, app.maxRidership]);
     }
 
@@ -726,11 +700,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
 
     barChartGs.select('.inside-bar-text')
         .attr("class", function(d) {
-            if (divId === '#fastestGrowing' && d.value < 15) {
+            if (divId === '#fastestGrowing' && d.value < 25) {
                 return "inside-bar-text outside";
             } else {
                 return "inside-bar-text";
-            }
+            }  
         })
         .text(function(d) {
             if (divId === '#fastestGrowing' || divId === '#mostBunching') {
@@ -747,11 +721,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) - 7;
-            } else if (divId === '#fastestGrowing' && d.value < 15) {
-                return x(d.value) + 6;
+                return x(110) - 17;
+            } else if (divId === '#fastestGrowing' && d.value < 25) {
+                return x(d.value) + 16;
             } else {
-                return x(d.value) - 7;
+                return x(d.value) - 17;
             }
         })
 
@@ -766,11 +740,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) + 6;
-            } else if (divId === '#fastestGrowing' && d.value < 15) {
-                return x(d.value) + 45;
+                return x(110) + 16;
+            } else if (divId === '#fastestGrowing' && d.value < 25) {
+                return x(d.value) + 180;
             } else {
-                return x(d.value) + 6;
+                return x(d.value) + 16;
             }
         });
 
@@ -788,7 +762,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr('fill', function(d) {
             return barChartColorScale(d.value);
         })
-        .attr("height", barHeight - 5)
+        .attr("height", barHeight - 25)
         .attr("width", 0)
         .merge(barChartGs)
         .transition()
@@ -807,13 +781,13 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
 
     enterBars.append("text")
         .attr("class", function(d) {
-            if (divId === '#fastestGrowing' && d.value < 15) {
+            if (divId === '#fastestGrowing' && d.value < 25) {
                 return "inside-bar-text outside";
             } else {
                 return "inside-bar-text";
-            }
+            }  
         })
-        .attr("y", (barHeight - 5) / 2)
+        .attr("y", (barHeight - 25) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
             if (divId === '#fastestGrowing' || divId === '#mostBunching') {
@@ -831,17 +805,17 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) - 7;
-            } else if (divId === '#fastestGrowing' && d.value < 15) {
-                return x(d.value) + 6;
+                return x(110) - 17;
+            } else if (divId === '#fastestGrowing' && d.value < 25) {
+                return x(d.value) + 16;
             } else {
-                return x(d.value) - 7;
+                return x(d.value) - 17;
             }
         });
 
     enterBars.append("text")
         .attr("class", "outside-bar-text")
-        .attr("y", (barHeight - 5) / 2)
+        .attr("y", (barHeight - 25) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
             return d.label;
@@ -854,11 +828,11 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         })
         .attr("x", function(d) {
             if (divId === '#fastestGrowing' && d.value > 110) {
-                return x(110) + 6;
-            } else if (divId === '#fastestGrowing' && d.value < 15) {
-                return x(d.value) + 45;
+                return x(110) + 16;
+            } else if (divId === '#fastestGrowing' && d.value < 25) {
+                return x(d.value) + 180;
             } else {
-                return x(d.value) + 6;
+                return x(d.value) + 16;
             }
         });
 
@@ -956,7 +930,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
     for (var key in app.polygons) {
         if (app.map.hasLayer(app.polygons[key][0])) {
             app.map.removeLayer(app.polygons[key][0]);
-        }
+        }     
     }
 
     app.polygons = {};
@@ -976,7 +950,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             color: '#FF6600',
             opacity: 1,
             fillColor: '#fff',
-            fillOpacity: 0,
+            fillOpacity: 0,            
         }
 
         var polygonsHighlighted = [];
@@ -1011,7 +985,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
 
                         layer.on('mouseover', featureOver);
                         layer.on('mouseout', featureOut);
-
+                        
                     }
                 });
 
@@ -1195,8 +1169,8 @@ app.reportCardMapStatic = function(districtMapSQL, routesMapSQL) {
         ]
     }
 
-    var mapWidth = 400;
-    var mapHeight = 250;
+    var mapWidth = 2000;
+    var mapHeight = 4250;
 
     var createStaticMap = function() {
 
@@ -1321,11 +1295,11 @@ app.speedGauge = function(container, configuration) {
     that.configure = configure;
 
     function centerTranslation() {
-        return 'translate(' + r + ',' + r + ')';
+        return 'translate(' + (r+20) + ',' + (r+20) + ')';
     }
 
     function belowleftcenterTranslation() {
-        return 'translate(' + (r) + ',' + (r + 20) + ')';
+        return 'translate(' + (r+20) + ',' + (r + 60) + ')';
     }
 
     function isRendered() {
@@ -1483,41 +1457,3 @@ app.slowestColorScale = d3.scaleLinear()
 
 // calculating if all ajax connections are complete
 app.activeAjaxConnections = 0;
-
-
-
-// share buttons
-app.updateShareButtons = function(selectDistrict, numberOfDistrict) {
-
-    var typeOfDistrict;
-
-    if (selectDistrict === 'board') {
-        typeOfDistrict = 'Community Board';
-    } else if (selectDistrict === 'council') {
-        typeOfDistrict = 'City Council';
-    } else if (selectDistrict === 'senate') {
-        typeOfDistrict = 'State Senate'
-    } else {
-        typeOfDistrict = 'State Assembly'
-    }
-
-    var app_id = '1581540325487727';
-    var fbdescription = "Here's the report card for the " + typeOfDistrict + " District " + numberOfDistrict + " in NYC. Check out and compare your district here! #busturnaround";
-    var fblink = "http://busturnaround.nyc/district/?district=" + selectDistrict + numberOfDistrict;
-    var fbpicture = "http://busturnaround.nyc/static/website/css/images/district_report_card_fb.png";
-    var fbname = "This is the report card for the " + typeOfDistrict + " District " + numberOfDistrict;
-    var fbcaption = "TransitCenter";
-    var fbUrl = 'https://www.facebook.com/dialog/feed?app_id=' + app_id + '&display=popup&description=' + encodeURIComponent(fbdescription) + '&link=' + encodeURIComponent(fblink) + '&redirect_uri=' + encodeURIComponent(fblink) + '&name=' + encodeURIComponent(fbname) + '&caption=' + encodeURIComponent(fbcaption) + '&picture=' + encodeURIComponent(fbpicture);
-    var fbOnclick = 'window.open("' + fbUrl + '","facebook-share-dialog","width=626,height=436");return false;';
-    $('#showShareFB').attr("href", fbUrl);
-    $('#showShareFB').attr("onclick", fbOnclick);
-
-
-    var twitterlink = "http://busturnaround.nyc/district/?district=" + selectDistrict + numberOfDistrict;
-    var via = 'TransitCenter';
-    var twittercaption = "Here's the report card for " + typeOfDistrict + " District " + numberOfDistrict + ". View your district here! #busturnaround";
-    var twitterUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(twitterlink) + '&via=' + encodeURIComponent(via) + '&text=' + encodeURIComponent(twittercaption);
-    var twitterOnclick = 'window.open("' + twitterUrl + '","twitter-share-dialog","width=626,height=436");return false;';
-    $('#showShareTwitter').attr("href", twitterUrl);
-    $('#showShareTwitter').attr("onclick", twitterOnclick);
-}

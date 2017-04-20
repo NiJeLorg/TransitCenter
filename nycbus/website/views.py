@@ -20,8 +20,12 @@ def website_index(request):
 
 
 def district_analysis(request):
-	district = request.GET.get("district","senate10")
+	district = request.GET.get("district","assembly70")
 	return render(request, 'website/district.html', {'district':district,})
+
+def district_analysis_poster(request):
+	district = request.GET.get("district","assembly70")
+	return render(request, 'website/district_poster.html', {'district':district,})	
 
 def district_detail_analysis(request):
 	district = request.GET.get("district","citywide")

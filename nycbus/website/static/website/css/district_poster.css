@@ -14,8 +14,18 @@
     margin-right: 0;
 }
 
+h3 {
+    font-size: 5.5em;
+}
+
+h4 {
+    font-size: 5.0em;
+    margin: 100px 0 50px 0;
+}
+
 
 /* OVERIDE BOOTSTRAP STYLES */
+
 
 
 /* OVERIDE SELECT2 STYLES */
@@ -138,6 +148,7 @@ main header h2 {
     margin: 0;
 }
 
+
 .turnaround-heading {
     display: none;
 }
@@ -148,7 +159,7 @@ main header h2 {
 
 .print-button-holder {
     display: block;
-    margin-top: 7px;
+    margin-top: 20px;
 }
 
 .print-button-holder button {
@@ -202,17 +213,17 @@ main header h2 {
     display: none;
 }
 
-.bar-chart-wrapper {
-    max-width: 400px;
-}
-
 .clickable-g-container {
     cursor: pointer;
 }
 
 .ridershipNotes p {
     margin: 0 10px 0 0;
-    font-size: 12px;
+    font-size: 2.0em;
+}
+
+.methodsLink {
+    font-size: 2.0em;
 }
 
 footer .logos-holder {
@@ -248,11 +259,17 @@ footer .logos-holder-print {
 .inside-bar-text {
     fill: white;
     text-anchor: end;
+    font-size: 5.0em;
 }
 
 .inside-bar-text.outside {
     fill: #333;
     text-anchor: start;
+    font-size: 5.0em;
+}
+
+.outside-bar-text {
+    font-size: 5.0em;
 }
 
 .card-li {
@@ -290,34 +307,34 @@ footer .logos-holder-print {
 }
 
 .legend {
+    font-size: 2.0em;
     padding: 16px;
-    width: 192px;
+    width: 325px;
     background: #fff;
     border-bottom: 1px solid #AAAAAA;
 }
 
 .legend .range {
-    font-size: 10px;
     display: flex;
     justify-content: space-between;
     color: #2E3C43;
 }
 
-.legend .range span {
-    width: 8px;
-    height: 8px;
+.legend .range  span {
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    margin-top: 2px;
+    margin-top: 10px;
 }
 
 .district-map {
-    height: 100%;
-    width: 100%;
-    display: block;
+    display: none;
 }
 
 .district-map-static-wrapper {
-    display: none;
+    height: 100%;
+    width: 100%;
+    display: block;
 }
 
 div.cartodb-tooltip-content p {
@@ -353,7 +370,7 @@ div.cartodb-tooltip-content p {
 
 .speed-gauge g.label text {
     text-anchor: middle;
-    font-size: 12px;
+    font-size: 2.5em;
     font-weight: bold;
     fill: #333;
 }
@@ -362,7 +379,7 @@ div.cartodb-tooltip-content p {
 /* STYLES FOR SPEED GAUGE */
 
 .bunching-bar {
-    height: 124px;
+    height: 460px;
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -370,8 +387,8 @@ div.cartodb-tooltip-content p {
 
 .color-ramp-horizontal-bar {
     width: 75%;
-    height: 40px;
-    margin-top: 30px;
+    height: 250px;
+    margin-top: 100px;
     display: flex;
     background-color: #1a9641;
     /* fallback color if gradients are not supported */
@@ -397,8 +414,8 @@ div.cartodb-tooltip-content p {
 }
 
 .district-average-vertical {
-    height: 50px;
-    width: 7px;
+    height: 260px;
+    width: 14px;
     background: #333;
     position: absolute;
 }
@@ -415,7 +432,8 @@ div.cartodb-tooltip-content p {
 }
 
 .district-average-vertical-container p {
-    top: -20px;
+    top: -65px;
+    font-size: 4em;
 }
 
 .color-ramp-horizontal-bar .borough-average-vertical-container {
@@ -427,7 +445,7 @@ div.cartodb-tooltip-content p {
     background: #000000;
     width: 100%;
     position: relative;
-    top: 40px;
+    top: 250px;
     display: flex;
     justify-content: space-between;
 }
@@ -452,6 +470,7 @@ div.cartodb-tooltip-content p {
 .color-ramp-tick-group .text {
     position: absolute;
     top: 10px;
+    font-size: 4em;
 }
 
 .borough-average-vertical {
@@ -491,109 +510,6 @@ div.cartodb-popup div.cartodb-popup-content h4 {
 
 div.cartodb-popup div.cartodb-popup-content p {
     color: #333333;
-}
-
-.btn-facebook {
-  color: #fff;
-  background-color: #3b5998;
-  border-color: #3b5998;
-}
-.btn-facebook:hover,
-.btn-facebook:focus,
-.btn-facebook.focus,
-.btn-facebook:active,
-.btn-facebook.active,
-.open > .dropdown-toggle.btn-facebook {
-  color: #fff;
-  background-color: #22407F;
-  border-color: #22407F;
-}
-.btn-facebook:active,
-.btn-facebook.active,
-.open > .dropdown-toggle.btn-facebook {
-  background-image: none;
-}
-.btn-facebook.disabled,
-.btn-facebook[disabled],
-fieldset[disabled] .btn-facebook,
-.btn-facebook.disabled:hover,
-.btn-facebook[disabled]:hover,
-fieldset[disabled] .btn-facebook:hover,
-.btn-facebook.disabled:focus,
-.btn-facebook[disabled]:focus,
-fieldset[disabled] .btn-facebook:focus,
-.btn-facebook.disabled.focus,
-.btn-facebook[disabled].focus,
-fieldset[disabled] .btn-facebook.focus,
-.btn-facebook.disabled:active,
-.btn-facebook[disabled]:active,
-fieldset[disabled] .btn-facebook:active,
-.btn-facebook.disabled.active,
-.btn-facebook[disabled].active,
-fieldset[disabled] .btn-facebook.active {
-  background-color: #adaeb0;
-  border-color: #adaeb0;
-}
-.btn-facebook .badge {
-  color: #fff;
-  background-color: #ffffff;
-}
-
-.btn-twitter {
-  color: #fff;
-  background-color: #4099ff;
-  border-color: #4099ff;
-}
-.btn-twitter:hover,
-.btn-twitter:focus,
-.btn-twitter.focus,
-.btn-twitter:active,
-.btn-twitter.active,
-.open > .dropdown-toggle.btn-twitter {
-  color: #fff;
-  background-color: #2780E6;
-  border-color: #2780E6;
-}
-.btn-twitter:active,
-.btn-twitter.active,
-.open > .dropdown-toggle.btn-twitter {
-  background-image: none;
-}
-.btn-twitter.disabled,
-.btn-twitter[disabled],
-fieldset[disabled] .btn-twitter,
-.btn-twitter.disabled:hover,
-.btn-twitter[disabled]:hover,
-fieldset[disabled] .btn-twitter:hover,
-.btn-twitter.disabled:focus,
-.btn-twitter[disabled]:focus,
-fieldset[disabled] .btn-twitter:focus,
-.btn-twitter.disabled.focus,
-.btn-twitter[disabled].focus,
-fieldset[disabled] .btn-twitter.focus,
-.btn-twitter.disabled:active,
-.btn-twitter[disabled]:active,
-fieldset[disabled] .btn-twitter:active,
-.btn-twitter.disabled.active,
-.btn-twitter[disabled].active,
-fieldset[disabled] .btn-twitter.active {
-  background-color: #adaeb0;
-  border-color: #adaeb0;
-}
-.btn-twitter .badge {
-  color: #fff;
-  background-color: #ffffff;
-}
-
-.btn .shareOn {
-    padding-right: 5px;
-    display: inline;
-    vertical-align: super;
-    text-transform: uppercase;
-}
-
-.btn:hover {
-    color: #fff;
 }
 
 
@@ -662,17 +578,6 @@ fieldset[disabled] .btn-twitter.active {
     .color-ramp-horizontal-bar {
         width: 94%;
     }
-    .legends-holder .legend {
-        padding: 8px;
-    }
-    .legends-holder .legend .title p,
-    .legends-holder .legend .range p {
-        margin-bottom: 6px;
-    }
-    .legend {
-        width: 130px;
-    }
-    
 }
 
 @media (min-width: 87em) {
@@ -713,63 +618,36 @@ fieldset[disabled] .btn-twitter.active {
     img {
         max-width: 100% !important;
     }
-    header,
-    hr,
-    .sub-heading-card,
-    .routeLink,
-    .methodsLink,
     .leaflet-bottom,
     .cartodb-logo,
     div.cartodb-popup,
     .district-map,
     .logos-holder,
     .copyright,
-    .turnaround-campaign-web,
-    .district-map-holder {
+    .turnaround-campaign-web {
         display: none !important;
     }
-    main {
-        padding: 0% 2%;
-    }
     main .source-link {
-        display: flex;
-        justify-content: center;
-    }
-    .report-card h2 {
-        margin-top: 5px;
-        margin-bottom: 8px;
+        display: none;
     }
     .source-link a {
         color: #17BEE8;
         text-decoration: underline;
     }
     .main-heading {
-        text-align: center;
-        font-size: 1.8em;
+        font-size: 7.5em;
     }
     .main-heading-card {
-        font-size: 1.6em;
-    }
-    .turnaround-heading {
-        display: inline-block;
-    }
-    .card {
-        border: none;
-        padding: 0;
+        font-size: 7.2em;
     }
     .turnaround-campaign-print {
         display: block;
-        margin-top: 1%;
         font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
-        font-size: 1em;
-        line-height: 1.3em;
-        margin-bottom: 1%;
+        font-size: 3.8em;
+        line-height: 1.4em;
     }
-    /*    footer {
-        display: block;
-        margin-top: 20px;
-    }*/
     footer .logos-holder-print {
+        margin-top: 225px;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
@@ -779,60 +657,39 @@ fieldset[disabled] .btn-twitter.active {
     .logos-holder-print .logo {
         max-width: 18%;
         margin: 2%;
+        width: 18%;
     }
     .text-left-print {
-        margin-right: 4%;
+        margin-right: 0;
     }
     .ways-to-address p,
     .ways-to-address ul {
-        font-size: 1em;
-        line-height: 1.3em;
-    }
-    .ways-to-address .advantages {
-        margin-bottom: 0;
-        padding-bottom: 0;
+        font-size: 3.8em;
+        line-height: 1.4em;
     }
     .district-map-static-wrapper {
         display: block;
     }
-    .district-name-static-map {
-        margin-top: 2px;
-    }
     .district-map-static {
-        border: 1px #777 solid;
+        border: 0;
     }
     .address-list-static-map {
         display: flex;
     }
     .address-list-static-map .text-left-print,
     .address-list-static-map .district-map-static-wrapper {
-        flex-basis: 46%;
+        flex-basis: 100%;
     }
-    .bus-routes-row {
-        display: block;
-        margin-left: 0;
-        width: 100%;
-    }
-    .riders-row {
-        display: inline-block;
-    }
-    .average-speed-row {
-        display: inline-block;
-        margin-left: 0;
-        width: 49%;
-    }
-    .average-bunching-row {
-        display: inline-block;
+    .main-heading-card {
+        margin-bottom: 50px;
     }
     #bunching-h2 {
         white-space: nowrap;
     }
-    .bunching-bar {
-        height: 124px !important;
-    }
     .color-ramp-horizontal-bar {
         -webkit-print-color-adjust: exact;
         margin-top: 55px !important;
+        
     }
     .bus-routes-bars .col-md-6,
     .bus-routes-bars .col-sm-12 {
@@ -846,18 +703,11 @@ fieldset[disabled] .btn-twitter.active {
     .col-sm-12.col-md-5 {
         width: 100%;
     }
-    .main-component {
-        display: block;
-        margin-top: 1%;
-    }
     .bus-routes-holder {
         width: 100%;
     }
     .bus-map-holder {
         margin-left: 0;
         width: 100%;
-    }
-    .bottom-buffer {
-        margin-bottom: 10px;
     }
 }
