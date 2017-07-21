@@ -289,10 +289,13 @@ a {
   width: 100%;
 }
 @media (min-width: 768px) {
-  .intro-card-wrapper .flex-card {
+  .intro-card-wrapper {
+    display: none;
+  }
+/*  .intro-card-wrapper .flex-card {
     padding: 0 35px;
     width: 33.3%;
-  }
+  }*/
 }
 .intro-card-wrapper .flex-card .card {
   display: flex;
@@ -439,6 +442,13 @@ a {
   width: 100%;
   padding: 50px 0;  
 }
+.about-section {
+  width: 100%;
+  padding: 50px 0 0 0;  
+}
+.about-last {
+  padding-bottom: 50px;  
+}
 @media (min-width: 767px) {
   .resources-section {
     padding: 100px 0;
@@ -452,6 +462,12 @@ a {
   .report-card-section {
     padding: 100px 0;
   }
+/*  .about-section {
+    padding: 100px 0 0 0;
+  }
+  .about-last {
+    padding-bottom: 100px;  
+  }*/
 }
 .ride-section.positive {
   background-color: #c2f9b2;

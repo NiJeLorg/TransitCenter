@@ -14,16 +14,16 @@ app.init = function() {
         sql_api_template: "https://{user}.cartodb.com:443"
     });
 
-    // set up picture book
-    if (($('body')).width() >= 767) {
-        app.pictureBook();
-    }
+    // // set up picture book
+    // if (($('body')).width() >= 767) {
+    //     app.pictureBook();
+    // }
 
     // set up listeners
     app.createListeners();
 
-    // get random persona
-    app.randomPersona();
+    // // get random persona
+    // app.randomPersona();
 
     // set up report card drop down menues
     app.createReportCardDropdowns(routeId);
@@ -65,197 +65,197 @@ app.scrollingInteractions = function() {
     }
 
     // variable set up
-    var top_2_a, left_2_a, top_2_b, left_2_b, top_3_5_a, left_3_5_a, top_3_5_b, left_3_5_b, top_3_a, left_3_a, top_3_b, left_3_b, top_4, left_4, element, offsetTop;
+    // var top_2_a, left_2_a, top_2_b, left_2_b, top_3_5_a, left_3_5_a, top_3_5_b, left_3_5_b, top_3_a, left_3_a, top_3_b, left_3_b, top_4, left_4, element, offsetTop;
 
     // check browser width and set tops and lefts
-    if (($('body')).width() < 767) {
-        // mobile
-        top_2_a = '20vh';
-        left_2_a = '40%';
-        top_2_b = '20vh';
-        left_2_b = '40%';
-        top_3_5_a = '20vh';
-        left_3_5_a = '32%';
-        top_3_5_b = '25vh';
-        left_3_5_b = '42%';
-        top_3_a = '50vh';
-        left_3_a = '45%';
-        top_3_b = '40vh';
-        left_3_b = '46%';
-        top_4 = '60vh';
-        left_4 = '46%';
-    } else if (($('body')).width() < 1200) {
-        // tablet
-        top_2_a = '32vh';
-        left_2_a = '60%';
-        top_2_b = '20vh';
-        left_2_b = '30%';
-        top_3_5_a = '20vh';
-        left_3_5_a = '65%';
-        top_3_5_b = '30vh';
-        left_3_5_b = '31%';
-        top_3_a = '40vh';
-        left_3_a = '31%';
-        top_3_b = '30vh';
-        left_3_b = '31%';
-        top_4 = '50vh';
-        left_4 = '32%';
-    } else {
-        top_2_a = '42vh';
-        left_2_a = '58%';
-        top_2_b = '3vh';
-        left_2_b = '31%';
-        top_3_5_a = '20vh';
-        left_3_5_a = '70%';
-        top_3_5_b = '20vh';
-        left_3_5_b = '32%';
-        top_3_a = '25vh';
-        left_3_a = '32%';
-        top_3_b = '40vh';
-        left_3_b = '33%';
-        top_4 = '45vh';
-        left_4 = '33%';
-    }
+    // if (($('body')).width() < 767) {
+    //     // mobile
+    //     top_2_a = '20vh';
+    //     left_2_a = '40%';
+    //     top_2_b = '20vh';
+    //     left_2_b = '40%';
+    //     top_3_5_a = '20vh';
+    //     left_3_5_a = '32%';
+    //     top_3_5_b = '25vh';
+    //     left_3_5_b = '42%';
+    //     top_3_a = '50vh';
+    //     left_3_a = '45%';
+    //     top_3_b = '40vh';
+    //     left_3_b = '46%';
+    //     top_4 = '60vh';
+    //     left_4 = '46%';
+    // } else if (($('body')).width() < 1200) {
+    //     // tablet
+    //     top_2_a = '32vh';
+    //     left_2_a = '60%';
+    //     top_2_b = '20vh';
+    //     left_2_b = '30%';
+    //     top_3_5_a = '20vh';
+    //     left_3_5_a = '65%';
+    //     top_3_5_b = '30vh';
+    //     left_3_5_b = '31%';
+    //     top_3_a = '40vh';
+    //     left_3_a = '31%';
+    //     top_3_b = '30vh';
+    //     left_3_b = '31%';
+    //     top_4 = '50vh';
+    //     left_4 = '32%';
+    // } else {
+    //     top_2_a = '42vh';
+    //     left_2_a = '58%';
+    //     top_2_b = '3vh';
+    //     left_2_b = '31%';
+    //     top_3_5_a = '20vh';
+    //     left_3_5_a = '70%';
+    //     top_3_5_b = '20vh';
+    //     left_3_5_b = '32%';
+    //     top_3_a = '25vh';
+    //     left_3_a = '32%';
+    //     top_3_b = '40vh';
+    //     left_3_b = '33%';
+    //     top_4 = '45vh';
+    //     left_4 = '33%';
+    // }
 
 
 
-    element = 'bus-animation-1-a';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_1_a = ((scrollY + 152) - offsetTop) * 1.2;
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '0', 'left': '16%' });
+    // element = 'bus-animation-1-a';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_1_a = ((scrollY + 152) - offsetTop) * 1.2;
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_1_a) + 'px)', 'top': '0', 'left': '16%' });
 
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': '0', 'left': '16%' });
-    }
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': '0', 'left': '16%' });
+    // }
 
-    element = 'bus-animation-1-b';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_1_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_1_b = ((scrollY + 152) - offsetTop) * 1.5;
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_1_b) + 'px)', 'top': '1vh', 'left': '16%' });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': '1vh', 'left': '16%' });
-    }
+    // element = 'bus-animation-1-b';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_1_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_1_b = ((scrollY + 152) - offsetTop) * 1.5;
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_1_b) + 'px)', 'top': '1vh', 'left': '16%' });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': '1vh', 'left': '16%' });
+    // }
 
-    element = 'bus-animation-1-5-a';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_1_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_1_5_a = ((scrollY + 152) - offsetTop);
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_1_5_a) + 'px)', 'top': '20vh', 'left': '16%' });
+    // element = 'bus-animation-1-5-a';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_1_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_1_5_a = ((scrollY + 152) - offsetTop);
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_1_5_a) + 'px)', 'top': '20vh', 'left': '16%' });
 
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%' });
-    }
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%' });
+    // }
 
-    element = 'bus-animation-1-5-b';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_1_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_1_5_b = ((scrollY + 152) - offsetTop);
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_1_5_b) + 'px)', 'top': '20vh', 'left': '16%' });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%' });
-    }
+    // element = 'bus-animation-1-5-b';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_1_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_1_5_b = ((scrollY + 152) - offsetTop);
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_1_5_b) + 'px)', 'top': '20vh', 'left': '16%' });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': '20vh', 'left': '16%' });
+    // }
 
-    element = 'bus-animation-2-a';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_2_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            if (top_2_a == '20vh') {
-                app.dest_2_a = ((scrollY + 152) - offsetTop);
-                app.dest_2_a_X = app.dest_2_a;
-            } else {
-                app.dest_2_a = ((scrollY + 152) - offsetTop) * 1.2;
-                app.dest_2_a_X = app.dest_2_a / 7;
-            }
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_2_a) + 'px) translateX(' + parseInt(app.dest_2_a_X) + 'px)', 'top': top_2_a, 'left': left_2_a });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px) translateX(0px)', 'top': top_2_a, 'left': left_2_a });
-    }
+    // element = 'bus-animation-2-a';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_2_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         if (top_2_a == '20vh') {
+    //             app.dest_2_a = ((scrollY + 152) - offsetTop);
+    //             app.dest_2_a_X = app.dest_2_a;
+    //         } else {
+    //             app.dest_2_a = ((scrollY + 152) - offsetTop) * 1.2;
+    //             app.dest_2_a_X = app.dest_2_a / 7;
+    //         }
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_2_a) + 'px) translateX(' + parseInt(app.dest_2_a_X) + 'px)', 'top': top_2_a, 'left': left_2_a });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px) translateX(0px)', 'top': top_2_a, 'left': left_2_a });
+    // }
 
-    element = 'bus-animation-2-b';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_2_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_2_b = ((scrollY + 152) - offsetTop) * 1.5;
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_2_b) + 'px)', 'top': top_2_b, 'left': left_2_b });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_2_b, 'left': left_2_b });
-    }
+    // element = 'bus-animation-2-b';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_2_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_2_b = ((scrollY + 152) - offsetTop) * 1.5;
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_2_b) + 'px)', 'top': top_2_b, 'left': left_2_b });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_2_b, 'left': left_2_b });
+    // }
 
-    element = 'bus-animation-3-5-a';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_3_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_3_5_a = ((scrollY + 152) - offsetTop) * 1.2;
-            app.dest_3_5_a_X = app.dest_3_5_a / 7;
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_3_5_a) + 'px) translateX(' + parseInt(app.dest_3_5_a_X) + 'px)', 'top': top_3_5_a, 'left': left_3_5_a });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px) translateX(0px)', 'top': top_3_5_a, 'left': left_3_5_a });
-    }
+    // element = 'bus-animation-3-5-a';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_3_5_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_3_5_a = ((scrollY + 152) - offsetTop) * 1.2;
+    //         app.dest_3_5_a_X = app.dest_3_5_a / 7;
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_3_5_a) + 'px) translateX(' + parseInt(app.dest_3_5_a_X) + 'px)', 'top': top_3_5_a, 'left': left_3_5_a });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px) translateX(0px)', 'top': top_3_5_a, 'left': left_3_5_a });
+    // }
 
-    element = 'bus-animation-3-5-b';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_3_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_3_5_b = ((scrollY + 152) - offsetTop) * 1.5;
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_3_5_b) + 'px)', 'top': top_3_5_b, 'left': left_3_5_b });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_3_5_b, 'left': left_3_5_b });
-    }
+    // element = 'bus-animation-3-5-b';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_3_5_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_3_5_b = ((scrollY + 152) - offsetTop) * 1.5;
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_3_5_b) + 'px)', 'top': top_3_5_b, 'left': left_3_5_b });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_3_5_b, 'left': left_3_5_b });
+    // }
 
-    element = 'bus-animation-3-a';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_3_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_3_a = ((scrollY + 152) - offsetTop) * 1.2;
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_3_a) + 'px)', 'top': top_3_a, 'left': left_3_a });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_3_a, 'left': left_3_a });
-    }
+    // element = 'bus-animation-3-a';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_3_a .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_3_a = ((scrollY + 152) - offsetTop) * 1.2;
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_3_a) + 'px)', 'top': top_3_a, 'left': left_3_a });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_3_a, 'left': left_3_a });
+    // }
 
-    element = 'bus-animation-3-b';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_3_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_3_b = ((scrollY + 152) - offsetTop) * 1.5;
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_3_b) + 'px)', 'top': top_3_b, 'left': left_3_b });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_3_b, 'left': left_3_b });
-    }
+    // element = 'bus-animation-3-b';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_3_b .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_3_b = ((scrollY + 152) - offsetTop) * 1.5;
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_3_b) + 'px)', 'top': top_3_b, 'left': left_3_b });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_3_b, 'left': left_3_b });
+    // }
 
-    element = 'bus-animation-4';
-    offsetTop = $('#' + element).offset().top - 80;
-    if (checkScroll(offsetTop)) {
-        if (!$('#ride_map_4 .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
-            app.dest_4 = ((scrollY + 152) - offsetTop) * 1.9;
-        }
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_4) + 'px)', 'top': top_4, 'left': left_4 });
-    } else {
-        $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_4, 'left': left_4 });
-    }
+    // element = 'bus-animation-4';
+    // offsetTop = $('#' + element).offset().top - 80;
+    // if (checkScroll(offsetTop)) {
+    //     if (!$('#ride_map_4 .picture-book .picture-book-img-wrap').hasClass('picture-book-bg-bottom')) {
+    //         app.dest_4 = ((scrollY + 152) - offsetTop) * 1.9;
+    //     }
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(' + parseInt(app.dest_4) + 'px)', 'top': top_4, 'left': left_4 });
+    // } else {
+    //     $('#' + element + '.bus-animation-wrapper .bus_temp_postion').css({ 'transform': 'translateY(0px)', 'top': top_4, 'left': left_4 });
+    // }
 
-    function checkScroll(target) {
-        if ((scrollY + 152) >= target) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // function checkScroll(target) {
+    //     if ((scrollY + 152) >= target) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
 
 }
@@ -268,7 +268,7 @@ app.createListeners = function() {
 
     if (($('body')).width() < 767) {
         // for now hide mini buses
-        $('.bus-animation-wrapper').addClass('hidden');
+        //$('.bus-animation-wrapper').addClass('hidden');
     } else {
         $(window).scroll(app.scrollingInteractions);
         $(document).ready(app.scrollingInteractions);
@@ -290,6 +290,9 @@ app.createListeners = function() {
             if ($anchor.attr('href') == '#ride') {
                 offset = 84;
             }
+            if ($anchor.attr('href') == '#mission-section' || $anchor.attr('href') == '#get-involved-section' || $anchor.attr('href') == '#recent-press-section' || $anchor.attr('href') == '#acknowledgements-section') {
+                offset = 50;
+            }
             $('html, body').stop().animate({
                 scrollTop: $($anchor.attr('href')).offset().top - offset
             }, 2000, 'easeInOutQuint');
@@ -305,7 +308,9 @@ app.createListeners = function() {
             if ($anchor.attr('href') == '#ride') {
                 offset = 125;
             }
-            console.log(offset);
+            if ($anchor.attr('href') == '#mission-section' || $anchor.attr('href') == '#get-involved-section' || $anchor.attr('href') == '#recent-press-section' || $anchor.attr('href') == '#acknowledgements-section') {
+                offset = 50;
+            }
             $('html, body').stop().animate({
                 scrollTop: $($anchor.attr('href')).offset().top - offset
             }, 2000, 'easeInOutQuint');
