@@ -290,7 +290,7 @@ app.createListeners = function() {
             if ($anchor.attr('href') == '#ride') {
                 offset = 84;
             }
-            if ($anchor.attr('href') == '#mission-section' || $anchor.attr('href') == '#get-involved-section') {
+            if ($anchor.attr('href') == '#mission-section' || $anchor.attr('href') == '#get-involved-section' || $anchor.attr('href') == '#recent-press-section' || $anchor.attr('href') == '#acknowledgements-section') {
                 offset = 50;
             }
             $('html, body').stop().animate({
@@ -308,7 +308,7 @@ app.createListeners = function() {
             if ($anchor.attr('href') == '#ride') {
                 offset = 125;
             }
-            if ($anchor.attr('href') == '#mission-section' || $anchor.attr('href') == '#get-involved-section') {
+            if ($anchor.attr('href') == '#mission-section' || $anchor.attr('href') == '#get-involved-section' || $anchor.attr('href') == '#recent-press-section' || $anchor.attr('href') == '#acknowledgements-section') {
                 offset = 50;
             }
             $('html, body').stop().animate({
