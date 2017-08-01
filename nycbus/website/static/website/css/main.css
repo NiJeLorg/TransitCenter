@@ -446,6 +446,13 @@ a {
   width: 100%;
   padding: 50px 0 0 0;  
 }
+.about-section h2 {
+  font-size: 36px;
+}
+.about-section p {
+  font-size: 18px;
+  line-height: 24px;
+}
 .about-last {
   padding-bottom: 50px;  
 }
@@ -468,6 +475,13 @@ a {
   .about-last {
     padding-bottom: 100px;  
   }*/
+  .about-section h2 {
+    font-size: 52px;
+  }
+  .about-section p {
+    font-size: 20px;
+    line-height: 28px;
+  }
 }
 .ride-section.positive {
   background-color: #c2f9b2;
