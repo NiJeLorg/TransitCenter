@@ -533,6 +533,7 @@ app.createReportCardDropdowns = function(route_id) {
 app.reportCardMap = function(route_id) {
     // make a static map using CARTO Static API
     // first get bounds for the map
+    console.log(route_id);
     app.sqlclient.getBounds("SELECT * FROM mta_nyct_bus_routes WHERE route_id = '" + route_id + "'")
         .done(function(bounds) {
             app.bounds = bounds;
@@ -580,6 +581,7 @@ app.reportCardMap = function(route_id) {
         url: 'https://' + app.username + '.carto.com/api/v1/map',
         data: JSON.stringify(mapconfig),
         success: function(data) {
+        	console.log(data);
             // url of the form /api/v1/map/static/bbox/{token}/{bbox}/{width}/{height}.{format}
             // https://carto.com/docs/carto-engine/maps-api/static-maps-api/#bounding-box
             var url = 'https://' + app.username + '.carto.com/api/v1/map/static/bbox/' + data.layergroupid + '/' + app.bounds[1][1] + ',' + app.bounds[1][0] + ',' + app.bounds[0][1] + ',' + app.bounds[0][0] + '/792/1224.png';
@@ -630,7 +632,7 @@ app.initialDataBounds = function(route_id) {
     app.bus2MarginScale.domain([app.thirdFifth, app.fourthFifth]);
     app.bus1MarginScale.domain([app.fourthFifth, app.fifthFifth]);
 
-    app.sqlclient.execute("SELECT speed FROM table_5150808763 WHERE route_id = '" + route_id + "'")
+    app.sqlclient.execute("SELECT speed FROM speed_by_route_10_2015_05_2016 WHERE route_id = '" + route_id + "'")
         .done(function(data) {
             app.routeSpeed = data.rows[0].speed.toFixed(1);
             app.initializeSpeedGauge();
@@ -1004,7 +1006,7 @@ app.initializeSpeedGauge = function() {
 }
 
 app.updateSpeedGuageAndText = function(route_id) {
-    app.sqlclient.execute("SELECT speed FROM table_5150808763 WHERE route_id = '" + route_id + "'")
+    app.sqlclient.execute("SELECT speed FROM speed_by_route_10_2015_05_2016 WHERE route_id = '" + route_id + "'")
         .done(function(data) {
             if (typeof data.rows[0] === 'undefined') {
                 app.updateSpeedText('N/A');
