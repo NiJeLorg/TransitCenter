@@ -586,7 +586,7 @@ app.updateBarCharts = function() {
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
             // take the first route returned and populate link
-            $('#individual_report_card').attr("href", "/?route=" + data.rows[0].route_id)
+            $('#individual_report_card').attr("href", "http://busturnaround.nyc/routes/" + data.rows[0].route_id)
                 // create data object and pass to bar chart for the form
             var mostBunchingArray = [];
             var pct;
