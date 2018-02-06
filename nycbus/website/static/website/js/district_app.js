@@ -250,7 +250,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 
     // calculate the average speed, ridership and bunching for routes intersecting the district weighted by ridership
     function getAverages() {
-        var avgWeightedQuery = 'SELECT sum(ridershiptable.year_2015) AS ridership, sum(speedtable.speed * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavgspeed, sum(bunchingtable.prop_bunched * ridershiptable.year_2015) / sum(ridershiptable.year_2015) AS wavgbunching FROM speed_by_route_10_2015_05_2016 AS speedtable, mta_nyct_bus_avg_weekday_ridership AS ridershiptable, bunching_10_2015_05_2016 AS bunchingtable WHERE speedtable.route_id = ridershiptable.route_id AND speedtable.route_id = bunchingtable.route_id AND ridershiptable.route_id IN (' + app.routeIDArray.join(",") + ') AND ridershiptable.year_2015 IS NOT NULL';
+        var avgWeightedQuery = 'SELECT sum(ridershiptable.year_2016) AS ridership, sum(speedtable.speed * ridershiptable.year_2016) / sum(ridershiptable.year_2016) AS wavgspeed, sum(bunchingtable.prop_bunched * ridershiptable.year_2016) / sum(ridershiptable.year_2016) AS wavgbunching FROM speed_by_route_05_2017_10_2017 AS speedtable, mta_nyct_bus_avg_weekday_ridership_2016 AS ridershiptable, bunching_by_route_05_2017_10_2017 AS bunchingtable WHERE speedtable.route_id = ridershiptable.route_id AND speedtable.route_id = bunchingtable.route_id AND ridershiptable.route_id IN (' + app.routeIDArray.join(",") + ') AND ridershiptable.year_2016 IS NOT NULL';
         app.sqlclient.execute(avgWeightedQuery)
             .done(function(data) {
                 $({ countNum: $('#totalRidership').text().replace(',', '') }).animate({ countNum: data.rows[0].ridership }, {
@@ -465,7 +465,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 
 
     function getExtremes() {
-        var extremesQuery = 'SELECT max(ridership.year_2015) AS maxridership, max(ridership.prop_change_2010_2015) AS maxpropridership, max(bunching.prop_bunched) AS maxbunching, max(speed.speed) AS maxspeed FROM mta_nyct_bus_avg_weekday_ridership AS ridership, bunching_10_2015_05_2016 AS bunching, speed_by_route_10_2015_05_2016 AS speed WHERE ridership.route_id IN (' + app.boroughRouteIDArray.join(",") + ') AND ridership.year_2015 IS NOT NULL';
+        var extremesQuery = 'SELECT max(ridership.year_2016) AS maxridership, max(ridership.prop_change_2010_2016) AS maxpropridership, max(bunching.prop_bunched) AS maxbunching, max(speed.speed) AS maxspeed FROM mta_nyct_bus_avg_weekday_ridership_2016 AS ridership, bunching_by_route_05_2017_10_2017 AS bunching, speed_by_route_05_2017_10_2017 AS speed WHERE ridership.route_id IN (' + app.boroughRouteIDArray.join(",") + ') AND ridership.year_2016 IS NOT NULL';
         app.sqlclient.execute(extremesQuery)
             .done(function(data) {
                 app.maxBunching = data.rows[0].maxbunching * 100;
@@ -491,7 +491,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 app.updateBarCharts = function() {
 
     // using the routes selected by district, build a query for top three routes in ridership
-    var ridershipQuery = 'SELECT route_id, year_2015, note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND year_2015 IS NOT NULL ORDER BY year_2015 DESC LIMIT 3 ';
+    var ridershipQuery = 'SELECT route_id, year_2016, note FROM mta_nyct_bus_avg_weekday_ridership_2016 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND year_2016 IS NOT NULL ORDER BY year_2016 DESC LIMIT 3 ';
 
     app.sqlclient.execute(ridershipQuery)
         .done(function(data) {
@@ -506,7 +506,7 @@ app.updateBarCharts = function() {
                 } else {
                     label = data.rows[i].route_id;
                 }
-                ridershipArray.push({ label: label, value: data.rows[i].year_2015 });
+                ridershipArray.push({ label: label, value: data.rows[i].year_2016 });
 
             }
 
@@ -532,7 +532,7 @@ app.updateBarCharts = function() {
 
 
     // using the routes selected by district, build a query for top three routes by fastest growing
-    var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2015, prop_change_note FROM mta_nyct_bus_avg_weekday_ridership WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_change_2010_2015 >= 0 AND prop_change_2010_2015 IS NOT NULL ORDER BY prop_change_2010_2015 DESC LIMIT 3 ';
+    var fastestGrowingQuery = 'SELECT route_id, prop_change_2010_2016, prop_change_note FROM mta_nyct_bus_avg_weekday_ridership_2016 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_change_2010_2016 >= 0 AND prop_change_2010_2016 IS NOT NULL ORDER BY prop_change_2010_2016 DESC LIMIT 3 ';
 
 
     app.sqlclient.execute(fastestGrowingQuery)
@@ -549,7 +549,7 @@ app.updateBarCharts = function() {
                 } else {
                     label = data.rows[i].route_id;
                 }
-                pct = parseFloat((data.rows[i].prop_change_2010_2015 * 100).toFixed());
+                pct = parseFloat((data.rows[i].prop_change_2010_2016 * 100).toFixed());
                 fastestGrowingArray.push({ label: label, value: pct });
             }
 
@@ -581,7 +581,7 @@ app.updateBarCharts = function() {
         });
 
     // using the routes selected by district, build a query for top three routes by most bunching
-    var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_10_2015_05_2016 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
+    var mostBunchingQuery = 'SELECT route_id, prop_bunched FROM bunching_by_route_05_2017_10_2017 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_bunched IS NOT NULL ORDER BY prop_bunched DESC LIMIT 3';
 
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
@@ -615,7 +615,7 @@ app.updateBarCharts = function() {
 
 
     // using the routes selected by district, build a query for top three slowest routes
-    var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_10_2015_05_2016 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
+    var slowestQuery = 'SELECT route_id, speed FROM speed_by_route_05_2017_10_2017 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND speed IS NOT NULL ORDER BY speed ASC LIMIT 3';
 
     app.sqlclient.execute(slowestQuery)
         .done(function(data) {
@@ -906,7 +906,7 @@ app.calcMapHeightAndLoad = function() {
 
     var routesMapSQL = 'SELECT * FROM mta_nyct_bus_routes WHERE route_id IN (' + routesWithinSQL + ')';
 
-    var routesWithDataSQL = "SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id IN (" + routesWithinSQL + ")";
+    var routesWithDataSQL = "SELECT mta.cartodb_id, mta.route_id, mta.the_geom_webmercator, TO_CHAR(CAST(ridership.year_2016 AS numeric), '999G999') AS year_2016, ROUND(CAST(ridership.prop_change_2010_2016 AS numeric) * 100, 1) AS prop_change_2010_2016, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership_2016 AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_05_2017_10_2017 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_by_route_05_2017_10_2017 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id IN (" + routesWithinSQL + ")";
 
     // update the map
     // interactive
@@ -1072,7 +1072,7 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
             sublayers: [{
                 sql: routesWithDataSQL,
                 cartocss: '#layer {line-width: 2;line-color: #005777; line-opacity: 1;}',
-                interactivity: 'cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched',
+                interactivity: 'cartodb_id, route_id, year_2016, prop_change_2010_2016, speed, prop_bunched',
             }]
         })
         .addTo(app.map)
@@ -1082,9 +1082,9 @@ app.reportCardMap = function(districtMapSQL, routesWithDataSQL, routesMapSQL, al
 
             app.routesSublayer = app.routeLayer.getSubLayer(0);
             app.routesSublayer.setInteraction(true);
-            app.routesSublayer.setInteractivity('cartodb_id, route_id, year_2015, prop_change_2010_2015, speed, prop_bunched');
+            app.routesSublayer.setInteractivity('cartodb_id, route_id, year_2016, prop_change_2010_2016, speed, prop_bunched');
 
-            cdb.vis.Vis.addInfowindow(app.map, app.routesSublayer, ['route_id', 'year_2015', 'prop_change_2010_2015', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
+            cdb.vis.Vis.addInfowindow(app.map, app.routesSublayer, ['route_id', 'year_2016', 'prop_change_2010_2016', 'speed', 'prop_bunched'], { infowindowTemplate: $('#infowindow_template').html() });
 
             app.routesSublayer.on('featureClick', function(e, pos, latlng, data) {
                 app.routeLayer.setCartoCSS('#layer {line-width: 2;line-color: #005777; line-opacity: 1;} #layer[route_id = "' + data.route_id + '"]::z1 {line-width: 4;line-color: #F78C6C; line-opacity: 1;}');
@@ -1130,7 +1130,7 @@ app.highlightRoute = function(routeId) {
     app.routeLayer.setCartoCSS('#layer {line-width: 2;line-color: #005777; line-opacity: 1;} #layer[route_id = "' + routeId + '"]::z1 {line-width: 4;line-color: #F78C6C; line-opacity: 1;}');
     // open infowindow
     // Select one of the geometries from the table
-    var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2015 AS numeric), '999G999') AS year_2015, ROUND(CAST(ridership.prop_change_2010_2015 AS numeric) * 100, 1) AS prop_change_2010_2015, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_10_2015_05_2016 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_10_2015_05_2016 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '" + routeId + "' LIMIT 1";
+    var sql = "SELECT mta.cartodb_id, mta.route_id, ST_X(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), ST_Y(ST_Line_Interpolate_Point(ST_LineMerge(mta.the_geom), 0.5)), TO_CHAR(CAST(ridership.year_2016 AS numeric), '999G999') AS year_2016, ROUND(CAST(ridership.prop_change_2010_2016 AS numeric) * 100, 1) AS prop_change_2010_2016, ROUND(CAST(speed.speed AS numeric), 1) AS speed, ROUND(CAST(bunching.prop_bunched AS numeric) * 100, 1) AS prop_bunched FROM mta_nyct_bus_routes AS mta LEFT OUTER JOIN mta_nyct_bus_avg_weekday_ridership_2016 AS ridership ON (mta.route_id = ridership.route_id) LEFT OUTER JOIN speed_by_route_05_2017_10_2017 AS speed ON (mta.route_id = speed.route_id) LEFT OUTER JOIN bunching_by_route_05_2017_10_2017 AS bunching ON (mta.route_id = bunching.route_id) WHERE mta.route_id = '" + routeId + "' LIMIT 1";
     app.sqlclient.execute(sql)
         .done(function(data) {
             // center map on returned lat/lng
@@ -1138,7 +1138,7 @@ app.highlightRoute = function(routeId) {
             app.map.panTo(latLng);
 
             // now fire a click where the returned point is located
-            app.routesSublayer.trigger('featureClick', null, [data.rows[0]['st_y'], data.rows[0]['st_x']], null, { route_id: data.rows[0]['route_id'], speed: data.rows[0]['speed'], prop_bunched: data.rows[0]['prop_bunched'], year_2015: data.rows[0]['year_2015'], prop_change_2010_2015: data.rows[0]['prop_change_2010_2015'] }, 0);
+            app.routesSublayer.trigger('featureClick', null, [data.rows[0]['st_y'], data.rows[0]['st_x']], null, { route_id: data.rows[0]['route_id'], speed: data.rows[0]['speed'], prop_bunched: data.rows[0]['prop_bunched'], year_2016: data.rows[0]['year_2016'], prop_change_2010_2016: data.rows[0]['prop_change_2010_2016'] }, 0);
 
         })
         .error(function(errors) {
