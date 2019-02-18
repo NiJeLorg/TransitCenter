@@ -1,0 +1,939 @@
+/* OVERIDE BOOTSTRAP STYLES */
+
+.row {
+    margin: 0;
+}
+
+.col-md-5,
+.col-md-6,
+.col-md-7 {
+    padding: 0;
+}
+
+.navbar-right {
+    margin-right: 0;
+}
+
+
+/* OVERIDE BOOTSTRAP STYLES */
+
+
+/* OVERIDE SELECT2 STYLES */
+
+.select2-container {
+    min-width: 70px;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #aaa;
+}
+
+
+/* OVERIDE SELECT2 STYLES */
+
+
+/* UTILITY CLASS // TYPOGRAPHY STYLES // */
+
+* {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.main-heading {
+    font-size: 2.8em;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.main-heading .districtName {
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.main-heading a {
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+    text-decoration: none;
+}
+
+.main-heading a:hover {
+    color: #17bee8;
+}
+
+.main-heading-card {
+    font-family: "MarkWebPro-Book W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 2.5em;
+}
+
+.sub-heading-card {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+}
+
+.os-card-container {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -ms-flex-direction:column;
+    flex-direction:column;
+    -ms-flex-flow:wrap;
+    flex-flow:wrap;
+    margin:0px;
+    font-family:"MarkWebPro-Bold","Helvetica Neue",Arial,sans-serif
+}
+
+.os-card-container .os-card {
+    background-color:grey;
+    text-transform:uppercase;
+    font-weight:600;
+    margin:5px 20px 5px 5px;
+    -webkit-transition:all .3s ease-in-out;
+    transition:all .3s ease-in-out;
+    cursor:pointer;
+    -ms-flex-preferred-size:calc(25% - 10px);
+    flex-basis:calc(25% - 10px)
+}
+
+.os-card-container .os-card .os-card-rating {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-align:center;
+    -ms-flex-align:center;
+    align-items:center;
+    -webkit-box-pack:center;
+    -ms-flex-pack:center;
+    justify-content:center;
+    margin:auto 1rem;
+    padding: 40px;
+}
+
+.os-card-container .os-card .os-card-rating span {
+    color: #fff;
+    font-size:8.0rem;
+    font-weight:bolder;
+    line-height:6rem;
+    -webkit-transform:translateY(-5px);
+    transform:translateY(-5px);
+    text-align:center;
+    font-family:"MarkWebPro-Heavy","Helvetica Neue",Arial,sans-serif;
+    width:100%
+}
+
+.os-card-container .os-card .os-card-route {
+    background-color:#000;
+    line-height:3rem;
+    font-size:1.5rem;
+    text-align:center;
+}
+
+.os-card-container .os-card[data-rating="A"] {
+    background-color:#0da8ec
+}
+.os-card-container .os-card[data-rating="B"] {
+    background-color:#6edd82
+}
+.os-card-container .os-card[data-rating="C"] {
+    background-color:#fecf4d
+}
+.os-card-container .os-card[data-rating="D"] {
+    background-color:#ef6e41
+}
+.os-card-container .os-card[data-rating="F"] {
+    background-color:#ff5649
+}
+
+
+/* UTILITY CLASS // TYPOGRAPHY STYLES // */
+
+
+/* UTILITY CLASS // REUSABLE STYLES // */
+
+.bottom-buffer {
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #fff;
+    /* border: solid 1px #DDDDDD; */
+    /* padding: 2% 3%; */
+}
+
+
+/* UTILITY CLASS // REUSABLE STYLES // */
+
+
+/* MAIN STYLES */
+
+body {
+    -webkit-print-color-adjust: exact;
+}
+
+body.loading {
+    overflow: hidden;
+}
+
+body.loading .loading-modal {
+    display: block;
+}
+
+.loading-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: .7;
+    background: url('images/ripple.gif') 50% 50% no-repeat;
+    background-color: #000;
+}
+
+main {
+    /*    background-image: url(images/cover_background_small.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    background-position-y: 90%;*/
+    padding: 1.5% 2%;
+}
+
+main .source-link {
+    display: none;
+}
+
+main header h2 {
+    color: #fff;
+    margin: 0;
+}
+
+.turnaround-heading {
+    display: none;
+}
+
+.header-dropdown-select {
+    bottom: 0px;
+}
+
+.print-button-holder {
+    display: block;
+    margin-top: 7px;
+}
+
+.print-button-holder button {
+    background: none;
+    border: 0;
+}
+
+.print-button-holder i {
+    color: #333333;
+}
+
+.main-component {
+    /*display: flex;*/
+    display: block;
+    margin-top: 2%;
+}
+
+.bus-routes-holder {
+    width: 100%;
+    /*width: 48%;*/
+}
+
+.bus-map-holder {
+    /*margin-left: 4%;
+    width: 48%;*/
+    margin-left: 0;
+    width: 100%;
+}
+
+.report-card h2 {
+    line-height: 95%;
+    margin-top: 10px;
+}
+
+.ways-to-address p {
+    font-size: 1.4em;
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
+}
+
+.ways-to-address .advantages {
+    border-bottom: 1px solid #DDDDDD;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
+.ways-to-address ul {
+    font-size: 1.4em;
+}
+
+.turnaround-campaign-print {
+    display: none;
+}
+
+.bar-chart-wrapper {
+    max-width: 400px;
+}
+
+.clickable-g-container {
+    cursor: pointer;
+}
+
+.ridershipNotes p {
+    margin: 0 10px 0 0;
+    font-size: 12px;
+}
+
+footer .logos-holder {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2%;
+    background: #555555;
+}
+
+.logos-holder .logo {
+    margin: 3%;
+}
+
+footer .logos-holder-print {
+    display: none;
+}
+
+.copyright {
+    text-align: center;
+    padding: 1% 0;
+    background: #555555;
+}
+
+.copyright p {
+    color: #fff;
+    font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.inside-bar-text {
+    fill: white;
+    text-anchor: end;
+}
+
+.inside-bar-text.outside {
+    fill: #333;
+    text-anchor: start;
+}
+
+.card-li {
+    font-size: 1.6em;
+}
+
+.district-map-holder {
+    position: relative;
+    height: 300px;
+    /* box-shadow: 0 3px 18px #ccc; */
+}
+
+.toggle-city {
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    height: 52px;
+    border: none;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .65);
+    border-radius: 4px;
+}
+
+.legends-holder {
+    position: absolute;
+    z-index: 2;
+    bottom: 25px;
+    right: 10px;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.239216) 0px 2px 4px 0px;
+    border-radius: 4px;
+    max-height: 540px;
+    overflow-y: auto;
+}
+
+.legend {
+    padding: 16px;
+    width: 192px;
+    background: #fff;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+.legend .range {
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+    color: #2E3C43;
+}
+
+.legend .range span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 2px;
+}
+
+.district-map {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+.district-map-static-wrapper {
+    display: none;
+}
+
+div.cartodb-tooltip-content p {
+    font-size: 20px !important;
+    font-weight: bold !important;
+}
+
+
+/* STYLES FOR COLOR KEYS (SPEED GAUGE AND BUNCHING BAR) */
+
+.color-key-wrapper {
+    margin-left: 45px;
+}
+
+.label {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.speed-gauge g.arc {
+    fill: steelblue;
+}
+
+.speed-gauge g.pointer {
+    fill: #333;
+    stroke: #333;
+}
+
+.speed-gauge g.label text {
+    text-anchor: middle;
+    font-size: 12px;
+    font-weight: bold;
+    fill: #333;
+}
+
+
+/* STYLES FOR SPEED GAUGE */
+
+.bunching-bar {
+    height: 124px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.color-ramp-horizontal-bar {
+    width: 75%;
+    height: 40px;
+    margin-top: 30px;
+    display: flex;
+    background-color: #1a9641;
+    /* fallback color if gradients are not supported */
+    background-image: -webkit-linear-gradient(left, #1a9850, #a6d96a, #ffffbf, #fee08b, #fdae61, #f46d43, #d73027, #a50026);
+    /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+    background-image: -moz-linear-gradient(right, #1a9850, #a6d96a, #ffffbf, #fee08b, #fdae61, #f46d43, #d73027, #a50026);
+    /* For Firefox (3.6 to 15) */
+    background-image: -o-linear-gradient(right, #1a9850, #a6d96a, #ffffbf, #fee08b, #fdae61, #f46d43, #d73027, #a50026);
+    /* For old Opera (11.1 to 12.0) */
+    background-image: linear-gradient(to right, #1a9850, #a6d96a, #ffffbf, #fee08b, #fdae61, #f46d43, #d73027, #a50026);
+    /* Standard syntax; must be last */
+}
+
+.color-ramp-horizontal-bar .district-average-vertical-container {
+    position: relative;
+    top: -5px;
+}
+
+.color-ramp-xaxis {
+    height: 10px;
+    width: 100%;
+    background: black;
+}
+
+.district-average-vertical {
+    height: 50px;
+    width: 7px;
+    background: #333;
+    position: absolute;
+}
+
+.district-average-vertical-container p,
+.borough-average-vertical-container p {
+    position: absolute;
+    margin: 0;
+    line-height: 1.2em;
+}
+
+.borough-average-vertical-container p {
+    color: #777;
+}
+
+.district-average-vertical-container p {
+    top: -20px;
+}
+
+.color-ramp-horizontal-bar .borough-average-vertical-container {
+    position: relative;
+}
+
+.color-ramp-horizontal-bar .color-ramp-axis {
+    height: 5px;
+    background: #000000;
+    width: 100%;
+    position: relative;
+    top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-ramp-axis .color-ramp-axis-holder {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-ramp-axis-holder .color-ramp-tick-group {
+    display: flex;
+    justify-content: center;
+}
+
+.color-ramp-tick-group .tick {
+    width: 3px;
+    height: 15px;
+    background: #000000;
+}
+
+.color-ramp-tick-group .text {
+    position: absolute;
+    top: 10px;
+}
+
+.borough-average-vertical {
+    position: absolute;
+    height: 40px;
+    border: 1px dashed #777;
+    width: 1px;
+}
+
+
+/* STYLES FOR INFOWINDOW */
+
+div.cartodb-popup p {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div.cartodb-popup div.cartodb-popup-content-wrapper {
+    width: 100%;
+    max-width: 100%;
+}
+
+div.cartodb-popup div.cartodb-popup-content h3 {
+    color: #555555;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #555555;
+    margin-bottom: 8px;
+}
+
+div.cartodb-popup div.cartodb-popup-content h4 {
+    color: #777777;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-bottom: 0;
+}
+
+div.cartodb-popup div.cartodb-popup-content p {
+    color: #333333;
+}
+
+.btn-facebook {
+  color: #fff;
+  background-color: #3b5998;
+  border-color: #3b5998;
+}
+.btn-facebook:hover,
+.btn-facebook:focus,
+.btn-facebook.focus,
+.btn-facebook:active,
+.btn-facebook.active,
+.open > .dropdown-toggle.btn-facebook {
+  color: #fff;
+  background-color: #22407F;
+  border-color: #22407F;
+}
+.btn-facebook:active,
+.btn-facebook.active,
+.open > .dropdown-toggle.btn-facebook {
+  background-image: none;
+}
+.btn-facebook.disabled,
+.btn-facebook[disabled],
+fieldset[disabled] .btn-facebook,
+.btn-facebook.disabled:hover,
+.btn-facebook[disabled]:hover,
+fieldset[disabled] .btn-facebook:hover,
+.btn-facebook.disabled:focus,
+.btn-facebook[disabled]:focus,
+fieldset[disabled] .btn-facebook:focus,
+.btn-facebook.disabled.focus,
+.btn-facebook[disabled].focus,
+fieldset[disabled] .btn-facebook.focus,
+.btn-facebook.disabled:active,
+.btn-facebook[disabled]:active,
+fieldset[disabled] .btn-facebook:active,
+.btn-facebook.disabled.active,
+.btn-facebook[disabled].active,
+fieldset[disabled] .btn-facebook.active {
+  background-color: #adaeb0;
+  border-color: #adaeb0;
+}
+.btn-facebook .badge {
+  color: #fff;
+  background-color: #ffffff;
+}
+
+.btn-twitter {
+  color: #fff;
+  background-color: #4099ff;
+  border-color: #4099ff;
+}
+.btn-twitter:hover,
+.btn-twitter:focus,
+.btn-twitter.focus,
+.btn-twitter:active,
+.btn-twitter.active,
+.open > .dropdown-toggle.btn-twitter {
+  color: #fff;
+  background-color: #2780E6;
+  border-color: #2780E6;
+}
+.btn-twitter:active,
+.btn-twitter.active,
+.open > .dropdown-toggle.btn-twitter {
+  background-image: none;
+}
+.btn-twitter.disabled,
+.btn-twitter[disabled],
+fieldset[disabled] .btn-twitter,
+.btn-twitter.disabled:hover,
+.btn-twitter[disabled]:hover,
+fieldset[disabled] .btn-twitter:hover,
+.btn-twitter.disabled:focus,
+.btn-twitter[disabled]:focus,
+fieldset[disabled] .btn-twitter:focus,
+.btn-twitter.disabled.focus,
+.btn-twitter[disabled].focus,
+fieldset[disabled] .btn-twitter.focus,
+.btn-twitter.disabled:active,
+.btn-twitter[disabled]:active,
+fieldset[disabled] .btn-twitter:active,
+.btn-twitter.disabled.active,
+.btn-twitter[disabled].active,
+fieldset[disabled] .btn-twitter.active {
+  background-color: #adaeb0;
+  border-color: #adaeb0;
+}
+.btn-twitter .badge {
+  color: #fff;
+  background-color: #ffffff;
+}
+
+.btn .shareOn {
+    padding-right: 5px;
+    display: inline;
+    vertical-align: super;
+    text-transform: uppercase;
+}
+
+.btn:hover {
+    color: #fff;
+}
+
+
+/* STYLES FOR INFOWINDOW */
+
+
+/* MAIN STYLES */
+
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1440px) {
+    .district-map-holder {
+        height: 400px;
+        /* box-shadow: 0 3px 18px #ccc; */
+    }
+}
+
+@media (max-width: 768px) {
+    .district-map-holder {
+        height: 300px;
+    }
+    .col-md-offset-1 {
+        margin-left: 0;
+    }
+    .ways-to-address {
+        margin-bottom: 3%;
+    }
+    .main-component {
+        display: block;
+        margin-top: 10%;
+    }
+    .bus-routes-holder {
+        width: 100%;
+    }
+    .bus-map-holder {
+        margin-left: 0;
+        width: 100%;
+    }
+    .navbar-right {
+        float: none !important;
+    }
+    .header-title h2 {
+        margin-bottom: 3%;
+    }
+    .selectDistrict {
+        font-size: 0.65em;
+        color: #333333;
+    }
+    .print-button-holder {
+        display: none;
+    }
+}
+
+@media (max-width: 425px) {
+    .main-heading {
+        font-size: 2.5em;
+        text-align: center;
+    }
+    .main-heading-card {
+        font-size: 2.0em;
+    }
+    .sub-heading-card {
+        font-size: 1em;
+    }
+    .color-ramp-horizontal-bar {
+        width: 94%;
+    }
+    .legends-holder .legend {
+        padding: 8px;
+    }
+    .legends-holder .legend .title p,
+    .legends-holder .legend .range p {
+        margin-bottom: 6px;
+    }
+    .legend {
+        width: 130px;
+    }
+    
+}
+
+/* @media (min-width: 87em) {
+    main,
+    footer {
+        width: 65%;
+    }
+    .district-map-holder {
+        position: fixed;
+        width: 35%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        box-shadow: 3px 3px 18px #ccc;
+    }
+    .toggle-district-map {
+        display: none;
+    }
+} */
+
+
+/* MEDIA QUERIES */
+
+
+/* PRINT MEDIA QUERY */
+
+@media print {
+    body {
+        color: #000;
+        background: #fff;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    @page {
+        margin: 2cm;
+    }
+    img {
+        max-width: 100% !important;
+    }
+    header,
+    hr,
+    .sub-heading-card,
+    .routeLink,
+    .methodsLink,
+    .leaflet-bottom,
+    .cartodb-logo,
+    div.cartodb-popup,
+    .district-map,
+    .logos-holder,
+    .copyright,
+    .turnaround-campaign-web,
+    .district-map-holder {
+        display: none !important;
+    }
+    main {
+        padding: 0% 2%;
+    }
+    main .source-link {
+        display: flex;
+        justify-content: center;
+    }
+    .report-card h2 {
+        margin-top: 5px;
+        margin-bottom: 8px;
+    }
+    .source-link a {
+        color: #17BEE8;
+        text-decoration: underline;
+    }
+    .main-heading {
+        text-align: center;
+        font-size: 1.8em;
+    }
+    .main-heading-card {
+        font-size: 1.6em;
+    }
+    .turnaround-heading {
+        display: inline-block;
+    }
+    .card {
+        /* border: none;
+        padding: 0; */
+    }
+    .turnaround-campaign-print {
+        display: block;
+        margin-top: 1%;
+        font-family: "MarkWebPro-Book W01 Regular", Georgia, "Times New Roman", Times, serif;
+        font-size: 1em;
+        line-height: 1.3em;
+        margin-bottom: 1%;
+    }
+    /*    footer {
+        display: block;
+        margin-top: 20px;
+    }*/
+    footer .logos-holder-print {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        -webkit-print-color-adjust: exact;
+        background-color: #555555 !important;
+    }
+    .logos-holder-print .logo {
+        max-width: 18%;
+        margin: 2%;
+    }
+    .text-left-print {
+        margin-right: 4%;
+    }
+    .ways-to-address p,
+    .ways-to-address ul {
+        font-size: 1em;
+        line-height: 1.3em;
+    }
+    .ways-to-address .advantages {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    .district-map-static-wrapper {
+        display: block;
+    }
+    .district-name-static-map {
+        margin-top: 2px;
+    }
+    .district-map-static {
+        border: 1px #777 solid;
+    }
+    .address-list-static-map {
+        display: flex;
+    }
+    .address-list-static-map .text-left-print,
+    .address-list-static-map .district-map-static-wrapper {
+        flex-basis: 46%;
+    }
+    .bus-routes-row {
+        display: block;
+        margin-left: 0;
+        width: 100%;
+    }
+    .riders-row {
+        display: inline-block;
+    }
+    .average-speed-row {
+        display: inline-block;
+        margin-left: 0;
+        width: 49%;
+    }
+    .average-bunching-row {
+        display: inline-block;
+    }
+    #bunching-h2 {
+        white-space: nowrap;
+    }
+    .bunching-bar {
+        height: 124px !important;
+    }
+    .color-ramp-horizontal-bar {
+        -webkit-print-color-adjust: exact;
+        margin-top: 55px !important;
+    }
+    .bus-routes-bars .col-md-6,
+    .bus-routes-bars .col-sm-12 {
+        width: 48%;
+        margin-right: 2%;
+        float: left;
+    }
+    .col-sm-12.col-md-7 {
+        width: 58.33333333%;
+    }
+    .col-sm-12.col-md-5 {
+        width: 100%;
+    }
+    .main-component {
+        display: block;
+        margin-top: 1%;
+    }
+    .bus-routes-holder {
+        width: 100%;
+    }
+    .bus-map-holder {
+        margin-left: 0;
+        width: 100%;
+    }
+    .bottom-buffer {
+        margin-bottom: 10px;
+    }
+}

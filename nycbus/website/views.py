@@ -23,6 +23,10 @@ def district_analysis(request):
 	district = request.GET.get("district","assembly70")
 	return render(request, 'website/district.html', {'district':district,})
 
+def district_analysis_2_0(request):
+	district = request.GET.get("district","assembly70")
+	return render(request, 'website/district_2_0.html', {'district':district,})
+
 def district_analysis_poster(request):
 	district = request.GET.get("district","assembly70")
 	return render(request, 'website/district_poster.html', {'district':district,})	
