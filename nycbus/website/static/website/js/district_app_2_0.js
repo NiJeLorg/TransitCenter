@@ -517,6 +517,8 @@ app.updateBarCharts = function() {
                 app.createBarChart('#ridership', app.blueColorScale, ridershipArray);
             }
 
+            app.createRidershipTable(ridershipArray);
+
             app.createNotesForRidershipBarChart($('#ridershipNotes'), ridershipNotesArray);
 
             app.reportCardLoaded--;
@@ -559,6 +561,9 @@ app.updateBarCharts = function() {
             } else {
                 app.createBarChart('#fastestGrowing', app.blueColorScale, fastestGrowingArray);
             }
+
+            // make cards for changing ridership 
+            app.createChangingRidershipCards(fastestGrowingArray);
 
             app.createNotesForRidershipBarChart($('#fastestGrowingRidershipNotes'), fastestGrowingRidershipNotesArray);
 
@@ -651,7 +656,7 @@ app.updateBarCharts = function() {
 app.createBarChart = function(divId, barChartColorScale, data) {
 
     var width = $('.bar-chart-wrapper').width(),
-        barHeight = 25;
+        barHeight = 40;
 
     var chart = d3.select(divId)
         .append('svg')
@@ -665,7 +670,7 @@ app.createBarChart = function(divId, barChartColorScale, data) {
 app.updateBarChart = function(divId, barChartColorScale, data) {
 
     var width = $('.bar-chart-wrapper').width(),
-        barHeight = 25,
+        barHeight = 40,
         barWidth;
     if ((width * (3 / 4)) > 275) {
         barWidth = 275;
@@ -788,7 +793,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .attr('fill', function(d) {
             return barChartColorScale(d.value);
         })
-        .attr("height", barHeight - 5)
+        .attr("height", barHeight - 10)
         .attr("width", 0)
         .merge(barChartGs)
         .transition()
@@ -813,7 +818,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
                 return "inside-bar-text";
             }
         })
-        .attr("y", (barHeight - 5) / 2)
+        .attr("y", (barHeight - 10) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
             if (divId === '#fastestGrowing' || divId === '#mostBunching') {
@@ -841,7 +846,7 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
 
     enterBars.append("text")
         .attr("class", "outside-bar-text")
-        .attr("y", (barHeight - 5) / 2)
+        .attr("y", (barHeight - 10) / 2)
         .attr("dy", ".35em")
         .text(function(d) {
             return d.label;
@@ -870,6 +875,88 @@ app.updateBarChart = function(divId, barChartColorScale, data) {
         .remove();
 
 };
+
+app.createRidershipTable = function(data) {
+    // throw away any table that already exists
+    $('.ridership-table').remove();
+
+    // set up table
+    var ridership_table = d3.select("#ridership-table")
+        .append("table")
+        .classed("ridership-table", true);
+
+    var rows = ridership_table.selectAll("tr")
+        .data(data)
+        .enter()
+        .append("tr");
+
+    rows.append("td")
+        .classed("blue", true)
+        .text(function(d, i) {
+            return i + 1;
+        });
+
+    var middle_row = rows.append("td")
+        .classed("middle", true);
+
+    middle_row.append("div")
+        .classed("os-card-container", true)
+        .classed("os-card-final-grade", true)
+        .append("div")
+        .classed("os-card", true)
+        .classed("very-small", true)
+        .attr("data-rating", "B") //this will be a function
+        .append("div")
+        .classed("os-card-rating", true)
+        .classed("very-small", true)
+        .append("span")
+        .text("B");  //this will also be a function
+        
+    middle_row.append("div")
+        .classed("route-name", true)
+        .text(function(d) {
+            return d.label;
+        });
+
+    rows.append("td")
+        .classed("grey", true)
+        .text(function(d) {
+            return app.numberWithCommas(d.value);
+        });
+
+}
+
+app.createChangingRidershipCards = function(data) {
+    // throw away any cards that already exists
+    $('.cr-card').remove();
+
+    // create cards
+    var cards = d3.select("#changing-ridership").selectAll("div")
+        .data(data)
+        .enter()
+        .append("div")
+        .classed("cr-card", true);
+
+    var top_row = cards.append("div")
+        .classed("top", true);
+
+    top_row.append("i")
+        .classed("fa", true)
+        .classed("fa-caret-up", true)
+        .attr("aria-hidden", "true");
+    
+    top_row.append("span")
+        .text(function(d) {
+            return " " + d.value + " %";
+        });
+
+    cards.append("div")
+        .classed("bottom", true)
+        .text(function(d) {
+            return d.label;
+        });
+
+}
 
 app.createNotesForRidershipBarChart = function(div, ridershipNotesArray) {
     // clear previous notes

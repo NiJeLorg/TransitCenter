@@ -22,42 +22,8 @@
     </div> {% endcomment %}
 </div>
 <main>
-    <header class="row">
-        <div class="header-title col-md-5">
-            <h2 class="main-heading">
-            <a href="/">Bus Turnaround</a></h2>
-        </div>
-        <div class="header-dropdown-select col-md-7">
-            <div class="navbar-right">
-                <ul class="nav navbar-nav">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <h3 class="text-center">
-                          <select id="selectDistrict" class="selectDistrict">
-                            <option value="senate">State Senate District</option>
-                            <option value="assembly">State Assembly District</option>
-                            <option value="council">City Council District</option>
-                            <option value="board">Community Board District</option>
-                          </select>
-                          <select id="number" class="selectDistrict">
-                          </select>
-                      </h3>
-                    </li>
-                    <li>
-                        <div class="print-button-holder">
-                            <button data-toggle='tooltip' title="Print this page" data-placement="bottom">
-                                <a href="javascript:window.print()"> <i class="fa fa-print fa-3x" aria-hidden='true'></i></a>
-                            </button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </header>
     <div class="container-fluid">
-        <div class="bus-routes-holder row">
+        <div class="odd row">
             <div class="report-card card bottom-buffer col-md-10 col-md-offset-1">
                 <h2 class="main-heading margin-bottom">
                     <span class="districtName"></span>
@@ -68,9 +34,9 @@
                     <div class="col-md-6">
                         <h2 class="main-heading-card">Overall Grade</h2>
                         <div class="os-card-container os-card-final-grade">
-                            <div id="os-js-final-grade" class="os-card" data-rating="F">
+                            <div id="os-js-final-grade" class="os-card" data-rating="C">
                                 <div class="os-card-rating">
-                                    <span>F</span>
+                                    <span>C</span>
                                 </div>
                             </div>
                             <p>
@@ -79,146 +45,132 @@
                                 <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
                             </p>
                         </div>
-                        
-
-				
-
                     </div>
                     <div class="col-md-6">
-                        
+                        <h2 class="main-heading-card">
+                            <span data-toggle="tooltip" data-placement="top" title="Total number of bus routes that cross the district.">
+                                <span id="busRoutes">0</span> bus routes
+                            </span> 
+                        </h2>
+                        <h2 class="main-heading-card">
+                            <span data-toggle="tooltip" data-placement="top" title="Total 2017 weekday ridership of all routes crossing this district.">
+                                <span id="totalRidership">0</span> weekday riders
+                            </span>
+                        </h2>
+                        <h2 class="main-heading-card">
+                            <span id="ridershipChange">0</span>% ridership <span id="ridershipIncreaseOrDecrease">increase</span>
+                        </h2>
+                        <br />
+                        <h3>
+                            See different Report Card
+                        </h3>
+                        <h3 class="header-dropdown-select">
+                            <select id="selectDistrict" class="selectDistrict">
+                                <option value="senate">State Senate District</option>
+                                <option value="assembly">State Assembly District</option>
+                                <option value="council">City Council District</option>
+                                <option value="board">Community Board District</option>
+                            </select>
+                            <select id="number" class="selectDistrict">
+                            </select>
+                        </h3>                        
                     </div>
-                    <h2 class="main-heading-card"><span data-toggle="tooltip" data-placement="top" title="Total number of bus routes that cross the district."><span id="busRoutes">0</span> <small>bus routes</span> with </small><span data-toggle="tooltip" data-placement="top" title="Total 2016 weekday ridership of all routes crossing this district."><span id="totalRidership">0</span> <small>total weekday riders</small></span></h2>
                 </div>
-                <div class="bus-routes-row row">
-                    <h2 class="main-heading-card"><span data-toggle="tooltip" data-placement="top" title="Total number of bus routes that cross the district."><span id="busRoutes">0</span> <small>bus routes</span> with </small><span data-toggle="tooltip" data-placement="top" title="Total 2016 weekday ridership of all routes crossing this district."><span id="totalRidership">0</span> <small>total weekday riders</small></span></h2>
-                </div>
-                <div class="bus-routes-graphs row">
-                    <div class="bus-routes-bars">
-                        <div class="bus-routes-bars row">
-                            <div class="col-md-6 col-sm-12">
-                                <h2 class="main-heading-card" data-toggle="tooltip" data-placement="top" title="The average speed of each bus route that crosses this district weighted by ridership."><small>Average speed of</small> <span id="avgSpeedWeighted">0</span> <small>mph</small></h2>
-                                <div class="color-key-wrapper">
-                                    <div id="speed-gauge" class="speed-gauge"></div>
+            </div>
+        </div>
+        <div class="even row">
+            <div class="report-card card top-buffer bottom-buffer col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="main-heading-card">Average Speed</h2>
+                        <div class="os-card-container os-card-final-grade row">
+                            <div id="os-js-final-grade" class="os-card small" data-rating="B">
+                                <div class="os-card-rating small">
+                                    <span>B</span>
                                 </div>
-                                <h4 data-toggle="tooltip" data-placement="top" title="Slowest 3 bus routes in the district.">Slowest</h4>
-                                <div class="bar-chart-wrapper">
-                                    <div id="slowest"></div>
-                                </div>
-                                <hr />
                             </div>
-                            <div class="col-md-6 col-sm-12">
-                                <h2 id="bunching-h2" class="main-heading-card" data-toggle="tooltip" data-placement="top" title="The average percentage of buses on routes that cross this district that arrive at less than 25 percent of the scheduled interval behind the previous bus."><small><span id="moreThanAlmost"></span></small> <span id="avgBunchingWeightedNumerator">0</span> <small>of</small> <span id="avgBunchingWeightedDemominator">0</span> <small>buses bunched</small> (<span id="avgBunchingWeightedPct">0</span>%) </h2>
-                                <div id="bunching-bar" class="bunching-bar">
-                                    <div class="color-ramp-horizontal-bar">
-                                        <div id="district-average-vertical-container" class="district-average-vertical-container">
-                                            <p>0%</p>
-                                            <div class="district-average-vertical"></div>
-                                        </div>
-                                        <div class="color-ramp-axis">
-                                            <div class="color-ramp-axis-holder">
-                                                <div class="color-ramp-tick-group">
-                                                    <div class="tick-holder">
-                                                        <div class="tick"></div>
-                                                    </div>
-                                                    <div class="text">0%</div>
-                                                </div>
-                                                <div class="color-ramp-tick-group">
-                                                    <div class="tick-holder">
-                                                        <div class="tick"></div>
-                                                    </div>
-                                                    <div class="text">20%</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <h2 class="main-heading-card heavy"><span id="avgSpeedWeighted">0</span> mph</h2>
+                            <p>
+                                <strong>which is worse than <span>78%</span> of NYC buses</strong>
+                            </p>
+                            <p><strong>Slowest routes</strong></p>
+                            <div class="bar-chart-wrapper">
+                                <div id="slowest"></div>
+                            </div>                           
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 class="main-heading-card">Reliability</h2>
+                        <div class="os-card-container os-card-final-grade row">
+                            <div id="os-js-final-grade" class="os-card small" data-rating="D">
+                                <div class="os-card-rating small">
+                                    <span>D</span>
                                 </div>
-                                <h4 data-toggle="tooltip" data-placement="top" title="Top 3 routes with the highest percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus in the district.">Most Bunching</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h2 class="main-heading-card heavy"><span id="avgBunchingWeightedPct">0</span>%</h2>
+                                <p>
+                                    <strong>of high-frequency routes bunched</strong>
+                                </p>
+                                <p><strong>Routes with most bunching</strong></p>
                                 <div class="bar-chart-wrapper">
                                     <div id="mostBunching"></div>
                                 </div>
-                                <hr />
                             </div>
-                        </div>
-                        <div class="bus-routes-bars row">
-                            <div class="col-md-6 col-sm-12">
-                                <h4 data-toggle="tooltip" data-placement="top" title="Top 3 highest ridership routes in this district.">Highest Ridership</h4>
+                            <div class="col-md-6">
+                                <h2 class="main-heading-card heavy"><span id="avgOnTimePct">0</span>%</h2>
+                                <p>
+                                    <strong>of low-frequency routes were on-time</strong>
+                                </p>
+                                <p><strong>Average on-time performance</strong></p>
                                 <div class="bar-chart-wrapper">
-                                    <div id="ridership"></div>
-                                    <div id="ridershipNotes" class="ridershipNotes"></div>
+                                    <div id="onTime"></div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12">
-                                <h4 data-toggle="tooltip" data-placement="top" title="Top 3 routes with the highest growth in ridership in this district from 2010-2016.">Fastest Growing Ridership</h4>
-                                <div class="bar-chart-wrapper">
-                                    <div id="fastestGrowing"></div>
-                                    <div id="noneGrowing"></div>
-                                    <div id="fastestGrowingRidershipNotes" class="ridershipNotes"></div>
-                                </div>
-                            </div>
-                        </div>
+                            
+                        </div>                        
                     </div>
                 </div>
                 <hr />
+            </div>
+        </div>
+
+        <div class="even row">
+            <div class="report-card card bottom-buffer col-md-10 col-md-offset-1">
                 <div class="row">
-                    <div class="col-sm-12 text-center">
+                    <h2 class="main-heading-card">District Bus Statistics</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">               
+                        <p><strong>Highest ridership</strong></p>
+                        <div id="ridership-table"></div>
+                        <div id="ridershipNotes" class="ridershipNotes"></div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Fastest Growing Ridership</strong></p>
+                        <div id="changing-ridership" class="changing-ridership"></div>
+                        <div id="noneGrowing"></div>
+                        <div id="fastestGrowingRidershipNotes" class="ridershipNotes"></div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+
+        <div class="odd row">
+            <div class="report-card card top-buffer bigger-bottom-buffer col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-md-12 text-center">
                         <a id="showShareFB" class="btn btn-facebook routeLink margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-facebook-official fa-2x"></i></a>
                         <a id="showShareTwitter" class="btn btn-twitter routeLink margin-5" href="#" role="button" onclick="#"><span class="shareOn">Share on </span><i class="fa fa-twitter fa-2x"></i></a>
                         <a class="btn btn-primary routeLink margin-5" id="individual_report_card" href="/"  role="button"><span class="shareOn">Want to see your route? </span><i class="fa fa-bus fa-2x" aria-hidden="true"></i></a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12 text-right">
-                        <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
-                    </div>
-                </div>
             </div>
-        </div>
-        <div class="bus-map-holder">
-            <div class="ways-to-address card bottom-buffer">
-                <div class="address-list-static-map">
-                    <div class="text-left-print">
-                        <div class="advantages">
-                            <p> Everyday, New Yorkers take 2.5 million rides on the city's buses. These buses are slow, unreliable, and unfortunately getting worse. It doesn't have to be this way! Ways to improve our buses now:
-                            </p>
-                            <ul>
-                                <li>Add more bus lanes with effective enforcement</li>
-                                <li>Speed up boarding with tap and go payment at all doors</li>
-                                <li>Give buses priority at traffic lights</li>
-                            </ul>
-                        </div>
-                        <p class="turnaround-campaign-web">
-                            <span class="empahasize-text">The Bus Turnaround Coalition</span> is a diverse group of New Yorkers determined to turn around the poor service that plagues the city’s bus system. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
-                        </p>
-                    </div>
-                    <div class='district-map-static-wrapper'>
-                        <div id='district-map-static' class='district-map-static'></div>
-                        <p class="district-name-static-map">Routes in <span class="districtName"></span></p>
-                    </div>
-                </div>
-                <div class="turnaround-campaign-print">
-                    <span class="empahasize-text">The Bus Turnaround Coalition</span> is a diverse group of New Yorkers determined to turn around the poor service that plagues the city’s bus system. We are winning increased attention from our leaders and greater resources for high quality, fast and reliable bus service for all neighborhoods in New York City.
-                </div>
-            </div>
-            {% verbatim %}
-            <script type="infowindow/html" id="infowindow_template">
-                <div class="cartodb-popup">
-                    <a href="#close" class="cartodb-popup-close-button close">x</a>
-                    <div class="cartodb-popup-content-wrapper">
-                        <div class="cartodb-popup-content">
-                            <h3>{{content.data.route_id}}</h3>
-                            <h4>Speed</h4>
-                            <p>{{content.data.speed}} mph</p>
-                            <h4>Bunching</h4>
-                            <p>{{content.data.prop_bunched}}%</p>
-                            <h4>Ridership</h4>
-                            <p>{{content.data.year_2016}} ({{content.data.prop_change_2010_2016}}%)</p>
-                            <a href="http://busturnaround.nyc/routes/{{content.data.route_id}}">Route Report Card</a>
-                        </div>
-                    </div>
-                    <div class="cartodb-popup-tip-container"></div>
-                </div>
-            </script>
-            {% endverbatim %}
         </div>
     </div>
 </main>

@@ -14,6 +14,11 @@
     margin-right: 0;
 }
 
+.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 
 /* OVERIDE BOOTSTRAP STYLES */
 
@@ -22,10 +27,16 @@
 
 .select2-container {
     min-width: 70px;
+    height: 50px !important;
 }
 
 .select2-container--default .select2-selection--single {
     border: 1px solid #aaa;
+    height: 50px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 50px;
 }
 
 
@@ -35,7 +46,7 @@
 /* UTILITY CLASS // TYPOGRAPHY STYLES // */
 
 * {
-    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "MarkWebPro-Book W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -45,6 +56,7 @@ a {
 }
 
 .main-heading {
+    padding-top: 50px;
     font-size: 2.8em;
     font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
@@ -67,6 +79,10 @@ a {
 .main-heading-card {
     font-family: "MarkWebPro-Book W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 2.5em;
+}
+
+.main-heading-card.heavy, .main-heading-card.heavy span {
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .sub-heading-card {
@@ -93,11 +109,18 @@ a {
     text-transform:uppercase;
     font-weight:600;
     margin:5px 20px 5px 5px;
-    -webkit-transition:all .3s ease-in-out;
-    transition:all .3s ease-in-out;
-    cursor:pointer;
     -ms-flex-preferred-size:calc(25% - 10px);
     flex-basis:calc(25% - 10px)
+}
+
+.os-card-container .os-card.small {
+    flex-basis: calc(20% - 10px);
+}
+
+.os-card-container .os-card.very-small {
+    flex-basis: auto;
+    margin: 0px 1px;
+    width: 50px;
 }
 
 .os-card-container .os-card .os-card-rating {
@@ -111,7 +134,15 @@ a {
     -ms-flex-pack:center;
     justify-content:center;
     margin:auto 1rem;
-    padding: 40px;
+    padding: 40px 40px 35px 40px;
+}
+
+.os-card-container .os-card .os-card-rating.small {
+    padding: 25px 0px 20px 0px;
+}
+
+.os-card-container .os-card .os-card-rating.very-small {
+    padding: 5px 0px 0px 0px;
 }
 
 .os-card-container .os-card .os-card-rating span {
@@ -124,6 +155,14 @@ a {
     text-align:center;
     font-family:"MarkWebPro-Heavy","Helvetica Neue",Arial,sans-serif;
     width:100%
+}
+
+.os-card-container .os-card .os-card-rating.small span {
+    font-size:6.0rem;
+}
+
+.os-card-container .os-card .os-card-rating.very-small span {
+    font-size:3.0rem;
 }
 
 .os-card-container .os-card .os-card-route {
@@ -149,6 +188,80 @@ a {
     background-color:#ff5649
 }
 
+.ridership-table {
+    width: 85%;
+    border-collapse: separate;
+    border-spacing:0 1px;
+}
+
+.ridership-table .blue {
+    height: 75px;
+    width: 20px;
+    padding: 0 5px;
+    color: #fff;
+    background-color: #0da8ec;
+    font-size: 18px;
+}
+
+.ridership-table .middle {
+    width: 50px;
+}
+
+.ridership-table .route-name {
+    width: 50px;
+    padding: 5px 0px;
+    margin: 1px 1px 0px 1px;
+    color: #fff;
+    background-color: #000;
+    text-align: center;
+}
+
+.ridership-table .grey {
+    height: 75px;
+    padding: 0 20px;
+    margin: 0 1px;
+    background-color: #ebebeb;
+    font-size: 35px;
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-align: right;
+}
+
+.changing-ridership {
+    display: flex;
+}
+
+.cr-card {
+    text-align: center;
+    width: 30%;
+    margin-right: 2%;
+}
+
+.cr-card .top {
+    background-color: #ececec;
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 35px;
+    font-weight: bold;
+    padding: 23px;
+}
+
+.cr-card .top span {
+    padding: 0;
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.cr-card .bottom {
+    background-color: #000;
+    color: #fff;
+    font-size: 24px;
+    font-family: "MarkWebPro-Bold W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-bottom: 2px;
+}
+
+.fa-caret-up {
+   color: #6edd82;
+}
+
+
 
 /* UTILITY CLASS // TYPOGRAPHY STYLES // */
 
@@ -159,8 +272,16 @@ a {
     margin-bottom: 20px;
 }
 
+.bigger-bottom-buffer {
+    margin-bottom: 50px;
+}
+
+.top-buffer {
+    margin-top: 50px;
+}
+
 .card {
-    background: #fff;
+    /* background: #fff; */
     /* border: solid 1px #DDDDDD; */
     /* padding: 2% 3%; */
 }
@@ -202,7 +323,8 @@ main {
     background-size: cover;
     background-attachment: scroll;
     background-position-y: 90%;*/
-    padding: 1.5% 2%;
+    /* padding: 1.5% 2%; */
+    margin: 0;
 }
 
 main .source-link {
@@ -219,7 +341,8 @@ main header h2 {
 }
 
 .header-dropdown-select {
-    bottom: 0px;
+    margin-top: 20px;
+    height: 50px;
 }
 
 .print-button-holder {
@@ -242,8 +365,9 @@ main header h2 {
     margin-top: 2%;
 }
 
-.bus-routes-holder {
+.odd {
     width: 100%;
+    background-color: #ebebeb;
     /*width: 48%;*/
 }
 
@@ -257,6 +381,10 @@ main header h2 {
 .report-card h2 {
     line-height: 95%;
     margin-top: 10px;
+}
+
+.report-card h3 {
+    font-size: 18px;
 }
 
 .ways-to-address p {
@@ -287,6 +415,7 @@ main header h2 {
 }
 
 .ridershipNotes p {
+    width: 85%;
     margin: 0 10px 0 0;
     font-size: 12px;
 }
@@ -702,7 +831,7 @@ fieldset[disabled] .btn-twitter.active {
         display: block;
         margin-top: 10%;
     }
-    .bus-routes-holder {
+    .odd {
         width: 100%;
     }
     .bus-map-holder {
@@ -926,7 +1055,7 @@ fieldset[disabled] .btn-twitter.active {
         display: block;
         margin-top: 1%;
     }
-    .bus-routes-holder {
+    .odd {
         width: 100%;
     }
     .bus-map-holder {
