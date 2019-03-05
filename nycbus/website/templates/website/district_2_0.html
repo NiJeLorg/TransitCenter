@@ -1,7 +1,30 @@
 {% extends 'website/base.html' %} {% load staticfiles %} {% block title %}| District Level Analysis{% endblock %} {% block css_block %}
+<link rel="stylesheet" href="http://busturnaround.nyc/wp-content/themes/busturnaround/style.css">
+<link rel="stylesheet" href="http://busturnaround.nyc/wp-content/themes/busturnaround/assets/css/style.min.css?ver=0.1.0">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
 <link rel="stylesheet" type="text/css" href="{% static 'website/css/district-2-0.css' %}"> {% endblock %} {% block head_js_block %} {% endblock %} {% block body_block %}
+
+<header>
+	<div class="os-l-container" style="position: relative;">
+	<a href="/" class="title"><span>Turnaround</span>
+<span1>Fixing NYC’s Buses</span1></a>
+		
+		<a class="toggle-nav" href="#">☰</a>
+		
+		 
+		
+		<div class="menu-main-menu-container"><ul id="menu-main-menu" class="menu"><li id="menu-item-2647" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2647"><a href="http://busturnaround.nyc/">Latest Actions</a></li>
+<li id="menu-item-2764" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2764"><a href="http://busturnaround.nyc/the-crisis/">The Crisis</a></li>
+<li id="menu-item-2713" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-2712 current_page_item menu-item-2713"><a href="http://busturnaround.nyc/report-cards/">Report Cards</a></li>
+<li id="menu-item-2851" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2851"><a href="http://busturnaround.nyc/solutions/">Solutions</a></li>
+<li id="menu-item-2815" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2815"><a href="http://busturnaround.nyc/press/">Press</a></li>
+<a id="method-btn" href="#" data-target="#take-action" class="os-js-open-modal action">Take Action</a></ul></div>		
+		
+	</div>
+    </header>
+
+
 <div class="district-map-holder">
     <div id='district-map' class='district-map'></div>
     {% comment %} <button class="toggle-city">
@@ -34,13 +57,15 @@
                     <div class="col-md-6">
                         <h2 class="main-heading-card">Overall Grade</h2>
                         <div class="os-card-container os-card-final-grade">
-                            <div id="os-js-final-grade" class="os-card" data-rating="C">
+                            <div id="os-js-final-grade" class="os-card">
                                 <div class="os-card-rating">
-                                    <span>C</span>
+                                    <span id="overall-grade"></span>
                                 </div>
                             </div>
                             <p>
-                                Worse than <span>81%</span> of <span>State Senate Districts</span>
+                                <strong>
+                                    Worse than <span>81%</span> of <span>State Senate Districts</span>
+                                </strong>
                                 <br />
                                 <span class="methodsLink"><a href="#" data-toggle="modal" data-target="#methods">Methodology</a></span>
                             </p>
@@ -58,7 +83,10 @@
                             </span>
                         </h2>
                         <h2 class="main-heading-card">
-                            <span id="ridershipChange">0</span>% ridership <span id="ridershipIncreaseOrDecrease">increase</span>
+                            <span data-toggle="tooltip" data-placement="top" title="Weekday ridership change of all routes crossing this district from 2016 to 2017.">
+                                <span id="ridershipChange">0</span>% ridership 
+                                <span id="ridershipIncreaseOrDecrease"></span>
+                            </span>
                         </h2>
                         <br />
                         <h3>
@@ -84,9 +112,9 @@
                     <div class="col-md-6">
                         <h2 class="main-heading-card">Average Speed</h2>
                         <div class="os-card-container os-card-final-grade row">
-                            <div id="os-js-final-grade" class="os-card small" data-rating="B">
-                                <div class="os-card-rating small">
-                                    <span>B</span>
+                            <div id="os-js-speed-grade" class="os-card small">
+                                <div class="os-card-rating">
+                                    <span id="speed-grade"></span>
                                 </div>
                             </div>
                         </div>
@@ -104,9 +132,9 @@
                     <div class="col-md-6">
                         <h2 class="main-heading-card">Reliability</h2>
                         <div class="os-card-container os-card-final-grade row">
-                            <div id="os-js-final-grade" class="os-card small" data-rating="D">
-                                <div class="os-card-rating small">
-                                    <span>D</span>
+                            <div id="os-js-reliablity-grade" class="os-card small">
+                                <div class="os-card-rating">
+                                    <span id="reliablity-grade"></span>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +168,7 @@
         </div>
 
         <div class="even row">
-            <div class="report-card card bottom-buffer col-md-10 col-md-offset-1">
+            <div class="report-card card bigger-bottom-buffer col-md-10 col-md-offset-1">
                 <div class="row">
                     <h2 class="main-heading-card">District Bus Statistics</h2>
                 </div>
@@ -157,7 +185,6 @@
                         <div id="fastestGrowingRidershipNotes" class="ridershipNotes"></div>
                     </div>
                 </div>
-                <hr />
             </div>
         </div>
 
@@ -172,43 +199,65 @@
                 </div>
             </div>
         </div>
+
+        <div class="even row">
+            <div class="report-card card top-buffer bigger-bottom-buffer col-md-10 col-md-offset-1">
+                <div class="row">
+                    <h2 class="main-heading-card">Ways to improve our buses, now!</h2>
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-md-3">               
+                        <p>Everyday, New Yorkers take 2.5 million rides on the city's buses.</p>
+                        <p>These buses are slow, unreliable, and unfortunately getting worse.</p>
+                        <p>It doesn't have to be this way!</p>
+                    </div>
+                    <div class="col-md-3">
+                        <img class="img-responsive" src="{% static 'website/css/images/busonly.png' %}" />
+                        <p><strong>Add more bus lanes with effective enforcement</strong></p>
+                    </div>
+                    <div class="col-md-3">
+                        <img class="img-responsive" src="{% static 'website/css/images/priority.png' %}" />
+                        <p><strong>Give buses priority at traffic lights</strong></p>
+                    </div>
+                    <div class="col-md-3">
+                        <img class="img-responsive" src="{% static 'website/css/images/shelter.png' %}" />
+                        <p><strong>Ensures every bus stop has a shelter</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </main>
-<footer>
-    <div class="logos-holder">
-        <div class="logo">
-            <a href="http://transitcenter.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" /></a>
-        </div>
-        <div class="logo">
-            <a href="http://www.ridersny.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" /></a>
-        </div>
-        <div class="logo">
-            <a href="http://tstc.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" /></a>
-        </div>
-        <div class="logo">
-            <a href="http://www.straphangers.org/"><img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" /></a>
-        </div>
-    </div>
-    <div class="logos-holder-print">
-        <div class="logo">
-            <img class="img-responsive center-block" src="{% static 'website/css/images/tc_logo.png' %}" />
-        </div>
-        <div class="logo">
-            <img class="img-responsive center-block" src="{% static 'website/css/images/ra_logo.png' %}" />
-        </div>
-        <div class="logo">
-            <img class="img-responsive center-block" src="{% static 'website/css/images/tstc_logo.png' %}" />
-        </div>
-        <div class="logo">
-            <img class="img-responsive center-block" src="{% static 'website/css/images/pirg_logo.png' %}" />
-        </div>
-    </div>
-    <div class="copyright">
-        <p>Copyright &copy;
-            <a href="http://transitcenter.org/">TransitCenter</a> {% now "Y" %}
-        </p>
-    </div>
-</footer>
+
+<div id="footer">
+		<div class="os-l-container" style="position: relative;">
+		<li id="text-2" class="widget widget_text">			<div class="textwidget"><p><strong>New York City Deserves a Bus</strong> Turnaround<br>
+<a href="/about">About our coalition</a></p>
+</div>
+		</li>
+			
+			
+			<div class="bt-c-nav__sidenav__social">
+                            <div class="bt-c-nav__sidenav__social-item">
+                    <a href="https://twitter.com/hashtag/busturnaround?src=hash" target="_blank">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                    </a>
+                </div>
+                                                    <div class="bt-c-nav__sidenav__social-item">
+                    <a href="https://www.instagram.com/explore/tags/busturnaround" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                </div>
+                    </div>
+			
+		<a id="method-btn" href="#" data-target="#take-action" class="os-js-open-modal action">Take Action</a>
+		
+		
+		<span>©2017 - <script>document.write(new Date().getFullYear())</script>, TransitCenter for the Bus Turnaround Coalition</span>
+			</div>
+	</div>
+
+
 {% endblock %} {% block modal_block %}
 <div class="modal fade" id="methods" tabindex="-1" role="dialog" aria-labelledby="methodsTitle">
     <div class="modal-dialog" role="document">
@@ -221,14 +270,15 @@
                 <p>Bunching data are calculated as an average of performance during weekdays between the hours of 10am-4pm, for the months of May and October 2017. These two months are selected because they contain minimal holidays, mild weather (minimizing service disruptions), and fall during the school year.</p>
                 <p><em>Bunching</em> is defined as the percentage of buses that arrive at less than 25 percent of the scheduled interval behind the previous bus. So if Bus #2 is scheduled to arrive eight minutes after Bus #1, but instead Bus #2 arrives less than two minutes after Bus #1, then Bus #2 is considered "bunched". Bus arrival and departure times are estimated using an algorithm developed by Nathan Johnson and Neil Freeman, and applied to the MTA's Bus Time data. More information about Bus Time data is <a href="http://bustime.mta.info/wiki/Developers/GTFSRt">available here</a>. </p>
                 <p><em>Speed</em> is calculated using the same Bus Time data in conjunction with route length information gathered from the MTA's publicly provided GTFS schedules. As presented here at the route level, the travel time from start to finish is simply divided by the route's length to calculate average speed. More details available in the <a href="http://api.busturnaround.nyc/">performance API documentation</a>. </p>
-                <p><em>Ridership</em> data are for the average weekday in 2016, as <a href="http://web.mta.info/nyct/facts/ridership/">reported by MTA New York City Transit here</a>. </p>
-                <p><em>Change in ridership</em> data show change in the average weekday ridership from 2010 to 2016. Routes Q50 and Bx23 have been removed from the change in ridership analysis as they were re-introduced in September 2014 to replace the QBx1 and did not have a complete year of ridership data in 2010.</p>
+                <p><em>Ridership</em> data are for the average weekday in 2017, as <a href="http://web.mta.info/nyct/facts/ridership/">reported by MTA New York City Transit here</a>. </p>
+                <p><em>Change in ridership</em> data show change in the average weekday ridership from 2016 to 2017.</p>
                 <p>For more information or for access to archival Bus Time data, please email <a href="mailto:info@busturnaround.nyc">info@busturnaround.nyc</a>.</p>
             </div>
         </div>
     </div>
 </div>
 {% endblock %} {% block js_block %}
+<script type='text/javascript' src='http://busturnaround.nyc/wp-content/themes/busturnaround/scripts/scripts.js'></script>
 <script type="text/javascript" src="{% static 'website/vendor/js/decimal.min.js' %}"></script>
 <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="{% static 'website/js/district_app_2_0.js' %}"></script>

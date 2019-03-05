@@ -10,6 +10,12 @@
     padding: 0;
 }
 
+.col-md-3 {
+    padding-left: 0px;
+    padding-right: 30px;
+
+}
+
 .navbar-right {
     margin-right: 0;
 }
@@ -17,6 +23,22 @@
 .container-fluid {
     padding-left: 0px;
     padding-right: 0px;
+}
+
+.modal-backdrop {
+    z-index: 10;
+}
+
+.modal-header {
+    display: block;
+}
+
+.close {
+    font-size: 1.625rem;
+}
+
+.modal-content {
+    pointer-events: auto;
 }
 
 
@@ -30,13 +52,31 @@
     height: 50px !important;
 }
 
+.select2-dropdown {
+    margin-top: -20px;
+}
+
 .select2-container--default .select2-selection--single {
-    border: 1px solid #aaa;
+    /* border: 1px solid #aaa; */
     height: 50px !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 50px;
+}
+
+.select2-selection__arrow {
+    background-color: #0da8ec;
+    height: 100% !important;
+    top: -36% !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #fff transparent transparent transparent;
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent transparent #fff transparent;
 }
 
 
@@ -45,9 +85,9 @@
 
 /* UTILITY CLASS // TYPOGRAPHY STYLES // */
 
-* {
+/* * {
     font-family: "MarkWebPro-Book W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
+} */
 
 a {
     -webkit-transition: all 0.2s ease-in-out;
@@ -120,7 +160,8 @@ a {
 .os-card-container .os-card.very-small {
     flex-basis: auto;
     margin: 0px 1px;
-    width: 50px;
+    width: 70px;
+    height: 70px;
 }
 
 .os-card-container .os-card .os-card-rating {
@@ -134,7 +175,11 @@ a {
     -ms-flex-pack:center;
     justify-content:center;
     margin:auto 1rem;
-    padding: 40px 40px 35px 40px;
+    padding: 25px;
+}
+
+#os-js-final-grade {
+    padding: 10px;
 }
 
 .os-card-container .os-card .os-card-rating.small {
@@ -150,10 +195,10 @@ a {
     font-size:8.0rem;
     font-weight:bolder;
     line-height:6rem;
-    -webkit-transform:translateY(-5px);
-    transform:translateY(-5px);
+    -webkit-transform:translateY(-10px);
+    transform:translateY(-10px);
     text-align:center;
-    font-family:"MarkWebPro-Heavy","Helvetica Neue",Arial,sans-serif;
+    font-family: "MarkWebPro-Heavy W01 Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
     width:100%
 }
 
@@ -163,6 +208,7 @@ a {
 
 .os-card-container .os-card .os-card-rating.very-small span {
     font-size:3.0rem;
+    line-height: 4.5rem;
 }
 
 .os-card-container .os-card .os-card-route {
@@ -172,19 +218,19 @@ a {
     text-align:center;
 }
 
-.os-card-container .os-card[data-rating="A"] {
+.os-card-container .os-card.A {
     background-color:#0da8ec
 }
-.os-card-container .os-card[data-rating="B"] {
+.os-card-container .os-card.B {
     background-color:#6edd82
 }
-.os-card-container .os-card[data-rating="C"] {
+.os-card-container .os-card.C {
     background-color:#fecf4d
 }
-.os-card-container .os-card[data-rating="D"] {
+.os-card-container .os-card.D {
     background-color:#ef6e41
 }
-.os-card-container .os-card[data-rating="F"] {
+.os-card-container .os-card.F {
     background-color:#ff5649
 }
 
@@ -192,6 +238,7 @@ a {
     width: 85%;
     border-collapse: separate;
     border-spacing:0 1px;
+    margin: 0;
 }
 
 .ridership-table .blue {
@@ -208,7 +255,7 @@ a {
 }
 
 .ridership-table .route-name {
-    width: 50px;
+    width: 70px;
     padding: 5px 0px;
     margin: 1px 1px 0px 1px;
     color: #fff;
@@ -259,6 +306,14 @@ a {
 
 .fa-caret-up {
    color: #6edd82;
+}
+
+header {
+    z-index: 1000001;
+}
+
+.methodsLink a {
+    color: #0da8ec;
 }
 
 
@@ -380,11 +435,12 @@ main header h2 {
 
 .report-card h2 {
     line-height: 95%;
-    margin-top: 10px;
+    margin: 10px 0;
 }
 
 .report-card h3 {
     font-size: 18px;
+    margin-bottom: 30px;
 }
 
 .ways-to-address p {
@@ -467,7 +523,6 @@ footer .logos-holder-print {
 .district-map-holder {
     position: relative;
     height: 300px;
-    /* box-shadow: 0 3px 18px #ccc; */
 }
 
 .toggle-city {
@@ -820,6 +875,7 @@ fieldset[disabled] .btn-twitter.active {
 @media (max-width: 768px) {
     .district-map-holder {
         height: 300px;
+        margin-top: 63px;
     }
     .col-md-offset-1 {
         margin-left: 0;
