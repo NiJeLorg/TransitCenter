@@ -309,7 +309,7 @@ a {
 }
 
 header {
-    z-index: 1000001;
+    z-index: 1000001 !important;
 }
 
 .methodsLink a {
