@@ -686,10 +686,10 @@ app.updateBarChart = function(divId, data) {
 
     // update
     var barChartGs = chart.selectAll("g")
-        .data(data)
-        .on('click', function(d) {
-            app.highlightRoute(d.label);
-        });
+        .data(data);
+        // .on('click', function(d) {
+        //     app.highlightRoute(d.label);
+        // });
 
     barChartGs.select('rect')
         .attr('fill', function(d) {
@@ -740,11 +740,11 @@ app.updateBarChart = function(divId, data) {
     var enterBars = barChartGs.enter().append("g")
         .attr("transform", function(d, i) {
             return "translate(0," + i * barHeight + ")";
-        })
-        .attr("class", "clickable-g-container")
-        .on('click', function(d) {
-            app.highlightRoute(d.label);
         });
+        // .attr("class", "clickable-g-container")
+        // .on('click', function(d) {
+        //     app.highlightRoute(d.label);
+        // });
 
     enterBars.append("rect")
         .attr('fill', function(d) {
