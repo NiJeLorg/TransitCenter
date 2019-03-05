@@ -163,7 +163,6 @@ app.initSelect2MenuDistrictNumber = function() {
 
 // SQL set up to select routes from selected district
 app.selectRoutes = function() {
-    console.log("hello");
 
     // set up query to pull geometry for district
     var districtGeomSQL = 'SELECT district.the_geom FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + app.districtNumber;
@@ -232,7 +231,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     function getAverages() {
 
         // pull averages and grades for this district
-        var avgAndGradesQuery = 'SELECT district.wavgspeed, district.wavgbunching, district.ridership, district.ridership_change_16_17, district.wavgotp, district.speed_grade, district.reliablity_grade, district.overall_grade FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + app.districtNumber;
+        var avgAndGradesQuery = 'SELECT district.wavgspeed, district.wavgbunching, district.ridership, district.ridership_change_16_17, district.wavgotp, district.speed_grade, district.reliablity_grade, district.overall_grade, district.slower_than, district.worse_than FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + app.districtNumber;
         app.sqlclient.execute(avgAndGradesQuery)
             .done(function(data) {
 
@@ -240,6 +239,12 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 $('#overall-grade').text(data.rows[0].overall_grade);
                 $('#os-js-final-grade').attr('class', 'os-card');
                 $('#os-js-final-grade').addClass(data.rows[0].overall_grade);
+
+                // worse than percent
+                $('#worse-than').text(data.rows[0].worse_than);
+
+                // worse than type of district
+                $('#district-type').text(app.printDistrict);
 
                 // ridership counter
                 $({ countNum: $('#totalRidership').text().replace(',', '') }).animate({ countNum: data.rows[0].ridership }, {
@@ -294,7 +299,10 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 $('#speed-grade').text(data.rows[0].speed_grade);
                 $('#os-js-speed-grade').attr('class', 'os-card');
                 $('#os-js-speed-grade').addClass('small');
-                $('#os-js-speed-grade').addClass(data.rows[0].speed_grade);                
+                $('#os-js-speed-grade').addClass(data.rows[0].speed_grade);   
+                
+                // slower than
+                $('#slower-than').text(data.rows[0].slower_than);
 
 
                 $({ countNum: $('#avgSpeedWeighted').text() }).animate({ countNum: data.rows[0].wavgspeed.toFixed(1) }, {
@@ -532,6 +540,8 @@ app.updateBarCharts = function() {
 
     // using the routes selected by district, build a query for top three routes by most bunching
     var mostBunchingQuery = 'SELECT route_id, prop_bunched, bunch_grade FROM bunching_by_route_05_2018_10_2018 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_bunched IS NOT NULL AND freq = 1 ORDER BY prop_bunched DESC LIMIT 3';
+
+    console.log(mostBunchingQuery);
 
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
