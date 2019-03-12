@@ -173,7 +173,7 @@ app.selectRoutes = function() {
 
 
     // find out when all of the bar charts and text infographics have loaded so we can set the height of the map
-    app.reportCardLoaded = 9;
+    app.reportCardLoaded = 12;
 
     // update data vis text
     app.updateTextDataVis(routesWithinSQL, districtGeomSQL);
@@ -457,7 +457,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 app.updateBarCharts = function() {
 
     // using the routes selected by district, build a query for top three routes in ridership
-    var ridershipQuery = 'SELECT ridership.route_id, ridership.year_2017, grades.final_grade FROM mta_nyct_bus_avg_weekday_ridership_2017 AS ridership, route_grades_18 AS grades WHERE ridership.route_id = grades.route AND ridership.route_id IN (' + app.routeIDArray.join(",") + ') AND ridership.year_2017 IS NOT NULL ORDER BY ridership.year_2017 DESC LIMIT 3 ';
+    var ridershipQuery = 'SELECT ridership.route_id, ridership.year_2017, grades.final_grade FROM mta_nyct_bus_avg_weekday_ridership_2017 AS ridership, route_grades_18 AS grades WHERE ridership.route_id = grades.route AND ridership.route_id IN (' + app.routeIDArray.join(",") + ') AND ridership.year_2017 IS NOT NULL AND grades.final_grade <> \'NA\' ORDER BY ridership.year_2017 DESC LIMIT 3 ';
 
     app.sqlclient.execute(ridershipQuery)
         .done(function(data) {
@@ -516,7 +516,8 @@ app.updateBarCharts = function() {
             }
 
             // make cards for changing ridership 
-            app.createChangingRidershipCards(fastestGrowingArray);
+            var el = "#changing-ridership";
+            app.createChangingRidershipCards(fastestGrowingArray, el);
 
             app.createNotesForRidershipBarChart($('#fastestGrowingRidershipNotes'), fastestGrowingRidershipNotesArray);
 
@@ -538,10 +539,55 @@ app.updateBarCharts = function() {
             console.log("errors:" + errors);
         });
 
+
+    // using the routes selected by district, build a query for top three routes by fastest growing
+    var fastestDecreasingQuery = 'SELECT route_id, pct_dif_16_17 FROM mta_nyct_bus_avg_weekday_ridership_2017 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND pct_dif_16_17 < 0 AND pct_dif_16_17 IS NOT NULL ORDER BY pct_dif_16_17 ASC LIMIT 3 ';
+
+
+    app.sqlclient.execute(fastestDecreasingQuery)
+        .done(function(data) {
+            // create data object and pass to bar chart for the form
+            //var data = [{ label: 'B1', value: 12897 }, { label: 'B2', value: 11897 }, { label: 'B3', value: 10000 }];
+            var fastestDecreasingArray = [];
+            var fastestDecreasingRidershipNotesArray = []
+            var pct;
+            for (var i = 0; i < data.rows.length; i++) {
+                if (data.rows[i].prop_change_note) {
+                    fastestDecreasingRidershipNotesArray.push(data.rows[i].prop_change_note);
+                    label = data.rows[i].route_id + '*'
+                } else {
+                    label = data.rows[i].route_id;
+                }
+                pct = parseFloat((data.rows[i].pct_dif_16_17 * 100).toFixed());
+                fastestDecreasingArray.push({ label: label, value: pct });
+            }
+
+            // make cards for changing ridership 
+            var el = "#decrease-ridership";
+            app.createChangingRidershipCards(fastestDecreasingArray, el);
+
+            app.createNotesForRidershipBarChart($('#fastestDecreasingRidershipNotes'), fastestDecreasingRidershipNotesArray);
+
+            if (fastestDecreasingArray.length == 0) {
+                $('#noneDecreasing').html('<p>There are no routes with decreasing ridership in this district.</p>');
+            } else {
+                $('#noneDecreasing').html('');
+            }
+
+            app.reportCardLoaded--;
+            if (app.reportCardLoaded == 0) {
+                app.calcMapHeightAndLoad();
+            }
+
+        })
+        .error(function(errors) {
+            // errors contains a list of errors
+            console.log("errors:" + errors);
+        });
+
+
     // using the routes selected by district, build a query for top three routes by most bunching
     var mostBunchingQuery = 'SELECT route_id, prop_bunched, bunch_grade FROM bunching_by_route_05_2018_10_2018 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND prop_bunched IS NOT NULL AND freq = 1 ORDER BY prop_bunched DESC LIMIT 3';
-
-    console.log(mostBunchingQuery);
 
     app.sqlclient.execute(mostBunchingQuery)
         .done(function(data) {
@@ -865,12 +911,18 @@ app.createRidershipTable = function(data) {
 
 }
 
-app.createChangingRidershipCards = function(data) {
+app.createChangingRidershipCards = function(data, el) {
     // throw away any cards that already exists
-    $('.cr-card').remove();
+    $(el).empty();
+
+    // up or down arrow
+    var caret = "fa-caret-up";;
+    if (el === "#decrease-ridership") {
+        caret = "fa-caret-down";
+    }
 
     // create cards
-    var cards = d3.select("#changing-ridership").selectAll("div")
+    var cards = d3.select(el).selectAll("div")
         .data(data)
         .enter()
         .append("div")
@@ -881,12 +933,12 @@ app.createChangingRidershipCards = function(data) {
 
     top_row.append("i")
         .classed("fa", true)
-        .classed("fa-caret-up", true)
+        .classed(caret, true)
         .attr("aria-hidden", "true");
     
     top_row.append("span")
         .text(function(d) {
-            return " " + d.value + " %";
+            return " " + d.value + "%";
         });
 
     cards.append("div")

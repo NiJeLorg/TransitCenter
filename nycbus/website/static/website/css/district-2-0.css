@@ -273,7 +273,9 @@ a {
 .cr-card {
     text-align: center;
     width: 30%;
+    min-width: 170px;
     margin-right: 2%;
+    white-space: nowrap; 
 }
 
 .cr-card .top {
@@ -300,6 +302,10 @@ a {
 .fa-caret-up {
    color: #6edd82;
 }
+
+.fa-caret-down {
+    color: #ef6e41;
+ }
 
 header {
     z-index: 1000001 !important;
