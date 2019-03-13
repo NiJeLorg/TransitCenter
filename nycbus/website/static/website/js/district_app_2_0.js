@@ -494,7 +494,7 @@ app.updateBarCharts = function() {
 
 
     // using the routes selected by district, build a query for top three routes by fastest growing
-    var fastestGrowingQuery = 'SELECT route_id, pct_dif_16_17 FROM mta_nyct_bus_avg_weekday_ridership_2017 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND pct_dif_16_17 >= 0 AND pct_dif_16_17 IS NOT NULL ORDER BY pct_dif_16_17 DESC LIMIT 3 ';
+    var fastestGrowingQuery = 'SELECT ridership.route_id, ridership.pct_dif_16_17, grades.final_grade FROM mta_nyct_bus_avg_weekday_ridership_2017 AS ridership, route_grades_18 AS grades WHERE ridership.route_id = grades.route AND ridership.route_id IN (' + app.routeIDArray.join(",") + ') AND ridership.pct_dif_16_17 >= 0 AND ridership.pct_dif_16_17 IS NOT NULL AND grades.final_grade <> \'NA\' ORDER BY ridership.pct_dif_16_17 DESC LIMIT 3 ';
 
 
     app.sqlclient.execute(fastestGrowingQuery)
@@ -541,7 +541,7 @@ app.updateBarCharts = function() {
 
 
     // using the routes selected by district, build a query for top three routes by fastest growing
-    var fastestDecreasingQuery = 'SELECT route_id, pct_dif_16_17 FROM mta_nyct_bus_avg_weekday_ridership_2017 WHERE route_id IN (' + app.routeIDArray.join(",") + ') AND pct_dif_16_17 < 0 AND pct_dif_16_17 IS NOT NULL ORDER BY pct_dif_16_17 ASC LIMIT 3 ';
+    var fastestDecreasingQuery = 'SELECT ridership.route_id, ridership.pct_dif_16_17, grades.final_grade FROM mta_nyct_bus_avg_weekday_ridership_2017 AS ridership, route_grades_18 AS grades WHERE ridership.route_id = grades.route AND ridership.route_id IN (' + app.routeIDArray.join(",") + ') AND ridership.pct_dif_16_17 < 0 AND ridership.pct_dif_16_17 IS NOT NULL AND grades.final_grade <> \'NA\' ORDER BY ridership.pct_dif_16_17 ASC LIMIT 3 ';
 
 
     app.sqlclient.execute(fastestDecreasingQuery)
