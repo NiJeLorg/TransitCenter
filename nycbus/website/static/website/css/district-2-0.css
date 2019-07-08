@@ -400,7 +400,7 @@ main header h2 {
 }
 
 .print-button-holder {
-    display: block;
+    display: inline-block;
     margin-top: 7px;
 }
 
@@ -410,7 +410,7 @@ main header h2 {
 }
 
 .print-button-holder i {
-    color: #333333;
+    color: #000;
 }
 
 .main-component {
@@ -996,7 +996,8 @@ fieldset[disabled] .btn-twitter.active {
     .turnaround-campaign-web,
     .district-map-holder,
     .header-dropdown,
-    #footer {
+    #footer,
+    .print-button-holder {
         display: none !important;
     }
     main {
