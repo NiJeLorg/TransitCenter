@@ -48,12 +48,15 @@
     <div class="container-fluid">
         <div class="odd row">
             <div class="report-card card bottom-buffer col-md-10 col-md-offset-1">
-                <h2 class="main-heading margin-bottom">
-                    <span class="districtName"></span>
-                    <span class="source-link"><br /><a href="#">busturnaround.nyc</a>
-                    </span>
-                </h2>
-                <div class="row">
+                <div class="flex separate">
+                    <h2 class="main-heading margin-bottom">
+                        <span class="report-card-for">Report Card for:<br />
+                        </span>
+                        <span class="districtName"></span>
+                    </h2>
+                    <div class="bus-turnaround-badge">BusTurnaround.nyc</div>
+                </div>
+                <div class="row flex start">
                     <div class="col-md-6">
                         <h2 class="main-heading-card">Overall Grade</h2>
                         <div class="os-card-container os-card-final-grade">
@@ -89,26 +92,28 @@
                             </span>
                         </h2>
                         <br />
-                        <h3>
-                            See different Report Card
-                        </h3>
-                        <h3 class="header-dropdown-select">
-                            <select id="selectDistrict" class="selectDistrict">
-                                <option value="senate">State Senate District</option>
-                                <option value="assembly">State Assembly District</option>
-                                <option value="council">City Council District</option>
-                                <option value="board">Community Board District</option>
-                            </select>
-                            <select id="number" class="selectDistrict">
-                            </select>
-                        </h3>                        
+                        <div class="header-dropdown">                 
+                            <h3>
+                                See different Report Card
+                            </h3>
+                            <h3 class="header-dropdown-select">
+                                <select id="selectDistrict" class="selectDistrict">
+                                    <option value="senate">State Senate District</option>
+                                    <option value="assembly">State Assembly District</option>
+                                    <option value="council">City Council District</option>
+                                    <option value="board">Community Board District</option>
+                                </select>
+                                <select id="number" class="selectDistrict">
+                                </select>
+                            </h3>
+                        </div>                        
                     </div>
                 </div>
             </div>
         </div>
         <div class="even row">
             <div class="report-card card top-buffer bottom-buffer col-md-10 col-md-offset-1">
-                <div class="row">
+                <div class="row flex start">
                     <div class="col-md-6">
                         <h2 class="main-heading-card">Average Speed</h2>
                         <div class="os-card-container os-card-final-grade row">
@@ -138,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row flex separate">
                             <div class="col-md-6">
                                 <h2 class="main-heading-card heavy"><span id="avgBunchingWeightedPct">0</span>%</h2>
                                 <p>
@@ -168,11 +173,11 @@
         </div>
 
         <div class="even row">
-            <div class="report-card card bigger-bottom-buffer col-md-10 col-md-offset-1">
+            <div class="report-card card top-buffer-print bigger-bottom-buffer col-md-10 col-md-offset-1">
                 <div class="row">
                     <h2 class="main-heading-card">District Bus Statistics</h2>
                 </div>
-                <div class="row">
+                <div class="row flex start">
                     <div class="col-md-6">               
                         <p><strong>Highest ridership</strong></p>
                         <div id="ridership-table"></div>
