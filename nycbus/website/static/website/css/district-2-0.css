@@ -381,7 +381,7 @@ main {
     margin: 0;
 }
 
-main .report-card-for, .bus-turnaround-badge {
+main .report-card-for, .bus-turnaround-badge, .main-heading-card-year {
     display: none;
 }
 
@@ -1040,6 +1040,9 @@ fieldset[disabled] .btn-twitter.active {
         margin: 55px 0 35px;
         padding: 15px;
         max-height: 60px;
+    }
+    .main-heading-card-year {
+        display: inline;
     }
 
     main .report-card-for {
