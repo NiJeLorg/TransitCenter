@@ -267,14 +267,14 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 });
 
                 // change in ridership counter
-                app.ridership_change_16_17 = (data.rows[0].ridership_change_16_17 * 100).toFixed(1);
-                if (app.ridership_change_16_17 >=0 ) {
+                app.ridership_change_17_18 = (data.rows[0].ridership_change_17_18 * 100).toFixed(1);
+                if (app.ridership_change_17_18 >=0 ) {
                     $('#ridershipIncreaseOrDecrease').text('increase');
                 } else {
                     $('#ridershipIncreaseOrDecrease').text('decrease');
                 }
 
-                $({ countNum: $('#ridershipChange').text() }).animate({ countNum: app.ridership_change_16_17 }, {
+                $({ countNum: $('#ridershipChange').text() }).animate({ countNum: app.ridership_change_17_18 }, {
                     duration: 1000,
                     easing: 'linear',
                     step: function() {
@@ -432,7 +432,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
 
 
     function getExtremes() {
-        var extremesQuery = 'SELECT max(otp.prop_on_time) AS maxotp, max(bunching.prop_bunched) AS maxbunching, max(speed.speed) AS maxspeed FROM otp_by_route_05_2019_10_2019 AS otp, bunching_by_route_05_2019_10_2019 AS bunching, speed_by_route_05_2019_10_2019 AS speed WHERE speed.route_id IN (' + app.boroughRouteIDArray.join(",") + ')';
+        var extremesQuery = 'SELECT max(otp.prop_on_time) AS maxotp, max(bunching.prop_bunched) AS maxbunching, max(speed.speed) AS maxspeed FROM otp_by_route_05_2019_10_2019 AS otp, bunching_by_route_05_2019_10_2019 AS bunching, speed_by_route_05_2019_10_2019 AS speed WHERE speed.route_id IN (' + app.boroughRouteIDArray.join(",") + ') AND otp.prop_on_time <> \'NaN\' AND bunching.prop_bunched <> \'NaN\' AND speed.speed <> \'NaN\'';
         app.sqlclient.execute(extremesQuery)
             .done(function(data) {
                 app.maxOTP = data.rows[0].maxotp * 100;
