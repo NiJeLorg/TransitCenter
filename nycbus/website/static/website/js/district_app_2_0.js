@@ -231,7 +231,7 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
     function getAverages() {
 
         // pull averages and grades for this district
-        var avgAndGradesQuery = 'SELECT district.wavgspeed, district.wavgbunching, district.ridership, district.ridership_change_17_18, district.wavgotp, district.speed_grade, district.reliablity_grade, district.overall_grade, district.slower_than, district.worse_than FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + app.districtNumber;
+        var avgAndGradesQuery = 'SELECT district.wavgspeed, district.wavgbunching, district.ridership, district.ridership_change_18_19, district.wavgotp, district.speed_grade, district.reliablity_grade, district.overall_grade, district.slower_than, district.worse_than FROM ' + app.districtTable + ' AS district WHERE ' + app.districtFieldName + ' = ' + app.districtNumber;
         app.sqlclient.execute(avgAndGradesQuery)
             .done(function(data) {
 
@@ -267,14 +267,14 @@ app.updateTextDataVis = function(routesWithinSQL, districtGeomSQL) {
                 });
 
                 // change in ridership counter
-                app.ridership_change_17_18 = (data.rows[0].ridership_change_17_18 * 100).toFixed(1);
-                if (app.ridership_change_17_18 >=0 ) {
+                app.ridership_change_18_19 = (data.rows[0].ridership_change_18_19 * 100).toFixed(1);
+                if (app.ridership_change_18_19 >=0 ) {
                     $('#ridershipIncreaseOrDecrease').text('increase');
                 } else {
                     $('#ridershipIncreaseOrDecrease').text('decrease');
                 }
 
-                $({ countNum: $('#ridershipChange').text() }).animate({ countNum: app.ridership_change_17_18 }, {
+                $({ countNum: $('#ridershipChange').text() }).animate({ countNum: app.ridership_change_18_19 }, {
                     duration: 1000,
                     easing: 'linear',
                     step: function() {
